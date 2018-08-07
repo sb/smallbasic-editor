@@ -1,0 +1,17 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootDirectory>$(MSBuildThisFileDirectory)..</RootDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Where binaries are placed (TargetFramework is appended during the build) -->
+    <OutputPath>$(RootDirectory)\Binaries\$(Configuration)\$(MSBuildProjectName)</OutputPath>
+    <!-- Where obj files are placed (TargetFramework is appended during the build) -->
+    <IntermediateOutputPath>$(RootDirectory)\Binaries\Obj\$(Configuration)\$(MSBuildProjectName)</IntermediateOutputPath>
+    <!-- Where nuget cache files are placed (unrelated to IntermediateOutputPath) -->
+    <BaseIntermediateOutputPath>$(IntermediateOutputPath)\$(TargetFramework)</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+</Project>
