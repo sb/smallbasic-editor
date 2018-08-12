@@ -117,16 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TokenKind_Comment" xml:space="preserve">
-    <value>comment</value>
+  <data name="UnrecognizedCharacter" xml:space="preserve">
+    <value>I don't understand this character '{0}'.</value>
   </data>
-  <data name="TokenKind_Identifier" xml:space="preserve">
-    <value>identifier</value>
-  </data>
-  <data name="TokenKind_NumberLiteral" xml:space="preserve">
-    <value>number</value>
-  </data>
-  <data name="TokenKind_StringLiteral" xml:space="preserve">
-    <value>string</value>
+  <data name="UnterminatedStringLiteral" xml:space="preserve">
+    <value>This string is missing its right double quotes.</value>
   </data>
 </root>

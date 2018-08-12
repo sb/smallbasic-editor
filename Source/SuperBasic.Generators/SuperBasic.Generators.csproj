@@ -5,22 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
   </ItemGroup>
 
   <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
+  <UsingTask TaskName="GenerateDiagnostics" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
 
   <Target Name="RunGenerators" AfterTargets="Build">
-    <PropertyGroup>
-      <DestinationFolder>$(RootDirectory)\Source\SuperBasic.Compiler\Generated</DestinationFolder>
-    </PropertyGroup>
-
-    <MakeDir Directories="$(DestinationFolder)" />
-    <GenerateTokenKinds Input="GenerateTokenKinds\Input.xml" Output="$(DestinationFolder)\TokenKinds.Generated.cs" />
+    <GenerateTokenKinds RootDirectory="$(RootDirectory)" />
+    <GenerateDiagnostics RootDirectory="$(RootDirectory)" />
   </Target>
 
 </Project>

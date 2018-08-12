@@ -22,24 +22,24 @@ namespace SuperBasic.Utilities.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CompilerResources {
+    public class DiagnosticsResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CompilerResources() {
+        internal DiagnosticsResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SuperBasic.Utilities.Resources.CompilerResources", typeof(CompilerResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SuperBasic.Utilities.Resources.DiagnosticsResources", typeof(DiagnosticsResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SuperBasic.Utilities.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,38 +61,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to comment.
+        ///   Looks up a localized string similar to I don&apos;t understand this character &apos;{0}&apos;..
         /// </summary>
-        internal static string TokenKind_Comment {
+        public static string UnrecognizedCharacter {
             get {
-                return ResourceManager.GetString("TokenKind_Comment", resourceCulture);
+                return ResourceManager.GetString("UnrecognizedCharacter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to identifier.
+        ///   Looks up a localized string similar to This string is missing its right double quotes..
         /// </summary>
-        internal static string TokenKind_Identifier {
+        public static string UnterminatedStringLiteral {
             get {
-                return ResourceManager.GetString("TokenKind_Identifier", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to number.
-        /// </summary>
-        internal static string TokenKind_NumberLiteral {
-            get {
-                return ResourceManager.GetString("TokenKind_NumberLiteral", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to string.
-        /// </summary>
-        internal static string TokenKind_StringLiteral {
-            get {
-                return ResourceManager.GetString("TokenKind_StringLiteral", resourceCulture);
+                return ResourceManager.GetString("UnterminatedStringLiteral", resourceCulture);
             }
         }
     }

@@ -1,0 +1,11 @@
+<Project>
+
+  <Target Name="TransformInternalsVisibleTo" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup Condition="'@(InternalsVisibleTo)'!=''">
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+        <_Parameter1>%(InternalsVisibleTo.Identity)</_Parameter1>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+
+</Project>

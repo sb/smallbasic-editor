@@ -5,27 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>SuperBasic.Compiler.Generators</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resources\CompilerResources.Designer.cs">
+    <Compile Update="Resources\DiagnosticsResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CompilerResources.resx</DependentUpon>
+      <DependentUpon>DiagnosticsResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\TokenKindsResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TokenKindsResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\CompilerResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CompilerResources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Resources\DiagnosticsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DiagnosticsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TokenKindsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenKindsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
