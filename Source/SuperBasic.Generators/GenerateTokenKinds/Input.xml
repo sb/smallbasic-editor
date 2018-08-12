@@ -22,7 +22,7 @@
   <TokenKindEntry Name="And" Display="&quot;And&quot;" />
 
   <TokenKindEntry Name="Dot" Display="&quot;.&quot;" />
-  <TokenKindEntry Name="Comma" Display="&quot;&quot;" />
+  <TokenKindEntry Name="Comma" Display="&quot;,&quot;" />
 
   <TokenKindEntry Name="RightParen" Display="&quot;)&quot;" />
   <TokenKindEntry Name="LeftParen" Display="&quot;(&quot;" />
@@ -41,8 +41,8 @@
   <TokenKindEntry Name="LessThanOrEqual" Display="&quot;&lt;=&quot;" />
   <TokenKindEntry Name="GreaterThanOrEqual" Display="&quot;&gt;=&quot;" />
 
-  <TokenKindEntry Name="Identifier" Display="CompilerResources.TokenKind_Identifier" />
-  <TokenKindEntry Name="NumberLiteral" Display="CompilerResources.TokenKind_NumberLiteral" />
-  <TokenKindEntry Name="StringLiteral" Display="CompilerResources.TokenKind_StringLiteral" />
-  <TokenKindEntry Name="Comment" Display="CompilerResources.TokenKind_Comment" />
+  <TokenKindEntry Name="Identifier" Display="TokenKindsResources.Identifier" />
+  <TokenKindEntry Name="NumberLiteral" Display="TokenKindsResources.NumberLiteral" />
+  <TokenKindEntry Name="StringLiteral" Display="TokenKindsResources.StringLiteral" />
+  <TokenKindEntry Name="Comment" Display="TokenKindsResources.Comment" />
 </root>

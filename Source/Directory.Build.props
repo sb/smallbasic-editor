@@ -1,6 +1,20 @@
 <Project>
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!--
+    Below comma-separated list of warnings:
+    CA1034: Nested types should not be visible (required for XML deserialization).
+    SA1652: The project is currently configured to not parse XML documentation comments; all diagnostics for documentation comments are disabled.
+    CA2227: Collection properties should be read only (required for XML deserialization).
+    -->
+    <NoWarn>CA1034,SA1652,CA2227</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <RootDirectory>$(MSBuildThisFileDirectory)..</RootDirectory>
     <!-- Where binaries are placed -->
     <OutDir>$(RootDirectory)\Binaries\$(Configuration)\$(MSBuildProjectName)</OutDir>
@@ -9,5 +23,30 @@
     <!-- Where nuget cache files are placed (unrelated to IntermediateOutputPath) -->
     <BaseIntermediateOutputPath>$(IntermediateOutputPath)</BaseIntermediateOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(RootDirectory)\Source\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Localization -->
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="2.1.1" />
+
+    <!-- MSBuild Tasks -->
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
+
+    <!-- Analyzers -->
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1" />
+    <PackageReference Include="Microsoft.NetCore.Analyzers" Version="2.6.1" />
+    <PackageReference Include="Text.Analyzers" Version="2.6.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Resources.NeutralResourcesLanguage">
+      <_Parameter1>en-US</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
 </Project>
