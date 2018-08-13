@@ -8,10 +8,12 @@
     <!--
     Below comma-separated list of warnings:
     CA1034: Nested types should not be visible (required for XML deserialization).
-    SA1652: The project is currently configured to not parse XML documentation comments; all diagnostics for documentation comments are disabled.
+    CA2225: Operator overloads have named alternates.
     CA2227: Collection properties should be read only (required for XML deserialization).
+    SA1008: Opening parenthesis must be spaced correctly (disabled because we use tuples).
+    SA1652: The project is currently configured to not parse XML documentation comments; all diagnostics for documentation comments are disabled.
     -->
-    <NoWarn>CA1034,SA1652,CA2227</NoWarn>
+    <NoWarn>CA1034,CA2225,CA2227,SA1008,SA1652</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

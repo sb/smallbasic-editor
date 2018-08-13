@@ -4,10 +4,33 @@
 
 namespace SuperBasic.Compiler.Syntax
 {
-    internal readonly struct TextRange
+    using System;
+
+    public readonly struct TextRange : IEquatable<TextRange>
     {
+        internal TextRange(TextPosition start, TextPosition end)
+        {
+            this.Start = start;
+            this.End = end;
+        }
+
         public TextPosition Start { get; }
 
         public TextPosition End { get; }
+
+        public static implicit operator TextRange(in (TextPosition Start, TextPosition End) tuple)
+        {
+            return new TextRange(tuple.Start, tuple.End);
+        }
+
+        public static bool operator ==(TextRange left, TextRange right) => left.Start == right.Start && left.End == right.End;
+
+        public static bool operator !=(TextRange left, TextRange right) => !(left == right);
+
+        public override bool Equals(object obj) => obj is TextRange other && this == other;
+
+        public override int GetHashCode() => this.Start.GetHashCode() ^ this.End.GetHashCode();
+
+        public bool Equals(TextRange other) => this == other;
     }
 }

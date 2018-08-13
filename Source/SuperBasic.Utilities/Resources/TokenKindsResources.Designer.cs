@@ -95,5 +95,14 @@ namespace SuperBasic.Utilities.Resources {
                 return ResourceManager.GetString("StringLiteral", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unrecognized.
+        /// </summary>
+        public static string Unrecognized {
+            get {
+                return ResourceManager.GetString("Unrecognized", resourceCulture);
+            }
+        }
     }
 }
