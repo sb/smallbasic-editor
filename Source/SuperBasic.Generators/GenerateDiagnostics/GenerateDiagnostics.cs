@@ -31,7 +31,7 @@ namespace SuperBasic.Compiler.Diagnostics
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    internal enum DiagnosticCode
+    public enum DiagnosticCode
     {{
 {root.Select(entry => $"        {entry.Name},").Join(Environment.NewLine)}
     }}
@@ -52,9 +52,9 @@ namespace SuperBasic.Compiler.Diagnostics
 
             this.WriteFile<DiagnosticEntryCollection>(
                 inputFilePath: Path.Combine(this.RootDirectory, "Source", "SuperBasic.Generators", "GenerateDiagnostics", "Input.xml"),
-                outputFilePath: Path.Combine(this.RootDirectory, "Source", "SuperBasic.Compiler", "Diagnostics", "Diagnostic.Generated.cs"),
+                outputFilePath: Path.Combine(this.RootDirectory, "Source", "SuperBasic.Compiler", "Diagnostics", "DiagnosticBag.Generated.cs"),
                 converter: root =>
-$@"// <copyright file=""Diagnostic.Generated.cs"" company=""2018 Omar Tawfik"">
+$@"// <copyright file=""DiagnosticBag.Generated.cs"" company=""2018 Omar Tawfik"">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
@@ -63,33 +63,20 @@ $@"// <copyright file=""Diagnostic.Generated.cs"" company=""2018 Omar Tawfik"">
 /// </summary>
 namespace SuperBasic.Compiler.Diagnostics
 {{
+    using System.Collections.Generic;
     using SuperBasic.Compiler.Syntax;
     using SuperBasic.Utilities;
 
-    internal sealed class Diagnostic
+    internal sealed class DiagnosticBag
     {{
-        private string[] args;
+        private readonly List<Diagnostic> builder = new List<Diagnostic>();
 
-        private Diagnostic(DiagnosticCode kind, TextRange range, params string[] args)
-        {{
-            this.Kind = kind;
-            this.Range = range;
-            this.args = args;
-        }}
-
-        public DiagnosticCode Kind {{ get; private set; }}
-
-        public TextRange Range {{ get; private set; }}
+        public IReadOnlyList<Diagnostic> Contents => this.builder;
 {root.Select(entry => $@"
-        public static Diagnostic {entry.Name}(TextRange range{entry.Parameters.Select(parameter => $", {parameter.Type} {parameter.Name}").Join(string.Empty)})
+        public void Report{entry.Name}(TextRange range{entry.Parameters.Select(parameter => $", {parameter.Type} {parameter.Name}").Join(string.Empty)})
         {{
-            return new Diagnostic(DiagnosticCode.{entry.Name}, range{entry.Parameters.Select(parameter => $", {parameter.Name}.ToDisplayString()").Join(string.Empty)});
+            this.builder.Add(new Diagnostic(DiagnosticCode.{entry.Name}, range{entry.Parameters.Select(parameter => $", {parameter.Name}.ToDisplayString()").Join(string.Empty)}));
         }}").Join(Environment.NewLine)}
-
-        public string ToDisplayString()
-        {{
-            return string.Format(this.Kind.ToDisplayString(), this.args);
-        }}
     }}
 }}
 ");

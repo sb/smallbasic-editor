@@ -129,4 +129,7 @@
   <data name="StringLiteral" xml:space="preserve">
     <value>string</value>
   </data>
+  <data name="Unrecognized" xml:space="preserve">
+    <value>unrecognized</value>
+  </data>
 </root>

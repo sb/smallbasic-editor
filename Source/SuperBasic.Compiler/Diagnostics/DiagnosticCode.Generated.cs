@@ -10,7 +10,7 @@ namespace SuperBasic.Compiler.Diagnostics
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    internal enum DiagnosticCode
+    public enum DiagnosticCode
     {
         UnrecognizedCharacter,
         UnterminatedStringLiteral,

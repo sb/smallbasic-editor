@@ -45,4 +45,6 @@
   <TokenKindEntry Name="NumberLiteral" Display="TokenKindsResources.NumberLiteral" />
   <TokenKindEntry Name="StringLiteral" Display="TokenKindsResources.StringLiteral" />
   <TokenKindEntry Name="Comment" Display="TokenKindsResources.Comment" />
+
+  <TokenKindEntry Name="Unrecognized" Display="TokenKindsResources.Unrecognized" />
 </root>

@@ -49,6 +49,7 @@ namespace SuperBasic.Compiler.Syntax
         NumberLiteral,
         StringLiteral,
         Comment,
+        Unrecognized,
     }
 
     internal static partial class TokenKindExtensions
@@ -94,6 +95,7 @@ namespace SuperBasic.Compiler.Syntax
                 case TokenKind.NumberLiteral: return TokenKindsResources.NumberLiteral;
                 case TokenKind.StringLiteral: return TokenKindsResources.StringLiteral;
                 case TokenKind.Comment: return TokenKindsResources.Comment;
+                case TokenKind.Unrecognized: return TokenKindsResources.Unrecognized;
                 default: throw ExceptionUtilities.UnexpectedValue(kind);
             }
         }
