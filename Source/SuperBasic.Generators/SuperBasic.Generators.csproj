@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,11 +9,15 @@
   </ItemGroup>
 
   <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
-  <UsingTask TaskName="GenerateDiagnostics" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
+  <UsingTask TaskName="GenerateDiagnosticCode" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
+  <UsingTask TaskName="GenerateDiagnosticBag" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
+  <UsingTask TaskName="GenerateSyntaxNodes" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
 
   <Target Name="RunGenerators" AfterTargets="Build">
     <GenerateTokenKinds RootDirectory="$(RootDirectory)" />
-    <GenerateDiagnostics RootDirectory="$(RootDirectory)" />
+    <GenerateDiagnosticCode RootDirectory="$(RootDirectory)" />
+    <GenerateDiagnosticBag RootDirectory="$(RootDirectory)" />
+    <GenerateSyntaxNodes RootDirectory="$(RootDirectory)" />
   </Target>
 
 </Project>

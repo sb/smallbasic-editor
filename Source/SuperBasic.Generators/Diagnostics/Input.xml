@@ -1,0 +1,8 @@
+﻿<root>
+  <Diagnostic Name="UnrecognizedCharacter">
+    <Parameters>
+      <Parameter Name="character" Type="char" />
+    </Parameters>
+  </Diagnostic>
+  <Diagnostic Name="UnterminatedStringLiteral" />
+</root>

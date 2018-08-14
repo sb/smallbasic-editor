@@ -1,0 +1,50 @@
+﻿<root>
+  <TokenKind Name="If" Display="&quot;If&quot;" />
+  <TokenKind Name="Then" Display="&quot;Then&quot;" />
+  <TokenKind Name="Else" Display="&quot;Else&quot;" />
+  <TokenKind Name="ElseIf" Display="&quot;ElseIf&quot;" />
+  <TokenKind Name="EndIf" Display="&quot;EndIf&quot;" />
+
+  <TokenKind Name="For" Display="&quot;For&quot;" />
+  <TokenKind Name="To" Display="&quot;To&quot;" />
+  <TokenKind Name="Step" Display="&quot;Step&quot;" />
+  <TokenKind Name="EndFor" Display="&quot;EndFor&quot;" />
+
+  <TokenKind Name="While" Display="&quot;While&quot;" />
+  <TokenKind Name="EndWhile" Display="&quot;EndWhile&quot;" />
+
+  <TokenKind Name="Sub" Display="&quot;Sub&quot;" />
+  <TokenKind Name="EndSub" Display="&quot;EndSub&quot;" />
+
+  <TokenKind Name="GoTo" Display="&quot;GoTo&quot;" />
+
+  <TokenKind Name="Or" Display="&quot;Or&quot;" />
+  <TokenKind Name="And" Display="&quot;And&quot;" />
+
+  <TokenKind Name="Dot" Display="&quot;.&quot;" />
+  <TokenKind Name="Comma" Display="&quot;,&quot;" />
+
+  <TokenKind Name="RightParen" Display="&quot;)&quot;" />
+  <TokenKind Name="LeftParen" Display="&quot;(&quot;" />
+  <TokenKind Name="RightSquareBracket" Display="&quot;]&quot;" />
+  <TokenKind Name="LeftSquareBracket" Display="&quot;[&quot;" />
+
+  <TokenKind Name="Equal" Display="&quot;=&quot;" />
+  <TokenKind Name="NotEqual" Display="&quot;&lt;&gt;&quot;" />
+  <TokenKind Name="Plus" Display="&quot;+&quot;" />
+  <TokenKind Name="Minus" Display="&quot;-&quot;" />
+  <TokenKind Name="Multiply" Display="&quot;*&quot;" />
+  <TokenKind Name="Divide" Display="&quot;/&quot;" />
+  <TokenKind Name="Colon" Display="&quot;=&quot;" />
+  <TokenKind Name="LessThan" Display="&quot;&lt;&quot;" />
+  <TokenKind Name="GreaterThan" Display="&quot;&gt;&quot;" />
+  <TokenKind Name="LessThanOrEqual" Display="&quot;&lt;=&quot;" />
+  <TokenKind Name="GreaterThanOrEqual" Display="&quot;&gt;=&quot;" />
+
+  <TokenKind Name="Identifier" Display="TokenKindsResources.Identifier" />
+  <TokenKind Name="NumberLiteral" Display="TokenKindsResources.NumberLiteral" />
+  <TokenKind Name="StringLiteral" Display="TokenKindsResources.StringLiteral" />
+  <TokenKind Name="Comment" Display="TokenKindsResources.Comment" />
+
+  <TokenKind Name="Unrecognized" Display="TokenKindsResources.Unrecognized" />
+</root>

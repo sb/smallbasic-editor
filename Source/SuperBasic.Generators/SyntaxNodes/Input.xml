@@ -1,0 +1,226 @@
+﻿<root>
+  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntax" />
+  <SyntaxNode Name="BaseCommandSyntax" IsAbstract="true" Inherits="BaseSyntax" />
+  <SyntaxNode Name="BaseExpressionSyntax" IsAbstract="true" Inherits="BaseSyntax" />
+
+  <SyntaxNode Name="ParseTreeSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="MainModule" Type="StatementBlockSyntax" />
+      <Member Name="SubModules" Type="SubModuleDeclarationSyntax" IsList="true" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="SubModuleDeclarationSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="SubCommand" Type="SubCommandSyntax" />
+      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="EndSubCommand" Type="EndSubCommandSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="StatementBlockSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="Statements" Type="BaseStatementSyntax" IsList="true" />
+    </Members>
+  </SyntaxNode>
+
+  <SyntaxNode Name="IfHeaderSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="IfCommand" Type="IfCommandSyntax" />
+      <Member Name="Statements" Type="StatementBlockSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ElseIfHeaderSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="ElseIfCommand" Type="ElseIfCommandSyntax" />
+      <Member Name="Statements" Type="StatementBlockSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ElseHeaderSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="ElseCommand" Type="ElseCommandSyntax" />
+      <Member Name="Statements" Type="StatementBlockSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="IfStatementSyntax" Inherits="BaseStatementSyntax">
+    <Members>
+      <Member Name="IfPart" Type="IfHeaderSyntax" />
+      <Member Name="ElseIfParts" Type="ElseIfHeaderSyntax" IsList="true" />
+      <Member Name="ElsePartOpt" Type="ElseHeaderSyntax" IsOptional="true" />
+      <Member Name="EndIfCommand" Type="EndIfCommandSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="WhileStatementSyntax" Inherits="BaseStatementSyntax">
+    <Members>
+      <Member Name="WhileCommand" Type="WhileCommandSyntax" />
+      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="EndWhileCommand" Type="EndWhileCommandSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ForStatementSyntax" Inherits="BaseStatementSyntax">
+    <Members>
+      <Member Name="ForCommand" Type="ForCommandSyntax" />
+      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="EndForCommand" Type="EndForCommandSyntax" />
+    </Members>
+  </SyntaxNode>
+
+  <SyntaxNode Name="IfCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="IfToken" Type="TokenSyntax" />
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="ThenToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ElseIfCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="ElseIfToken" Type="TokenSyntax" />
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="ThenToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ElseCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="ElseToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="EndIfCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="EndIfToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ForStepClauseSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="StepToken" Type="TokenSyntax" />
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ForCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="ForToken" Type="TokenSyntax" />
+      <Member Name="IdentifierToken" Type="TokenSyntax" />
+      <Member Name="EqualToken" Type="TokenSyntax" />
+      <Member Name="FromExpression" Type="BaseExpressionSyntax" />
+      <Member Name="ToToken" Type="TokenSyntax" />
+      <Member Name="StepClauseOpt" Type="ForStepClauseSyntax" IsOptional="true" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="EndForCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="EndForToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="WhileCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="WhileToken" Type="TokenSyntax" />
+      <Member Name="ExpressionExpression" Type="BaseExpressionSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="EndWhileCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="EndWhileToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="LabelCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="LabelToken" Type="TokenSyntax" />
+      <Member Name="ColonToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="GoToCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="GoToToken" Type="TokenSyntax" />
+      <Member Name="LabelToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="SubCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="SubToken" Type="TokenSyntax" />
+      <Member Name="NameToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="EndSubCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="EndSubToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="CommentCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="CommentToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ExpressionCommandSyntax" Inherits="BaseCommandSyntax">
+    <Members>
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+    </Members>
+  </SyntaxNode>
+
+  <SyntaxNode Name="UnaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="OperatorToken" Type="TokenSyntax" />
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="BinaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="LeftExpression" Type="BaseExpressionSyntax" />
+      <Member Name="OperatorToken" Type="TokenSyntax" />
+      <Member Name="RightExpression" Type="BaseExpressionSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ObjectAccessExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="BaseExpression" Type="BaseExpressionSyntax" />
+      <Member Name="DotToken" Type="TokenSyntax" />
+      <Member Name="IdentifierToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ArrayAccessExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="BaseExpression" Type="BaseExpressionSyntax" />
+      <Member Name="LeftBracketToken" Type="TokenSyntax" />
+      <Member Name="IndexExpression" Type="BaseExpressionSyntax" />
+      <Member Name="RightBracketToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ArgumentSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="CommaTokenOpt" Type="TokenSyntax" IsOptional="true" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="InvocationExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="BaseExpression" Type="BaseExpressionSyntax" />
+      <Member Name="LeftParenToken" Type="TokenSyntax" />
+      <Member Name="Arguments" Type="ArgumentSyntax" IsList="true" />
+      <Member Name="RightParenToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="ParenthesisExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="LeftParenToken" Type="TokenSyntax" />
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="RightParenToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="IdentifierExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="IdentifierToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="StringLiteralExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="StringToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="NumberLiteralExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="NumberToken" Type="TokenSyntax" />
+    </Members>
+  </SyntaxNode>
+
+  <SyntaxNode Name="TokenSyntax" Inherits="BaseSyntax">
+    <Members>
+      <Member Name="Token" Type="Token" ExcludeFromChildren="true" />
+    </Members>
+  </SyntaxNode>
+</root>
