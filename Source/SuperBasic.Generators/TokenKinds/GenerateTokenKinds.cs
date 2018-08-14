@@ -2,21 +2,19 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Generators
+namespace SuperBasic.Generators.TokenKinds
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Xml.Serialization;
     using SuperBasic.Utilities;
 
     public sealed class GenerateTokenKinds : BaseGeneratorTask
     {
         protected override void ExecuteConversion()
         {
-            this.WriteFile<TokenKindEntryCollection>(
-                inputFilePath: Path.Combine(this.RootDirectory, "Source", "SuperBasic.Generators", "GenerateTokenKinds", "Input.xml"),
+            this.WriteFile<TokenKindsModels.TokenKindCollection>(
+                inputFilePath: Path.Combine(this.RootDirectory, "Source", "SuperBasic.Generators", "TokenKinds", "Input.xml"),
                 outputFilePath: Path.Combine(this.RootDirectory, "Source", "SuperBasic.Compiler", "Syntax", "Models", "TokenKind.Generated.cs"),
                 converter: root =>
 $@"// <copyright file=""TokenKind.Generated.cs"" company=""2018 Omar Tawfik"">
@@ -33,7 +31,7 @@ namespace SuperBasic.Compiler.Syntax
 
     internal enum TokenKind
     {{
-{root.Select(entry => $"        {entry.Name},").Join(Environment.NewLine)}
+{root.Select(tokenKind => $"        {tokenKind.Name},").Join(Environment.NewLine)}
     }}
 
     internal static partial class TokenKindExtensions
@@ -42,27 +40,13 @@ namespace SuperBasic.Compiler.Syntax
         {{
             switch (kind)
             {{
-{root.Select(entry => $"                case TokenKind.{entry.Name}: return {entry.Display};").Join(Environment.NewLine)}
+{root.Select(tokenKind => $"                case TokenKind.{tokenKind.Name}: return {tokenKind.Display};").Join(Environment.NewLine)}
                 default: throw ExceptionUtilities.UnexpectedValue(kind);
             }}
         }}
     }}
 }}
 ");
-        }
-
-        public sealed class TokenKindEntry
-        {
-            [XmlAttribute]
-            public string Name { get; set; }
-
-            [XmlAttribute]
-            public string Display { get; set; }
-        }
-
-        [XmlRoot("root")]
-        public sealed class TokenKindEntryCollection : List<TokenKindEntry>
-        {
         }
     }
 }
