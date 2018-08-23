@@ -2,18 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <_TempDestination>$([System.IO.Path]::GetTempPath())$([System.Guid]::NewGuid())</_TempDestination>
+    <_TempBinaryPath>$(_TempDestination)\$(MSBuildProjectName).dll</_TempBinaryPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <_OutputFiles Include="$(OutDir)**\*.*" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
   </ItemGroup>
 
-  <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
-  <UsingTask TaskName="GenerateDiagnosticCode" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
-  <UsingTask TaskName="GenerateDiagnosticBag" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
-  <UsingTask TaskName="GenerateSyntaxNodes" AssemblyFile="$(OutDir)\$(MSBuildProjectName).dll" />
+  <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateDiagnosticCode" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateDiagnosticBag" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateSyntaxNodes" AssemblyFile="$(_TempBinaryPath)" />
 
   <Target Name="RunGenerators" AfterTargets="Build">
+    <!-- This is necessary to prevent file locking by msbuild when tasks are running -->
+    <Copy SourceFiles="@(_OutputFiles)" DestinationFolder="$(_TempDestination)" />
+
     <GenerateTokenKinds RootDirectory="$(RootDirectory)" />
     <GenerateDiagnosticCode RootDirectory="$(RootDirectory)" />
     <GenerateDiagnosticBag RootDirectory="$(RootDirectory)" />

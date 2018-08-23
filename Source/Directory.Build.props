@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <MSBUILDDISABLENODEREUSE>1</MSBUILDDISABLENODEREUSE>
   </PropertyGroup>
 
   <PropertyGroup>
