@@ -4,27 +4,29 @@
 
 namespace SuperBasic.Compiler.Diagnostics
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using SuperBasic.Compiler.Syntax;
 
+    [DebuggerDisplay("{ToDisplayString()}")]
     public sealed class Diagnostic
     {
         private string[] args;
 
-        internal Diagnostic(DiagnosticCode kind, TextRange range, params string[] args)
+        public Diagnostic(DiagnosticCode code, TextRange range, params string[] args)
         {
-            this.Kind = kind;
+            this.Code = code;
             this.Range = range;
             this.args = args;
         }
 
-        public DiagnosticCode Kind { get; private set; }
+        public DiagnosticCode Code { get; private set; }
 
         public TextRange Range { get; private set; }
 
-        public string ToDisplayString()
-        {
-            return string.Format(CultureInfo.CurrentCulture, this.Kind.ToDisplayString(), this.args);
-        }
+        public IReadOnlyList<string> Args => this.args;
+
+        public string ToDisplayString() => string.Format(CultureInfo.CurrentCulture, this.Code.ToDisplayString(), this.args);
     }
 }

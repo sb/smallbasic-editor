@@ -142,7 +142,7 @@ namespace SuperBasic.Compiler.Syntax
                             if (!current.IsSupportedCharacter())
                             {
                                 var column = (short)(this.column + lookAhead - this.index);
-                                this.diagnostics.ReportUnrecognizedCharacter(((this.line, column), (this.line, column)), current);
+                                this.diagnostics.ReportUnrecognizedCharacter(((this.line, column), (this.line, (short)(column + 1))), current);
                             }
 
                             lookAhead++;
