@@ -5,7 +5,9 @@
 namespace SuperBasic.Compiler.Syntax
 {
     using System;
+    using System.Diagnostics;
 
+    [DebuggerDisplay("{ToDisplayString()}")]
     public readonly struct TextPosition : IEquatable<TextPosition>
     {
         internal TextPosition(short line, short column)
@@ -32,5 +34,7 @@ namespace SuperBasic.Compiler.Syntax
         public override int GetHashCode() => this.Line ^ this.Column;
 
         public bool Equals(TextPosition other) => this == other;
+
+        public string ToDisplayString() => $"({this.Line}, {this.Column})";
     }
 }

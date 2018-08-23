@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Utilities", "Sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Compiler", "Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj", "{3393CEA2-C5E4-4A42-95BA-E3F89159D944}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Compiler.Tests", "Source\SuperBasic.Compiler.Tests\SuperBasic.Compiler.Tests.csproj", "{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3393CEA2-C5E4-4A42-95BA-E3F89159D944}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3393CEA2-C5E4-4A42-95BA-E3F89159D944}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3393CEA2-C5E4-4A42-95BA-E3F89159D944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

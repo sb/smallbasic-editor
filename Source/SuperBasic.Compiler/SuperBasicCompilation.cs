@@ -14,8 +14,11 @@ namespace SuperBasic.Compiler
 
         public SuperBasicCompilation(string text)
         {
-            var scanner = new Scanner(this.diagnostics, text);
+            this.Text = text;
+            var scanner = new Scanner(this.diagnostics, this.Text);
         }
+
+        public string Text { get; private set; }
 
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
     }

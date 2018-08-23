@@ -63,20 +63,20 @@ namespace SuperBasic.Compiler.Syntax
     return $@"
     internal {(node.IsAbstract ? "abstract" : "sealed")} class {node.Name} : {node.Inherits}
     {{{(node.IsAbstract ? string.Empty : $@"
-        public {node.Name}({node.Members.Select(member => $"{this.GetMemberFullType(member)} {member.Name.LowerFirstChar()}").Join(", ")})
+        public {node.Name}({node.Members.Select(member => $"{GetMemberFullType(member)} {member.Name.LowerFirstChar()}").Join(", ")})
         {{
 {node.Members.Where(member => !member.IsOptional).Select(member => $@"            Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");").Join(Environment.NewLine)}
 
 {node.Members.Select(member => $"            this.{member.Name} = {member.Name.LowerFirstChar()};").Join(Environment.NewLine)}
         }}
 
-{node.Members.Select(member => $"        public {this.GetMemberFullType(member)} {member.Name} {{ get; private set; }}").Join(Environment.NewLine + Environment.NewLine)}
+{node.Members.Select(member => $"        public {GetMemberFullType(member)} {member.Name} {{ get; private set; }}").Join(Environment.NewLine + Environment.NewLine)}
 
         public override IEnumerable<BaseSyntax> Children
         {{
             get
             {{
-{this.GetChildrenPropertyContents(node.Members.Where(member => !member.ExcludeFromChildren)).Join(Environment.NewLine)}
+{GetChildrenPropertyContents(node.Members.Where(member => !member.ExcludeFromChildren)).Join(Environment.NewLine)}
             }}
         }}")}
     }}";
@@ -85,9 +85,9 @@ namespace SuperBasic.Compiler.Syntax
 ");
         }
 
-        private string GetMemberFullType(SyntaxNodesModels.Member member) => member.IsList ? $"ImmutableArray<{member.Type}>" : member.Type;
+        private static string GetMemberFullType(SyntaxNodesModels.Member member) => member.IsList ? $"ImmutableArray<{member.Type}>" : member.Type;
 
-        private IEnumerable<string> GetChildrenPropertyContents(IEnumerable<SyntaxNodesModels.Member> children)
+        private static IEnumerable<string> GetChildrenPropertyContents(IEnumerable<SyntaxNodesModels.Member> children)
         {
             if (!children.Any())
             {

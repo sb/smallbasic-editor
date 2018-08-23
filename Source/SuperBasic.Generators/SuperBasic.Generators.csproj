@@ -1,7 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectType>Build</ProjectType>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <_TempDestination>$([System.IO.Path]::GetTempPath())$([System.Guid]::NewGuid())</_TempDestination>
     <_TempBinaryPath>$(_TempDestination)\$(MSBuildProjectName).dll</_TempBinaryPath>
   </PropertyGroup>
