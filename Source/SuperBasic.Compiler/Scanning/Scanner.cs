@@ -53,8 +53,8 @@ namespace SuperBasic.Compiler.Scanning
 
                 case '(': this.AddToken("(", TokenKind.LeftParen); return;
                 case ')': this.AddToken(")", TokenKind.RightParen); return;
-                case '[': this.AddToken("[", TokenKind.LeftSquareBracket); return;
-                case ']': this.AddToken("]", TokenKind.RightSquareBracket); return;
+                case '[': this.AddToken("[", TokenKind.LeftBracket); return;
+                case ']': this.AddToken("]", TokenKind.RightBracket); return;
 
                 case '.': this.AddToken(".", TokenKind.Dot); return;
                 case ',': this.AddToken(",", TokenKind.Comma); return;

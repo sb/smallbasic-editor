@@ -32,8 +32,8 @@ namespace SuperBasic.Compiler.Scanning
         Comma,
         RightParen,
         LeftParen,
-        RightSquareBracket,
-        LeftSquareBracket,
+        RightBracket,
+        LeftBracket,
         Equal,
         NotEqual,
         Plus,
@@ -78,8 +78,8 @@ namespace SuperBasic.Compiler.Scanning
                 case TokenKind.Comma: return ",";
                 case TokenKind.RightParen: return ")";
                 case TokenKind.LeftParen: return "(";
-                case TokenKind.RightSquareBracket: return "]";
-                case TokenKind.LeftSquareBracket: return "[";
+                case TokenKind.RightBracket: return "]";
+                case TokenKind.LeftBracket: return "[";
                 case TokenKind.Equal: return "=";
                 case TokenKind.NotEqual: return "<>";
                 case TokenKind.Plus: return "+";

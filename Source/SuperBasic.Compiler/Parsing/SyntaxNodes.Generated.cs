@@ -17,10 +17,6 @@ namespace SuperBasic.Compiler.Parsing
     {
     }
 
-    internal abstract class BaseCommandSyntax : BaseSyntax
-    {
-    }
-
     internal abstract class BaseExpressionSyntax : BaseSyntax
     {
     }
@@ -56,30 +52,35 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class SubModuleDeclarationSyntax : BaseSyntax
     {
-        public SubModuleDeclarationSyntax(SubCommandSyntax subCommand, StatementBlockSyntax statements, EndSubCommandSyntax endSubCommand)
+        public SubModuleDeclarationSyntax(Token subToken, Token nameToken, StatementBlockSyntax statements, Token endSubToken)
         {
-            Debug.Assert(!ReferenceEquals(subCommand, null), "'subCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(subToken, null), "'subToken' must not be null.");
+            Debug.Assert(subToken.Kind == TokenKind.Sub, "'subToken' must have a TokenKind of 'Sub'.");
+            Debug.Assert(!ReferenceEquals(nameToken, null), "'nameToken' must not be null.");
+            Debug.Assert(nameToken.Kind == TokenKind.Identifier, "'nameToken' must have a TokenKind of 'Identifier'.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
-            Debug.Assert(!ReferenceEquals(endSubCommand, null), "'endSubCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(endSubToken, null), "'endSubToken' must not be null.");
+            Debug.Assert(endSubToken.Kind == TokenKind.EndSub, "'endSubToken' must have a TokenKind of 'EndSub'.");
 
-            this.SubCommand = subCommand;
+            this.SubToken = subToken;
+            this.NameToken = nameToken;
             this.Statements = statements;
-            this.EndSubCommand = endSubCommand;
+            this.EndSubToken = endSubToken;
         }
 
-        public SubCommandSyntax SubCommand { get; private set; }
+        public Token SubToken { get; private set; }
+
+        public Token NameToken { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
-        public EndSubCommandSyntax EndSubCommand { get; private set; }
+        public Token EndSubToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.SubCommand;
                 yield return this.Statements;
-                yield return this.EndSubCommand;
             }
         }
     }
@@ -107,18 +108,28 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class IfHeaderSyntax : BaseSyntax
+    internal sealed class IfPartSyntax : BaseSyntax
     {
-        public IfHeaderSyntax(IfCommandSyntax ifCommand, StatementBlockSyntax statements)
+        public IfPartSyntax(Token ifToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax statements)
         {
-            Debug.Assert(!ReferenceEquals(ifCommand, null), "'ifCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(ifToken, null), "'ifToken' must not be null.");
+            Debug.Assert(ifToken.Kind == TokenKind.If, "'ifToken' must have a TokenKind of 'If'.");
+            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
+            Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
 
-            this.IfCommand = ifCommand;
+            this.IfToken = ifToken;
+            this.Expression = expression;
+            this.ThenToken = thenToken;
             this.Statements = statements;
         }
 
-        public IfCommandSyntax IfCommand { get; private set; }
+        public Token IfToken { get; private set; }
+
+        public BaseExpressionSyntax Expression { get; private set; }
+
+        public Token ThenToken { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
@@ -126,24 +137,34 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.IfCommand;
+                yield return this.Expression;
                 yield return this.Statements;
             }
         }
     }
 
-    internal sealed class ElseIfHeaderSyntax : BaseSyntax
+    internal sealed class ElseIfPartSyntax : BaseSyntax
     {
-        public ElseIfHeaderSyntax(ElseIfCommandSyntax elseIfCommand, StatementBlockSyntax statements)
+        public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax statements)
         {
-            Debug.Assert(!ReferenceEquals(elseIfCommand, null), "'elseIfCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(elseIfToken, null), "'elseIfToken' must not be null.");
+            Debug.Assert(elseIfToken.Kind == TokenKind.ElseIf, "'elseIfToken' must have a TokenKind of 'ElseIf'.");
+            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
+            Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
 
-            this.ElseIfCommand = elseIfCommand;
+            this.ElseIfToken = elseIfToken;
+            this.Expression = expression;
+            this.ThenToken = thenToken;
             this.Statements = statements;
         }
 
-        public ElseIfCommandSyntax ElseIfCommand { get; private set; }
+        public Token ElseIfToken { get; private set; }
+
+        public BaseExpressionSyntax Expression { get; private set; }
+
+        public Token ThenToken { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
@@ -151,24 +172,25 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.ElseIfCommand;
+                yield return this.Expression;
                 yield return this.Statements;
             }
         }
     }
 
-    internal sealed class ElseHeaderSyntax : BaseSyntax
+    internal sealed class ElsePartSyntax : BaseSyntax
     {
-        public ElseHeaderSyntax(ElseCommandSyntax elseCommand, StatementBlockSyntax statements)
+        public ElsePartSyntax(Token elseToken, StatementBlockSyntax statements)
         {
-            Debug.Assert(!ReferenceEquals(elseCommand, null), "'elseCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(elseToken, null), "'elseToken' must not be null.");
+            Debug.Assert(elseToken.Kind == TokenKind.Else, "'elseToken' must have a TokenKind of 'Else'.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
 
-            this.ElseCommand = elseCommand;
+            this.ElseToken = elseToken;
             this.Statements = statements;
         }
 
-        public ElseCommandSyntax ElseCommand { get; private set; }
+        public Token ElseToken { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
@@ -176,7 +198,6 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.ElseCommand;
                 yield return this.Statements;
             }
         }
@@ -184,25 +205,26 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class IfStatementSyntax : BaseStatementSyntax
     {
-        public IfStatementSyntax(IfHeaderSyntax ifPart, ImmutableArray<ElseIfHeaderSyntax> elseIfParts, ElseHeaderSyntax elsePartOpt, EndIfCommandSyntax endIfCommand)
+        public IfStatementSyntax(IfPartSyntax ifPart, ImmutableArray<ElseIfPartSyntax> elseIfParts, ElsePartSyntax elsePartOpt, Token endIfToken)
         {
             Debug.Assert(!ReferenceEquals(ifPart, null), "'ifPart' must not be null.");
             Debug.Assert(!ReferenceEquals(elseIfParts, null), "'elseIfParts' must not be null.");
-            Debug.Assert(!ReferenceEquals(endIfCommand, null), "'endIfCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(endIfToken, null), "'endIfToken' must not be null.");
+            Debug.Assert(endIfToken.Kind == TokenKind.EndIf, "'endIfToken' must have a TokenKind of 'EndIf'.");
 
             this.IfPart = ifPart;
             this.ElseIfParts = elseIfParts;
             this.ElsePartOpt = elsePartOpt;
-            this.EndIfCommand = endIfCommand;
+            this.EndIfToken = endIfToken;
         }
 
-        public IfHeaderSyntax IfPart { get; private set; }
+        public IfPartSyntax IfPart { get; private set; }
 
-        public ImmutableArray<ElseIfHeaderSyntax> ElseIfParts { get; private set; }
+        public ImmutableArray<ElseIfPartSyntax> ElseIfParts { get; private set; }
 
-        public ElseHeaderSyntax ElsePartOpt { get; private set; }
+        public ElsePartSyntax ElsePartOpt { get; private set; }
 
-        public EndIfCommandSyntax EndIfCommand { get; private set; }
+        public Token EndIfToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
@@ -219,184 +241,58 @@ namespace SuperBasic.Compiler.Parsing
                 {
                     yield return this.ElsePartOpt;
                 }
-
-                yield return this.EndIfCommand;
             }
         }
     }
 
     internal sealed class WhileStatementSyntax : BaseStatementSyntax
     {
-        public WhileStatementSyntax(WhileCommandSyntax whileCommand, StatementBlockSyntax statements, EndWhileCommandSyntax endWhileCommand)
+        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expressionExpression, StatementBlockSyntax statements, Token endWhileToken)
         {
-            Debug.Assert(!ReferenceEquals(whileCommand, null), "'whileCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(whileToken, null), "'whileToken' must not be null.");
+            Debug.Assert(whileToken.Kind == TokenKind.While, "'whileToken' must have a TokenKind of 'While'.");
+            Debug.Assert(!ReferenceEquals(expressionExpression, null), "'expressionExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
-            Debug.Assert(!ReferenceEquals(endWhileCommand, null), "'endWhileCommand' must not be null.");
+            Debug.Assert(!ReferenceEquals(endWhileToken, null), "'endWhileToken' must not be null.");
+            Debug.Assert(endWhileToken.Kind == TokenKind.EndWhile, "'endWhileToken' must have a TokenKind of 'EndWhile'.");
 
-            this.WhileCommand = whileCommand;
+            this.WhileToken = whileToken;
+            this.ExpressionExpression = expressionExpression;
             this.Statements = statements;
-            this.EndWhileCommand = endWhileCommand;
+            this.EndWhileToken = endWhileToken;
         }
 
-        public WhileCommandSyntax WhileCommand { get; private set; }
+        public Token WhileToken { get; private set; }
+
+        public BaseExpressionSyntax ExpressionExpression { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
-        public EndWhileCommandSyntax EndWhileCommand { get; private set; }
+        public Token EndWhileToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.WhileCommand;
+                yield return this.ExpressionExpression;
                 yield return this.Statements;
-                yield return this.EndWhileCommand;
-            }
-        }
-    }
-
-    internal sealed class ForStatementSyntax : BaseStatementSyntax
-    {
-        public ForStatementSyntax(ForCommandSyntax forCommand, StatementBlockSyntax statements, EndForCommandSyntax endForCommand)
-        {
-            Debug.Assert(!ReferenceEquals(forCommand, null), "'forCommand' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
-            Debug.Assert(!ReferenceEquals(endForCommand, null), "'endForCommand' must not be null.");
-
-            this.ForCommand = forCommand;
-            this.Statements = statements;
-            this.EndForCommand = endForCommand;
-        }
-
-        public ForCommandSyntax ForCommand { get; private set; }
-
-        public StatementBlockSyntax Statements { get; private set; }
-
-        public EndForCommandSyntax EndForCommand { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.ForCommand;
-                yield return this.Statements;
-                yield return this.EndForCommand;
-            }
-        }
-    }
-
-    internal sealed class IfCommandSyntax : BaseCommandSyntax
-    {
-        public IfCommandSyntax(TokenSyntax ifToken, BaseExpressionSyntax expression, TokenSyntax thenToken)
-        {
-            Debug.Assert(!ReferenceEquals(ifToken, null), "'ifToken' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
-
-            this.IfToken = ifToken;
-            this.Expression = expression;
-            this.ThenToken = thenToken;
-        }
-
-        public TokenSyntax IfToken { get; private set; }
-
-        public BaseExpressionSyntax Expression { get; private set; }
-
-        public TokenSyntax ThenToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.IfToken;
-                yield return this.Expression;
-                yield return this.ThenToken;
-            }
-        }
-    }
-
-    internal sealed class ElseIfCommandSyntax : BaseCommandSyntax
-    {
-        public ElseIfCommandSyntax(TokenSyntax elseIfToken, BaseExpressionSyntax expression, TokenSyntax thenToken)
-        {
-            Debug.Assert(!ReferenceEquals(elseIfToken, null), "'elseIfToken' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
-
-            this.ElseIfToken = elseIfToken;
-            this.Expression = expression;
-            this.ThenToken = thenToken;
-        }
-
-        public TokenSyntax ElseIfToken { get; private set; }
-
-        public BaseExpressionSyntax Expression { get; private set; }
-
-        public TokenSyntax ThenToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.ElseIfToken;
-                yield return this.Expression;
-                yield return this.ThenToken;
-            }
-        }
-    }
-
-    internal sealed class ElseCommandSyntax : BaseCommandSyntax
-    {
-        public ElseCommandSyntax(TokenSyntax elseToken)
-        {
-            Debug.Assert(!ReferenceEquals(elseToken, null), "'elseToken' must not be null.");
-
-            this.ElseToken = elseToken;
-        }
-
-        public TokenSyntax ElseToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.ElseToken;
-            }
-        }
-    }
-
-    internal sealed class EndIfCommandSyntax : BaseCommandSyntax
-    {
-        public EndIfCommandSyntax(TokenSyntax endIfToken)
-        {
-            Debug.Assert(!ReferenceEquals(endIfToken, null), "'endIfToken' must not be null.");
-
-            this.EndIfToken = endIfToken;
-        }
-
-        public TokenSyntax EndIfToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.EndIfToken;
             }
         }
     }
 
     internal sealed class ForStepClauseSyntax : BaseSyntax
     {
-        public ForStepClauseSyntax(TokenSyntax stepToken, BaseExpressionSyntax expression)
+        public ForStepClauseSyntax(Token stepToken, BaseExpressionSyntax expression)
         {
             Debug.Assert(!ReferenceEquals(stepToken, null), "'stepToken' must not be null.");
+            Debug.Assert(stepToken.Kind == TokenKind.Step, "'stepToken' must have a TokenKind of 'Step'.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
             this.StepToken = stepToken;
             this.Expression = expression;
         }
 
-        public TokenSyntax StepToken { get; private set; }
+        public Token StepToken { get; private set; }
 
         public BaseExpressionSyntax Expression { get; private set; }
 
@@ -404,21 +300,27 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.StepToken;
                 yield return this.Expression;
             }
         }
     }
 
-    internal sealed class ForCommandSyntax : BaseCommandSyntax
+    internal sealed class ForStatementSyntax : BaseStatementSyntax
     {
-        public ForCommandSyntax(TokenSyntax forToken, TokenSyntax identifierToken, TokenSyntax equalToken, BaseExpressionSyntax fromExpression, TokenSyntax toToken, ForStepClauseSyntax stepClauseOpt)
+        public ForStatementSyntax(Token forToken, Token identifierToken, Token equalToken, BaseExpressionSyntax fromExpression, Token toToken, ForStepClauseSyntax stepClauseOpt, StatementBlockSyntax statements, Token endForToken)
         {
             Debug.Assert(!ReferenceEquals(forToken, null), "'forToken' must not be null.");
+            Debug.Assert(forToken.Kind == TokenKind.For, "'forToken' must have a TokenKind of 'For'.");
             Debug.Assert(!ReferenceEquals(identifierToken, null), "'identifierToken' must not be null.");
+            Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
             Debug.Assert(!ReferenceEquals(equalToken, null), "'equalToken' must not be null.");
+            Debug.Assert(equalToken.Kind == TokenKind.Equal, "'equalToken' must have a TokenKind of 'Equal'.");
             Debug.Assert(!ReferenceEquals(fromExpression, null), "'fromExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(toToken, null), "'toToken' must not be null.");
+            Debug.Assert(toToken.Kind == TokenKind.To, "'toToken' must have a TokenKind of 'To'.");
+            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(endForToken, null), "'endForToken' must not be null.");
+            Debug.Assert(endForToken.Kind == TokenKind.EndFor, "'endForToken' must have a TokenKind of 'EndFor'.");
 
             this.ForToken = forToken;
             this.IdentifierToken = identifierToken;
@@ -426,221 +328,139 @@ namespace SuperBasic.Compiler.Parsing
             this.FromExpression = fromExpression;
             this.ToToken = toToken;
             this.StepClauseOpt = stepClauseOpt;
+            this.Statements = statements;
+            this.EndForToken = endForToken;
         }
 
-        public TokenSyntax ForToken { get; private set; }
+        public Token ForToken { get; private set; }
 
-        public TokenSyntax IdentifierToken { get; private set; }
+        public Token IdentifierToken { get; private set; }
 
-        public TokenSyntax EqualToken { get; private set; }
+        public Token EqualToken { get; private set; }
 
         public BaseExpressionSyntax FromExpression { get; private set; }
 
-        public TokenSyntax ToToken { get; private set; }
+        public Token ToToken { get; private set; }
 
         public ForStepClauseSyntax StepClauseOpt { get; private set; }
+
+        public StatementBlockSyntax Statements { get; private set; }
+
+        public Token EndForToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.ForToken;
-                yield return this.IdentifierToken;
-                yield return this.EqualToken;
                 yield return this.FromExpression;
-                yield return this.ToToken;
 
                 if (!ReferenceEquals(this.StepClauseOpt, null))
                 {
                     yield return this.StepClauseOpt;
                 }
+
+                yield return this.Statements;
             }
         }
     }
 
-    internal sealed class EndForCommandSyntax : BaseCommandSyntax
+    internal sealed class LabelStatementSyntax : BaseStatementSyntax
     {
-        public EndForCommandSyntax(TokenSyntax endForToken)
-        {
-            Debug.Assert(!ReferenceEquals(endForToken, null), "'endForToken' must not be null.");
-
-            this.EndForToken = endForToken;
-        }
-
-        public TokenSyntax EndForToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.EndForToken;
-            }
-        }
-    }
-
-    internal sealed class WhileCommandSyntax : BaseCommandSyntax
-    {
-        public WhileCommandSyntax(TokenSyntax whileToken, BaseExpressionSyntax expressionExpression)
-        {
-            Debug.Assert(!ReferenceEquals(whileToken, null), "'whileToken' must not be null.");
-            Debug.Assert(!ReferenceEquals(expressionExpression, null), "'expressionExpression' must not be null.");
-
-            this.WhileToken = whileToken;
-            this.ExpressionExpression = expressionExpression;
-        }
-
-        public TokenSyntax WhileToken { get; private set; }
-
-        public BaseExpressionSyntax ExpressionExpression { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.WhileToken;
-                yield return this.ExpressionExpression;
-            }
-        }
-    }
-
-    internal sealed class EndWhileCommandSyntax : BaseCommandSyntax
-    {
-        public EndWhileCommandSyntax(TokenSyntax endWhileToken)
-        {
-            Debug.Assert(!ReferenceEquals(endWhileToken, null), "'endWhileToken' must not be null.");
-
-            this.EndWhileToken = endWhileToken;
-        }
-
-        public TokenSyntax EndWhileToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.EndWhileToken;
-            }
-        }
-    }
-
-    internal sealed class LabelCommandSyntax : BaseCommandSyntax
-    {
-        public LabelCommandSyntax(TokenSyntax labelToken, TokenSyntax colonToken)
+        public LabelStatementSyntax(Token labelToken, Token colonToken)
         {
             Debug.Assert(!ReferenceEquals(labelToken, null), "'labelToken' must not be null.");
+            Debug.Assert(labelToken.Kind == TokenKind.Identifier, "'labelToken' must have a TokenKind of 'Identifier'.");
             Debug.Assert(!ReferenceEquals(colonToken, null), "'colonToken' must not be null.");
+            Debug.Assert(colonToken.Kind == TokenKind.Colon, "'colonToken' must have a TokenKind of 'Colon'.");
 
             this.LabelToken = labelToken;
             this.ColonToken = colonToken;
         }
 
-        public TokenSyntax LabelToken { get; private set; }
+        public Token LabelToken { get; private set; }
 
-        public TokenSyntax ColonToken { get; private set; }
+        public Token ColonToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.LabelToken;
-                yield return this.ColonToken;
+                return Enumerable.Empty<BaseSyntax>();
             }
         }
     }
 
-    internal sealed class GoToCommandSyntax : BaseCommandSyntax
+    internal sealed class GoToStatementSyntax : BaseStatementSyntax
     {
-        public GoToCommandSyntax(TokenSyntax goToToken, TokenSyntax labelToken)
+        public GoToStatementSyntax(Token goToToken, Token labelToken)
         {
             Debug.Assert(!ReferenceEquals(goToToken, null), "'goToToken' must not be null.");
+            Debug.Assert(goToToken.Kind == TokenKind.GoTo, "'goToToken' must have a TokenKind of 'GoTo'.");
             Debug.Assert(!ReferenceEquals(labelToken, null), "'labelToken' must not be null.");
+            Debug.Assert(labelToken.Kind == TokenKind.Identifier, "'labelToken' must have a TokenKind of 'Identifier'.");
 
             this.GoToToken = goToToken;
             this.LabelToken = labelToken;
         }
 
-        public TokenSyntax GoToToken { get; private set; }
+        public Token GoToToken { get; private set; }
 
-        public TokenSyntax LabelToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.GoToToken;
-                yield return this.LabelToken;
-            }
-        }
-    }
-
-    internal sealed class SubCommandSyntax : BaseCommandSyntax
-    {
-        public SubCommandSyntax(TokenSyntax subToken, TokenSyntax nameToken)
-        {
-            Debug.Assert(!ReferenceEquals(subToken, null), "'subToken' must not be null.");
-            Debug.Assert(!ReferenceEquals(nameToken, null), "'nameToken' must not be null.");
-
-            this.SubToken = subToken;
-            this.NameToken = nameToken;
-        }
-
-        public TokenSyntax SubToken { get; private set; }
-
-        public TokenSyntax NameToken { get; private set; }
+        public Token LabelToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.SubToken;
-                yield return this.NameToken;
+                return Enumerable.Empty<BaseSyntax>();
             }
         }
     }
 
-    internal sealed class EndSubCommandSyntax : BaseCommandSyntax
+    internal sealed class CommentStatementSyntax : BaseStatementSyntax
     {
-        public EndSubCommandSyntax(TokenSyntax endSubToken)
-        {
-            Debug.Assert(!ReferenceEquals(endSubToken, null), "'endSubToken' must not be null.");
-
-            this.EndSubToken = endSubToken;
-        }
-
-        public TokenSyntax EndSubToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.EndSubToken;
-            }
-        }
-    }
-
-    internal sealed class CommentCommandSyntax : BaseCommandSyntax
-    {
-        public CommentCommandSyntax(TokenSyntax commentToken)
+        public CommentStatementSyntax(Token commentToken)
         {
             Debug.Assert(!ReferenceEquals(commentToken, null), "'commentToken' must not be null.");
+            Debug.Assert(commentToken.Kind == TokenKind.Comment, "'commentToken' must have a TokenKind of 'Comment'.");
 
             this.CommentToken = commentToken;
         }
 
-        public TokenSyntax CommentToken { get; private set; }
+        public Token CommentToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.CommentToken;
+                return Enumerable.Empty<BaseSyntax>();
             }
         }
     }
 
-    internal sealed class ExpressionCommandSyntax : BaseCommandSyntax
+    internal sealed class UnrecognizedStatementSyntax : BaseStatementSyntax
     {
-        public ExpressionCommandSyntax(BaseExpressionSyntax expression)
+        public UnrecognizedStatementSyntax(Token unrecognizedToken)
+        {
+            Debug.Assert(!ReferenceEquals(unrecognizedToken, null), "'unrecognizedToken' must not be null.");
+            Debug.Assert(unrecognizedToken.Kind == TokenKind.Unrecognized, "'unrecognizedToken' must have a TokenKind of 'Unrecognized'.");
+
+            this.UnrecognizedToken = unrecognizedToken;
+        }
+
+        public Token UnrecognizedToken { get; private set; }
+
+        public override IEnumerable<BaseSyntax> Children
+        {
+            get
+            {
+                return Enumerable.Empty<BaseSyntax>();
+            }
+        }
+    }
+
+    internal sealed class ExpressionStatementSyntax : BaseStatementSyntax
+    {
+        public ExpressionStatementSyntax(BaseExpressionSyntax expression)
         {
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
@@ -660,16 +480,17 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class UnaryOperatorExpressionSyntax : BaseExpressionSyntax
     {
-        public UnaryOperatorExpressionSyntax(TokenSyntax operatorToken, BaseExpressionSyntax expression)
+        public UnaryOperatorExpressionSyntax(Token operatorToken, BaseExpressionSyntax expression)
         {
             Debug.Assert(!ReferenceEquals(operatorToken, null), "'operatorToken' must not be null.");
+            Debug.Assert(operatorToken.Kind == TokenKind.Minus, "'operatorToken' must have a TokenKind of 'Minus'.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
             this.OperatorToken = operatorToken;
             this.Expression = expression;
         }
 
-        public TokenSyntax OperatorToken { get; private set; }
+        public Token OperatorToken { get; private set; }
 
         public BaseExpressionSyntax Expression { get; private set; }
 
@@ -677,7 +498,6 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.OperatorToken;
                 yield return this.Expression;
             }
         }
@@ -685,10 +505,11 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class BinaryOperatorExpressionSyntax : BaseExpressionSyntax
     {
-        public BinaryOperatorExpressionSyntax(BaseExpressionSyntax leftExpression, TokenSyntax operatorToken, BaseExpressionSyntax rightExpression)
+        public BinaryOperatorExpressionSyntax(BaseExpressionSyntax leftExpression, Token operatorToken, BaseExpressionSyntax rightExpression)
         {
             Debug.Assert(!ReferenceEquals(leftExpression, null), "'leftExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(operatorToken, null), "'operatorToken' must not be null.");
+            Debug.Assert(operatorToken.Kind == TokenKind.Equal || operatorToken.Kind == TokenKind.NotEqual || operatorToken.Kind == TokenKind.Plus || operatorToken.Kind == TokenKind.Minus || operatorToken.Kind == TokenKind.Multiply || operatorToken.Kind == TokenKind.Divide || operatorToken.Kind == TokenKind.Colon || operatorToken.Kind == TokenKind.LessThan || operatorToken.Kind == TokenKind.GreaterThan || operatorToken.Kind == TokenKind.LessThanOrEqual || operatorToken.Kind == TokenKind.GreaterThanOrEqual, "'operatorToken' must have a TokenKind of 'Equal,NotEqual,Plus,Minus,Multiply,Divide,Colon,LessThan,GreaterThan,LessThanOrEqual,GreaterThanOrEqual'.");
             Debug.Assert(!ReferenceEquals(rightExpression, null), "'rightExpression' must not be null.");
 
             this.LeftExpression = leftExpression;
@@ -698,7 +519,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax LeftExpression { get; private set; }
 
-        public TokenSyntax OperatorToken { get; private set; }
+        public Token OperatorToken { get; private set; }
 
         public BaseExpressionSyntax RightExpression { get; private set; }
 
@@ -707,7 +528,6 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 yield return this.LeftExpression;
-                yield return this.OperatorToken;
                 yield return this.RightExpression;
             }
         }
@@ -715,11 +535,13 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class ObjectAccessExpressionSyntax : BaseExpressionSyntax
     {
-        public ObjectAccessExpressionSyntax(BaseExpressionSyntax baseExpression, TokenSyntax dotToken, TokenSyntax identifierToken)
+        public ObjectAccessExpressionSyntax(BaseExpressionSyntax baseExpression, Token dotToken, Token identifierToken)
         {
             Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(dotToken, null), "'dotToken' must not be null.");
+            Debug.Assert(dotToken.Kind == TokenKind.Dot, "'dotToken' must have a TokenKind of 'Dot'.");
             Debug.Assert(!ReferenceEquals(identifierToken, null), "'identifierToken' must not be null.");
+            Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
 
             this.BaseExpression = baseExpression;
             this.DotToken = dotToken;
@@ -728,29 +550,29 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax BaseExpression { get; private set; }
 
-        public TokenSyntax DotToken { get; private set; }
+        public Token DotToken { get; private set; }
 
-        public TokenSyntax IdentifierToken { get; private set; }
+        public Token IdentifierToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
                 yield return this.BaseExpression;
-                yield return this.DotToken;
-                yield return this.IdentifierToken;
             }
         }
     }
 
     internal sealed class ArrayAccessExpressionSyntax : BaseExpressionSyntax
     {
-        public ArrayAccessExpressionSyntax(BaseExpressionSyntax baseExpression, TokenSyntax leftBracketToken, BaseExpressionSyntax indexExpression, TokenSyntax rightBracketToken)
+        public ArrayAccessExpressionSyntax(BaseExpressionSyntax baseExpression, Token leftBracketToken, BaseExpressionSyntax indexExpression, Token rightBracketToken)
         {
             Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(leftBracketToken, null), "'leftBracketToken' must not be null.");
+            Debug.Assert(leftBracketToken.Kind == TokenKind.LeftBracket, "'leftBracketToken' must have a TokenKind of 'LeftBracket'.");
             Debug.Assert(!ReferenceEquals(indexExpression, null), "'indexExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(rightBracketToken, null), "'rightBracketToken' must not be null.");
+            Debug.Assert(rightBracketToken.Kind == TokenKind.RightBracket, "'rightBracketToken' must have a TokenKind of 'RightBracket'.");
 
             this.BaseExpression = baseExpression;
             this.LeftBracketToken = leftBracketToken;
@@ -760,27 +582,25 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax BaseExpression { get; private set; }
 
-        public TokenSyntax LeftBracketToken { get; private set; }
+        public Token LeftBracketToken { get; private set; }
 
         public BaseExpressionSyntax IndexExpression { get; private set; }
 
-        public TokenSyntax RightBracketToken { get; private set; }
+        public Token RightBracketToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
                 yield return this.BaseExpression;
-                yield return this.LeftBracketToken;
                 yield return this.IndexExpression;
-                yield return this.RightBracketToken;
             }
         }
     }
 
     internal sealed class ArgumentSyntax : BaseExpressionSyntax
     {
-        public ArgumentSyntax(BaseExpressionSyntax expression, TokenSyntax commaTokenOpt)
+        public ArgumentSyntax(BaseExpressionSyntax expression, Token commaTokenOpt)
         {
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
@@ -790,30 +610,27 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax Expression { get; private set; }
 
-        public TokenSyntax CommaTokenOpt { get; private set; }
+        public Token CommaTokenOpt { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
                 yield return this.Expression;
-
-                if (!ReferenceEquals(this.CommaTokenOpt, null))
-                {
-                    yield return this.CommaTokenOpt;
-                }
             }
         }
     }
 
     internal sealed class InvocationExpressionSyntax : BaseExpressionSyntax
     {
-        public InvocationExpressionSyntax(BaseExpressionSyntax baseExpression, TokenSyntax leftParenToken, ImmutableArray<ArgumentSyntax> arguments, TokenSyntax rightParenToken)
+        public InvocationExpressionSyntax(BaseExpressionSyntax baseExpression, Token leftParenToken, ImmutableArray<ArgumentSyntax> arguments, Token rightParenToken)
         {
             Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(leftParenToken, null), "'leftParenToken' must not be null.");
+            Debug.Assert(leftParenToken.Kind == TokenKind.LeftParen, "'leftParenToken' must have a TokenKind of 'LeftParen'.");
             Debug.Assert(!ReferenceEquals(arguments, null), "'arguments' must not be null.");
             Debug.Assert(!ReferenceEquals(rightParenToken, null), "'rightParenToken' must not be null.");
+            Debug.Assert(rightParenToken.Kind == TokenKind.RightParen, "'rightParenToken' must have a TokenKind of 'RightParen'.");
 
             this.BaseExpression = baseExpression;
             this.LeftParenToken = leftParenToken;
@@ -823,129 +640,109 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax BaseExpression { get; private set; }
 
-        public TokenSyntax LeftParenToken { get; private set; }
+        public Token LeftParenToken { get; private set; }
 
         public ImmutableArray<ArgumentSyntax> Arguments { get; private set; }
 
-        public TokenSyntax RightParenToken { get; private set; }
+        public Token RightParenToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
                 yield return this.BaseExpression;
-                yield return this.LeftParenToken;
 
                 foreach (var child in this.Arguments)
                 {
                     yield return child;
                 }
-
-                yield return this.RightParenToken;
             }
         }
     }
 
     internal sealed class ParenthesisExpressionSyntax : BaseExpressionSyntax
     {
-        public ParenthesisExpressionSyntax(TokenSyntax leftParenToken, BaseExpressionSyntax expression, TokenSyntax rightParenToken)
+        public ParenthesisExpressionSyntax(Token leftParenToken, BaseExpressionSyntax expression, Token rightParenToken)
         {
             Debug.Assert(!ReferenceEquals(leftParenToken, null), "'leftParenToken' must not be null.");
+            Debug.Assert(leftParenToken.Kind == TokenKind.LeftParen, "'leftParenToken' must have a TokenKind of 'LeftParen'.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
             Debug.Assert(!ReferenceEquals(rightParenToken, null), "'rightParenToken' must not be null.");
+            Debug.Assert(rightParenToken.Kind == TokenKind.RightParen, "'rightParenToken' must have a TokenKind of 'RightParen'.");
 
             this.LeftParenToken = leftParenToken;
             this.Expression = expression;
             this.RightParenToken = rightParenToken;
         }
 
-        public TokenSyntax LeftParenToken { get; private set; }
+        public Token LeftParenToken { get; private set; }
 
         public BaseExpressionSyntax Expression { get; private set; }
 
-        public TokenSyntax RightParenToken { get; private set; }
+        public Token RightParenToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.LeftParenToken;
                 yield return this.Expression;
-                yield return this.RightParenToken;
             }
         }
     }
 
     internal sealed class IdentifierExpressionSyntax : BaseExpressionSyntax
     {
-        public IdentifierExpressionSyntax(TokenSyntax identifierToken)
+        public IdentifierExpressionSyntax(Token identifierToken)
         {
             Debug.Assert(!ReferenceEquals(identifierToken, null), "'identifierToken' must not be null.");
+            Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
 
             this.IdentifierToken = identifierToken;
         }
 
-        public TokenSyntax IdentifierToken { get; private set; }
+        public Token IdentifierToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.IdentifierToken;
+                return Enumerable.Empty<BaseSyntax>();
             }
         }
     }
 
     internal sealed class StringLiteralExpressionSyntax : BaseExpressionSyntax
     {
-        public StringLiteralExpressionSyntax(TokenSyntax stringToken)
+        public StringLiteralExpressionSyntax(Token stringToken)
         {
             Debug.Assert(!ReferenceEquals(stringToken, null), "'stringToken' must not be null.");
+            Debug.Assert(stringToken.Kind == TokenKind.StringLiteral, "'stringToken' must have a TokenKind of 'StringLiteral'.");
 
             this.StringToken = stringToken;
         }
 
-        public TokenSyntax StringToken { get; private set; }
+        public Token StringToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
             get
             {
-                yield return this.StringToken;
+                return Enumerable.Empty<BaseSyntax>();
             }
         }
     }
 
     internal sealed class NumberLiteralExpressionSyntax : BaseExpressionSyntax
     {
-        public NumberLiteralExpressionSyntax(TokenSyntax numberToken)
+        public NumberLiteralExpressionSyntax(Token numberToken)
         {
             Debug.Assert(!ReferenceEquals(numberToken, null), "'numberToken' must not be null.");
+            Debug.Assert(numberToken.Kind == TokenKind.NumberLiteral, "'numberToken' must have a TokenKind of 'NumberLiteral'.");
 
             this.NumberToken = numberToken;
         }
 
-        public TokenSyntax NumberToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.NumberToken;
-            }
-        }
-    }
-
-    internal sealed class TokenSyntax : BaseSyntax
-    {
-        public TokenSyntax(Token token)
-        {
-            Debug.Assert(!ReferenceEquals(token, null), "'token' must not be null.");
-
-            this.Token = token;
-        }
-
-        public Token Token { get; private set; }
+        public Token NumberToken { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {

@@ -24,7 +24,7 @@ namespace SuperBasic.Generators.Parsing
             public bool IsList { get; set; }
 
             [XmlAttribute]
-            public bool ExcludeFromChildren { get; set; }
+            public string TokenKinds { get; set; }
         }
 
         public sealed class SyntaxNode
