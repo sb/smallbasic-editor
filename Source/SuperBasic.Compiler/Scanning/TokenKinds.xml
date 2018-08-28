@@ -26,8 +26,8 @@
 
   <TokenKind Name="RightParen" Display="&quot;)&quot;" />
   <TokenKind Name="LeftParen" Display="&quot;(&quot;" />
-  <TokenKind Name="RightSquareBracket" Display="&quot;]&quot;" />
-  <TokenKind Name="LeftSquareBracket" Display="&quot;[&quot;" />
+  <TokenKind Name="RightBracket" Display="&quot;]&quot;" />
+  <TokenKind Name="LeftBracket" Display="&quot;[&quot;" />
 
   <TokenKind Name="Equal" Display="&quot;=&quot;" />
   <TokenKind Name="NotEqual" Display="&quot;&lt;&gt;&quot;" />
@@ -44,7 +44,7 @@
   <TokenKind Name="Identifier" Display="TokenKindsResources.Identifier" />
   <TokenKind Name="NumberLiteral" Display="TokenKindsResources.NumberLiteral" />
   <TokenKind Name="StringLiteral" Display="TokenKindsResources.StringLiteral" />
-  <TokenKind Name="Comment" Display="TokenKindsResources.Comment" />
 
+  <TokenKind Name="Comment" Display="TokenKindsResources.Comment" />
   <TokenKind Name="Unrecognized" Display="TokenKindsResources.Unrecognized" />
 </root>

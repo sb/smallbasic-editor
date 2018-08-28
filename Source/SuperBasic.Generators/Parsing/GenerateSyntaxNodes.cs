@@ -30,6 +30,11 @@ namespace SuperBasic.Compiler.Parsing
                 this.Log.LogError($"Node '{node.Name}' should end with 'Syntax'.");
             }
 
+            if (!node.IsAbstract && !node.Members.Any())
+            {
+                this.Log.LogError($"Node '{node.Name}' should should have at least one member.");
+            }
+
             bool foundRequired = false;
 
             foreach (var member in node.Members)
@@ -45,6 +50,11 @@ namespace SuperBasic.Compiler.Parsing
                 {
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' cannot be both optional and a list.");
                 }
+
+                if ((member.Type == "Token") == member.TokenKinds is null)
+                {
+                    this.Log.LogError($"Member '{node.Name}.{member.Name}' of type 'Token' must specify 'TokenKinds', and vice versa.");
+                }
             }
 
             if (!node.IsAbstract && !foundRequired)
@@ -54,7 +64,7 @@ namespace SuperBasic.Compiler.Parsing
 
             return $@"
     internal {(node.IsAbstract ? "abstract" : "sealed")} class {node.Name} : {node.Inherits}
-    {{{(node.IsAbstract ? string.Empty : GenerateSyntaxNodes.GenerateNodeTypeMembers(node))}
+    {{{(node.IsAbstract ? string.Empty : GenerateNodeTypeMembers(node))}
     }}";
         }
 
@@ -65,7 +75,7 @@ namespace SuperBasic.Compiler.Parsing
             return $@"
         public {node.Name}({node.Members.Select(member => $"{getFullType(member)} {member.Name.LowerFirstChar()}").Join(", ")})
         {{
-{node.Members.Where(member => !member.IsOptional).Select(member => $@"            Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");").Join(Environment.NewLine)}
+{GetMembersDebugAsserts(node.Members).Join(Environment.NewLine)}
 
 {node.Members.Select(member => $"            this.{member.Name} = {member.Name.LowerFirstChar()};").Join(Environment.NewLine)}
         }}
@@ -76,14 +86,30 @@ namespace SuperBasic.Compiler.Parsing
         {{
             get
             {{
-{GetChildrenPropertyContents(node.Members.Where(member => !member.ExcludeFromChildren)).Join(Environment.NewLine)}
+{GetChildrenPropertyContents(node.Members.Where(member => member.Type != "Token")).Join(Environment.NewLine)}
             }}
         }}";
         }
 
-        private static IEnumerable<string> GetChildrenPropertyContents(IEnumerable<ParsingModels.Member> children)
+        private static IEnumerable<string> GetMembersDebugAsserts(IEnumerable<ParsingModels.Member> members)
         {
-            if (!children.Any())
+            foreach (var member in members)
+            {
+                if (!member.IsOptional)
+                {
+                    yield return $@"            Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");";
+
+                    if (member.Type == "Token")
+                    {
+                        yield return $@"            Debug.Assert({member.TokenKinds.Split(',').Select(kind => $"{member.Name.LowerFirstChar()}.Kind == TokenKind.{kind}").Join(" || ")}, ""'{member.Name.LowerFirstChar()}' must have a TokenKind of '{member.TokenKinds}'."");";
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<string> GetChildrenPropertyContents(IEnumerable<ParsingModels.Member> members)
+        {
+            if (!members.Any())
             {
                 yield return "                return Enumerable.Empty<BaseSyntax>();";
             }
@@ -92,7 +118,7 @@ namespace SuperBasic.Compiler.Parsing
                 bool anythingPrinted = false;
                 bool curlyBracketPrinted = false;
 
-                foreach (var child in children)
+                foreach (var child in members)
                 {
                     bool curlyBracketsNeeded = child.IsList || child.IsOptional;
 

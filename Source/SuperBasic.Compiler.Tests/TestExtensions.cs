@@ -44,6 +44,7 @@ namespace SuperBasic.Compiler.Tests
                 return $@"
                 // {textLines[line]}
                 // {new string(' ', start)}{new string('^', end - start)}
+                // {diagnostic.ToDisplayString()}
                 new Diagnostic({constructorArgs.Join(", ")})";
             }).Join(",") + Environment.NewLine;
         }

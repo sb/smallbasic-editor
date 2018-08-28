@@ -16,6 +16,7 @@ namespace SuperBasic.Compiler.Tests
 x = ""name").VerifyDiagnostics(
                 // x = "name
                 //     ^^^^^
+                // This string is missing its right double quotes.
                 new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((1, 4), (1, 9))));
         }
 
@@ -27,9 +28,11 @@ x = ""name
 y = ""another").VerifyDiagnostics(
                 // x = "name
                 //     ^^^^^
+                // This string is missing its right double quotes.
                 new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((1, 4), (1, 9))),
                 // y = "another
                 //     ^^^^^^^^
+                // This string is missing its right double quotes.
                 new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((2, 4), (2, 12))));
         }
 
@@ -40,6 +43,7 @@ y = ""another").VerifyDiagnostics(
 $").VerifyDiagnostics(
                 // $
                 // ^
+                // I don't understand this character '$'.
                 new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 0), (1, 1)), "$"));
         }
 
@@ -53,20 +57,19 @@ not_ok = ""value"" $
 ' $ still ok").VerifyDiagnostics(
                 // x = ____^
                 //         ^
+                // I don't understand this character '^'.
                 new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 8), (1, 9)), "^"),
                 // not_ok = "value" $
                 //                  ^
+                // I don't understand this character '$'.
                 new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((3, 17), (3, 18)), "$"));
         }
 
         [Fact]
-        public void ItReportsUnrecognizedCharactersInStringLiterals()
+        public void ItDoesNotReportUnrecognizedCharactersInStringLiterals()
         {
             new SuperBasicCompilation($@"
-x = ""test {char.ConvertFromUtf32(27)} string""").VerifyDiagnostics(
-                // x = "test  string"
-                //           ^
-                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 10), (1, 11)), "\u001b"));
+x = ""test $ string""").VerifyDiagnostics();
         }
     }
 }
