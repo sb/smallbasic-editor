@@ -1,13 +1,13 @@
-﻿// <copyright file="SyntaxNodesModels.cs" company="2018 Omar Tawfik">
+﻿// <copyright file="ParsingModels.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Generators.SyntaxNodes
+namespace SuperBasic.Generators.Parsing
 {
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
-    public static class SyntaxNodesModels
+    public static class ParsingModels
     {
         public sealed class Member
         {

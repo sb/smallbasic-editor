@@ -8,7 +8,7 @@
 namespace SuperBasic.Compiler.Diagnostics
 {
     using System.Collections.Generic;
-    using SuperBasic.Compiler.Syntax;
+    using SuperBasic.Compiler.Scanning;
     using SuperBasic.Utilities;
 
     internal sealed class DiagnosticBag

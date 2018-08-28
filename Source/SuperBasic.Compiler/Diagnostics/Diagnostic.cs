@@ -7,7 +7,7 @@ namespace SuperBasic.Compiler.Diagnostics
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using SuperBasic.Compiler.Syntax;
+    using SuperBasic.Compiler.Scanning;
 
     [DebuggerDisplay("{ToDisplayString()}")]
     public sealed class Diagnostic
