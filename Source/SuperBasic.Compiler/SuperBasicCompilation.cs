@@ -6,7 +6,7 @@ namespace SuperBasic.Compiler
 {
     using System.Collections.Generic;
     using SuperBasic.Compiler.Diagnostics;
-    using SuperBasic.Compiler.Syntax;
+    using SuperBasic.Compiler.Scanning;
 
     public sealed class SuperBasicCompilation
     {

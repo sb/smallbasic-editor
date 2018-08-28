@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Compiler.Syntax
+namespace SuperBasic.Compiler.Scanning
 {
     using System.Collections.Generic;
     using System.Globalization;
