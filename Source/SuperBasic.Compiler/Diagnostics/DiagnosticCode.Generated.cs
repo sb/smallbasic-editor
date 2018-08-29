@@ -14,6 +14,10 @@ namespace SuperBasic.Compiler.Diagnostics
     {
         UnrecognizedCharacter,
         UnterminatedStringLiteral,
+        UnexpectedTokenFound,
+        UnexpectedEndOfStream,
+        UnexpectedStatementInsteadOfNewLine,
+        UnexpectedTokenInsteadOfStatement,
     }
 
     internal static partial class DiagnosticCodeExtensions
@@ -24,6 +28,10 @@ namespace SuperBasic.Compiler.Diagnostics
             {
                 case DiagnosticCode.UnrecognizedCharacter: return DiagnosticsResources.UnrecognizedCharacter;
                 case DiagnosticCode.UnterminatedStringLiteral: return DiagnosticsResources.UnterminatedStringLiteral;
+                case DiagnosticCode.UnexpectedTokenFound: return DiagnosticsResources.UnexpectedTokenFound;
+                case DiagnosticCode.UnexpectedEndOfStream: return DiagnosticsResources.UnexpectedEndOfStream;
+                case DiagnosticCode.UnexpectedStatementInsteadOfNewLine: return DiagnosticsResources.UnexpectedStatementInsteadOfNewLine;
+                case DiagnosticCode.UnexpectedTokenInsteadOfStatement: return DiagnosticsResources.UnexpectedTokenInsteadOfStatement;
                 default: throw ExceptionUtilities.UnexpectedValue(kind);
             }
         }

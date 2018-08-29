@@ -15,7 +15,6 @@ namespace SuperBasic.Generators.Parsing
 namespace SuperBasic.Compiler.Parsing
 {{
     using System.Collections.Generic;
-    using System.Collections.Immutable;
     using System.Diagnostics;
     using System.Linq;
     using SuperBasic.Compiler.Scanning;
@@ -70,7 +69,7 @@ namespace SuperBasic.Compiler.Parsing
 
         private static string GenerateNodeTypeMembers(ParsingModels.SyntaxNode node)
         {
-            string getFullType(ParsingModels.Member member) => member.IsList ? $"ImmutableArray<{member.Type}>" : member.Type;
+            string getFullType(ParsingModels.Member member) => member.IsList ? $"IReadOnlyList<{member.Type}>" : member.Type;
 
             return $@"
         public {node.Name}({node.Members.Select(member => $"{getFullType(member)} {member.Name.LowerFirstChar()}").Join(", ")})
