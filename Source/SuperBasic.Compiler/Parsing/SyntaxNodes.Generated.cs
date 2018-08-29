@@ -8,22 +8,13 @@
 namespace SuperBasic.Compiler.Parsing
 {
     using System.Collections.Generic;
-    using System.Collections.Immutable;
     using System.Diagnostics;
     using System.Linq;
     using SuperBasic.Compiler.Scanning;
 
-    internal abstract class BaseStatementSyntax : BaseSyntax
-    {
-    }
-
-    internal abstract class BaseExpressionSyntax : BaseSyntax
-    {
-    }
-
     internal sealed class ParseTreeSyntax : BaseSyntax
     {
-        public ParseTreeSyntax(StatementBlockSyntax mainModule, ImmutableArray<SubModuleDeclarationSyntax> subModules)
+        public ParseTreeSyntax(StatementBlockSyntax mainModule, IReadOnlyList<SubModuleDeclarationSyntax> subModules)
         {
             Debug.Assert(!ReferenceEquals(mainModule, null), "'mainModule' must not be null.");
             Debug.Assert(!ReferenceEquals(subModules, null), "'subModules' must not be null.");
@@ -34,7 +25,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public StatementBlockSyntax MainModule { get; private set; }
 
-        public ImmutableArray<SubModuleDeclarationSyntax> SubModules { get; private set; }
+        public IReadOnlyList<SubModuleDeclarationSyntax> SubModules { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
@@ -85,16 +76,20 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class StatementBlockSyntax : BaseSyntax
+    internal abstract class BaseStatementSyntax : BaseSyntax
     {
-        public StatementBlockSyntax(ImmutableArray<BaseStatementSyntax> statements)
+    }
+
+    internal sealed class StatementBlockSyntax : BaseStatementSyntax
+    {
+        public StatementBlockSyntax(IReadOnlyList<BaseStatementSyntax> statements)
         {
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
 
             this.Statements = statements;
         }
 
-        public ImmutableArray<BaseStatementSyntax> Statements { get; private set; }
+        public IReadOnlyList<BaseStatementSyntax> Statements { get; private set; }
 
         public override IEnumerable<BaseSyntax> Children
         {
@@ -205,7 +200,7 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class IfStatementSyntax : BaseStatementSyntax
     {
-        public IfStatementSyntax(IfPartSyntax ifPart, ImmutableArray<ElseIfPartSyntax> elseIfParts, ElsePartSyntax elsePartOpt, Token endIfToken)
+        public IfStatementSyntax(IfPartSyntax ifPart, IReadOnlyList<ElseIfPartSyntax> elseIfParts, ElsePartSyntax elsePartOpt, Token endIfToken)
         {
             Debug.Assert(!ReferenceEquals(ifPart, null), "'ifPart' must not be null.");
             Debug.Assert(!ReferenceEquals(elseIfParts, null), "'elseIfParts' must not be null.");
@@ -220,7 +215,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public IfPartSyntax IfPart { get; private set; }
 
-        public ImmutableArray<ElseIfPartSyntax> ElseIfParts { get; private set; }
+        public IReadOnlyList<ElseIfPartSyntax> ElseIfParts { get; private set; }
 
         public ElsePartSyntax ElsePartOpt { get; private set; }
 
@@ -247,24 +242,24 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class WhileStatementSyntax : BaseStatementSyntax
     {
-        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expressionExpression, StatementBlockSyntax statements, Token endWhileToken)
+        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expression, StatementBlockSyntax statements, Token endWhileToken)
         {
             Debug.Assert(!ReferenceEquals(whileToken, null), "'whileToken' must not be null.");
             Debug.Assert(whileToken.Kind == TokenKind.While, "'whileToken' must have a TokenKind of 'While'.");
-            Debug.Assert(!ReferenceEquals(expressionExpression, null), "'expressionExpression' must not be null.");
+            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
             Debug.Assert(!ReferenceEquals(endWhileToken, null), "'endWhileToken' must not be null.");
             Debug.Assert(endWhileToken.Kind == TokenKind.EndWhile, "'endWhileToken' must have a TokenKind of 'EndWhile'.");
 
             this.WhileToken = whileToken;
-            this.ExpressionExpression = expressionExpression;
+            this.Expression = expression;
             this.Statements = statements;
             this.EndWhileToken = endWhileToken;
         }
 
         public Token WhileToken { get; private set; }
 
-        public BaseExpressionSyntax ExpressionExpression { get; private set; }
+        public BaseExpressionSyntax Expression { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
@@ -274,7 +269,7 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.ExpressionExpression;
+                yield return this.Expression;
                 yield return this.Statements;
             }
         }
@@ -416,27 +411,6 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class CommentStatementSyntax : BaseStatementSyntax
-    {
-        public CommentStatementSyntax(Token commentToken)
-        {
-            Debug.Assert(!ReferenceEquals(commentToken, null), "'commentToken' must not be null.");
-            Debug.Assert(commentToken.Kind == TokenKind.Comment, "'commentToken' must have a TokenKind of 'Comment'.");
-
-            this.CommentToken = commentToken;
-        }
-
-        public Token CommentToken { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                return Enumerable.Empty<BaseSyntax>();
-            }
-        }
-    }
-
     internal sealed class UnrecognizedStatementSyntax : BaseStatementSyntax
     {
         public UnrecognizedStatementSyntax(Token unrecognizedToken)
@@ -476,6 +450,10 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.Expression;
             }
         }
+    }
+
+    internal abstract class BaseExpressionSyntax : BaseSyntax
+    {
     }
 
     internal sealed class UnaryOperatorExpressionSyntax : BaseExpressionSyntax
@@ -623,7 +601,7 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class InvocationExpressionSyntax : BaseExpressionSyntax
     {
-        public InvocationExpressionSyntax(BaseExpressionSyntax baseExpression, Token leftParenToken, ImmutableArray<ArgumentSyntax> arguments, Token rightParenToken)
+        public InvocationExpressionSyntax(BaseExpressionSyntax baseExpression, Token leftParenToken, IReadOnlyList<ArgumentSyntax> arguments, Token rightParenToken)
         {
             Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(leftParenToken, null), "'leftParenToken' must not be null.");
@@ -642,7 +620,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token LeftParenToken { get; private set; }
 
-        public ImmutableArray<ArgumentSyntax> Arguments { get; private set; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; private set; }
 
         public Token RightParenToken { get; private set; }
 

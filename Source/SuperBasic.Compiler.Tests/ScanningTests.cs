@@ -53,23 +53,16 @@ $").VerifyDiagnostics(
             new SuperBasicCompilation(@"
 x = ____^
 ok = ""value $ value""
-not_ok = ""value"" $
+not_ok = 6 $
 ' $ still ok").VerifyDiagnostics(
                 // x = ____^
                 //         ^
                 // I don't understand this character '^'.
                 new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 8), (1, 9)), "^"),
-                // not_ok = "value" $
-                //                  ^
+                // not_ok = 6 $
+                //            ^
                 // I don't understand this character '$'.
-                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((3, 17), (3, 18)), "$"));
-        }
-
-        [Fact]
-        public void ItDoesNotReportUnrecognizedCharactersInStringLiterals()
-        {
-            new SuperBasicCompilation($@"
-x = ""test $ string""").VerifyDiagnostics();
+                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((3, 11), (3, 12)), "$"));
         }
     }
 }

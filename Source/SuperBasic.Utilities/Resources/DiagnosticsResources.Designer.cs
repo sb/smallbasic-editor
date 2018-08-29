@@ -61,6 +61,42 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I was expecting to see &apos;{0}&apos; here..
+        /// </summary>
+        public static string UnexpectedEndOfStream {
+            get {
+                return ResourceManager.GetString("UnexpectedEndOfStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This statement should go on a new line..
+        /// </summary>
+        public static string UnexpectedStatementInsteadOfNewLine {
+            get {
+                return ResourceManager.GetString("UnexpectedStatementInsteadOfNewLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I didn&apos;t expect to see &apos;{0}&apos; here. I was expecting &apos;{1}&apos; instead..
+        /// </summary>
+        public static string UnexpectedTokenFound {
+            get {
+                return ResourceManager.GetString("UnexpectedTokenFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I didn&apos;t expect to see &apos;{0}&apos; here. I was expecting the start of a new statement..
+        /// </summary>
+        public static string UnexpectedTokenInsteadOfStatement {
+            get {
+                return ResourceManager.GetString("UnexpectedTokenInsteadOfStatement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I don&apos;t understand this character &apos;{0}&apos;..
         /// </summary>
         public static string UnrecognizedCharacter {

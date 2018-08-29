@@ -1,7 +1,4 @@
 ﻿<root>
-  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntax" />
-  <SyntaxNode Name="BaseExpressionSyntax" IsAbstract="true" Inherits="BaseSyntax" />
-
   <SyntaxNode Name="ParseTreeSyntax" Inherits="BaseSyntax">
     <Members>
       <Member Name="MainModule" Type="StatementBlockSyntax" />
@@ -18,7 +15,9 @@
     </Members>
   </SyntaxNode>
 
-  <SyntaxNode Name="StatementBlockSyntax" Inherits="BaseSyntax">
+  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntax" />
+
+  <SyntaxNode Name="StatementBlockSyntax" Inherits="BaseStatementSyntax">
     <Members>
       <Member Name="Statements" Type="BaseStatementSyntax" IsList="true" />
     </Members>
@@ -58,7 +57,7 @@
   <SyntaxNode Name="WhileStatementSyntax" Inherits="BaseStatementSyntax">
     <Members>
       <Member Name="WhileToken" Type="Token" TokenKinds="While" />
-      <Member Name="ExpressionExpression" Type="BaseExpressionSyntax" />
+      <Member Name="Expression" Type="BaseExpressionSyntax" />
       <Member Name="Statements" Type="StatementBlockSyntax" />
       <Member Name="EndWhileToken" Type="Token" TokenKinds="EndWhile" />
     </Members>
@@ -96,12 +95,6 @@
     </Members>
   </SyntaxNode>
 
-  <SyntaxNode Name="CommentStatementSyntax" Inherits="BaseStatementSyntax">
-    <Members>
-      <Member Name="CommentToken" Type="Token" TokenKinds="Comment" />
-    </Members>
-  </SyntaxNode>
-
   <SyntaxNode Name="UnrecognizedStatementSyntax" Inherits="BaseStatementSyntax">
     <Members>
       <Member Name="UnrecognizedToken" Type="Token" TokenKinds="Unrecognized" />
@@ -113,6 +106,8 @@
       <Member Name="Expression" Type="BaseExpressionSyntax" />
     </Members>
   </SyntaxNode>
+
+  <SyntaxNode Name="BaseExpressionSyntax" IsAbstract="true" Inherits="BaseSyntax" />
 
   <SyntaxNode Name="UnaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
     <Members>

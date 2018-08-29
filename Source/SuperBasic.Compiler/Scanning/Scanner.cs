@@ -12,14 +12,15 @@ namespace SuperBasic.Compiler.Scanning
     internal sealed class Scanner
     {
         private readonly string text;
-        private readonly List<Token> tokens;
         private readonly DiagnosticBag diagnostics;
+
+        private readonly List<Token> tokens;
 
         private short index = 0;
         private short line = 0;
         private short column = 0;
 
-        public Scanner(DiagnosticBag diagnostics, string text)
+        public Scanner(string text, DiagnosticBag diagnostics)
         {
             this.diagnostics = diagnostics;
             this.text = text;
@@ -31,7 +32,7 @@ namespace SuperBasic.Compiler.Scanning
             }
         }
 
-        public IReadOnlyList<Token> Contents => this.tokens;
+        public IReadOnlyList<Token> Result => this.tokens;
 
         private void ScanNextToken()
         {

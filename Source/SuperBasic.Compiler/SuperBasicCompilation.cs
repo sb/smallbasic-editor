@@ -6,6 +6,7 @@ namespace SuperBasic.Compiler
 {
     using System.Collections.Generic;
     using SuperBasic.Compiler.Diagnostics;
+    using SuperBasic.Compiler.Parsing;
     using SuperBasic.Compiler.Scanning;
 
     public sealed class SuperBasicCompilation
@@ -15,7 +16,8 @@ namespace SuperBasic.Compiler
         public SuperBasicCompilation(string text)
         {
             this.Text = text;
-            var scanner = new Scanner(this.diagnostics, this.Text);
+            var scanner = new Scanner(this.Text, this.diagnostics);
+            var parser = new Parser(scanner.Result, this.diagnostics);
         }
 
         public string Text { get; private set; }

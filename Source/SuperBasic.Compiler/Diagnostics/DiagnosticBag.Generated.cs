@@ -26,5 +26,25 @@ namespace SuperBasic.Compiler.Diagnostics
         {
             this.builder.Add(new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, range));
         }
+
+        public void ReportUnexpectedTokenFound(TextRange range, TokenKind found, TokenKind expected)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnexpectedTokenFound, range, found.ToDisplayString(), expected.ToDisplayString()));
+        }
+
+        public void ReportUnexpectedEndOfStream(TextRange range, TokenKind expected)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnexpectedEndOfStream, range, expected.ToDisplayString()));
+        }
+
+        public void ReportUnexpectedStatementInsteadOfNewLine(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnexpectedStatementInsteadOfNewLine, range));
+        }
+
+        public void ReportUnexpectedTokenInsteadOfStatement(TextRange range, TokenKind found)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnexpectedTokenInsteadOfStatement, range, found.ToDisplayString()));
+        }
     }
 }

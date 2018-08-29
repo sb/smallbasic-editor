@@ -5,4 +5,21 @@
     </Parameters>
   </Diagnostic>
   <Diagnostic Name="UnterminatedStringLiteral" />
+  <Diagnostic Name="UnexpectedTokenFound">
+    <Parameters>
+      <Parameter Name="found" Type="TokenKind" />
+      <Parameter Name="expected" Type="TokenKind" />
+    </Parameters>
+  </Diagnostic>
+  <Diagnostic Name="UnexpectedEndOfStream">
+    <Parameters>
+      <Parameter Name="expected" Type="TokenKind" />
+    </Parameters>
+  </Diagnostic>
+  <Diagnostic Name="UnexpectedStatementInsteadOfNewLine" />
+  <Diagnostic Name="UnexpectedTokenInsteadOfStatement">
+    <Parameters>
+      <Parameter Name="found" Type="TokenKind" />
+    </Parameters>
+  </Diagnostic>
 </root>

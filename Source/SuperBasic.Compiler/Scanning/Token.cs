@@ -4,10 +4,14 @@
 
 namespace SuperBasic.Compiler.Scanning
 {
+    using System.Diagnostics;
+
     internal sealed class Token
     {
         public Token(TokenKind kind, string text, TextRange range)
         {
+            Debug.Assert(range.Start.Line == range.End.Line, "Tokens should never span multiple lines");
+
             this.Kind = kind;
             this.Text = text;
             this.Range = range;
