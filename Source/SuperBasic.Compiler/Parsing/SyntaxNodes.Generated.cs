@@ -12,38 +12,13 @@ namespace SuperBasic.Compiler.Parsing
     using System.Linq;
     using SuperBasic.Compiler.Scanning;
 
-    internal sealed class ParseTreeSyntax : BaseSyntax
+    internal abstract class BaseStatementSyntax : BaseSyntax
     {
-        public ParseTreeSyntax(StatementBlockSyntax mainModule, IReadOnlyList<SubModuleDeclarationSyntax> subModules)
-        {
-            Debug.Assert(!ReferenceEquals(mainModule, null), "'mainModule' must not be null.");
-            Debug.Assert(!ReferenceEquals(subModules, null), "'subModules' must not be null.");
-
-            this.MainModule = mainModule;
-            this.SubModules = subModules;
-        }
-
-        public StatementBlockSyntax MainModule { get; private set; }
-
-        public IReadOnlyList<SubModuleDeclarationSyntax> SubModules { get; private set; }
-
-        public override IEnumerable<BaseSyntax> Children
-        {
-            get
-            {
-                yield return this.MainModule;
-
-                foreach (var child in this.SubModules)
-                {
-                    yield return child;
-                }
-            }
-        }
     }
 
-    internal sealed class SubModuleDeclarationSyntax : BaseSyntax
+    internal sealed class SubModuleStatementSyntax : BaseStatementSyntax
     {
-        public SubModuleDeclarationSyntax(Token subToken, Token nameToken, StatementBlockSyntax statements, Token endSubToken)
+        public SubModuleStatementSyntax(Token subToken, Token nameToken, StatementBlockSyntax statements, Token endSubToken)
         {
             Debug.Assert(!ReferenceEquals(subToken, null), "'subToken' must not be null.");
             Debug.Assert(subToken.Kind == TokenKind.Sub, "'subToken' must have a TokenKind of 'Sub'.");
@@ -74,10 +49,6 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.Statements;
             }
         }
-    }
-
-    internal abstract class BaseStatementSyntax : BaseSyntax
-    {
     }
 
     internal sealed class StatementBlockSyntax : BaseStatementSyntax
@@ -416,7 +387,6 @@ namespace SuperBasic.Compiler.Parsing
         public UnrecognizedStatementSyntax(Token unrecognizedToken)
         {
             Debug.Assert(!ReferenceEquals(unrecognizedToken, null), "'unrecognizedToken' must not be null.");
-            Debug.Assert(unrecognizedToken.Kind == TokenKind.Unrecognized, "'unrecognizedToken' must have a TokenKind of 'Unrecognized'.");
 
             this.UnrecognizedToken = unrecognizedToken;
         }

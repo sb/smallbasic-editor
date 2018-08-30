@@ -86,7 +86,7 @@ namespace SuperBasic.Compiler.Scanning
                 case TokenKind.Minus: return "-";
                 case TokenKind.Multiply: return "*";
                 case TokenKind.Divide: return "/";
-                case TokenKind.Colon: return "=";
+                case TokenKind.Colon: return ":";
                 case TokenKind.LessThan: return "<";
                 case TokenKind.GreaterThan: return ">";
                 case TokenKind.LessThanOrEqual: return "<=";

@@ -17,7 +17,7 @@ x = ""name").VerifyDiagnostics(
                 // x = "name
                 //     ^^^^^
                 // This string is missing its right double quotes.
-                new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((1, 4), (1, 9))));
+                new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((1, 4), (1, 8))));
         }
 
         [Fact]
@@ -29,11 +29,11 @@ y = ""another").VerifyDiagnostics(
                 // x = "name
                 //     ^^^^^
                 // This string is missing its right double quotes.
-                new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((1, 4), (1, 9))),
+                new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((1, 4), (1, 8))),
                 // y = "another
                 //     ^^^^^^^^
                 // This string is missing its right double quotes.
-                new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((2, 4), (2, 12))));
+                new Diagnostic(DiagnosticCode.UnterminatedStringLiteral, ((2, 4), (2, 11))));
         }
 
         [Fact]
@@ -44,7 +44,7 @@ $").VerifyDiagnostics(
                 // $
                 // ^
                 // I don't understand this character '$'.
-                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 0), (1, 1)), "$"));
+                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 0), (1, 0)), "$"));
         }
 
         [Fact]
@@ -58,11 +58,11 @@ not_ok = 6 $
                 // x = ____^
                 //         ^
                 // I don't understand this character '^'.
-                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 8), (1, 9)), "^"),
+                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((1, 8), (1, 8)), "^"),
                 // not_ok = 6 $
                 //            ^
                 // I don't understand this character '$'.
-                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((3, 11), (3, 12)), "$"));
+                new Diagnostic(DiagnosticCode.UnrecognizedCharacter, ((3, 11), (3, 11)), "$"));
         }
     }
 }

@@ -12,6 +12,24 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class Parser
     {
+        private const string MissingTokenText = "<?>";
+
+        private static readonly TokenKind[] BinaryOperatorPrecedence =
+        {
+            TokenKind.Or,
+            TokenKind.And,
+            TokenKind.Equal,
+            TokenKind.NotEqual,
+            TokenKind.LessThan,
+            TokenKind.GreaterThan,
+            TokenKind.LessThanOrEqual,
+            TokenKind.GreaterThanOrEqual,
+            TokenKind.Plus,
+            TokenKind.Minus,
+            TokenKind.Multiply,
+            TokenKind.Divide
+        };
+
         private readonly IReadOnlyList<Token> tokens;
         private readonly DiagnosticBag diagnostics;
 
@@ -22,39 +40,38 @@ namespace SuperBasic.Compiler.Parsing
             this.tokens = tokens.Where(token => token.Kind != TokenKind.Comment && token.Kind != TokenKind.Unrecognized).ToList();
             this.diagnostics = diagnostics;
 
-            var subModules = new List<SubModuleDeclarationSyntax>();
-            var mainModule = new List<BaseStatementSyntax>();
+            var statements = new List<BaseStatementSyntax>();
 
             while (this.index < this.tokens.Count)
             {
                 switch (this.Peek())
                 {
                     case TokenKind.Sub:
-                        subModules.Add(this.ParseSubModuleDeclaration());
+                        statements.Add(this.ParseSubModuleDeclaration());
                         break;
                     default:
-                        mainModule.Add(this.ParseStatement());
+                        statements.Add(this.ParseStatement());
                         break;
                 }
             }
 
-            this.Result = new ParseTreeSyntax(new StatementBlockSyntax(mainModule), subModules);
+            this.Result = new StatementBlockSyntax(statements);
         }
 
-        public ParseTreeSyntax Result { get; private set; }
+        public StatementBlockSyntax Result { get; private set; }
 
-        private SubModuleDeclarationSyntax ParseSubModuleDeclaration()
+        private SubModuleStatementSyntax ParseSubModuleDeclaration()
         {
             var subToken = this.Eat(TokenKind.Sub);
             var nameToken = this.Eat(TokenKind.Identifier);
             this.RunToEndOfLine();
 
-            var statements = this.ParseStatementsExcept(TokenKind.Sub);
+            var statements = this.ParseStatementsExcept(TokenKind.Sub, TokenKind.EndSub);
 
             var endSubToken = this.Eat(TokenKind.EndSub);
             this.RunToEndOfLine();
 
-            return new SubModuleDeclarationSyntax(subToken, nameToken, statements, endSubToken);
+            return new SubModuleStatementSyntax(subToken, nameToken, statements, endSubToken);
         }
 
         private StatementBlockSyntax ParseStatementsExcept(params TokenKind[] kinds)
@@ -92,6 +109,7 @@ namespace SuperBasic.Compiler.Parsing
                         this.RunToEndOfLine();
                         return new ExpressionStatementSyntax(expression);
                     }
+
                 case TokenKind.GoTo:
                     var goToToken = this.Eat(TokenKind.GoTo);
                     var identifier = this.Eat(TokenKind.Identifier);
@@ -281,7 +299,7 @@ namespace SuperBasic.Compiler.Parsing
                             return arguments;
 
                         case TokenKind foundKind:
-                            this.diagnostics.ReportUnexpectedTokenFound(this.tokens[this.index].Range, TokenKind.Comma, foundKind);
+                            this.diagnostics.ReportUnexpectedTokenFound(this.tokens[this.index].Range, foundKind, TokenKind.Comma);
                             arguments.Add(new ArgumentSyntax(currentArgument, commaTokenOpt: null));
                             currentArgument = null;
                             break;
@@ -374,7 +392,7 @@ namespace SuperBasic.Compiler.Parsing
                 }
                 else
                 {
-                    this.diagnostics.ReportUnexpectedTokenFound(current.Range, kind, current.Kind);
+                    this.diagnostics.ReportUnexpectedTokenFound(current.Range, current.Kind, kind);
                     return new Token(kind, MissingTokenText, current.Range);
                 }
             }
@@ -385,23 +403,5 @@ namespace SuperBasic.Compiler.Parsing
                 return new Token(kind, MissingTokenText, range);
             }
         }
-
-        private const string MissingTokenText = "<?>";
-
-        private static readonly TokenKind[] BinaryOperatorPrecedence =
-        {
-            TokenKind.Or,
-            TokenKind.And,
-            TokenKind.Equal,
-            TokenKind.NotEqual,
-            TokenKind.LessThan,
-            TokenKind.GreaterThan,
-            TokenKind.LessThanOrEqual,
-            TokenKind.GreaterThanOrEqual,
-            TokenKind.Plus,
-            TokenKind.Minus,
-            TokenKind.Multiply,
-            TokenKind.Divide
-        };
     }
 }

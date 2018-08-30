@@ -98,7 +98,7 @@ namespace SuperBasic.Compiler.Parsing
                 {
                     yield return $@"            Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");";
 
-                    if (member.Type == "Token")
+                    if (member.Type == "Token" && member.TokenKinds != "*")
                     {
                         yield return $@"            Debug.Assert({member.TokenKinds.Split(',').Select(kind => $"{member.Name.LowerFirstChar()}.Kind == TokenKind.{kind}").Join(" || ")}, ""'{member.Name.LowerFirstChar()}' must have a TokenKind of '{member.TokenKinds}'."");";
                     }

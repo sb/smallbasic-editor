@@ -61,7 +61,7 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I was expecting to see &apos;{0}&apos; here..
+        ///   Looks up a localized string similar to I was expecting to see &apos;{0}&apos; after this..
         /// </summary>
         public static string UnexpectedEndOfStream {
             get {
