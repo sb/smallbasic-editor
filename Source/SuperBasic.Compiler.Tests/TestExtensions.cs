@@ -43,7 +43,7 @@ namespace SuperBasic.Compiler.Tests
 
                 return $@"
                 // {textLines[line]}
-                // {new string(' ', start)}{new string('^', end - start)}
+                // {new string(' ', start)}{new string('^', end - start + 1)}
                 // {diagnostic.ToDisplayString()}
                 new Diagnostic({constructorArgs.Join(", ")})";
             }).Join(",") + Environment.NewLine;

@@ -35,7 +35,7 @@
   <TokenKind Name="Minus" Display="&quot;-&quot;" />
   <TokenKind Name="Multiply" Display="&quot;*&quot;" />
   <TokenKind Name="Divide" Display="&quot;/&quot;" />
-  <TokenKind Name="Colon" Display="&quot;=&quot;" />
+  <TokenKind Name="Colon" Display="&quot;:&quot;" />
   <TokenKind Name="LessThan" Display="&quot;&lt;&quot;" />
   <TokenKind Name="GreaterThan" Display="&quot;&gt;&quot;" />
   <TokenKind Name="LessThanOrEqual" Display="&quot;&lt;=&quot;" />

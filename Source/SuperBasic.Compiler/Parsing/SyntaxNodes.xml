@@ -1,12 +1,7 @@
 ﻿<root>
-  <SyntaxNode Name="ParseTreeSyntax" Inherits="BaseSyntax">
-    <Members>
-      <Member Name="MainModule" Type="StatementBlockSyntax" />
-      <Member Name="SubModules" Type="SubModuleDeclarationSyntax" IsList="true" />
-    </Members>
-  </SyntaxNode>
+  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntax" />
 
-  <SyntaxNode Name="SubModuleDeclarationSyntax" Inherits="BaseSyntax">
+  <SyntaxNode Name="SubModuleStatementSyntax" Inherits="BaseStatementSyntax">
     <Members>
       <Member Name="SubToken" Type="Token" TokenKinds="Sub" />
       <Member Name="NameToken" Type="Token" TokenKinds="Identifier" />
@@ -14,8 +9,6 @@
       <Member Name="EndSubToken" Type="Token" TokenKinds="EndSub" />
     </Members>
   </SyntaxNode>
-
-  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntax" />
 
   <SyntaxNode Name="StatementBlockSyntax" Inherits="BaseStatementSyntax">
     <Members>
@@ -97,7 +90,7 @@
 
   <SyntaxNode Name="UnrecognizedStatementSyntax" Inherits="BaseStatementSyntax">
     <Members>
-      <Member Name="UnrecognizedToken" Type="Token" TokenKinds="Unrecognized" />
+      <Member Name="UnrecognizedToken" Type="Token" TokenKinds="*" />
     </Members>
   </SyntaxNode>
 

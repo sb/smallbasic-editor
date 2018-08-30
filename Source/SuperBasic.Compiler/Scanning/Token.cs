@@ -6,6 +6,7 @@ namespace SuperBasic.Compiler.Scanning
 {
     using System.Diagnostics;
 
+    [DebuggerDisplay("{ToDisplayString()}")]
     internal sealed class Token
     {
         public Token(TokenKind kind, string text, TextRange range)
@@ -22,5 +23,7 @@ namespace SuperBasic.Compiler.Scanning
         public string Text { get; private set; }
 
         public TextRange Range { get; private set; }
+
+        public string ToDisplayString() => $"{nameof(TokenKind)}.{this.Kind}: '{this.Text}' at {this.Range.ToDisplayString()}";
     }
 }

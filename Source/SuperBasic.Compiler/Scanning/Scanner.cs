@@ -221,7 +221,7 @@ namespace SuperBasic.Compiler.Scanning
         {
             var length = (short)text.Length;
 
-            Token token = new Token(kind, text, ((this.line, this.column), (this.line, (short)(this.column + length))));
+            Token token = new Token(kind, text, ((this.line, this.column), (this.line, (short)(this.column + length - 1))));
             this.index += length;
             this.column += length;
 
