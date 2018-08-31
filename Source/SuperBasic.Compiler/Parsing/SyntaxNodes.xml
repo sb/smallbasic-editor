@@ -1,5 +1,5 @@
 ﻿<root>
-  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntax" />
+  <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntaxNode" />
 
   <SyntaxNode Name="SubModuleStatementSyntax" Inherits="BaseStatementSyntax">
     <Members>
@@ -16,7 +16,7 @@
     </Members>
   </SyntaxNode>
 
-  <SyntaxNode Name="IfPartSyntax" Inherits="BaseSyntax">
+  <SyntaxNode Name="IfPartSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="IfToken" Type="Token" TokenKinds="If" />
       <Member Name="Expression" Type="BaseExpressionSyntax" />
@@ -24,7 +24,7 @@
       <Member Name="Statements" Type="StatementBlockSyntax" />
     </Members>
   </SyntaxNode>
-  <SyntaxNode Name="ElseIfPartSyntax" Inherits="BaseSyntax">
+  <SyntaxNode Name="ElseIfPartSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="ElseIfToken" Type="Token" TokenKinds="ElseIf" />
       <Member Name="Expression" Type="BaseExpressionSyntax" />
@@ -32,7 +32,7 @@
       <Member Name="Statements" Type="StatementBlockSyntax" />
     </Members>
   </SyntaxNode>
-  <SyntaxNode Name="ElsePartSyntax" Inherits="BaseSyntax">
+  <SyntaxNode Name="ElsePartSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="ElseToken" Type="Token" TokenKinds="Else" />
       <Member Name="Statements" Type="StatementBlockSyntax" />
@@ -56,7 +56,7 @@
     </Members>
   </SyntaxNode>
 
-  <SyntaxNode Name="ForStepClauseSyntax" Inherits="BaseSyntax">
+  <SyntaxNode Name="ForStepClauseSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="StepToken" Type="Token" TokenKinds="Step" />
       <Member Name="Expression" Type="BaseExpressionSyntax" />
@@ -69,6 +69,7 @@
       <Member Name="EqualToken" Type="Token" TokenKinds="Equal" />
       <Member Name="FromExpression" Type="BaseExpressionSyntax" />
       <Member Name="ToToken" Type="Token" TokenKinds="To" />
+      <Member Name="ToExpression" Type="BaseExpressionSyntax" />
       <Member Name="StepClauseOpt" Type="ForStepClauseSyntax" IsOptional="true" />
       <Member Name="Statements" Type="StatementBlockSyntax" />
       <Member Name="EndForToken" Type="Token" TokenKinds="EndFor" />
@@ -100,7 +101,7 @@
     </Members>
   </SyntaxNode>
 
-  <SyntaxNode Name="BaseExpressionSyntax" IsAbstract="true" Inherits="BaseSyntax" />
+  <SyntaxNode Name="BaseExpressionSyntax" IsAbstract="true" Inherits="BaseSyntaxNode" />
 
   <SyntaxNode Name="UnaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
     <Members>
