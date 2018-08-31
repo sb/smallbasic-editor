@@ -10,5 +10,7 @@ namespace SuperBasic.Compiler.Parsing
     internal abstract class BaseSyntaxNode
     {
         public abstract IEnumerable<BaseSyntaxNode> Children { get; }
+
+        public abstract TextRange Range { get; }
     }
 }

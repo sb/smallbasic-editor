@@ -16,10 +16,12 @@ namespace SuperBasic.Generators.Parsing
             this.Line("namespace SuperBasic.Compiler.Parsing");
             this.Brace();
 
+            this.Line("using System;");
             this.Line("using System.Collections.Generic;");
             this.Line("using System.Diagnostics;");
             this.Line("using System.Linq;");
             this.Line("using SuperBasic.Compiler.Scanning;");
+            this.Line("using SuperBasic.Utilities;");
             this.Blank();
 
             foreach (var node in model)
@@ -28,6 +30,7 @@ namespace SuperBasic.Generators.Parsing
                 this.GenerateNode(node);
             }
 
+            this.GenerateBaseVisitor(model);
             this.Unbrace();
         }
 
@@ -44,7 +47,7 @@ namespace SuperBasic.Generators.Parsing
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' cannot be both optional and a list.");
                 }
 
-                if ((member.Type == "Token") == member.TokenKinds is null)
+                if ((member.Type == "Token") == ReferenceEquals(member.TokenKinds, null))
                 {
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' of type 'Token' must specify 'TokenKinds', and vice versa.");
                 }
@@ -104,7 +107,7 @@ namespace SuperBasic.Generators.Parsing
 
             if (!node.IsAbstract)
             {
-                string parameters = node.Members.Select(member => $"{getFullType(member)} {member.Name.LowerFirstChar()}").Join(", ");
+                string parameters = node.Members.Select(member => $"{getFullType(member)} {member.Name.ToLowerFirstChar()}").Join(", ");
                 this.Line($"public {node.Name}({parameters})");
                 this.Brace();
 
@@ -113,7 +116,7 @@ namespace SuperBasic.Generators.Parsing
 
                 foreach (var member in node.Members)
                 {
-                    this.Line($"this.{member.Name} = {member.Name.LowerFirstChar()};");
+                    this.Line($"this.{member.Name} = {member.Name.ToLowerFirstChar()};");
                 }
 
                 this.Unbrace();
@@ -124,15 +127,8 @@ namespace SuperBasic.Generators.Parsing
                     this.Blank();
                 }
 
-                this.Line("public override IEnumerable<BaseSyntaxNode> Children");
-                this.Brace();
-                this.Line("get");
-                this.Brace();
-
-                this.GenerateChildrenPropertyContents(node.Members.Where(member => member.Type != "Token"));
-
-                this.Unbrace();
-                this.Unbrace();
+                this.GenerateChildrenProperty(node.Members.Where(member => member.Type != "Token"));
+                this.GenerateRangeProperty(node.Members);
             }
 
             this.Unbrace();
@@ -144,17 +140,17 @@ namespace SuperBasic.Generators.Parsing
             {
                 if (!member.IsOptional)
                 {
-                    this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");");
+                    this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.ToLowerFirstChar()}, null), ""'{member.Name.ToLowerFirstChar()}' must not be null."");");
                 }
 
                 if (member.Type == "Token" && member.TokenKinds != "*")
                 {
-                    string conditions = member.TokenKinds.Split(',').Select(kind => $"{member.Name.LowerFirstChar()}.Kind == TokenKind.{kind}").Join(" || ");
-                    string tokenKindAssert = $@"Debug.Assert({conditions}, ""'{member.Name.LowerFirstChar()}' must have a TokenKind of '{member.TokenKinds}'."");";
+                    string conditions = member.TokenKinds.Split(',').Select(kind => $"{member.Name.ToLowerFirstChar()}.Kind == TokenKind.{kind}").Join(" || ");
+                    string tokenKindAssert = $@"Debug.Assert({conditions}, ""'{member.Name.ToLowerFirstChar()}' must have a TokenKind of '{member.TokenKinds}'."");";
 
                     if (member.IsOptional)
                     {
-                        this.Line($"if (!ReferenceEquals({member.Name.LowerFirstChar()}, null))");
+                        this.Line($"if (!ReferenceEquals({member.Name.ToLowerFirstChar()}, null))");
                         this.Brace();
                         this.Line(tokenKindAssert);
                         this.Unbrace();
@@ -167,35 +163,148 @@ namespace SuperBasic.Generators.Parsing
             }
         }
 
-        private void GenerateChildrenPropertyContents(IEnumerable<ParsingModels.Member> members)
+        private void GenerateChildrenProperty(IEnumerable<ParsingModels.Member> members)
         {
+            this.Line("public override IEnumerable<BaseSyntaxNode> Children");
+            this.Brace();
+            this.Line("get");
+            this.Brace();
+
             if (!members.Any())
             {
                 this.Line("return Enumerable.Empty<BaseSyntaxNode>();");
-                return;
+            }
+            else
+            {
+                foreach (var member in members)
+                {
+                    if (member.IsList)
+                    {
+                        this.Line($"foreach (var child in this.{member.Name})");
+                        this.Brace();
+                        this.Line("yield return child;");
+                        this.Unbrace();
+                    }
+                    else if (member.IsOptional)
+                    {
+                        this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
+                        this.Brace();
+                        this.Line($"yield return this.{member.Name};");
+                        this.Unbrace();
+                    }
+                    else
+                    {
+                        this.Line($"yield return this.{member.Name};");
+                    }
+                }
             }
 
-            foreach (var member in members)
+            this.Unbrace();
+            this.Unbrace();
+        }
+
+        private void GenerateRangeProperty(IEnumerable<ParsingModels.Member> members)
+        {
+            this.Line("public override TextRange Range");
+            this.Brace();
+            this.Line("get");
+            this.Brace();
+
+            this.Line("return (calculateStart(), calculateEnd());");
+            this.Blank();
+
+            generatePositionMethod("calculateStart", "Start", "FirstOrDefault", members);
+            generatePositionMethod("calculateEnd", "End", "LastOrDefault", members.Reverse());
+
+            this.Unbrace();
+            this.Unbrace();
+
+            void generatePositionMethod(string methodName, string positionProperty, string listSelector, IEnumerable<ParsingModels.Member> ordered)
             {
-                if (member.IsList)
+                this.Line($"TextPosition {methodName}()");
+                this.Brace();
+
+                bool returnedValue = false;
+                foreach (var member in ordered)
                 {
-                    this.Line($"foreach (var child in this.{member.Name})");
-                    this.Brace();
-                    this.Line("yield return child;");
-                    this.Unbrace();
+                    if (member.IsList)
+                    {
+                        string localName = $"{member.Name.ToLowerFirstChar()}Child";
+                        this.Line($"var {localName} = this.{member.Name}.{listSelector}();");
+                        this.Line($"if (!ReferenceEquals({localName}, null))");
+                        this.Brace();
+                        this.Line($"return {localName}.Range.{positionProperty};");
+                        this.Unbrace();
+                    }
+                    else if (member.IsOptional)
+                    {
+                        this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
+                        this.Brace();
+                        this.Line($"return this.{member.Name}.Range.{positionProperty};");
+                        this.Unbrace();
+                    }
+                    else
+                    {
+                        this.Line($"return this.{member.Name}.Range.{positionProperty};");
+                        returnedValue = true;
+                        break;
+                    }
                 }
-                else if (member.IsOptional)
+
+                if (!returnedValue)
                 {
-                    this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
-                    this.Brace();
-                    this.Line($"yield return this.{member.Name};");
-                    this.Unbrace();
+                    this.Line(@"throw new InvalidOperationException(""Cannot calculate range for a node with no children"");");
                 }
-                else
-                {
-                    this.Line($"yield return this.{member.Name};");
-                }
+
+                this.Unbrace();
             }
+        }
+
+        private void GenerateBaseVisitor(ParsingModels.SyntaxNodeCollection model)
+        {
+            this.Line("internal abstract class BaseSyntaxNodeVisitor");
+            this.Brace();
+
+            this.Line("public void Visit(BaseSyntaxNode node)");
+            this.Brace();
+
+            this.Line("switch (node)");
+            this.Brace();
+
+            foreach (var node in model.Where(node => !node.IsAbstract))
+            {
+                this.Line($"case {node.Name} {node.Name.RemoveSuffix("Syntax").ToLowerFirstChar()}:");
+                this.Indent();
+                this.Line($"this.Visit{node.Name.RemoveSuffix("Syntax")}({node.Name.RemoveSuffix("Syntax").ToLowerFirstChar()});");
+                this.Line("break;");
+                this.Unindent();
+            }
+
+            this.Line("default:");
+            this.Indent();
+            this.Line($"throw ExceptionUtilities.UnexpectedValue(node);");
+            this.Unindent();
+
+            this.Unbrace();
+            this.Unbrace();
+
+            foreach (var node in model.Where(node => !node.IsAbstract))
+            {
+                this.Line($"public virtual void Visit{node.Name.RemoveSuffix("Syntax")}({node.Name} node)");
+                this.Brace();
+                this.Line("this.DefaultVisit(node);");
+                this.Unbrace();
+            }
+
+            this.Line("private void DefaultVisit(BaseSyntaxNode node)");
+            this.Brace();
+            this.Line("foreach (var child in node.Children)");
+            this.Brace();
+            this.Line("this.Visit(child);");
+            this.Unbrace();
+            this.Unbrace();
+
+            this.Unbrace();
         }
     }
 }

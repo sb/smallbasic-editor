@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AssigningNonSubModuleToEvent" xml:space="preserve">
+    <value>You can only assign submodules to events.</value>
+  </data>
+  <data name="ExpectedExpressionWithAValue" xml:space="preserve">
+    <value>This expression must return a value to be used here.</value>
+  </data>
+  <data name="GoToUndefinedLabel" xml:space="preserve">
+    <value>The label '{0}' is not defined.</value>
+  </data>
+  <data name="InvalidExpressionStatement" xml:space="preserve">
+    <value>This expression is not a valid statement.</value>
+  </data>
+  <data name="LibraryMemberNotFound" xml:space="preserve">
+    <value>The library '{0}' has no member named '{1}'.</value>
+  </data>
+  <data name="PropertyHasNoSetter" xml:space="preserve">
+    <value>Property '{0}.{1}' cannot be assigned to. It is ready only.</value>
+  </data>
+  <data name="TwoLabelsWithTheSameName" xml:space="preserve">
+    <value>A label with the same name '{0}' is already defined.</value>
+  </data>
+  <data name="TwoSubModulesWithTheSameName" xml:space="preserve">
+    <value>A submodule with the same name '{0}' is already defined in the same program.</value>
+  </data>
+  <data name="UnassignedExpressionStatement" xml:space="preserve">
+    <value>This method call returns a result. Did you mean to assign it to a variable?</value>
+  </data>
+  <data name="UnexpectedArgumentsCount" xml:space="preserve">
+    <value>You are passing '{0}' arguments to this method, while it expects '{1}' arguments.</value>
+  </data>
   <data name="UnexpectedEndOfStream" xml:space="preserve">
     <value>I was expecting to see '{0}' after this.</value>
   </data>
@@ -132,7 +162,19 @@
   <data name="UnrecognizedCharacter" xml:space="preserve">
     <value>I don't understand this character '{0}'.</value>
   </data>
+  <data name="UnsupportedArrayBaseExpression" xml:space="preserve">
+    <value>This expression is not a valid array.</value>
+  </data>
+  <data name="UnsupportedDotBaseExpression" xml:space="preserve">
+    <value>You can only use dot access with a library. Did you mean to use an existing library instead?</value>
+  </data>
+  <data name="UnsupportedInvocationBaseExpression" xml:space="preserve">
+    <value>This expression is not a valid submodule or method to be called.</value>
+  </data>
   <data name="UnterminatedStringLiteral" xml:space="preserve">
     <value>This string is missing its right double quotes.</value>
+  </data>
+  <data name="ValueIsNotANumber" xml:space="preserve">
+    <value>The value '{0}' is not a valid number.</value>
   </data>
 </root>

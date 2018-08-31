@@ -32,7 +32,7 @@ namespace SuperBasic.Compiler.Scanning
             }
         }
 
-        public IReadOnlyList<Token> Result => this.tokens;
+        public IReadOnlyList<Token> Tokens => this.tokens;
 
         private void ScanNextToken()
         {

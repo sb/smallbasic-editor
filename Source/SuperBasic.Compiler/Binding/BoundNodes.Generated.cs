@@ -12,6 +12,35 @@ namespace SuperBasic.Compiler.Binding
     using System.Linq;
     using SuperBasic.Compiler.Parsing;
     using SuperBasic.Compiler.Scanning;
+    using SuperBasic.Utilities;
+
+    internal sealed class BoundSubModule : BaseBoundNode
+    {
+        public BoundSubModule(SubModuleStatementSyntax syntax, string name, BoundStatementBlock body)
+        {
+            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
+            Debug.Assert(!ReferenceEquals(name, null), "'name' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+
+            this.Syntax = syntax;
+            this.Name = name;
+            this.Body = body;
+        }
+
+        public SubModuleStatementSyntax Syntax { get; private set; }
+
+        public string Name { get; private set; }
+
+        public BoundStatementBlock Body { get; private set; }
+
+        public override IEnumerable<BaseBoundNode> Children
+        {
+            get
+            {
+                yield return this.Body;
+            }
+        }
+    }
 
     internal abstract class BaseBoundStatement : BaseBoundNode
     {
@@ -19,26 +48,24 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundStatementBlock : BaseBoundStatement
     {
-        private StatementBlockSyntax syntax;
-
-        public BoundStatementBlock(StatementBlockSyntax syntax, IReadOnlyList<BaseBoundStatement> statements)
+        public BoundStatementBlock(StatementBlockSyntax syntax, IReadOnlyList<BaseBoundStatement> body)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.syntax = syntax;
-            this.Statements = statements;
+            this.Syntax = syntax;
+            this.Body = body;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public StatementBlockSyntax Syntax { get; private set; }
 
-        public IReadOnlyList<BaseBoundStatement> Statements { get; private set; }
+        public IReadOnlyList<BaseBoundStatement> Body { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
             get
             {
-                foreach (var child in this.Statements)
+                foreach (var child in this.Body)
                 {
                     yield return child;
                 }
@@ -48,109 +75,101 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundIfPart : BaseBoundNode
     {
-        private IfPartSyntax syntax;
-
-        public BoundIfPart(IfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock statements)
+        public BoundIfPart(IfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Expression = expression;
-            this.Statements = statements;
+            this.Body = body;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public IfPartSyntax Syntax { get; private set; }
 
         public BaseBoundExpression Expression { get; private set; }
 
-        public BoundStatementBlock Statements { get; private set; }
+        public BoundStatementBlock Body { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
             get
             {
                 yield return this.Expression;
-                yield return this.Statements;
+                yield return this.Body;
             }
         }
     }
 
     internal sealed class BoundElseIfPart : BaseBoundNode
     {
-        private ElseIfPartSyntax syntax;
-
-        public BoundElseIfPart(ElseIfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock statements)
+        public BoundElseIfPart(ElseIfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Expression = expression;
-            this.Statements = statements;
+            this.Body = body;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ElseIfPartSyntax Syntax { get; private set; }
 
         public BaseBoundExpression Expression { get; private set; }
 
-        public BoundStatementBlock Statements { get; private set; }
+        public BoundStatementBlock Body { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
             get
             {
                 yield return this.Expression;
-                yield return this.Statements;
+                yield return this.Body;
             }
         }
     }
 
     internal sealed class BoundElsePart : BaseBoundNode
     {
-        private ElsePartSyntax syntax;
-
-        public BoundElsePart(ElsePartSyntax syntax, BoundStatementBlock statements)
+        public BoundElsePart(ElsePartSyntax syntax, BoundStatementBlock body)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.syntax = syntax;
-            this.Statements = statements;
+            this.Syntax = syntax;
+            this.Body = body;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ElsePartSyntax Syntax { get; private set; }
 
-        public BoundStatementBlock Statements { get; private set; }
+        public BoundStatementBlock Body { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
             get
             {
-                yield return this.Statements;
+                yield return this.Body;
             }
         }
     }
 
     internal sealed class BoundIfStatement : BaseBoundStatement
     {
-        private IfStatementSyntax syntax;
-
         public BoundIfStatement(IfStatementSyntax syntax, BoundIfPart ifPart, IReadOnlyList<BoundElseIfPart> elseIfParts, BoundElsePart elsePartOpt)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(ifPart, null), "'ifPart' must not be null.");
             Debug.Assert(!ReferenceEquals(elseIfParts, null), "'elseIfParts' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.IfPart = ifPart;
             this.ElseIfParts = elseIfParts;
             this.ElsePartOpt = elsePartOpt;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public IfStatementSyntax Syntax { get; private set; }
 
         public BoundIfPart IfPart { get; private set; }
 
@@ -178,82 +197,52 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundWhileStatement : BaseBoundStatement
     {
-        private WhileStatementSyntax syntax;
-
-        public BoundWhileStatement(WhileStatementSyntax syntax, BaseBoundExpression expression, BoundStatementBlock statements)
+        public BoundWhileStatement(WhileStatementSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Expression = expression;
-            this.Statements = statements;
+            this.Body = body;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public WhileStatementSyntax Syntax { get; private set; }
 
         public BaseBoundExpression Expression { get; private set; }
 
-        public BoundStatementBlock Statements { get; private set; }
+        public BoundStatementBlock Body { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
             get
             {
                 yield return this.Expression;
-                yield return this.Statements;
-            }
-        }
-    }
-
-    internal sealed class BoundForStepClause : BaseBoundNode
-    {
-        private ForStepClauseSyntax syntax;
-
-        public BoundForStepClause(ForStepClauseSyntax syntax, BaseBoundExpression expression)
-        {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-
-            this.syntax = syntax;
-            this.Expression = expression;
-        }
-
-        public override BaseSyntaxNode Syntax => this.syntax;
-
-        public BaseBoundExpression Expression { get; private set; }
-
-        public override IEnumerable<BaseBoundNode> Children
-        {
-            get
-            {
-                yield return this.Expression;
+                yield return this.Body;
             }
         }
     }
 
     internal sealed class BoundForStatement : BaseBoundStatement
     {
-        private ForStatementSyntax syntax;
-
-        public BoundForStatement(ForStatementSyntax syntax, string identifier, BaseBoundExpression fromExpression, BaseBoundExpression toExpression, BoundForStepClause stepClauseOpt, BoundStatementBlock statements)
+        public BoundForStatement(ForStatementSyntax syntax, string identifier, BaseBoundExpression fromExpression, BaseBoundExpression toExpression, BaseBoundExpression stepExpressionOpt, BoundStatementBlock body)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(identifier, null), "'identifier' must not be null.");
             Debug.Assert(!ReferenceEquals(fromExpression, null), "'fromExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(toExpression, null), "'toExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Identifier = identifier;
             this.FromExpression = fromExpression;
             this.ToExpression = toExpression;
-            this.StepClauseOpt = stepClauseOpt;
-            this.Statements = statements;
+            this.StepExpressionOpt = stepExpressionOpt;
+            this.Body = body;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ForStatementSyntax Syntax { get; private set; }
 
         public string Identifier { get; private set; }
 
@@ -261,9 +250,9 @@ namespace SuperBasic.Compiler.Binding
 
         public BaseBoundExpression ToExpression { get; private set; }
 
-        public BoundForStepClause StepClauseOpt { get; private set; }
+        public BaseBoundExpression StepExpressionOpt { get; private set; }
 
-        public BoundStatementBlock Statements { get; private set; }
+        public BoundStatementBlock Body { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
@@ -271,30 +260,28 @@ namespace SuperBasic.Compiler.Binding
             {
                 yield return this.FromExpression;
                 yield return this.ToExpression;
-                if (!ReferenceEquals(this.StepClauseOpt, null))
+                if (!ReferenceEquals(this.StepExpressionOpt, null))
                 {
-                    yield return this.StepClauseOpt;
+                    yield return this.StepExpressionOpt;
                 }
 
-                yield return this.Statements;
+                yield return this.Body;
             }
         }
     }
 
     internal sealed class BoundLabelStatement : BaseBoundStatement
     {
-        private LabelStatementSyntax syntax;
-
         public BoundLabelStatement(LabelStatementSyntax syntax, string label)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(label, null), "'label' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Label = label;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public LabelStatementSyntax Syntax { get; private set; }
 
         public string Label { get; private set; }
 
@@ -309,18 +296,16 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundGoToStatement : BaseBoundStatement
     {
-        private GoToStatementSyntax syntax;
-
         public BoundGoToStatement(GoToStatementSyntax syntax, string label)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(label, null), "'label' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Label = label;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public GoToStatementSyntax Syntax { get; private set; }
 
         public string Label { get; private set; }
 
@@ -335,18 +320,16 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundSubModuleInvocationStatement : BaseBoundStatement
     {
-        private InvocationExpressionSyntax syntax;
-
-        public BoundSubModuleInvocationStatement(InvocationExpressionSyntax syntax, string subModule)
+        public BoundSubModuleInvocationStatement(ExpressionStatementSyntax syntax, string subModule)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.SubModule = subModule;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ExpressionStatementSyntax Syntax { get; private set; }
 
         public string SubModule { get; private set; }
 
@@ -361,22 +344,20 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundLibraryMethodInvocationStatement : BaseBoundStatement
     {
-        private InvocationExpressionSyntax syntax;
-
-        public BoundLibraryMethodInvocationStatement(InvocationExpressionSyntax syntax, string library, string method, IReadOnlyList<BaseBoundExpression> arguments)
+        public BoundLibraryMethodInvocationStatement(ExpressionStatementSyntax syntax, string library, string method, IReadOnlyList<BaseBoundExpression> arguments)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
             Debug.Assert(!ReferenceEquals(method, null), "'method' must not be null.");
             Debug.Assert(!ReferenceEquals(arguments, null), "'arguments' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Library = library;
             this.Method = method;
             this.Arguments = arguments;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ExpressionStatementSyntax Syntax { get; private set; }
 
         public string Library { get; private set; }
 
@@ -398,20 +379,18 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundVariableAssignmentStatement : BaseBoundStatement
     {
-        private BinaryOperatorExpressionSyntax syntax;
-
-        public BoundVariableAssignmentStatement(BinaryOperatorExpressionSyntax syntax, string variable, BaseBoundExpression expression)
+        public BoundVariableAssignmentStatement(ExpressionStatementSyntax syntax, string variable, BaseBoundExpression expression)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(variable, null), "'variable' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Variable = variable;
             this.Expression = expression;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ExpressionStatementSyntax Syntax { get; private set; }
 
         public string Variable { get; private set; }
 
@@ -428,22 +407,20 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundPropertyAssignmentStatement : BaseBoundStatement
     {
-        private BinaryOperatorExpressionSyntax syntax;
-
-        public BoundPropertyAssignmentStatement(BinaryOperatorExpressionSyntax syntax, string library, string property, BaseBoundExpression expression)
+        public BoundPropertyAssignmentStatement(ExpressionStatementSyntax syntax, string library, string property, BaseBoundExpression expression)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
             Debug.Assert(!ReferenceEquals(property, null), "'property' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Library = library;
             this.Property = property;
             this.Expression = expression;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ExpressionStatementSyntax Syntax { get; private set; }
 
         public string Library { get; private set; }
 
@@ -462,26 +439,24 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundEventAssignmentStatement : BaseBoundStatement
     {
-        private BinaryOperatorExpressionSyntax syntax;
-
-        public BoundEventAssignmentStatement(BinaryOperatorExpressionSyntax syntax, string library, string property, string subModule)
+        public BoundEventAssignmentStatement(ExpressionStatementSyntax syntax, string library, string eventName, string subModule)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(property, null), "'property' must not be null.");
+            Debug.Assert(!ReferenceEquals(eventName, null), "'eventName' must not be null.");
             Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Library = library;
-            this.Property = property;
+            this.EventName = eventName;
             this.SubModule = subModule;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ExpressionStatementSyntax Syntax { get; private set; }
 
         public string Library { get; private set; }
 
-        public string Property { get; private set; }
+        public string EventName { get; private set; }
 
         public string SubModule { get; private set; }
 
@@ -496,22 +471,20 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundArrayAssignmentStatement : BaseBoundStatement
     {
-        private BinaryOperatorExpressionSyntax syntax;
-
-        public BoundArrayAssignmentStatement(BinaryOperatorExpressionSyntax syntax, string array, IReadOnlyList<BaseBoundExpression> indices, BaseBoundExpression expression)
+        public BoundArrayAssignmentStatement(ExpressionStatementSyntax syntax, string array, IReadOnlyList<BaseBoundExpression> indices, BaseBoundExpression expression)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(array, null), "'array' must not be null.");
             Debug.Assert(!ReferenceEquals(indices, null), "'indices' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Array = array;
             this.Indices = indices;
             this.Expression = expression;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ExpressionStatementSyntax Syntax { get; private set; }
 
         public string Array { get; private set; }
 
@@ -528,6 +501,30 @@ namespace SuperBasic.Compiler.Binding
                     yield return child;
                 }
 
+                yield return this.Expression;
+            }
+        }
+    }
+
+    internal sealed class BoundInvalidExpressionStatement : BaseBoundStatement
+    {
+        public BoundInvalidExpressionStatement(ExpressionStatementSyntax syntax, BaseBoundExpression expression)
+        {
+            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
+            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+
+            this.Syntax = syntax;
+            this.Expression = expression;
+        }
+
+        public ExpressionStatementSyntax Syntax { get; private set; }
+
+        public BaseBoundExpression Expression { get; private set; }
+
+        public override IEnumerable<BaseBoundNode> Children
+        {
+            get
+            {
                 yield return this.Expression;
             }
         }
@@ -551,8 +548,6 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundUnaryExpression : BaseBoundExpression
     {
-        private UnaryOperatorExpressionSyntax syntax;
-
         public BoundUnaryExpression(UnaryOperatorExpressionSyntax syntax, bool hasValue, bool hasErrors, TokenKind kind, BaseBoundExpression expression)
             : base(hasValue, hasErrors)
         {
@@ -560,12 +555,12 @@ namespace SuperBasic.Compiler.Binding
             Debug.Assert(!ReferenceEquals(kind, null), "'kind' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Kind = kind;
             this.Expression = expression;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public UnaryOperatorExpressionSyntax Syntax { get; private set; }
 
         public TokenKind Kind { get; private set; }
 
@@ -582,8 +577,6 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundBinaryExpression : BaseBoundExpression
     {
-        private BinaryOperatorExpressionSyntax syntax;
-
         public BoundBinaryExpression(BinaryOperatorExpressionSyntax syntax, bool hasValue, bool hasErrors, TokenKind kind, BaseBoundExpression left, BaseBoundExpression right)
             : base(hasValue, hasErrors)
         {
@@ -592,13 +585,13 @@ namespace SuperBasic.Compiler.Binding
             Debug.Assert(!ReferenceEquals(left, null), "'left' must not be null.");
             Debug.Assert(!ReferenceEquals(right, null), "'right' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Kind = kind;
             this.Left = left;
             this.Right = right;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public BinaryOperatorExpressionSyntax Syntax { get; private set; }
 
         public TokenKind Kind { get; private set; }
 
@@ -618,8 +611,6 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundArrayAccessExpression : BaseBoundExpression
     {
-        private ArrayAccessExpressionSyntax syntax;
-
         public BoundArrayAccessExpression(ArrayAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string array, IReadOnlyList<BaseBoundExpression> indices)
             : base(hasValue, hasErrors)
         {
@@ -627,12 +618,12 @@ namespace SuperBasic.Compiler.Binding
             Debug.Assert(!ReferenceEquals(array, null), "'array' must not be null.");
             Debug.Assert(!ReferenceEquals(indices, null), "'indices' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Array = array;
             this.Indices = indices;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ArrayAccessExpressionSyntax Syntax { get; private set; }
 
         public string Array { get; private set; }
 
@@ -652,19 +643,17 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundLibraryTypeExpression : BaseBoundExpression
     {
-        private IdentifierExpressionSyntax syntax;
-
         public BoundLibraryTypeExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string library)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Library = library;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public IdentifierExpressionSyntax Syntax { get; private set; }
 
         public string Library { get; private set; }
 
@@ -677,27 +666,83 @@ namespace SuperBasic.Compiler.Binding
         }
     }
 
-    internal sealed class BoundLibraryMemberExpression : BaseBoundExpression
+    internal sealed class BoundLibraryMethodExpression : BaseBoundExpression
     {
-        private ObjectAccessExpressionSyntax syntax;
-
-        public BoundLibraryMemberExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string member)
+        public BoundLibraryMethodExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string method)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(member, null), "'member' must not be null.");
+            Debug.Assert(!ReferenceEquals(method, null), "'method' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Library = library;
-            this.Member = member;
+            this.Method = method;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ObjectAccessExpressionSyntax Syntax { get; private set; }
 
         public string Library { get; private set; }
 
-        public string Member { get; private set; }
+        public string Method { get; private set; }
+
+        public override IEnumerable<BaseBoundNode> Children
+        {
+            get
+            {
+                return Enumerable.Empty<BaseBoundNode>();
+            }
+        }
+    }
+
+    internal sealed class BoundLibraryPropertyExpression : BaseBoundExpression
+    {
+        public BoundLibraryPropertyExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string property)
+            : base(hasValue, hasErrors)
+        {
+            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
+            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
+            Debug.Assert(!ReferenceEquals(property, null), "'property' must not be null.");
+
+            this.Syntax = syntax;
+            this.Library = library;
+            this.Property = property;
+        }
+
+        public ObjectAccessExpressionSyntax Syntax { get; private set; }
+
+        public string Library { get; private set; }
+
+        public string Property { get; private set; }
+
+        public override IEnumerable<BaseBoundNode> Children
+        {
+            get
+            {
+                return Enumerable.Empty<BaseBoundNode>();
+            }
+        }
+    }
+
+    internal sealed class BoundLibraryEventExpression : BaseBoundExpression
+    {
+        public BoundLibraryEventExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string eventName)
+            : base(hasValue, hasErrors)
+        {
+            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
+            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
+            Debug.Assert(!ReferenceEquals(eventName, null), "'eventName' must not be null.");
+
+            this.Syntax = syntax;
+            this.Library = library;
+            this.EventName = eventName;
+        }
+
+        public ObjectAccessExpressionSyntax Syntax { get; private set; }
+
+        public string Library { get; private set; }
+
+        public string EventName { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
@@ -710,8 +755,6 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundLibraryMethodInvocationExpression : BaseBoundExpression
     {
-        private InvocationExpressionSyntax syntax;
-
         public BoundLibraryMethodInvocationExpression(InvocationExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string method, IReadOnlyList<BaseBoundExpression> arguments)
             : base(hasValue, hasErrors)
         {
@@ -720,13 +763,13 @@ namespace SuperBasic.Compiler.Binding
             Debug.Assert(!ReferenceEquals(method, null), "'method' must not be null.");
             Debug.Assert(!ReferenceEquals(arguments, null), "'arguments' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Library = library;
             this.Method = method;
             this.Arguments = arguments;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public InvocationExpressionSyntax Syntax { get; private set; }
 
         public string Library { get; private set; }
 
@@ -748,21 +791,19 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundSubModuleExpression : BaseBoundExpression
     {
-        private IdentifierExpressionSyntax syntax;
-
-        public BoundSubModuleExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string subModule)
+        public BoundSubModuleExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string name)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
+            Debug.Assert(!ReferenceEquals(name, null), "'name' must not be null.");
 
-            this.syntax = syntax;
-            this.SubModule = subModule;
+            this.Syntax = syntax;
+            this.Name = name;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public IdentifierExpressionSyntax Syntax { get; private set; }
 
-        public string SubModule { get; private set; }
+        public string Name { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
@@ -775,19 +816,17 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundSubModuleInvocationExpression : BaseBoundExpression
     {
-        private InvocationExpressionSyntax syntax;
-
         public BoundSubModuleInvocationExpression(InvocationExpressionSyntax syntax, bool hasValue, bool hasErrors, string subModule)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.SubModule = subModule;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public InvocationExpressionSyntax Syntax { get; private set; }
 
         public string SubModule { get; private set; }
 
@@ -802,21 +841,19 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundVariableExpression : BaseBoundExpression
     {
-        private IdentifierExpressionSyntax syntax;
-
-        public BoundVariableExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string variable)
+        public BoundVariableExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string name)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(variable, null), "'variable' must not be null.");
+            Debug.Assert(!ReferenceEquals(name, null), "'name' must not be null.");
 
-            this.syntax = syntax;
-            this.Variable = variable;
+            this.Syntax = syntax;
+            this.Name = name;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public IdentifierExpressionSyntax Syntax { get; private set; }
 
-        public string Variable { get; private set; }
+        public string Name { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
@@ -829,19 +866,17 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundStringLiteralExpression : BaseBoundExpression
     {
-        private StringLiteralExpressionSyntax syntax;
-
         public BoundStringLiteralExpression(StringLiteralExpressionSyntax syntax, bool hasValue, bool hasErrors, string value)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(value, null), "'value' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Value = value;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public StringLiteralExpressionSyntax Syntax { get; private set; }
 
         public string Value { get; private set; }
 
@@ -856,19 +891,17 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundNumberLiteralExpression : BaseBoundExpression
     {
-        private NumberLiteralExpressionSyntax syntax;
-
         public BoundNumberLiteralExpression(NumberLiteralExpressionSyntax syntax, bool hasValue, bool hasErrors, double value)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(value, null), "'value' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Value = value;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public NumberLiteralExpressionSyntax Syntax { get; private set; }
 
         public double Value { get; private set; }
 
@@ -883,19 +916,17 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundParenthesisExpression : BaseBoundExpression
     {
-        private ParenthesisExpressionSyntax syntax;
-
         public BoundParenthesisExpression(ParenthesisExpressionSyntax syntax, bool hasValue, bool hasErrors, BaseBoundExpression expression)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
 
-            this.syntax = syntax;
+            this.Syntax = syntax;
             this.Expression = expression;
         }
 
-        public override BaseSyntaxNode Syntax => this.syntax;
+        public ParenthesisExpressionSyntax Syntax { get; private set; }
 
         public BaseBoundExpression Expression { get; private set; }
 
@@ -904,6 +935,303 @@ namespace SuperBasic.Compiler.Binding
             get
             {
                 yield return this.Expression;
+            }
+        }
+    }
+
+    internal sealed class BoundInvalidExpression : BaseBoundExpression
+    {
+        public BoundInvalidExpression(BaseExpressionSyntax syntax, bool hasValue, bool hasErrors)
+            : base(hasValue, hasErrors)
+        {
+            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
+
+            this.Syntax = syntax;
+        }
+
+        public BaseExpressionSyntax Syntax { get; private set; }
+
+        public override IEnumerable<BaseBoundNode> Children
+        {
+            get
+            {
+                return Enumerable.Empty<BaseBoundNode>();
+            }
+        }
+    }
+
+    internal abstract class BaseBoundNodeVisitor
+    {
+        public void Visit(BaseBoundNode node)
+        {
+            switch (node)
+            {
+                case BoundSubModule subModule:
+                    this.VisitSubModule(subModule);
+                    break;
+                case BoundStatementBlock statementBlock:
+                    this.VisitStatementBlock(statementBlock);
+                    break;
+                case BoundIfPart ifPart:
+                    this.VisitIfPart(ifPart);
+                    break;
+                case BoundElseIfPart elseIfPart:
+                    this.VisitElseIfPart(elseIfPart);
+                    break;
+                case BoundElsePart elsePart:
+                    this.VisitElsePart(elsePart);
+                    break;
+                case BoundIfStatement ifStatement:
+                    this.VisitIfStatement(ifStatement);
+                    break;
+                case BoundWhileStatement whileStatement:
+                    this.VisitWhileStatement(whileStatement);
+                    break;
+                case BoundForStatement forStatement:
+                    this.VisitForStatement(forStatement);
+                    break;
+                case BoundLabelStatement labelStatement:
+                    this.VisitLabelStatement(labelStatement);
+                    break;
+                case BoundGoToStatement goToStatement:
+                    this.VisitGoToStatement(goToStatement);
+                    break;
+                case BoundSubModuleInvocationStatement subModuleInvocationStatement:
+                    this.VisitSubModuleInvocationStatement(subModuleInvocationStatement);
+                    break;
+                case BoundLibraryMethodInvocationStatement libraryMethodInvocationStatement:
+                    this.VisitLibraryMethodInvocationStatement(libraryMethodInvocationStatement);
+                    break;
+                case BoundVariableAssignmentStatement variableAssignmentStatement:
+                    this.VisitVariableAssignmentStatement(variableAssignmentStatement);
+                    break;
+                case BoundPropertyAssignmentStatement propertyAssignmentStatement:
+                    this.VisitPropertyAssignmentStatement(propertyAssignmentStatement);
+                    break;
+                case BoundEventAssignmentStatement eventAssignmentStatement:
+                    this.VisitEventAssignmentStatement(eventAssignmentStatement);
+                    break;
+                case BoundArrayAssignmentStatement arrayAssignmentStatement:
+                    this.VisitArrayAssignmentStatement(arrayAssignmentStatement);
+                    break;
+                case BoundInvalidExpressionStatement invalidExpressionStatement:
+                    this.VisitInvalidExpressionStatement(invalidExpressionStatement);
+                    break;
+                case BoundUnaryExpression unaryExpression:
+                    this.VisitUnaryExpression(unaryExpression);
+                    break;
+                case BoundBinaryExpression binaryExpression:
+                    this.VisitBinaryExpression(binaryExpression);
+                    break;
+                case BoundArrayAccessExpression arrayAccessExpression:
+                    this.VisitArrayAccessExpression(arrayAccessExpression);
+                    break;
+                case BoundLibraryTypeExpression libraryTypeExpression:
+                    this.VisitLibraryTypeExpression(libraryTypeExpression);
+                    break;
+                case BoundLibraryMethodExpression libraryMethodExpression:
+                    this.VisitLibraryMethodExpression(libraryMethodExpression);
+                    break;
+                case BoundLibraryPropertyExpression libraryPropertyExpression:
+                    this.VisitLibraryPropertyExpression(libraryPropertyExpression);
+                    break;
+                case BoundLibraryEventExpression libraryEventExpression:
+                    this.VisitLibraryEventExpression(libraryEventExpression);
+                    break;
+                case BoundLibraryMethodInvocationExpression libraryMethodInvocationExpression:
+                    this.VisitLibraryMethodInvocationExpression(libraryMethodInvocationExpression);
+                    break;
+                case BoundSubModuleExpression subModuleExpression:
+                    this.VisitSubModuleExpression(subModuleExpression);
+                    break;
+                case BoundSubModuleInvocationExpression subModuleInvocationExpression:
+                    this.VisitSubModuleInvocationExpression(subModuleInvocationExpression);
+                    break;
+                case BoundVariableExpression variableExpression:
+                    this.VisitVariableExpression(variableExpression);
+                    break;
+                case BoundStringLiteralExpression stringLiteralExpression:
+                    this.VisitStringLiteralExpression(stringLiteralExpression);
+                    break;
+                case BoundNumberLiteralExpression numberLiteralExpression:
+                    this.VisitNumberLiteralExpression(numberLiteralExpression);
+                    break;
+                case BoundParenthesisExpression parenthesisExpression:
+                    this.VisitParenthesisExpression(parenthesisExpression);
+                    break;
+                case BoundInvalidExpression invalidExpression:
+                    this.VisitInvalidExpression(invalidExpression);
+                    break;
+                default:
+                    throw ExceptionUtilities.UnexpectedValue(node);
+            }
+        }
+
+        public virtual void VisitSubModule(BoundSubModule node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitStatementBlock(BoundStatementBlock node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitIfPart(BoundIfPart node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitElseIfPart(BoundElseIfPart node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitElsePart(BoundElsePart node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitIfStatement(BoundIfStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitWhileStatement(BoundWhileStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitForStatement(BoundForStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLabelStatement(BoundLabelStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitGoToStatement(BoundGoToStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitSubModuleInvocationStatement(BoundSubModuleInvocationStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLibraryMethodInvocationStatement(BoundLibraryMethodInvocationStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitVariableAssignmentStatement(BoundVariableAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitPropertyAssignmentStatement(BoundPropertyAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitEventAssignmentStatement(BoundEventAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitArrayAssignmentStatement(BoundArrayAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitInvalidExpressionStatement(BoundInvalidExpressionStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitUnaryExpression(BoundUnaryExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitBinaryExpression(BoundBinaryExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitArrayAccessExpression(BoundArrayAccessExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLibraryTypeExpression(BoundLibraryTypeExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLibraryMethodExpression(BoundLibraryMethodExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLibraryPropertyExpression(BoundLibraryPropertyExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLibraryEventExpression(BoundLibraryEventExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLibraryMethodInvocationExpression(BoundLibraryMethodInvocationExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitSubModuleExpression(BoundSubModuleExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitSubModuleInvocationExpression(BoundSubModuleInvocationExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitVariableExpression(BoundVariableExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitStringLiteralExpression(BoundStringLiteralExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitNumberLiteralExpression(BoundNumberLiteralExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitParenthesisExpression(BoundParenthesisExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitInvalidExpression(BoundInvalidExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private void DefaultVisit(BaseBoundNode node)
+        {
+            foreach (var child in node.Children)
+            {
+                this.Visit(child);
             }
         }
     }

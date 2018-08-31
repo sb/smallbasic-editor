@@ -7,10 +7,12 @@
 /// </summary>
 namespace SuperBasic.Compiler.Parsing
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using SuperBasic.Compiler.Scanning;
+    using SuperBasic.Utilities;
 
     internal abstract class BaseStatementSyntax : BaseSyntaxNode
     {
@@ -18,19 +20,19 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class SubModuleStatementSyntax : BaseStatementSyntax
     {
-        public SubModuleStatementSyntax(Token subToken, Token nameToken, StatementBlockSyntax statements, Token endSubToken)
+        public SubModuleStatementSyntax(Token subToken, Token nameToken, StatementBlockSyntax body, Token endSubToken)
         {
             Debug.Assert(!ReferenceEquals(subToken, null), "'subToken' must not be null.");
             Debug.Assert(subToken.Kind == TokenKind.Sub, "'subToken' must have a TokenKind of 'Sub'.");
             Debug.Assert(!ReferenceEquals(nameToken, null), "'nameToken' must not be null.");
             Debug.Assert(nameToken.Kind == TokenKind.Identifier, "'nameToken' must have a TokenKind of 'Identifier'.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
             Debug.Assert(!ReferenceEquals(endSubToken, null), "'endSubToken' must not be null.");
             Debug.Assert(endSubToken.Kind == TokenKind.EndSub, "'endSubToken' must have a TokenKind of 'EndSub'.");
 
             this.SubToken = subToken;
             this.NameToken = nameToken;
-            this.Statements = statements;
+            this.Body = body;
             this.EndSubToken = endSubToken;
         }
 
@@ -38,7 +40,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token NameToken { get; private set; }
 
-        public StatementBlockSyntax Statements { get; private set; }
+        public StatementBlockSyntax Body { get; private set; }
 
         public Token EndSubToken { get; private set; }
 
@@ -46,29 +48,77 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.Statements;
+                yield return this.Body;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.SubToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.EndSubToken.Range.End;
+                }
             }
         }
     }
 
     internal sealed class StatementBlockSyntax : BaseStatementSyntax
     {
-        public StatementBlockSyntax(IReadOnlyList<BaseStatementSyntax> statements)
+        public StatementBlockSyntax(IReadOnlyList<BaseStatementSyntax> body)
         {
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
-            this.Statements = statements;
+            this.Body = body;
         }
 
-        public IReadOnlyList<BaseStatementSyntax> Statements { get; private set; }
+        public IReadOnlyList<BaseStatementSyntax> Body { get; private set; }
 
         public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                foreach (var child in this.Statements)
+                foreach (var child in this.Body)
                 {
                     yield return child;
+                }
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    var bodyChild = this.Body.FirstOrDefault();
+                    if (!ReferenceEquals(bodyChild, null))
+                    {
+                        return bodyChild.Range.Start;
+                    }
+
+                    throw new InvalidOperationException("Cannot calculate range for a node with no children");
+                }
+
+                TextPosition calculateEnd()
+                {
+                    var bodyChild = this.Body.LastOrDefault();
+                    if (!ReferenceEquals(bodyChild, null))
+                    {
+                        return bodyChild.Range.End;
+                    }
+
+                    throw new InvalidOperationException("Cannot calculate range for a node with no children");
                 }
             }
         }
@@ -76,19 +126,19 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class IfPartSyntax : BaseSyntaxNode
     {
-        public IfPartSyntax(Token ifToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax statements)
+        public IfPartSyntax(Token ifToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax body)
         {
             Debug.Assert(!ReferenceEquals(ifToken, null), "'ifToken' must not be null.");
             Debug.Assert(ifToken.Kind == TokenKind.If, "'ifToken' must have a TokenKind of 'If'.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
             Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
             Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
             this.IfToken = ifToken;
             this.Expression = expression;
             this.ThenToken = thenToken;
-            this.Statements = statements;
+            this.Body = body;
         }
 
         public Token IfToken { get; private set; }
@@ -97,33 +147,51 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token ThenToken { get; private set; }
 
-        public StatementBlockSyntax Statements { get; private set; }
+        public StatementBlockSyntax Body { get; private set; }
 
         public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
                 yield return this.Expression;
-                yield return this.Statements;
+                yield return this.Body;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.IfToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Body.Range.End;
+                }
             }
         }
     }
 
     internal sealed class ElseIfPartSyntax : BaseSyntaxNode
     {
-        public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax statements)
+        public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax body)
         {
             Debug.Assert(!ReferenceEquals(elseIfToken, null), "'elseIfToken' must not be null.");
             Debug.Assert(elseIfToken.Kind == TokenKind.ElseIf, "'elseIfToken' must have a TokenKind of 'ElseIf'.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
             Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
             Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
             this.ElseIfToken = elseIfToken;
             this.Expression = expression;
             this.ThenToken = thenToken;
-            this.Statements = statements;
+            this.Body = body;
         }
 
         public Token ElseIfToken { get; private set; }
@@ -132,39 +200,75 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token ThenToken { get; private set; }
 
-        public StatementBlockSyntax Statements { get; private set; }
+        public StatementBlockSyntax Body { get; private set; }
 
         public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
                 yield return this.Expression;
-                yield return this.Statements;
+                yield return this.Body;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.ElseIfToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Body.Range.End;
+                }
             }
         }
     }
 
     internal sealed class ElsePartSyntax : BaseSyntaxNode
     {
-        public ElsePartSyntax(Token elseToken, StatementBlockSyntax statements)
+        public ElsePartSyntax(Token elseToken, StatementBlockSyntax body)
         {
             Debug.Assert(!ReferenceEquals(elseToken, null), "'elseToken' must not be null.");
             Debug.Assert(elseToken.Kind == TokenKind.Else, "'elseToken' must have a TokenKind of 'Else'.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
 
             this.ElseToken = elseToken;
-            this.Statements = statements;
+            this.Body = body;
         }
 
         public Token ElseToken { get; private set; }
 
-        public StatementBlockSyntax Statements { get; private set; }
+        public StatementBlockSyntax Body { get; private set; }
 
         public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                yield return this.Statements;
+                yield return this.Body;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.ElseToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Body.Range.End;
+                }
             }
         }
     }
@@ -208,22 +312,40 @@ namespace SuperBasic.Compiler.Parsing
                 }
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.IfPart.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.EndIfToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class WhileStatementSyntax : BaseStatementSyntax
     {
-        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expression, StatementBlockSyntax statements, Token endWhileToken)
+        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expression, StatementBlockSyntax body, Token endWhileToken)
         {
             Debug.Assert(!ReferenceEquals(whileToken, null), "'whileToken' must not be null.");
             Debug.Assert(whileToken.Kind == TokenKind.While, "'whileToken' must have a TokenKind of 'While'.");
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
             Debug.Assert(!ReferenceEquals(endWhileToken, null), "'endWhileToken' must not be null.");
             Debug.Assert(endWhileToken.Kind == TokenKind.EndWhile, "'endWhileToken' must have a TokenKind of 'EndWhile'.");
 
             this.WhileToken = whileToken;
             this.Expression = expression;
-            this.Statements = statements;
+            this.Body = body;
             this.EndWhileToken = endWhileToken;
         }
 
@@ -231,7 +353,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax Expression { get; private set; }
 
-        public StatementBlockSyntax Statements { get; private set; }
+        public StatementBlockSyntax Body { get; private set; }
 
         public Token EndWhileToken { get; private set; }
 
@@ -240,7 +362,25 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 yield return this.Expression;
-                yield return this.Statements;
+                yield return this.Body;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.WhileToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.EndWhileToken.Range.End;
+                }
             }
         }
     }
@@ -268,11 +408,29 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.Expression;
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.StepToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Expression.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class ForStatementSyntax : BaseStatementSyntax
     {
-        public ForStatementSyntax(Token forToken, Token identifierToken, Token equalToken, BaseExpressionSyntax fromExpression, Token toToken, BaseExpressionSyntax toExpression, ForStepClauseSyntax stepClauseOpt, StatementBlockSyntax statements, Token endForToken)
+        public ForStatementSyntax(Token forToken, Token identifierToken, Token equalToken, BaseExpressionSyntax fromExpression, Token toToken, BaseExpressionSyntax toExpression, ForStepClauseSyntax stepClauseOpt, StatementBlockSyntax body, Token endForToken)
         {
             Debug.Assert(!ReferenceEquals(forToken, null), "'forToken' must not be null.");
             Debug.Assert(forToken.Kind == TokenKind.For, "'forToken' must have a TokenKind of 'For'.");
@@ -284,7 +442,7 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(!ReferenceEquals(toToken, null), "'toToken' must not be null.");
             Debug.Assert(toToken.Kind == TokenKind.To, "'toToken' must have a TokenKind of 'To'.");
             Debug.Assert(!ReferenceEquals(toExpression, null), "'toExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
+            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
             Debug.Assert(!ReferenceEquals(endForToken, null), "'endForToken' must not be null.");
             Debug.Assert(endForToken.Kind == TokenKind.EndFor, "'endForToken' must have a TokenKind of 'EndFor'.");
 
@@ -295,7 +453,7 @@ namespace SuperBasic.Compiler.Parsing
             this.ToToken = toToken;
             this.ToExpression = toExpression;
             this.StepClauseOpt = stepClauseOpt;
-            this.Statements = statements;
+            this.Body = body;
             this.EndForToken = endForToken;
         }
 
@@ -313,7 +471,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public ForStepClauseSyntax StepClauseOpt { get; private set; }
 
-        public StatementBlockSyntax Statements { get; private set; }
+        public StatementBlockSyntax Body { get; private set; }
 
         public Token EndForToken { get; private set; }
 
@@ -328,7 +486,25 @@ namespace SuperBasic.Compiler.Parsing
                     yield return this.StepClauseOpt;
                 }
 
-                yield return this.Statements;
+                yield return this.Body;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.ForToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.EndForToken.Range.End;
+                }
             }
         }
     }
@@ -357,6 +533,24 @@ namespace SuperBasic.Compiler.Parsing
                 return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.LabelToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.ColonToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class GoToStatementSyntax : BaseStatementSyntax
@@ -383,6 +577,24 @@ namespace SuperBasic.Compiler.Parsing
                 return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.GoToToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.LabelToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class UnrecognizedStatementSyntax : BaseStatementSyntax
@@ -401,6 +613,24 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 return Enumerable.Empty<BaseSyntaxNode>();
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.UnrecognizedToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.UnrecognizedToken.Range.End;
+                }
             }
         }
     }
@@ -423,6 +653,24 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.Expression;
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.Expression.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Expression.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class CommentStatementSyntax : BaseStatementSyntax
@@ -442,6 +690,24 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 return Enumerable.Empty<BaseSyntaxNode>();
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.CommentToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.CommentToken.Range.End;
+                }
             }
         }
     }
@@ -473,34 +739,70 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.Expression;
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.OperatorToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Expression.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class BinaryOperatorExpressionSyntax : BaseExpressionSyntax
     {
-        public BinaryOperatorExpressionSyntax(BaseExpressionSyntax leftExpression, Token operatorToken, BaseExpressionSyntax rightExpression)
+        public BinaryOperatorExpressionSyntax(BaseExpressionSyntax left, Token operatorToken, BaseExpressionSyntax right)
         {
-            Debug.Assert(!ReferenceEquals(leftExpression, null), "'leftExpression' must not be null.");
+            Debug.Assert(!ReferenceEquals(left, null), "'left' must not be null.");
             Debug.Assert(!ReferenceEquals(operatorToken, null), "'operatorToken' must not be null.");
             Debug.Assert(operatorToken.Kind == TokenKind.Equal || operatorToken.Kind == TokenKind.NotEqual || operatorToken.Kind == TokenKind.Plus || operatorToken.Kind == TokenKind.Minus || operatorToken.Kind == TokenKind.Multiply || operatorToken.Kind == TokenKind.Divide || operatorToken.Kind == TokenKind.Colon || operatorToken.Kind == TokenKind.LessThan || operatorToken.Kind == TokenKind.GreaterThan || operatorToken.Kind == TokenKind.LessThanOrEqual || operatorToken.Kind == TokenKind.GreaterThanOrEqual, "'operatorToken' must have a TokenKind of 'Equal,NotEqual,Plus,Minus,Multiply,Divide,Colon,LessThan,GreaterThan,LessThanOrEqual,GreaterThanOrEqual'.");
-            Debug.Assert(!ReferenceEquals(rightExpression, null), "'rightExpression' must not be null.");
+            Debug.Assert(!ReferenceEquals(right, null), "'right' must not be null.");
 
-            this.LeftExpression = leftExpression;
+            this.Left = left;
             this.OperatorToken = operatorToken;
-            this.RightExpression = rightExpression;
+            this.Right = right;
         }
 
-        public BaseExpressionSyntax LeftExpression { get; private set; }
+        public BaseExpressionSyntax Left { get; private set; }
 
         public Token OperatorToken { get; private set; }
 
-        public BaseExpressionSyntax RightExpression { get; private set; }
+        public BaseExpressionSyntax Right { get; private set; }
 
         public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                yield return this.LeftExpression;
-                yield return this.RightExpression;
+                yield return this.Left;
+                yield return this.Right;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.Left.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.Right.Range.End;
+                }
             }
         }
     }
@@ -531,6 +833,24 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 yield return this.BaseExpression;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.BaseExpression.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.IdentifierToken.Range.End;
+                }
             }
         }
     }
@@ -568,6 +888,24 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.IndexExpression;
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.BaseExpression.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.RightBracketToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class ArgumentSyntax : BaseExpressionSyntax
@@ -593,6 +931,29 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 yield return this.Expression;
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.Expression.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    if (!ReferenceEquals(this.CommaTokenOpt, null))
+                    {
+                        return this.CommaTokenOpt.Range.End;
+                    }
+
+                    return this.Expression.Range.End;
+                }
             }
         }
     }
@@ -633,6 +994,24 @@ namespace SuperBasic.Compiler.Parsing
                 }
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.BaseExpression.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.RightParenToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class ParenthesisExpressionSyntax : BaseExpressionSyntax
@@ -663,6 +1042,24 @@ namespace SuperBasic.Compiler.Parsing
                 yield return this.Expression;
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.LeftParenToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.RightParenToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class IdentifierExpressionSyntax : BaseExpressionSyntax
@@ -682,6 +1079,24 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 return Enumerable.Empty<BaseSyntaxNode>();
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.IdentifierToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.IdentifierToken.Range.End;
+                }
             }
         }
     }
@@ -705,6 +1120,24 @@ namespace SuperBasic.Compiler.Parsing
                 return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.StringToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.StringToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class NumberLiteralExpressionSyntax : BaseExpressionSyntax
@@ -726,6 +1159,24 @@ namespace SuperBasic.Compiler.Parsing
                 return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.NumberToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.NumberToken.Range.End;
+                }
+            }
+        }
     }
 
     internal sealed class UnrecognizedExpressionSyntax : BaseExpressionSyntax
@@ -744,6 +1195,244 @@ namespace SuperBasic.Compiler.Parsing
             get
             {
                 return Enumerable.Empty<BaseSyntaxNode>();
+            }
+        }
+
+        public override TextRange Range
+        {
+            get
+            {
+                return (calculateStart(), calculateEnd());
+
+                TextPosition calculateStart()
+                {
+                    return this.UnrecognizedToken.Range.Start;
+                }
+
+                TextPosition calculateEnd()
+                {
+                    return this.UnrecognizedToken.Range.End;
+                }
+            }
+        }
+    }
+
+    internal abstract class BaseSyntaxNodeVisitor
+    {
+        public void Visit(BaseSyntaxNode node)
+        {
+            switch (node)
+            {
+                case SubModuleStatementSyntax subModuleStatement:
+                    this.VisitSubModuleStatement(subModuleStatement);
+                    break;
+                case StatementBlockSyntax statementBlock:
+                    this.VisitStatementBlock(statementBlock);
+                    break;
+                case IfPartSyntax ifPart:
+                    this.VisitIfPart(ifPart);
+                    break;
+                case ElseIfPartSyntax elseIfPart:
+                    this.VisitElseIfPart(elseIfPart);
+                    break;
+                case ElsePartSyntax elsePart:
+                    this.VisitElsePart(elsePart);
+                    break;
+                case IfStatementSyntax ifStatement:
+                    this.VisitIfStatement(ifStatement);
+                    break;
+                case WhileStatementSyntax whileStatement:
+                    this.VisitWhileStatement(whileStatement);
+                    break;
+                case ForStepClauseSyntax forStepClause:
+                    this.VisitForStepClause(forStepClause);
+                    break;
+                case ForStatementSyntax forStatement:
+                    this.VisitForStatement(forStatement);
+                    break;
+                case LabelStatementSyntax labelStatement:
+                    this.VisitLabelStatement(labelStatement);
+                    break;
+                case GoToStatementSyntax goToStatement:
+                    this.VisitGoToStatement(goToStatement);
+                    break;
+                case UnrecognizedStatementSyntax unrecognizedStatement:
+                    this.VisitUnrecognizedStatement(unrecognizedStatement);
+                    break;
+                case ExpressionStatementSyntax expressionStatement:
+                    this.VisitExpressionStatement(expressionStatement);
+                    break;
+                case CommentStatementSyntax commentStatement:
+                    this.VisitCommentStatement(commentStatement);
+                    break;
+                case UnaryOperatorExpressionSyntax unaryOperatorExpression:
+                    this.VisitUnaryOperatorExpression(unaryOperatorExpression);
+                    break;
+                case BinaryOperatorExpressionSyntax binaryOperatorExpression:
+                    this.VisitBinaryOperatorExpression(binaryOperatorExpression);
+                    break;
+                case ObjectAccessExpressionSyntax objectAccessExpression:
+                    this.VisitObjectAccessExpression(objectAccessExpression);
+                    break;
+                case ArrayAccessExpressionSyntax arrayAccessExpression:
+                    this.VisitArrayAccessExpression(arrayAccessExpression);
+                    break;
+                case ArgumentSyntax argument:
+                    this.VisitArgument(argument);
+                    break;
+                case InvocationExpressionSyntax invocationExpression:
+                    this.VisitInvocationExpression(invocationExpression);
+                    break;
+                case ParenthesisExpressionSyntax parenthesisExpression:
+                    this.VisitParenthesisExpression(parenthesisExpression);
+                    break;
+                case IdentifierExpressionSyntax identifierExpression:
+                    this.VisitIdentifierExpression(identifierExpression);
+                    break;
+                case StringLiteralExpressionSyntax stringLiteralExpression:
+                    this.VisitStringLiteralExpression(stringLiteralExpression);
+                    break;
+                case NumberLiteralExpressionSyntax numberLiteralExpression:
+                    this.VisitNumberLiteralExpression(numberLiteralExpression);
+                    break;
+                case UnrecognizedExpressionSyntax unrecognizedExpression:
+                    this.VisitUnrecognizedExpression(unrecognizedExpression);
+                    break;
+                default:
+                    throw ExceptionUtilities.UnexpectedValue(node);
+            }
+        }
+
+        public virtual void VisitSubModuleStatement(SubModuleStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitStatementBlock(StatementBlockSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitIfPart(IfPartSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitElseIfPart(ElseIfPartSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitElsePart(ElsePartSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitIfStatement(IfStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitWhileStatement(WhileStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitForStepClause(ForStepClauseSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitForStatement(ForStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitLabelStatement(LabelStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitGoToStatement(GoToStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitUnrecognizedStatement(UnrecognizedStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitExpressionStatement(ExpressionStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitCommentStatement(CommentStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitUnaryOperatorExpression(UnaryOperatorExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitBinaryOperatorExpression(BinaryOperatorExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitObjectAccessExpression(ObjectAccessExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitArrayAccessExpression(ArrayAccessExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitArgument(ArgumentSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitParenthesisExpression(ParenthesisExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitIdentifierExpression(IdentifierExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitStringLiteralExpression(StringLiteralExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitNumberLiteralExpression(NumberLiteralExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        public virtual void VisitUnrecognizedExpression(UnrecognizedExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private void DefaultVisit(BaseSyntaxNode node)
+        {
+            foreach (var child in node.Children)
+            {
+                this.Visit(child);
             }
         }
     }

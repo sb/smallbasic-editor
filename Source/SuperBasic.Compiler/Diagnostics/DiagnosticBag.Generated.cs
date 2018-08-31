@@ -46,5 +46,75 @@ namespace SuperBasic.Compiler.Diagnostics
         {
             this.builder.Add(new Diagnostic(DiagnosticCode.UnexpectedTokenInsteadOfStatement, range, found.ToDisplayString()));
         }
+
+        public void ReportTwoSubModulesWithTheSameName(TextRange range, string name)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.TwoSubModulesWithTheSameName, range, name.ToDisplayString()));
+        }
+
+        public void ReportTwoLabelsWithTheSameName(TextRange range, string label)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.TwoLabelsWithTheSameName, range, label.ToDisplayString()));
+        }
+
+        public void ReportGoToUndefinedLabel(TextRange range, string label)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.GoToUndefinedLabel, range, label.ToDisplayString()));
+        }
+
+        public void ReportPropertyHasNoSetter(TextRange range, string library, string property)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.PropertyHasNoSetter, range, library.ToDisplayString(), property.ToDisplayString()));
+        }
+
+        public void ReportAssigningNonSubModuleToEvent(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.AssigningNonSubModuleToEvent, range));
+        }
+
+        public void ReportUnassignedExpressionStatement(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnassignedExpressionStatement, range));
+        }
+
+        public void ReportInvalidExpressionStatement(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.InvalidExpressionStatement, range));
+        }
+
+        public void ReportUnsupportedArrayBaseExpression(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnsupportedArrayBaseExpression, range));
+        }
+
+        public void ReportValueIsNotANumber(TextRange range, string value)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.ValueIsNotANumber, range, value.ToDisplayString()));
+        }
+
+        public void ReportUnsupportedDotBaseExpression(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnsupportedDotBaseExpression, range));
+        }
+
+        public void ReportExpectedExpressionWithAValue(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.ExpectedExpressionWithAValue, range));
+        }
+
+        public void ReportLibraryMemberNotFound(TextRange range, string library, string member)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.LibraryMemberNotFound, range, library.ToDisplayString(), member.ToDisplayString()));
+        }
+
+        public void ReportUnexpectedArgumentsCount(TextRange range, int actualCount, int expectedCount)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnexpectedArgumentsCount, range, actualCount.ToDisplayString(), expectedCount.ToDisplayString()));
+        }
+
+        public void ReportUnsupportedInvocationBaseExpression(TextRange range)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.UnsupportedInvocationBaseExpression, range));
+        }
     }
 }

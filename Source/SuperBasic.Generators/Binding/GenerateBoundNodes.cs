@@ -23,20 +23,23 @@ namespace SuperBasic.Generators.Binding
             this.Line("using System.Linq;");
             this.Line("using SuperBasic.Compiler.Parsing;");
             this.Line("using SuperBasic.Compiler.Scanning;");
+            this.Line("using SuperBasic.Utilities;");
             this.Blank();
 
             foreach (var node in model)
             {
-                this.ValidateNode(node);
+                this.ValidateNode(model, node);
                 this.GenerateNode(model, node);
             }
+
+            this.GenerateBaseVisitor(model);
 
             this.Unbrace();
         }
 
-        private void ValidateNode(BindingModels.BoundNode node)
+        private void ValidateNode(BindingModels.BoundNodeCollection model, BindingModels.BoundNode node)
         {
-            bool foundRequired = false;
+            bool foundRequired = this.GetParentMembers(model, node.Inherits).Any(member => !member.IsOptional);
 
             foreach (var member in node.Members)
             {
@@ -101,22 +104,19 @@ namespace SuperBasic.Generators.Binding
 
             if (allMembers.Any())
             {
-                string constructorParameters = allMembers.Select(member => $"{getFullType(member)} {member.Name.LowerFirstChar()}").Join(", ");
+                IEnumerable<string> constructorParameters = allMembers.Select(member => $"{getFullType(member)} {member.Name.ToLowerFirstChar()}");
 
                 if (!node.IsAbstract)
                 {
-                    this.Line($"private {node.Syntax} syntax;");
-                    this.Blank();
-
-                    constructorParameters = $"{node.Syntax} syntax, " + constructorParameters;
+                    constructorParameters = constructorParameters.Prepend($"{node.Syntax} syntax");
                 }
 
-                this.Line($"public {node.Name}({constructorParameters})");
+                this.Line($"public {node.Name}({constructorParameters.Join(", ")})");
 
                 if (parentMembers.Any())
                 {
                     this.Indent();
-                    this.Line($": base({parentMembers.Select(member => member.Name.LowerFirstChar()).Join(", ")})");
+                    this.Line($": base({parentMembers.Select(member => member.Name.ToLowerFirstChar()).Join(", ")})");
                     this.Unindent();
                 }
 
@@ -131,7 +131,7 @@ namespace SuperBasic.Generators.Binding
                 {
                     if (!member.IsOptional)
                     {
-                        this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");");
+                        this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.ToLowerFirstChar()}, null), ""'{member.Name.ToLowerFirstChar()}' must not be null."");");
                     }
                 }
 
@@ -139,19 +139,19 @@ namespace SuperBasic.Generators.Binding
 
                 if (!node.IsAbstract)
                 {
-                    this.Line("this.syntax = syntax;");
+                    this.Line("this.Syntax = syntax;");
                 }
 
                 foreach (var member in node.Members)
                 {
-                    this.Line($"this.{member.Name} = {member.Name.LowerFirstChar()};");
+                    this.Line($"this.{member.Name} = {member.Name.ToLowerFirstChar()};");
                 }
 
                 this.Unbrace();
 
                 if (!node.IsAbstract)
                 {
-                    this.Line("public override BaseSyntaxNode Syntax => this.syntax;");
+                    this.Line($"public {node.Syntax} Syntax {{ get; private set; }}");
                 }
 
                 foreach (var member in node.Members)
@@ -163,14 +163,14 @@ namespace SuperBasic.Generators.Binding
                 if (!node.IsAbstract)
                 {
                     this.Blank();
-                    this.GenerateChildrenPropertyContents(allMembers.Where(member => !this.nonChildrenTypes.Contains(member.Type)));
+                    this.GenerateChildrenProperty(allMembers.Where(member => !this.nonChildrenTypes.Contains(member.Type)));
                 }
             }
 
             this.Unbrace();
         }
 
-        private void GenerateChildrenPropertyContents(IEnumerable<BindingModels.Member> members)
+        private void GenerateChildrenProperty(IEnumerable<BindingModels.Member> members)
         {
             this.Line("public override IEnumerable<BaseBoundNode> Children");
             this.Brace();
@@ -219,7 +219,7 @@ namespace SuperBasic.Generators.Binding
 
             BindingModels.BoundNode parent = model.SingleOrDefault(parentNode => parentNode.Name == parentName);
 
-            if (parent is null)
+            if (ReferenceEquals(parent, null))
             {
                 this.Log.LogError($"Cannot find parent node '{parentName}'.");
                 yield break;
@@ -234,6 +234,53 @@ namespace SuperBasic.Generators.Binding
             {
                 yield return member;
             }
+        }
+
+        private void GenerateBaseVisitor(BindingModels.BoundNodeCollection model)
+        {
+            this.Line("internal abstract class BaseBoundNodeVisitor");
+            this.Brace();
+
+            this.Line("public void Visit(BaseBoundNode node)");
+            this.Brace();
+
+            this.Line("switch (node)");
+            this.Brace();
+
+            foreach (var node in model.Where(node => !node.IsAbstract))
+            {
+                this.Line($"case {node.Name} {node.Name.RemovePrefix("Bound").ToLowerFirstChar()}:");
+                this.Indent();
+                this.Line($"this.Visit{node.Name.RemovePrefix("Bound")}({node.Name.RemovePrefix("Bound").ToLowerFirstChar()});");
+                this.Line("break;");
+                this.Unindent();
+            }
+
+            this.Line("default:");
+            this.Indent();
+            this.Line($"throw ExceptionUtilities.UnexpectedValue(node);");
+            this.Unindent();
+
+            this.Unbrace();
+            this.Unbrace();
+
+            foreach (var node in model.Where(node => !node.IsAbstract))
+            {
+                this.Line($"public virtual void Visit{node.Name.RemovePrefix("Bound")}({node.Name} node)");
+                this.Brace();
+                this.Line("this.DefaultVisit(node);");
+                this.Unbrace();
+            }
+
+            this.Line("private void DefaultVisit(BaseBoundNode node)");
+            this.Brace();
+            this.Line("foreach (var child in node.Children)");
+            this.Brace();
+            this.Line("this.Visit(child);");
+            this.Unbrace();
+            this.Unbrace();
+
+            this.Unbrace();
         }
     }
 }

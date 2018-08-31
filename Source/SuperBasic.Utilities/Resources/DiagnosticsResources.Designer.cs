@@ -61,6 +61,96 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can only assign submodules to events..
+        /// </summary>
+        public static string AssigningNonSubModuleToEvent {
+            get {
+                return ResourceManager.GetString("AssigningNonSubModuleToEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This expression must return a value to be used here..
+        /// </summary>
+        public static string ExpectedExpressionWithAValue {
+            get {
+                return ResourceManager.GetString("ExpectedExpressionWithAValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The label &apos;{0}&apos; is not defined..
+        /// </summary>
+        public static string GoToUndefinedLabel {
+            get {
+                return ResourceManager.GetString("GoToUndefinedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This expression is not a valid statement..
+        /// </summary>
+        public static string InvalidExpressionStatement {
+            get {
+                return ResourceManager.GetString("InvalidExpressionStatement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The library &apos;{0}&apos; has no member named &apos;{1}&apos;..
+        /// </summary>
+        public static string LibraryMemberNotFound {
+            get {
+                return ResourceManager.GetString("LibraryMemberNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}.{1}&apos; cannot be assigned to. It is ready only..
+        /// </summary>
+        public static string PropertyHasNoSetter {
+            get {
+                return ResourceManager.GetString("PropertyHasNoSetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A label with the same name &apos;{0}&apos; is already defined..
+        /// </summary>
+        public static string TwoLabelsWithTheSameName {
+            get {
+                return ResourceManager.GetString("TwoLabelsWithTheSameName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A submodule with the same name &apos;{0}&apos; is already defined in the same program..
+        /// </summary>
+        public static string TwoSubModulesWithTheSameName {
+            get {
+                return ResourceManager.GetString("TwoSubModulesWithTheSameName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This method call returns a result. Did you mean to assign it to a variable?.
+        /// </summary>
+        public static string UnassignedExpressionStatement {
+            get {
+                return ResourceManager.GetString("UnassignedExpressionStatement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are passing &apos;{0}&apos; arguments to this method, while it expects &apos;{1}&apos; arguments..
+        /// </summary>
+        public static string UnexpectedArgumentsCount {
+            get {
+                return ResourceManager.GetString("UnexpectedArgumentsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I was expecting to see &apos;{0}&apos; after this..
         /// </summary>
         public static string UnexpectedEndOfStream {
@@ -106,11 +196,47 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This expression is not a valid array..
+        /// </summary>
+        public static string UnsupportedArrayBaseExpression {
+            get {
+                return ResourceManager.GetString("UnsupportedArrayBaseExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can only use dot access with a library. Did you mean to use an existing library instead?.
+        /// </summary>
+        public static string UnsupportedDotBaseExpression {
+            get {
+                return ResourceManager.GetString("UnsupportedDotBaseExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This expression is not a valid submodule or method to be called..
+        /// </summary>
+        public static string UnsupportedInvocationBaseExpression {
+            get {
+                return ResourceManager.GetString("UnsupportedInvocationBaseExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This string is missing its right double quotes..
         /// </summary>
         public static string UnterminatedStringLiteral {
             get {
                 return ResourceManager.GetString("UnterminatedStringLiteral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value &apos;{0}&apos; is not a valid number..
+        /// </summary>
+        public static string ValueIsNotANumber {
+            get {
+                return ResourceManager.GetString("ValueIsNotANumber", resourceCulture);
             }
         }
     }

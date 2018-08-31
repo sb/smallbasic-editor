@@ -18,6 +18,20 @@ namespace SuperBasic.Compiler.Diagnostics
         UnexpectedEndOfStream,
         UnexpectedStatementInsteadOfNewLine,
         UnexpectedTokenInsteadOfStatement,
+        TwoSubModulesWithTheSameName,
+        TwoLabelsWithTheSameName,
+        GoToUndefinedLabel,
+        PropertyHasNoSetter,
+        AssigningNonSubModuleToEvent,
+        UnassignedExpressionStatement,
+        InvalidExpressionStatement,
+        UnsupportedArrayBaseExpression,
+        ValueIsNotANumber,
+        UnsupportedDotBaseExpression,
+        ExpectedExpressionWithAValue,
+        LibraryMemberNotFound,
+        UnexpectedArgumentsCount,
+        UnsupportedInvocationBaseExpression,
     }
 
     internal static partial class DiagnosticCodeExtensions
@@ -32,6 +46,20 @@ namespace SuperBasic.Compiler.Diagnostics
                 case DiagnosticCode.UnexpectedEndOfStream: return DiagnosticsResources.UnexpectedEndOfStream;
                 case DiagnosticCode.UnexpectedStatementInsteadOfNewLine: return DiagnosticsResources.UnexpectedStatementInsteadOfNewLine;
                 case DiagnosticCode.UnexpectedTokenInsteadOfStatement: return DiagnosticsResources.UnexpectedTokenInsteadOfStatement;
+                case DiagnosticCode.TwoSubModulesWithTheSameName: return DiagnosticsResources.TwoSubModulesWithTheSameName;
+                case DiagnosticCode.TwoLabelsWithTheSameName: return DiagnosticsResources.TwoLabelsWithTheSameName;
+                case DiagnosticCode.GoToUndefinedLabel: return DiagnosticsResources.GoToUndefinedLabel;
+                case DiagnosticCode.PropertyHasNoSetter: return DiagnosticsResources.PropertyHasNoSetter;
+                case DiagnosticCode.AssigningNonSubModuleToEvent: return DiagnosticsResources.AssigningNonSubModuleToEvent;
+                case DiagnosticCode.UnassignedExpressionStatement: return DiagnosticsResources.UnassignedExpressionStatement;
+                case DiagnosticCode.InvalidExpressionStatement: return DiagnosticsResources.InvalidExpressionStatement;
+                case DiagnosticCode.UnsupportedArrayBaseExpression: return DiagnosticsResources.UnsupportedArrayBaseExpression;
+                case DiagnosticCode.ValueIsNotANumber: return DiagnosticsResources.ValueIsNotANumber;
+                case DiagnosticCode.UnsupportedDotBaseExpression: return DiagnosticsResources.UnsupportedDotBaseExpression;
+                case DiagnosticCode.ExpectedExpressionWithAValue: return DiagnosticsResources.ExpectedExpressionWithAValue;
+                case DiagnosticCode.LibraryMemberNotFound: return DiagnosticsResources.LibraryMemberNotFound;
+                case DiagnosticCode.UnexpectedArgumentsCount: return DiagnosticsResources.UnexpectedArgumentsCount;
+                case DiagnosticCode.UnsupportedInvocationBaseExpression: return DiagnosticsResources.UnsupportedInvocationBaseExpression;
                 default: throw ExceptionUtilities.UnexpectedValue(kind);
             }
         }
