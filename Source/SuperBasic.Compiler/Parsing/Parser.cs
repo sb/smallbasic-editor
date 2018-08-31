@@ -55,10 +55,10 @@ namespace SuperBasic.Compiler.Parsing
                 }
             }
 
-            this.Result = new StatementBlockSyntax(statements);
+            this.SyntaxTree = new StatementBlockSyntax(statements);
         }
 
-        public StatementBlockSyntax Result { get; private set; }
+        public StatementBlockSyntax SyntaxTree { get; private set; }
 
         private SubModuleStatementSyntax ParseSubModuleDeclaration()
         {
@@ -342,7 +342,7 @@ namespace SuperBasic.Compiler.Parsing
                 var range = this.tokens[this.tokens.Count - 1].Range;
                 var missingToken = new Token(TokenKind.Identifier, MissingTokenText, range);
 
-                this.diagnostics.ReportUnexpectedEndOfStream(missingToken.Range, missingToken.Kind);
+                this.diagnostics.ReportUnexpectedEndOfStream(range, missingToken.Kind);
                 return new IdentifierExpressionSyntax(missingToken);
             }
 

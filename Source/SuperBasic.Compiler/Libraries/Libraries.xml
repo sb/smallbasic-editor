@@ -1,0 +1,36 @@
+﻿<root>
+  <Library Name="Array">
+    <Methods>
+      <Method Name="IsArray" ReturnsValue="true">
+        <Parameters>
+          <Parameter Name="Value" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </Library>
+
+  <Library Name="Clock">
+    <Properties>
+      <Property Name="Time" HasGetter="true" HasSetter="false" />
+    </Properties>
+  </Library>
+
+  <Library Name="Controls">
+    <Events>
+      <Event Name="ButtonClicked" />
+    </Events>
+  </Library>
+
+  <Library Name="TextWindow">
+    <Methods>
+      <Method Name="WriteLine" ReturnsValue="false">
+        <Parameters>
+          <Parameter Name="Data" />
+        </Parameters>
+      </Method>
+    </Methods>
+    <Properties>
+      <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" />
+    </Properties>
+  </Library>
+</root>

@@ -5,14 +5,14 @@
     <Members>
       <Member Name="SubToken" Type="Token" TokenKinds="Sub" />
       <Member Name="NameToken" Type="Token" TokenKinds="Identifier" />
-      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="Body" Type="StatementBlockSyntax" />
       <Member Name="EndSubToken" Type="Token" TokenKinds="EndSub" />
     </Members>
   </SyntaxNode>
 
   <SyntaxNode Name="StatementBlockSyntax" Inherits="BaseStatementSyntax">
     <Members>
-      <Member Name="Statements" Type="BaseStatementSyntax" IsList="true" />
+      <Member Name="Body" Type="BaseStatementSyntax" IsList="true" />
     </Members>
   </SyntaxNode>
 
@@ -21,7 +21,7 @@
       <Member Name="IfToken" Type="Token" TokenKinds="If" />
       <Member Name="Expression" Type="BaseExpressionSyntax" />
       <Member Name="ThenToken" Type="Token" TokenKinds="Then" />
-      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="Body" Type="StatementBlockSyntax" />
     </Members>
   </SyntaxNode>
   <SyntaxNode Name="ElseIfPartSyntax" Inherits="BaseSyntaxNode">
@@ -29,13 +29,13 @@
       <Member Name="ElseIfToken" Type="Token" TokenKinds="ElseIf" />
       <Member Name="Expression" Type="BaseExpressionSyntax" />
       <Member Name="ThenToken" Type="Token" TokenKinds="Then" />
-      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="Body" Type="StatementBlockSyntax" />
     </Members>
   </SyntaxNode>
   <SyntaxNode Name="ElsePartSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="ElseToken" Type="Token" TokenKinds="Else" />
-      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="Body" Type="StatementBlockSyntax" />
     </Members>
   </SyntaxNode>
   <SyntaxNode Name="IfStatementSyntax" Inherits="BaseStatementSyntax">
@@ -51,7 +51,7 @@
     <Members>
       <Member Name="WhileToken" Type="Token" TokenKinds="While" />
       <Member Name="Expression" Type="BaseExpressionSyntax" />
-      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="Body" Type="StatementBlockSyntax" />
       <Member Name="EndWhileToken" Type="Token" TokenKinds="EndWhile" />
     </Members>
   </SyntaxNode>
@@ -71,7 +71,7 @@
       <Member Name="ToToken" Type="Token" TokenKinds="To" />
       <Member Name="ToExpression" Type="BaseExpressionSyntax" />
       <Member Name="StepClauseOpt" Type="ForStepClauseSyntax" IsOptional="true" />
-      <Member Name="Statements" Type="StatementBlockSyntax" />
+      <Member Name="Body" Type="StatementBlockSyntax" />
       <Member Name="EndForToken" Type="Token" TokenKinds="EndFor" />
     </Members>
   </SyntaxNode>
@@ -117,9 +117,9 @@
   </SyntaxNode>
   <SyntaxNode Name="BinaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
     <Members>
-      <Member Name="LeftExpression" Type="BaseExpressionSyntax" />
+      <Member Name="Left" Type="BaseExpressionSyntax" />
       <Member Name="OperatorToken" Type="Token" TokenKinds="Equal,NotEqual,Plus,Minus,Multiply,Divide,Colon,LessThan,GreaterThan,LessThanOrEqual,GreaterThanOrEqual" />
-      <Member Name="RightExpression" Type="BaseExpressionSyntax" />
+      <Member Name="Right" Type="BaseExpressionSyntax" />
     </Members>
   </SyntaxNode>
   <SyntaxNode Name="ObjectAccessExpressionSyntax" Inherits="BaseExpressionSyntax">

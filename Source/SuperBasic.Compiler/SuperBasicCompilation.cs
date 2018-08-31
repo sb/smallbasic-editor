@@ -5,6 +5,7 @@
 namespace SuperBasic.Compiler
 {
     using System.Collections.Generic;
+    using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Compiler.Parsing;
     using SuperBasic.Compiler.Scanning;
@@ -17,7 +18,8 @@ namespace SuperBasic.Compiler
         {
             this.Text = text;
             var scanner = new Scanner(this.Text, this.diagnostics);
-            var parser = new Parser(scanner.Result, this.diagnostics);
+            var parser = new Parser(scanner.Tokens, this.diagnostics);
+            var binder = new Binder(parser.SyntaxTree, this.diagnostics);
         }
 
         public string Text { get; private set; }

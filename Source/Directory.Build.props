@@ -5,22 +5,25 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <DisabledWarnings Include="CA1034" Comment="Nested types should not be visible (required for XML deserialization)." />
+    <DisabledWarnings Include="CA1710" Comment="Rename '{0}' to end in '{1}' (for collections)." />
+    <DisabledWarnings Include="CA1716" Comment="Rename type '{0}' so that it no longer conflicts with the reserved language keyword '{0}'. Using a reserved keyword as the name of a type makes it harder for consumers in other languages to use the type." />
+    <DisabledWarnings Include="CA2225" Comment="Operator overloads have named alternates." />
+    <DisabledWarnings Include="CA2227" Comment="Collection properties should be read only (required for XML deserialization)." />
+
+    <DisabledWarnings Include="SA1008" Comment="Opening parenthesis must be spaced correctly (disabled because we use tuples)." />
+    <DisabledWarnings Include="SA1114" Comment="Parameter list must follow declaration (tests assertions)." />
+    <DisabledWarnings Include="SA1115" Comment="The parameter must begin on the line after the previous parameter (tests assertions)." />
+    <DisabledWarnings Include="SA1204" Comment="Static members must appear before non-static members." />
+    <DisabledWarnings Include="SA1402" Comment="File may only contain a single class." />
+    <DisabledWarnings Include="SA1515" Comment="Single-line comment must be preceded by blank line (tests assertions)." />
+    <DisabledWarnings Include="SA1649" Comment="File name must match first type name." />
+    <DisabledWarnings Include="SA1652" Comment="The project is currently configured to not parse XML documentation comments; all diagnostics for documentation comments are disabled." />
+  </ItemGroup>
+
   <PropertyGroup>
-    <!--
-    Below comma-separated list of warnings:
-    CA1034: Nested types should not be visible (required for XML deserialization).
-    CA2225: Operator overloads have named alternates.
-    CA2227: Collection properties should be read only (required for XML deserialization).
-    SA1008: Opening parenthesis must be spaced correctly (disabled because we use tuples).
-    SA1114: Parameter list must follow declaration (tests assertions).
-    SA1115: The parameter must begin on the line after the previous parameter (tests assertions).
-    SA1204: Static members must appear before non-static members.
-    SA1402: File may only contain a single class.
-    SA1515: Single-line comment must be preceded by blank line (tests assertions).
-    SA1649: File name must match first type name.
-    SA1652: The project is currently configured to not parse XML documentation comments; all diagnostics for documentation comments are disabled.
-    -->
-    <NoWarn>CA1034,CA2225,CA2227,SA1008,SA1114,SA1115,SA1204,SA1402,SA1515,SA1649,SA1652</NoWarn>
+    <NoWarn>@(DisabledWarnings, ',')</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

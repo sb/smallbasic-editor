@@ -9,8 +9,6 @@ namespace SuperBasic.Compiler.Binding
 
     internal abstract class BaseBoundNode
     {
-        public abstract BaseSyntaxNode Syntax { get; }
-
         public abstract IEnumerable<BaseBoundNode> Children { get; }
     }
 }
