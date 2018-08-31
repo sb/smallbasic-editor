@@ -185,7 +185,7 @@ namespace SuperBasic.Compiler.Parsing
             var endForToken = this.Eat(TokenKind.EndFor);
             this.RunToEndOfLine();
 
-            return new ForStatementSyntax(forToken, identifierToken, equalToken, fromExpression, toToken, stepClauseOpt, statements, endForToken);
+            return new ForStatementSyntax(forToken, identifierToken, equalToken, fromExpression, toToken, toExpression, stepClauseOpt, statements, endForToken);
         }
 
         private WhileStatementSyntax ParseWhileStatement()

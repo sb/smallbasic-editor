@@ -4,33 +4,43 @@
 
 namespace SuperBasic.Generators.Diagnostics
 {
-    using System;
     using System.Linq;
     using SuperBasic.Utilities;
 
     public sealed class GenerateDiagnosticBag : BaseGeneratorTask<DiagnosticsModels.DiagnosticsCollection>
     {
-        protected override string Convert(DiagnosticsModels.DiagnosticsCollection root) => $@"
-namespace SuperBasic.Compiler.Diagnostics
-{{
-    using System.Collections.Generic;
-    using SuperBasic.Compiler.Scanning;
-    using SuperBasic.Utilities;
+        protected override void Generate(DiagnosticsModels.DiagnosticsCollection model)
+        {
+            this.Line("namespace SuperBasic.Compiler.Diagnostics");
+            this.Brace();
 
-    internal sealed class DiagnosticBag
-    {{
-        private readonly List<Diagnostic> builder = new List<Diagnostic>();
+            this.Line("using System.Collections.Generic;");
+            this.Line("using SuperBasic.Compiler.Scanning;");
+            this.Line("using SuperBasic.Utilities;");
+            this.Blank();
 
-        public IReadOnlyList<Diagnostic> Contents => this.builder;
-{root.Select(this.GenerateReportMethod).Join(Environment.NewLine)}
-    }}
-}}
-";
+            this.Line("internal sealed class DiagnosticBag");
+            this.Brace();
 
-        private string GenerateReportMethod(DiagnosticsModels.Diagnostic diagnostic) => $@"
-        public void Report{diagnostic.Name}(TextRange range{diagnostic.Parameters.Select(parameter => $", {parameter.Type} {parameter.Name}").Join(string.Empty)})
-        {{
-            this.builder.Add(new Diagnostic(DiagnosticCode.{diagnostic.Name}, range{diagnostic.Parameters.Select(parameter => $", {parameter.Name}.ToDisplayString()").Join(string.Empty)}));
-        }}";
+            this.Line("private readonly List<Diagnostic> builder = new List<Diagnostic>();");
+            this.Blank();
+
+            this.Line("public IReadOnlyList<Diagnostic> Contents => this.builder;");
+            this.Blank();
+
+            foreach (var diagnostic in model)
+            {
+                string arguments = diagnostic.Parameters.Select(parameter => $", {parameter.Type} {parameter.Name}").Join();
+                this.Line($"public void Report{diagnostic.Name}(TextRange range{arguments})");
+                this.Brace();
+
+                string displayStrings = diagnostic.Parameters.Select(parameter => $", {parameter.Name}.ToDisplayString()").Join();
+                this.Line($"this.builder.Add(new Diagnostic(DiagnosticCode.{diagnostic.Name}, range{displayStrings}));");
+                this.Unbrace();
+            }
+
+            this.Unbrace();
+            this.Unbrace();
+        }
     }
 }

@@ -11,29 +11,28 @@ namespace SuperBasic.Generators.Parsing
 
     public sealed class GenerateSyntaxNodes : BaseGeneratorTask<ParsingModels.SyntaxNodeCollection>
     {
-        protected override string Convert(ParsingModels.SyntaxNodeCollection root) => $@"
-namespace SuperBasic.Compiler.Parsing
-{{
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using SuperBasic.Compiler.Scanning;
-{root.Select(this.GenerateNodeType).Join(Environment.NewLine)}
-}}
-";
-
-        private string GenerateNodeType(ParsingModels.SyntaxNode node)
+        protected override void Generate(ParsingModels.SyntaxNodeCollection model)
         {
-            if (!node.Name.EndsWith("Syntax", StringComparison.CurrentCulture))
+            this.Line("namespace SuperBasic.Compiler.Parsing");
+            this.Brace();
+
+            this.Line("using System.Collections.Generic;");
+            this.Line("using System.Diagnostics;");
+            this.Line("using System.Linq;");
+            this.Line("using SuperBasic.Compiler.Scanning;");
+            this.Blank();
+
+            foreach (var node in model)
             {
-                this.Log.LogError($"Node '{node.Name}' should end with 'Syntax'.");
+                this.ValidateNode(node);
+                this.GenerateNode(node);
             }
 
-            if (!node.IsAbstract && !node.Members.Any())
-            {
-                this.Log.LogError($"Node '{node.Name}' should should have at least one member.");
-            }
+            this.Unbrace();
+        }
 
+        private void ValidateNode(ParsingModels.SyntaxNode node)
+        {
             bool foundRequired = false;
 
             foreach (var member in node.Members)
@@ -56,97 +55,133 @@ namespace SuperBasic.Compiler.Parsing
                 }
             }
 
-            if (!node.IsAbstract && !foundRequired)
+            if (node.IsAbstract)
+            {
+                if (node.Members.Any())
+                {
+                    this.Log.LogError($"Abstract node '{node.Name}' should not have any members.");
+                }
+
+                if (!node.Name.StartsWith("Base", StringComparison.CurrentCulture))
+                {
+                    this.Log.LogError($"Abstract node '{node.Name}' name should start with 'Base'.");
+                }
+            }
+            else if (!foundRequired)
             {
                 this.Log.LogError($"Node '{node.Name}' must have at least one non-optional member.");
             }
 
-            return $@"
-    internal {(node.IsAbstract ? "abstract" : "sealed")} class {node.Name} : {node.Inherits}
-    {{{(node.IsAbstract ? string.Empty : GenerateNodeTypeMembers(node))}
-    }}";
+            if (!node.Name.EndsWith("Syntax", StringComparison.CurrentCulture))
+            {
+                this.Log.LogError($"Node '{node.Name}' name should end with 'Syntax'.");
+            }
+
+            if (node.Name.Contains("Bound"))
+            {
+                this.Log.LogError($"Node '{node.Name}' name should not contain 'Bound'.");
+            }
         }
 
-        private static string GenerateNodeTypeMembers(ParsingModels.SyntaxNode node)
+        private void GenerateNode(ParsingModels.SyntaxNode node)
         {
             string getFullType(ParsingModels.Member member) => member.IsList ? $"IReadOnlyList<{member.Type}>" : member.Type;
 
-            return $@"
-        public {node.Name}({node.Members.Select(member => $"{getFullType(member)} {member.Name.LowerFirstChar()}").Join(", ")})
-        {{
-{GetMembersDebugAsserts(node.Members).Join(Environment.NewLine)}
+            this.Line($"internal {(node.IsAbstract ? "abstract" : "sealed")} class {node.Name} : {node.Inherits}");
+            this.Brace();
 
-{node.Members.Select(member => $"            this.{member.Name} = {member.Name.LowerFirstChar()};").Join(Environment.NewLine)}
-        }}
+            if (!node.IsAbstract)
+            {
+                string parameters = node.Members.Select(member => $"{getFullType(member)} {member.Name.LowerFirstChar()}").Join(", ");
+                this.Line($"public {node.Name}({parameters})");
+                this.Brace();
 
-{node.Members.Select(member => $"        public {getFullType(member)} {member.Name} {{ get; private set; }}").Join(Environment.NewLine + Environment.NewLine)}
+                this.GenerateNullAsserts(node);
+                this.Blank();
 
-        public override IEnumerable<BaseSyntax> Children
-        {{
-            get
-            {{
-{GetChildrenPropertyContents(node.Members.Where(member => member.Type != "Token")).Join(Environment.NewLine)}
-            }}
-        }}";
+                foreach (var member in node.Members)
+                {
+                    this.Line($"this.{member.Name} = {member.Name.LowerFirstChar()};");
+                }
+
+                this.Unbrace();
+
+                foreach (var member in node.Members)
+                {
+                    this.Line($"public {getFullType(member)} {member.Name} {{ get; private set; }}");
+                    this.Blank();
+                }
+
+                this.Line("public override IEnumerable<BaseSyntaxNode> Children");
+                this.Brace();
+                this.Line("get");
+                this.Brace();
+
+                this.GenerateChildrenPropertyContents(node.Members.Where(member => member.Type != "Token"));
+
+                this.Unbrace();
+                this.Unbrace();
+            }
+
+            this.Unbrace();
         }
 
-        private static IEnumerable<string> GetMembersDebugAsserts(IEnumerable<ParsingModels.Member> members)
+        private void GenerateNullAsserts(ParsingModels.SyntaxNode node)
         {
-            foreach (var member in members)
+            foreach (var member in node.Members)
             {
                 if (!member.IsOptional)
                 {
-                    yield return $@"            Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");";
+                    this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.LowerFirstChar()}, null), ""'{member.Name.LowerFirstChar()}' must not be null."");");
+                }
 
-                    if (member.Type == "Token" && member.TokenKinds != "*")
+                if (member.Type == "Token" && member.TokenKinds != "*")
+                {
+                    string conditions = member.TokenKinds.Split(',').Select(kind => $"{member.Name.LowerFirstChar()}.Kind == TokenKind.{kind}").Join(" || ");
+                    string tokenKindAssert = $@"Debug.Assert({conditions}, ""'{member.Name.LowerFirstChar()}' must have a TokenKind of '{member.TokenKinds}'."");";
+
+                    if (member.IsOptional)
                     {
-                        yield return $@"            Debug.Assert({member.TokenKinds.Split(',').Select(kind => $"{member.Name.LowerFirstChar()}.Kind == TokenKind.{kind}").Join(" || ")}, ""'{member.Name.LowerFirstChar()}' must have a TokenKind of '{member.TokenKinds}'."");";
+                        this.Line($"if (!ReferenceEquals({member.Name.LowerFirstChar()}, null))");
+                        this.Brace();
+                        this.Line(tokenKindAssert);
+                        this.Unbrace();
+                    }
+                    else
+                    {
+                        this.Line(tokenKindAssert);
                     }
                 }
             }
         }
 
-        private static IEnumerable<string> GetChildrenPropertyContents(IEnumerable<ParsingModels.Member> members)
+        private void GenerateChildrenPropertyContents(IEnumerable<ParsingModels.Member> members)
         {
             if (!members.Any())
             {
-                yield return "                return Enumerable.Empty<BaseSyntax>();";
+                this.Line("return Enumerable.Empty<BaseSyntaxNode>();");
+                return;
             }
-            else
+
+            foreach (var member in members)
             {
-                bool anythingPrinted = false;
-                bool curlyBracketPrinted = false;
-
-                foreach (var child in members)
+                if (member.IsList)
                 {
-                    bool curlyBracketsNeeded = child.IsList || child.IsOptional;
-
-                    if (curlyBracketPrinted || (anythingPrinted && curlyBracketsNeeded))
-                    {
-                        yield return string.Empty;
-                    }
-
-                    curlyBracketPrinted = curlyBracketsNeeded;
-                    anythingPrinted = true;
-
-                    if (child.IsList)
-                    {
-                        yield return $@"                foreach (var child in this.{child.Name})";
-                        yield return $@"                {{";
-                        yield return $@"                    yield return child;";
-                        yield return $@"                }}";
-                    }
-                    else if (child.IsOptional)
-                    {
-                        yield return $@"                if (!ReferenceEquals(this.{child.Name}, null))";
-                        yield return $@"                {{";
-                        yield return $@"                    yield return this.{child.Name};";
-                        yield return $@"                }}";
-                    }
-                    else
-                    {
-                        yield return $"                yield return this.{child.Name};";
-                    }
+                    this.Line($"foreach (var child in this.{member.Name})");
+                    this.Brace();
+                    this.Line("yield return child;");
+                    this.Unbrace();
+                }
+                else if (member.IsOptional)
+                {
+                    this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
+                    this.Brace();
+                    this.Line($"yield return this.{member.Name};");
+                    this.Unbrace();
+                }
+                else
+                {
+                    this.Line($"yield return this.{member.Name};");
                 }
             }
         }

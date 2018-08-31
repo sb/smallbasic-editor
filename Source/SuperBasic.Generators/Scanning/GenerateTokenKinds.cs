@@ -10,29 +10,46 @@ namespace SuperBasic.Generators.Scanning
 
     public sealed class GenerateTokenKinds : BaseGeneratorTask<ScanningModels.TokenKindCollection>
     {
-        protected override string Convert(ScanningModels.TokenKindCollection root) => $@"
-namespace SuperBasic.Compiler.Scanning
-{{
-    using SuperBasic.Utilities;
-    using SuperBasic.Utilities.Resources;
+        protected override void Generate(ScanningModels.TokenKindCollection model)
+        {
+            this.Line("namespace SuperBasic.Compiler.Scanning");
+            this.Brace();
 
-    internal enum TokenKind
-    {{
-{root.Select(tokenKind => $"        {tokenKind.Name},").Join(Environment.NewLine)}
-    }}
+            this.Line("using SuperBasic.Utilities;");
+            this.Line("using SuperBasic.Utilities.Resources;");
+            this.Blank();
 
-    internal static partial class TokenKindExtensions
-    {{
-        public static string ToDisplayString(this TokenKind kind)
-        {{
-            switch (kind)
-            {{
-{root.Select(tokenKind => $"                case TokenKind.{tokenKind.Name}: return {tokenKind.Display};").Join(Environment.NewLine)}
-                default: throw ExceptionUtilities.UnexpectedValue(kind);
-            }}
-        }}
-    }}
-}}
-";
+            this.Line("internal enum TokenKind");
+            this.Brace();
+
+            foreach (var tokenKind in model)
+            {
+                this.Line($"{tokenKind.Name},");
+            }
+
+            this.Unbrace();
+            this.Blank();
+
+            this.Line("internal static partial class TokenKindExtensions");
+            this.Brace();
+
+            this.Line("public static string ToDisplayString(this TokenKind kind)");
+            this.Brace();
+
+            this.Line("switch (kind)");
+            this.Brace();
+
+            foreach (var tokenKind in model)
+            {
+                this.Line($"case TokenKind.{tokenKind.Name}: return {tokenKind.Display};");
+            }
+
+            this.Line("default: throw ExceptionUtilities.UnexpectedValue(kind);");
+
+            this.Unbrace();
+            this.Unbrace();
+            this.Unbrace();
+            this.Unbrace();
+        }
     }
 }

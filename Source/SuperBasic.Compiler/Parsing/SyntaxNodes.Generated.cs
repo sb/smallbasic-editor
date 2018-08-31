@@ -12,7 +12,7 @@ namespace SuperBasic.Compiler.Parsing
     using System.Linq;
     using SuperBasic.Compiler.Scanning;
 
-    internal abstract class BaseStatementSyntax : BaseSyntax
+    internal abstract class BaseStatementSyntax : BaseSyntaxNode
     {
     }
 
@@ -42,7 +42,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token EndSubToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -62,7 +62,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public IReadOnlyList<BaseStatementSyntax> Statements { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -74,7 +74,7 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class IfPartSyntax : BaseSyntax
+    internal sealed class IfPartSyntax : BaseSyntaxNode
     {
         public IfPartSyntax(Token ifToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax statements)
         {
@@ -99,7 +99,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public StatementBlockSyntax Statements { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -109,7 +109,7 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class ElseIfPartSyntax : BaseSyntax
+    internal sealed class ElseIfPartSyntax : BaseSyntaxNode
     {
         public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax statements)
         {
@@ -134,7 +134,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public StatementBlockSyntax Statements { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -144,7 +144,7 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class ElsePartSyntax : BaseSyntax
+    internal sealed class ElsePartSyntax : BaseSyntaxNode
     {
         public ElsePartSyntax(Token elseToken, StatementBlockSyntax statements)
         {
@@ -160,7 +160,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public StatementBlockSyntax Statements { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -192,12 +192,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token EndIfToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
                 yield return this.IfPart;
-
                 foreach (var child in this.ElseIfParts)
                 {
                     yield return child;
@@ -236,7 +235,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token EndWhileToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -246,7 +245,7 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal sealed class ForStepClauseSyntax : BaseSyntax
+    internal sealed class ForStepClauseSyntax : BaseSyntaxNode
     {
         public ForStepClauseSyntax(Token stepToken, BaseExpressionSyntax expression)
         {
@@ -262,7 +261,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax Expression { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -273,7 +272,7 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class ForStatementSyntax : BaseStatementSyntax
     {
-        public ForStatementSyntax(Token forToken, Token identifierToken, Token equalToken, BaseExpressionSyntax fromExpression, Token toToken, ForStepClauseSyntax stepClauseOpt, StatementBlockSyntax statements, Token endForToken)
+        public ForStatementSyntax(Token forToken, Token identifierToken, Token equalToken, BaseExpressionSyntax fromExpression, Token toToken, BaseExpressionSyntax toExpression, ForStepClauseSyntax stepClauseOpt, StatementBlockSyntax statements, Token endForToken)
         {
             Debug.Assert(!ReferenceEquals(forToken, null), "'forToken' must not be null.");
             Debug.Assert(forToken.Kind == TokenKind.For, "'forToken' must have a TokenKind of 'For'.");
@@ -284,6 +283,7 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(!ReferenceEquals(fromExpression, null), "'fromExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(toToken, null), "'toToken' must not be null.");
             Debug.Assert(toToken.Kind == TokenKind.To, "'toToken' must have a TokenKind of 'To'.");
+            Debug.Assert(!ReferenceEquals(toExpression, null), "'toExpression' must not be null.");
             Debug.Assert(!ReferenceEquals(statements, null), "'statements' must not be null.");
             Debug.Assert(!ReferenceEquals(endForToken, null), "'endForToken' must not be null.");
             Debug.Assert(endForToken.Kind == TokenKind.EndFor, "'endForToken' must have a TokenKind of 'EndFor'.");
@@ -293,6 +293,7 @@ namespace SuperBasic.Compiler.Parsing
             this.EqualToken = equalToken;
             this.FromExpression = fromExpression;
             this.ToToken = toToken;
+            this.ToExpression = toExpression;
             this.StepClauseOpt = stepClauseOpt;
             this.Statements = statements;
             this.EndForToken = endForToken;
@@ -308,18 +309,20 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token ToToken { get; private set; }
 
+        public BaseExpressionSyntax ToExpression { get; private set; }
+
         public ForStepClauseSyntax StepClauseOpt { get; private set; }
 
         public StatementBlockSyntax Statements { get; private set; }
 
         public Token EndForToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
                 yield return this.FromExpression;
-
+                yield return this.ToExpression;
                 if (!ReferenceEquals(this.StepClauseOpt, null))
                 {
                     yield return this.StepClauseOpt;
@@ -347,11 +350,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token ColonToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                return Enumerable.Empty<BaseSyntax>();
+                return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
     }
@@ -373,11 +376,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token LabelToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                return Enumerable.Empty<BaseSyntax>();
+                return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
     }
@@ -393,11 +396,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token UnrecognizedToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                return Enumerable.Empty<BaseSyntax>();
+                return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
     }
@@ -413,7 +416,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax Expression { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -422,7 +425,7 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
-    internal abstract class BaseExpressionSyntax : BaseSyntax
+    internal abstract class BaseExpressionSyntax : BaseSyntaxNode
     {
     }
 
@@ -442,7 +445,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax Expression { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -471,7 +474,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public BaseExpressionSyntax RightExpression { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -502,7 +505,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token IdentifierToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -536,7 +539,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token RightBracketToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -551,6 +554,10 @@ namespace SuperBasic.Compiler.Parsing
         public ArgumentSyntax(BaseExpressionSyntax expression, Token commaTokenOpt)
         {
             Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            if (!ReferenceEquals(commaTokenOpt, null))
+            {
+                Debug.Assert(commaTokenOpt.Kind == TokenKind.Comma, "'commaTokenOpt' must have a TokenKind of 'Comma'.");
+            }
 
             this.Expression = expression;
             this.CommaTokenOpt = commaTokenOpt;
@@ -560,7 +567,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token CommaTokenOpt { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -594,12 +601,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token RightParenToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
                 yield return this.BaseExpression;
-
                 foreach (var child in this.Arguments)
                 {
                     yield return child;
@@ -629,7 +635,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token RightParenToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
@@ -650,11 +656,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token IdentifierToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                return Enumerable.Empty<BaseSyntax>();
+                return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
     }
@@ -671,11 +677,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token StringToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                return Enumerable.Empty<BaseSyntax>();
+                return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
     }
@@ -692,11 +698,11 @@ namespace SuperBasic.Compiler.Parsing
 
         public Token NumberToken { get; private set; }
 
-        public override IEnumerable<BaseSyntax> Children
+        public override IEnumerable<BaseSyntaxNode> Children
         {
             get
             {
-                return Enumerable.Empty<BaseSyntax>();
+                return Enumerable.Empty<BaseSyntaxNode>();
             }
         }
     }

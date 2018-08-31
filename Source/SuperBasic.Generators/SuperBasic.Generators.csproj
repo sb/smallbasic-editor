@@ -15,19 +15,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <_BuildOutputFiles Include="$(OutDir)**\*.*" />
-
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Scanning\TokenKinds.xml" Link="Scanning\TokenKinds.xml" />
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\Diagnostics.xml" Link="Diagnostics\Diagnostics.xml" />
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.xml" Link="Parsing\SyntaxNodes.xml" />
+    <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Link="Binding\BoundNodes.xml" />
   </ItemGroup>
 
   <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateDiagnosticCode" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateDiagnosticBag" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateSyntaxNodes" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateBoundNodes" AssemblyFile="$(_TempBinaryPath)" />
 
   <Target Name="RunGenerators" AfterTargets="Build">
+    <ItemGroup>
+      <_BuildOutputFiles Include="$(OutDir)**\*.*" />
+    </ItemGroup>
+
     <!-- This is necessary to prevent file locking by msbuild when tasks are running -->
     <Copy SourceFiles="@(_BuildOutputFiles)" DestinationFolder="$(_TempDestination)" />
 
@@ -35,6 +39,7 @@
     <GenerateDiagnosticCode Input="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\Diagnostics.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticCode.Generated.cs" />
     <GenerateDiagnosticBag Input="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\Diagnostics.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticBag.Generated.cs" />
     <GenerateSyntaxNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.Generated.cs" />
+    <GenerateBoundNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.Generated.cs" />
   </Target>
 
 </Project>
