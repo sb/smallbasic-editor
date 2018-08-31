@@ -425,6 +425,27 @@ namespace SuperBasic.Compiler.Parsing
         }
     }
 
+    internal sealed class CommentStatementSyntax : BaseStatementSyntax
+    {
+        public CommentStatementSyntax(Token commentToken)
+        {
+            Debug.Assert(!ReferenceEquals(commentToken, null), "'commentToken' must not be null.");
+            Debug.Assert(commentToken.Kind == TokenKind.Comment, "'commentToken' must have a TokenKind of 'Comment'.");
+
+            this.CommentToken = commentToken;
+        }
+
+        public Token CommentToken { get; private set; }
+
+        public override IEnumerable<BaseSyntaxNode> Children
+        {
+            get
+            {
+                return Enumerable.Empty<BaseSyntaxNode>();
+            }
+        }
+    }
+
     internal abstract class BaseExpressionSyntax : BaseSyntaxNode
     {
     }
@@ -697,6 +718,26 @@ namespace SuperBasic.Compiler.Parsing
         }
 
         public Token NumberToken { get; private set; }
+
+        public override IEnumerable<BaseSyntaxNode> Children
+        {
+            get
+            {
+                return Enumerable.Empty<BaseSyntaxNode>();
+            }
+        }
+    }
+
+    internal sealed class UnrecognizedExpressionSyntax : BaseExpressionSyntax
+    {
+        public UnrecognizedExpressionSyntax(Token unrecognizedToken)
+        {
+            Debug.Assert(!ReferenceEquals(unrecognizedToken, null), "'unrecognizedToken' must not be null.");
+
+            this.UnrecognizedToken = unrecognizedToken;
+        }
+
+        public Token UnrecognizedToken { get; private set; }
 
         public override IEnumerable<BaseSyntaxNode> Children
         {

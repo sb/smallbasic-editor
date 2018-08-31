@@ -101,6 +101,12 @@
     </Members>
   </SyntaxNode>
 
+  <SyntaxNode Name="CommentStatementSyntax" Inherits="BaseStatementSyntax">
+    <Members>
+      <Member Name="CommentToken" Type="Token" TokenKinds="Comment" />
+    </Members>
+  </SyntaxNode>
+
   <SyntaxNode Name="BaseExpressionSyntax" IsAbstract="true" Inherits="BaseSyntaxNode" />
 
   <SyntaxNode Name="UnaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
@@ -161,10 +167,15 @@
     <Members>
       <Member Name="StringToken" Type="Token" TokenKinds="StringLiteral" />
     </Members>
-  </SyntaxNode>1
+  </SyntaxNode>
   <SyntaxNode Name="NumberLiteralExpressionSyntax" Inherits="BaseExpressionSyntax">
     <Members>
       <Member Name="NumberToken" Type="Token" TokenKinds="NumberLiteral" />
+    </Members>
+  </SyntaxNode>
+  <SyntaxNode Name="UnrecognizedExpressionSyntax" Inherits="BaseExpressionSyntax">
+    <Members>
+      <Member Name="UnrecognizedToken" Type="Token" TokenKinds="*" />
     </Members>
   </SyntaxNode>
 </root>
