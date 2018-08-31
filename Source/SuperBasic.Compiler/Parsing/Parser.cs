@@ -37,7 +37,7 @@ namespace SuperBasic.Compiler.Parsing
 
         public Parser(IReadOnlyList<Token> tokens, DiagnosticBag diagnostics)
         {
-            this.tokens = tokens.Where(token => token.Kind != TokenKind.Comment && token.Kind != TokenKind.Unrecognized).ToList();
+            this.tokens = tokens;
             this.diagnostics = diagnostics;
 
             var statements = new List<BaseStatementSyntax>();
@@ -95,6 +95,7 @@ namespace SuperBasic.Compiler.Parsing
                     return this.ParseForStatement();
                 case TokenKind.While:
                     return this.ParseWhileStatement();
+
                 case TokenKind.Identifier:
                     if (this.index + 1 < this.tokens.Count && this.tokens[this.index + 1].Kind == TokenKind.Colon)
                     {
@@ -115,10 +116,21 @@ namespace SuperBasic.Compiler.Parsing
                     var identifier = this.Eat(TokenKind.Identifier);
                     this.RunToEndOfLine();
                     return new GoToStatementSyntax(goToToken, identifier);
+
+                case TokenKind.Comment:
+                    var commentToken = this.Eat(TokenKind.Comment);
+                    this.RunToEndOfLine();
+                    return new CommentStatementSyntax(commentToken);
+
                 case TokenKind foundKind:
                     var foundToken = this.Eat(foundKind);
                     this.RunToEndOfLine(reportErrors: false);
-                    this.diagnostics.ReportUnexpectedTokenInsteadOfStatement(foundToken.Range, foundToken.Kind);
+
+                    if (foundKind != TokenKind.Unrecognized)
+                    {
+                        this.diagnostics.ReportUnexpectedTokenInsteadOfStatement(foundToken.Range, foundToken.Kind);
+                    }
+
                     return new UnrecognizedStatementSyntax(foundToken);
             }
         }
@@ -356,9 +368,13 @@ namespace SuperBasic.Compiler.Parsing
 
                 case TokenKind foundKind:
                     var foundToken = this.Eat(foundKind);
-                    var expectedToken = new Token(TokenKind.Identifier, MissingTokenText, foundToken.Range);
-                    this.diagnostics.ReportUnexpectedTokenFound(expectedToken.Range, foundToken.Kind, expectedToken.Kind);
-                    return new IdentifierExpressionSyntax(expectedToken);
+
+                    if (foundKind != TokenKind.Unrecognized)
+                    {
+                        this.diagnostics.ReportUnexpectedTokenFound(foundToken.Range, foundKind, TokenKind.Identifier);
+                    }
+
+                    return new UnrecognizedExpressionSyntax(foundToken);
             }
         }
 
@@ -366,13 +382,28 @@ namespace SuperBasic.Compiler.Parsing
         {
             var currentLine = this.tokens[this.index - 1].Range.Start.Line;
 
-            if (reportErrors && this.index < this.tokens.Count && this.tokens[this.index].Range.Start.Line == currentLine)
+            while (true)
             {
-                this.diagnostics.ReportUnexpectedStatementInsteadOfNewLine(this.tokens[this.index].Range);
-            }
+                if (this.index >= this.tokens.Count)
+                {
+                    break;
+                }
 
-            while (this.index < this.tokens.Count && this.tokens[this.index].Range.Start.Line == currentLine)
-            {
+                var currentToken = this.tokens[this.index];
+
+                if (currentToken.Kind == TokenKind.Comment ||
+                    currentToken.Kind == TokenKind.Unrecognized ||
+                    currentLine < currentToken.Range.Start.Line)
+                {
+                    break;
+                }
+
+                if (reportErrors)
+                {
+                    this.diagnostics.ReportUnexpectedStatementInsteadOfNewLine(currentToken.Range);
+                    reportErrors = false;
+                }
+
                 this.index++;
             }
         }

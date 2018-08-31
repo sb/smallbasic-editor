@@ -39,11 +39,6 @@ namespace SuperBasic.Generators.Parsing
             {
                 foundRequired |= !member.IsOptional;
 
-                if (member.IsOptional != member.Name.EndsWith("Opt", StringComparison.CurrentCulture))
-                {
-                    this.Log.LogError($"Member '{node.Name}.{member.Name}' must end with 'Opt' if it was optional, and vice versa.");
-                }
-
                 if (member.IsOptional && member.IsList)
                 {
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' cannot be both optional and a list.");
@@ -52,6 +47,23 @@ namespace SuperBasic.Generators.Parsing
                 if ((member.Type == "Token") == member.TokenKinds is null)
                 {
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' of type 'Token' must specify 'TokenKinds', and vice versa.");
+                }
+
+                string requiredSuffix = string.Empty;
+
+                if (member.Type == "Token")
+                {
+                    requiredSuffix += "Token";
+                }
+
+                if (member.IsOptional)
+                {
+                    requiredSuffix += "Opt";
+                }
+
+                if (!member.Name.EndsWith(requiredSuffix, StringComparison.CurrentCulture))
+                {
+                    this.Log.LogError($"Member '{node.Name}.{member.Name}' must end with '{requiredSuffix}'.");
                 }
             }
 

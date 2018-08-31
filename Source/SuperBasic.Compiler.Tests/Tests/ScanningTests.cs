@@ -37,7 +37,7 @@ y = ""another").VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItReportsUnrecognizedCharacters()
+        public void ItReportsUnrecognizedCharactersOnStartOfLine()
         {
             new SuperBasicCompilation(@"
 $").VerifyDiagnostics(
