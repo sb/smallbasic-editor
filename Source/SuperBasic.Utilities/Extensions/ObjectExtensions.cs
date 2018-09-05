@@ -8,11 +8,10 @@ namespace SuperBasic.Utilities
     using System.Collections.Generic;
     using System.Globalization;
 
-    // TODO write new analyzers for all disabled warnings
-    // TODO write analyzer for replacing "is null" and "ReferenceEquals" with ".IsDefault"
-    // TODO write analyzer to replace Assert.Anything with Should() calls
     public static class ObjectExtensions
     {
+#pragma warning disable SB1002 // Use IsDefault Helper
         public static bool IsDefault(this object value) => ReferenceEquals(value, default);
+#pragma warning restore SB1002 // Use IsDefault Helper
     }
 }

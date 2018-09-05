@@ -22,12 +22,12 @@ namespace SuperBasic.Compiler.Parsing
     {
         public SubModuleStatementSyntax(Token subToken, Token nameToken, StatementBlockSyntax body, Token endSubToken)
         {
-            Debug.Assert(!ReferenceEquals(subToken, null), "'subToken' must not be null.");
+            Debug.Assert(!subToken.IsDefault(), "'subToken' must not be null.");
             Debug.Assert(subToken.Kind == TokenKind.Sub, "'subToken' must have a TokenKind of 'Sub'.");
-            Debug.Assert(!ReferenceEquals(nameToken, null), "'nameToken' must not be null.");
+            Debug.Assert(!nameToken.IsDefault(), "'nameToken' must not be null.");
             Debug.Assert(nameToken.Kind == TokenKind.Identifier, "'nameToken' must have a TokenKind of 'Identifier'.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
-            Debug.Assert(!ReferenceEquals(endSubToken, null), "'endSubToken' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
+            Debug.Assert(!endSubToken.IsDefault(), "'endSubToken' must not be null.");
             Debug.Assert(endSubToken.Kind == TokenKind.EndSub, "'endSubToken' must have a TokenKind of 'EndSub'.");
 
             this.SubToken = subToken;
@@ -75,7 +75,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public StatementBlockSyntax(IReadOnlyList<BaseStatementSyntax> body)
         {
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Body = body;
         }
@@ -102,7 +102,7 @@ namespace SuperBasic.Compiler.Parsing
                 TextPosition calculateStart()
                 {
                     var bodyChild = this.Body.FirstOrDefault();
-                    if (!ReferenceEquals(bodyChild, null))
+                    if (!bodyChild.IsDefault())
                     {
                         return bodyChild.Range.Start;
                     }
@@ -113,7 +113,7 @@ namespace SuperBasic.Compiler.Parsing
                 TextPosition calculateEnd()
                 {
                     var bodyChild = this.Body.LastOrDefault();
-                    if (!ReferenceEquals(bodyChild, null))
+                    if (!bodyChild.IsDefault())
                     {
                         return bodyChild.Range.End;
                     }
@@ -128,12 +128,12 @@ namespace SuperBasic.Compiler.Parsing
     {
         public IfPartSyntax(Token ifToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax body)
         {
-            Debug.Assert(!ReferenceEquals(ifToken, null), "'ifToken' must not be null.");
+            Debug.Assert(!ifToken.IsDefault(), "'ifToken' must not be null.");
             Debug.Assert(ifToken.Kind == TokenKind.If, "'ifToken' must have a TokenKind of 'If'.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!thenToken.IsDefault(), "'thenToken' must not be null.");
             Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.IfToken = ifToken;
             this.Expression = expression;
@@ -181,12 +181,12 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax body)
         {
-            Debug.Assert(!ReferenceEquals(elseIfToken, null), "'elseIfToken' must not be null.");
+            Debug.Assert(!elseIfToken.IsDefault(), "'elseIfToken' must not be null.");
             Debug.Assert(elseIfToken.Kind == TokenKind.ElseIf, "'elseIfToken' must have a TokenKind of 'ElseIf'.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(thenToken, null), "'thenToken' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!thenToken.IsDefault(), "'thenToken' must not be null.");
             Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.ElseIfToken = elseIfToken;
             this.Expression = expression;
@@ -234,9 +234,9 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ElsePartSyntax(Token elseToken, StatementBlockSyntax body)
         {
-            Debug.Assert(!ReferenceEquals(elseToken, null), "'elseToken' must not be null.");
+            Debug.Assert(!elseToken.IsDefault(), "'elseToken' must not be null.");
             Debug.Assert(elseToken.Kind == TokenKind.Else, "'elseToken' must have a TokenKind of 'Else'.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.ElseToken = elseToken;
             this.Body = body;
@@ -277,9 +277,9 @@ namespace SuperBasic.Compiler.Parsing
     {
         public IfStatementSyntax(IfPartSyntax ifPart, IReadOnlyList<ElseIfPartSyntax> elseIfParts, ElsePartSyntax elsePartOpt, Token endIfToken)
         {
-            Debug.Assert(!ReferenceEquals(ifPart, null), "'ifPart' must not be null.");
-            Debug.Assert(!ReferenceEquals(elseIfParts, null), "'elseIfParts' must not be null.");
-            Debug.Assert(!ReferenceEquals(endIfToken, null), "'endIfToken' must not be null.");
+            Debug.Assert(!ifPart.IsDefault(), "'ifPart' must not be null.");
+            Debug.Assert(!elseIfParts.IsDefault(), "'elseIfParts' must not be null.");
+            Debug.Assert(!endIfToken.IsDefault(), "'endIfToken' must not be null.");
             Debug.Assert(endIfToken.Kind == TokenKind.EndIf, "'endIfToken' must have a TokenKind of 'EndIf'.");
 
             this.IfPart = ifPart;
@@ -306,7 +306,7 @@ namespace SuperBasic.Compiler.Parsing
                     yield return child;
                 }
 
-                if (!ReferenceEquals(this.ElsePartOpt, null))
+                if (!this.ElsePartOpt.IsDefault())
                 {
                     yield return this.ElsePartOpt;
                 }
@@ -336,11 +336,11 @@ namespace SuperBasic.Compiler.Parsing
     {
         public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expression, StatementBlockSyntax body, Token endWhileToken)
         {
-            Debug.Assert(!ReferenceEquals(whileToken, null), "'whileToken' must not be null.");
+            Debug.Assert(!whileToken.IsDefault(), "'whileToken' must not be null.");
             Debug.Assert(whileToken.Kind == TokenKind.While, "'whileToken' must have a TokenKind of 'While'.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
-            Debug.Assert(!ReferenceEquals(endWhileToken, null), "'endWhileToken' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
+            Debug.Assert(!endWhileToken.IsDefault(), "'endWhileToken' must not be null.");
             Debug.Assert(endWhileToken.Kind == TokenKind.EndWhile, "'endWhileToken' must have a TokenKind of 'EndWhile'.");
 
             this.WhileToken = whileToken;
@@ -389,9 +389,9 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ForStepClauseSyntax(Token stepToken, BaseExpressionSyntax expression)
         {
-            Debug.Assert(!ReferenceEquals(stepToken, null), "'stepToken' must not be null.");
+            Debug.Assert(!stepToken.IsDefault(), "'stepToken' must not be null.");
             Debug.Assert(stepToken.Kind == TokenKind.Step, "'stepToken' must have a TokenKind of 'Step'.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.StepToken = stepToken;
             this.Expression = expression;
@@ -432,18 +432,18 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ForStatementSyntax(Token forToken, Token identifierToken, Token equalToken, BaseExpressionSyntax fromExpression, Token toToken, BaseExpressionSyntax toExpression, ForStepClauseSyntax stepClauseOpt, StatementBlockSyntax body, Token endForToken)
         {
-            Debug.Assert(!ReferenceEquals(forToken, null), "'forToken' must not be null.");
+            Debug.Assert(!forToken.IsDefault(), "'forToken' must not be null.");
             Debug.Assert(forToken.Kind == TokenKind.For, "'forToken' must have a TokenKind of 'For'.");
-            Debug.Assert(!ReferenceEquals(identifierToken, null), "'identifierToken' must not be null.");
+            Debug.Assert(!identifierToken.IsDefault(), "'identifierToken' must not be null.");
             Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
-            Debug.Assert(!ReferenceEquals(equalToken, null), "'equalToken' must not be null.");
+            Debug.Assert(!equalToken.IsDefault(), "'equalToken' must not be null.");
             Debug.Assert(equalToken.Kind == TokenKind.Equal, "'equalToken' must have a TokenKind of 'Equal'.");
-            Debug.Assert(!ReferenceEquals(fromExpression, null), "'fromExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(toToken, null), "'toToken' must not be null.");
+            Debug.Assert(!fromExpression.IsDefault(), "'fromExpression' must not be null.");
+            Debug.Assert(!toToken.IsDefault(), "'toToken' must not be null.");
             Debug.Assert(toToken.Kind == TokenKind.To, "'toToken' must have a TokenKind of 'To'.");
-            Debug.Assert(!ReferenceEquals(toExpression, null), "'toExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
-            Debug.Assert(!ReferenceEquals(endForToken, null), "'endForToken' must not be null.");
+            Debug.Assert(!toExpression.IsDefault(), "'toExpression' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
+            Debug.Assert(!endForToken.IsDefault(), "'endForToken' must not be null.");
             Debug.Assert(endForToken.Kind == TokenKind.EndFor, "'endForToken' must have a TokenKind of 'EndFor'.");
 
             this.ForToken = forToken;
@@ -481,7 +481,7 @@ namespace SuperBasic.Compiler.Parsing
             {
                 yield return this.FromExpression;
                 yield return this.ToExpression;
-                if (!ReferenceEquals(this.StepClauseOpt, null))
+                if (!this.StepClauseOpt.IsDefault())
                 {
                     yield return this.StepClauseOpt;
                 }
@@ -513,9 +513,9 @@ namespace SuperBasic.Compiler.Parsing
     {
         public LabelStatementSyntax(Token labelToken, Token colonToken)
         {
-            Debug.Assert(!ReferenceEquals(labelToken, null), "'labelToken' must not be null.");
+            Debug.Assert(!labelToken.IsDefault(), "'labelToken' must not be null.");
             Debug.Assert(labelToken.Kind == TokenKind.Identifier, "'labelToken' must have a TokenKind of 'Identifier'.");
-            Debug.Assert(!ReferenceEquals(colonToken, null), "'colonToken' must not be null.");
+            Debug.Assert(!colonToken.IsDefault(), "'colonToken' must not be null.");
             Debug.Assert(colonToken.Kind == TokenKind.Colon, "'colonToken' must have a TokenKind of 'Colon'.");
 
             this.LabelToken = labelToken;
@@ -557,9 +557,9 @@ namespace SuperBasic.Compiler.Parsing
     {
         public GoToStatementSyntax(Token goToToken, Token labelToken)
         {
-            Debug.Assert(!ReferenceEquals(goToToken, null), "'goToToken' must not be null.");
+            Debug.Assert(!goToToken.IsDefault(), "'goToToken' must not be null.");
             Debug.Assert(goToToken.Kind == TokenKind.GoTo, "'goToToken' must have a TokenKind of 'GoTo'.");
-            Debug.Assert(!ReferenceEquals(labelToken, null), "'labelToken' must not be null.");
+            Debug.Assert(!labelToken.IsDefault(), "'labelToken' must not be null.");
             Debug.Assert(labelToken.Kind == TokenKind.Identifier, "'labelToken' must have a TokenKind of 'Identifier'.");
 
             this.GoToToken = goToToken;
@@ -601,7 +601,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public UnrecognizedStatementSyntax(Token unrecognizedToken)
         {
-            Debug.Assert(!ReferenceEquals(unrecognizedToken, null), "'unrecognizedToken' must not be null.");
+            Debug.Assert(!unrecognizedToken.IsDefault(), "'unrecognizedToken' must not be null.");
 
             this.UnrecognizedToken = unrecognizedToken;
         }
@@ -639,7 +639,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ExpressionStatementSyntax(BaseExpressionSyntax expression)
         {
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Expression = expression;
         }
@@ -677,7 +677,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public CommentStatementSyntax(Token commentToken)
         {
-            Debug.Assert(!ReferenceEquals(commentToken, null), "'commentToken' must not be null.");
+            Debug.Assert(!commentToken.IsDefault(), "'commentToken' must not be null.");
             Debug.Assert(commentToken.Kind == TokenKind.Comment, "'commentToken' must have a TokenKind of 'Comment'.");
 
             this.CommentToken = commentToken;
@@ -720,9 +720,9 @@ namespace SuperBasic.Compiler.Parsing
     {
         public UnaryOperatorExpressionSyntax(Token operatorToken, BaseExpressionSyntax expression)
         {
-            Debug.Assert(!ReferenceEquals(operatorToken, null), "'operatorToken' must not be null.");
+            Debug.Assert(!operatorToken.IsDefault(), "'operatorToken' must not be null.");
             Debug.Assert(operatorToken.Kind == TokenKind.Minus, "'operatorToken' must have a TokenKind of 'Minus'.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.OperatorToken = operatorToken;
             this.Expression = expression;
@@ -763,10 +763,10 @@ namespace SuperBasic.Compiler.Parsing
     {
         public BinaryOperatorExpressionSyntax(BaseExpressionSyntax left, Token operatorToken, BaseExpressionSyntax right)
         {
-            Debug.Assert(!ReferenceEquals(left, null), "'left' must not be null.");
-            Debug.Assert(!ReferenceEquals(operatorToken, null), "'operatorToken' must not be null.");
+            Debug.Assert(!left.IsDefault(), "'left' must not be null.");
+            Debug.Assert(!operatorToken.IsDefault(), "'operatorToken' must not be null.");
             Debug.Assert(operatorToken.Kind == TokenKind.Equal || operatorToken.Kind == TokenKind.NotEqual || operatorToken.Kind == TokenKind.Plus || operatorToken.Kind == TokenKind.Minus || operatorToken.Kind == TokenKind.Multiply || operatorToken.Kind == TokenKind.Divide || operatorToken.Kind == TokenKind.Colon || operatorToken.Kind == TokenKind.LessThan || operatorToken.Kind == TokenKind.GreaterThan || operatorToken.Kind == TokenKind.LessThanOrEqual || operatorToken.Kind == TokenKind.GreaterThanOrEqual, "'operatorToken' must have a TokenKind of 'Equal,NotEqual,Plus,Minus,Multiply,Divide,Colon,LessThan,GreaterThan,LessThanOrEqual,GreaterThanOrEqual'.");
-            Debug.Assert(!ReferenceEquals(right, null), "'right' must not be null.");
+            Debug.Assert(!right.IsDefault(), "'right' must not be null.");
 
             this.Left = left;
             this.OperatorToken = operatorToken;
@@ -811,10 +811,10 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ObjectAccessExpressionSyntax(BaseExpressionSyntax baseExpression, Token dotToken, Token identifierToken)
         {
-            Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(dotToken, null), "'dotToken' must not be null.");
+            Debug.Assert(!baseExpression.IsDefault(), "'baseExpression' must not be null.");
+            Debug.Assert(!dotToken.IsDefault(), "'dotToken' must not be null.");
             Debug.Assert(dotToken.Kind == TokenKind.Dot, "'dotToken' must have a TokenKind of 'Dot'.");
-            Debug.Assert(!ReferenceEquals(identifierToken, null), "'identifierToken' must not be null.");
+            Debug.Assert(!identifierToken.IsDefault(), "'identifierToken' must not be null.");
             Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
 
             this.BaseExpression = baseExpression;
@@ -859,11 +859,11 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ArrayAccessExpressionSyntax(BaseExpressionSyntax baseExpression, Token leftBracketToken, BaseExpressionSyntax indexExpression, Token rightBracketToken)
         {
-            Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(leftBracketToken, null), "'leftBracketToken' must not be null.");
+            Debug.Assert(!baseExpression.IsDefault(), "'baseExpression' must not be null.");
+            Debug.Assert(!leftBracketToken.IsDefault(), "'leftBracketToken' must not be null.");
             Debug.Assert(leftBracketToken.Kind == TokenKind.LeftBracket, "'leftBracketToken' must have a TokenKind of 'LeftBracket'.");
-            Debug.Assert(!ReferenceEquals(indexExpression, null), "'indexExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(rightBracketToken, null), "'rightBracketToken' must not be null.");
+            Debug.Assert(!indexExpression.IsDefault(), "'indexExpression' must not be null.");
+            Debug.Assert(!rightBracketToken.IsDefault(), "'rightBracketToken' must not be null.");
             Debug.Assert(rightBracketToken.Kind == TokenKind.RightBracket, "'rightBracketToken' must have a TokenKind of 'RightBracket'.");
 
             this.BaseExpression = baseExpression;
@@ -912,8 +912,8 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ArgumentSyntax(BaseExpressionSyntax expression, Token commaTokenOpt)
         {
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            if (!ReferenceEquals(commaTokenOpt, null))
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            if (!commaTokenOpt.IsDefault())
             {
                 Debug.Assert(commaTokenOpt.Kind == TokenKind.Comma, "'commaTokenOpt' must have a TokenKind of 'Comma'.");
             }
@@ -947,7 +947,7 @@ namespace SuperBasic.Compiler.Parsing
 
                 TextPosition calculateEnd()
                 {
-                    if (!ReferenceEquals(this.CommaTokenOpt, null))
+                    if (!this.CommaTokenOpt.IsDefault())
                     {
                         return this.CommaTokenOpt.Range.End;
                     }
@@ -962,11 +962,11 @@ namespace SuperBasic.Compiler.Parsing
     {
         public InvocationExpressionSyntax(BaseExpressionSyntax baseExpression, Token leftParenToken, IReadOnlyList<ArgumentSyntax> arguments, Token rightParenToken)
         {
-            Debug.Assert(!ReferenceEquals(baseExpression, null), "'baseExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(leftParenToken, null), "'leftParenToken' must not be null.");
+            Debug.Assert(!baseExpression.IsDefault(), "'baseExpression' must not be null.");
+            Debug.Assert(!leftParenToken.IsDefault(), "'leftParenToken' must not be null.");
             Debug.Assert(leftParenToken.Kind == TokenKind.LeftParen, "'leftParenToken' must have a TokenKind of 'LeftParen'.");
-            Debug.Assert(!ReferenceEquals(arguments, null), "'arguments' must not be null.");
-            Debug.Assert(!ReferenceEquals(rightParenToken, null), "'rightParenToken' must not be null.");
+            Debug.Assert(!arguments.IsDefault(), "'arguments' must not be null.");
+            Debug.Assert(!rightParenToken.IsDefault(), "'rightParenToken' must not be null.");
             Debug.Assert(rightParenToken.Kind == TokenKind.RightParen, "'rightParenToken' must have a TokenKind of 'RightParen'.");
 
             this.BaseExpression = baseExpression;
@@ -1018,10 +1018,10 @@ namespace SuperBasic.Compiler.Parsing
     {
         public ParenthesisExpressionSyntax(Token leftParenToken, BaseExpressionSyntax expression, Token rightParenToken)
         {
-            Debug.Assert(!ReferenceEquals(leftParenToken, null), "'leftParenToken' must not be null.");
+            Debug.Assert(!leftParenToken.IsDefault(), "'leftParenToken' must not be null.");
             Debug.Assert(leftParenToken.Kind == TokenKind.LeftParen, "'leftParenToken' must have a TokenKind of 'LeftParen'.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(rightParenToken, null), "'rightParenToken' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!rightParenToken.IsDefault(), "'rightParenToken' must not be null.");
             Debug.Assert(rightParenToken.Kind == TokenKind.RightParen, "'rightParenToken' must have a TokenKind of 'RightParen'.");
 
             this.LeftParenToken = leftParenToken;
@@ -1066,7 +1066,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public IdentifierExpressionSyntax(Token identifierToken)
         {
-            Debug.Assert(!ReferenceEquals(identifierToken, null), "'identifierToken' must not be null.");
+            Debug.Assert(!identifierToken.IsDefault(), "'identifierToken' must not be null.");
             Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
 
             this.IdentifierToken = identifierToken;
@@ -1105,7 +1105,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public StringLiteralExpressionSyntax(Token stringToken)
         {
-            Debug.Assert(!ReferenceEquals(stringToken, null), "'stringToken' must not be null.");
+            Debug.Assert(!stringToken.IsDefault(), "'stringToken' must not be null.");
             Debug.Assert(stringToken.Kind == TokenKind.StringLiteral, "'stringToken' must have a TokenKind of 'StringLiteral'.");
 
             this.StringToken = stringToken;
@@ -1144,7 +1144,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public NumberLiteralExpressionSyntax(Token numberToken)
         {
-            Debug.Assert(!ReferenceEquals(numberToken, null), "'numberToken' must not be null.");
+            Debug.Assert(!numberToken.IsDefault(), "'numberToken' must not be null.");
             Debug.Assert(numberToken.Kind == TokenKind.NumberLiteral, "'numberToken' must have a TokenKind of 'NumberLiteral'.");
 
             this.NumberToken = numberToken;
@@ -1183,7 +1183,7 @@ namespace SuperBasic.Compiler.Parsing
     {
         public UnrecognizedExpressionSyntax(Token unrecognizedToken)
         {
-            Debug.Assert(!ReferenceEquals(unrecognizedToken, null), "'unrecognizedToken' must not be null.");
+            Debug.Assert(!unrecognizedToken.IsDefault(), "'unrecognizedToken' must not be null.");
 
             this.UnrecognizedToken = unrecognizedToken;
         }

@@ -6,18 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <DisabledWarnings Include="CA1034" Comment="Nested types should not be visible (required for XML deserialization)." />
-    <DisabledWarnings Include="CA1710" Comment="Rename '{0}' to end in '{1}' (for collections)." />
+    <DisabledWarnings Include="CA1710" Comment="Rename '{0}' to end in '{1}' (for IReadOnly collections)." />
     <DisabledWarnings Include="CA1716" Comment="Rename type '{0}' so that it no longer conflicts with the reserved language keyword '{0}'. Using a reserved keyword as the name of a type makes it harder for consumers in other languages to use the type." />
     <DisabledWarnings Include="CA2225" Comment="Operator overloads have named alternates." />
     <DisabledWarnings Include="CA2227" Comment="Collection properties should be read only (required for XML deserialization)." />
 
-    <DisabledWarnings Include="SA1008" Comment="Opening parenthesis must be spaced correctly (disabled because we use tuples)." />
+    <DisabledWarnings Include="IDE0041" Comment="Use 'is null' check (replaced by custom analyzer)." />
+
+    <DisabledWarnings Include="SA1008" Comment="Opening parenthesis must be spaced correctly (has a bug with tuples)." />
     <DisabledWarnings Include="SA1114" Comment="Parameter list must follow declaration (tests assertions)." />
     <DisabledWarnings Include="SA1115" Comment="The parameter must begin on the line after the previous parameter (tests assertions)." />
     <DisabledWarnings Include="SA1204" Comment="Static members must appear before non-static members." />
     <DisabledWarnings Include="SA1402" Comment="File may only contain a single class." />
-    <DisabledWarnings Include="SA1515" Comment="Single-line comment must be preceded by blank line (tests assertions)." />
+    <DisabledWarnings Include="SA1515" Comment="Single-line comment must be preceded by blank line (tests diagnostics assertions)." />
     <DisabledWarnings Include="SA1649" Comment="File name must match first type name." />
     <DisabledWarnings Include="SA1652" Comment="The project is currently configured to not parse XML documentation comments; all diagnostics for documentation comments are disabled." />
   </ItemGroup>
@@ -29,7 +30,8 @@
   <PropertyGroup>
     <RootDirectory>$(MSBuildThisFileDirectory)..</RootDirectory>
     <!-- Where binaries are placed -->
-    <OutDir>$(RootDirectory)\Binaries\$(Configuration)\$(MSBuildProjectName)</OutDir>
+    <BinariesDirectory>$(RootDirectory)\Binaries\$(Configuration)</BinariesDirectory>
+    <OutDir>$(BinariesDirectory)\$(MSBuildProjectName)</OutDir>
     <!-- Where obj files are placed (TargetFramework is appended during the build) -->
     <IntermediateOutputPath>$(RootDirectory)\Binaries\Obj\$(Configuration)\$(MSBuildProjectName)</IntermediateOutputPath>
     <!-- Where nuget cache files are placed (unrelated to IntermediateOutputPath) -->
@@ -49,6 +51,18 @@
     <PackageReference Include="Microsoft.NetCore.Analyzers" Version="2.6.1" />
     <PackageReference Include="Text.Analyzers" Version="2.6.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ProjectType)' != 'Analyzer'">
+    <!-- Custom Analyzers -->
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj" />
+    <Analyzer Include="$(BinariesDirectory)\SuperBasic.Analyzers\SuperBasic.Analyzers.dll" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ProjectType)' == 'Analyzer'">
+    <!-- Roslyn dependencies -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.4.0" PrivateAssets="all" />
+    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(ProjectType)' == 'Build'">

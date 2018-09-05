@@ -18,9 +18,9 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundSubModule(SubModuleStatementSyntax syntax, string name, BoundStatementBlock body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(name, null), "'name' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!name.IsDefault(), "'name' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Name = name;
@@ -50,8 +50,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundStatementBlock(StatementBlockSyntax syntax, IReadOnlyList<BaseBoundStatement> body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Body = body;
@@ -77,9 +77,9 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundIfPart(IfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Expression = expression;
@@ -106,9 +106,9 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundElseIfPart(ElseIfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Expression = expression;
@@ -135,8 +135,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundElsePart(ElsePartSyntax syntax, BoundStatementBlock body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Body = body;
@@ -159,9 +159,9 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundIfStatement(IfStatementSyntax syntax, BoundIfPart ifPart, IReadOnlyList<BoundElseIfPart> elseIfParts, BoundElsePart elsePartOpt)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(ifPart, null), "'ifPart' must not be null.");
-            Debug.Assert(!ReferenceEquals(elseIfParts, null), "'elseIfParts' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!ifPart.IsDefault(), "'ifPart' must not be null.");
+            Debug.Assert(!elseIfParts.IsDefault(), "'elseIfParts' must not be null.");
 
             this.Syntax = syntax;
             this.IfPart = ifPart;
@@ -187,7 +187,7 @@ namespace SuperBasic.Compiler.Binding
                     yield return child;
                 }
 
-                if (!ReferenceEquals(this.ElsePartOpt, null))
+                if (!this.ElsePartOpt.IsDefault())
                 {
                     yield return this.ElsePartOpt;
                 }
@@ -199,9 +199,9 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundWhileStatement(WhileStatementSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Expression = expression;
@@ -228,11 +228,11 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundForStatement(ForStatementSyntax syntax, string identifier, BaseBoundExpression fromExpression, BaseBoundExpression toExpression, BaseBoundExpression stepExpressionOpt, BoundStatementBlock body)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(identifier, null), "'identifier' must not be null.");
-            Debug.Assert(!ReferenceEquals(fromExpression, null), "'fromExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(toExpression, null), "'toExpression' must not be null.");
-            Debug.Assert(!ReferenceEquals(body, null), "'body' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!identifier.IsDefault(), "'identifier' must not be null.");
+            Debug.Assert(!fromExpression.IsDefault(), "'fromExpression' must not be null.");
+            Debug.Assert(!toExpression.IsDefault(), "'toExpression' must not be null.");
+            Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
             this.Identifier = identifier;
@@ -260,7 +260,7 @@ namespace SuperBasic.Compiler.Binding
             {
                 yield return this.FromExpression;
                 yield return this.ToExpression;
-                if (!ReferenceEquals(this.StepExpressionOpt, null))
+                if (!this.StepExpressionOpt.IsDefault())
                 {
                     yield return this.StepExpressionOpt;
                 }
@@ -274,8 +274,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundLabelStatement(LabelStatementSyntax syntax, string label)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(label, null), "'label' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!label.IsDefault(), "'label' must not be null.");
 
             this.Syntax = syntax;
             this.Label = label;
@@ -298,8 +298,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundGoToStatement(GoToStatementSyntax syntax, string label)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(label, null), "'label' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!label.IsDefault(), "'label' must not be null.");
 
             this.Syntax = syntax;
             this.Label = label;
@@ -322,8 +322,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundSubModuleInvocationStatement(ExpressionStatementSyntax syntax, string subModule)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!subModule.IsDefault(), "'subModule' must not be null.");
 
             this.Syntax = syntax;
             this.SubModule = subModule;
@@ -346,10 +346,10 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundLibraryMethodInvocationStatement(ExpressionStatementSyntax syntax, string library, string method, IReadOnlyList<BaseBoundExpression> arguments)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(method, null), "'method' must not be null.");
-            Debug.Assert(!ReferenceEquals(arguments, null), "'arguments' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!method.IsDefault(), "'method' must not be null.");
+            Debug.Assert(!arguments.IsDefault(), "'arguments' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -381,9 +381,9 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundVariableAssignmentStatement(ExpressionStatementSyntax syntax, string variable, BaseBoundExpression expression)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(variable, null), "'variable' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!variable.IsDefault(), "'variable' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Syntax = syntax;
             this.Variable = variable;
@@ -409,10 +409,10 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundPropertyAssignmentStatement(ExpressionStatementSyntax syntax, string library, string property, BaseBoundExpression expression)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(property, null), "'property' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!property.IsDefault(), "'property' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -441,10 +441,10 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundEventAssignmentStatement(ExpressionStatementSyntax syntax, string library, string eventName, string subModule)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(eventName, null), "'eventName' must not be null.");
-            Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!eventName.IsDefault(), "'eventName' must not be null.");
+            Debug.Assert(!subModule.IsDefault(), "'subModule' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -473,10 +473,10 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundArrayAssignmentStatement(ExpressionStatementSyntax syntax, string array, IReadOnlyList<BaseBoundExpression> indices, BaseBoundExpression expression)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(array, null), "'array' must not be null.");
-            Debug.Assert(!ReferenceEquals(indices, null), "'indices' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!array.IsDefault(), "'array' must not be null.");
+            Debug.Assert(!indices.IsDefault(), "'indices' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Syntax = syntax;
             this.Array = array;
@@ -510,8 +510,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BoundInvalidExpressionStatement(ExpressionStatementSyntax syntax, BaseBoundExpression expression)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Syntax = syntax;
             this.Expression = expression;
@@ -534,8 +534,8 @@ namespace SuperBasic.Compiler.Binding
     {
         public BaseBoundExpression(bool hasValue, bool hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(hasValue, null), "'hasValue' must not be null.");
-            Debug.Assert(!ReferenceEquals(hasErrors, null), "'hasErrors' must not be null.");
+            Debug.Assert(!hasValue.IsDefault(), "'hasValue' must not be null.");
+            Debug.Assert(!hasErrors.IsDefault(), "'hasErrors' must not be null.");
 
             this.HasValue = hasValue;
             this.HasErrors = hasErrors;
@@ -551,9 +551,9 @@ namespace SuperBasic.Compiler.Binding
         public BoundUnaryExpression(UnaryOperatorExpressionSyntax syntax, bool hasValue, bool hasErrors, TokenKind kind, BaseBoundExpression expression)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(kind, null), "'kind' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!kind.IsDefault(), "'kind' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Syntax = syntax;
             this.Kind = kind;
@@ -580,10 +580,10 @@ namespace SuperBasic.Compiler.Binding
         public BoundBinaryExpression(BinaryOperatorExpressionSyntax syntax, bool hasValue, bool hasErrors, TokenKind kind, BaseBoundExpression left, BaseBoundExpression right)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(kind, null), "'kind' must not be null.");
-            Debug.Assert(!ReferenceEquals(left, null), "'left' must not be null.");
-            Debug.Assert(!ReferenceEquals(right, null), "'right' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!kind.IsDefault(), "'kind' must not be null.");
+            Debug.Assert(!left.IsDefault(), "'left' must not be null.");
+            Debug.Assert(!right.IsDefault(), "'right' must not be null.");
 
             this.Syntax = syntax;
             this.Kind = kind;
@@ -614,9 +614,9 @@ namespace SuperBasic.Compiler.Binding
         public BoundArrayAccessExpression(ArrayAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string array, IReadOnlyList<BaseBoundExpression> indices)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(array, null), "'array' must not be null.");
-            Debug.Assert(!ReferenceEquals(indices, null), "'indices' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!array.IsDefault(), "'array' must not be null.");
+            Debug.Assert(!indices.IsDefault(), "'indices' must not be null.");
 
             this.Syntax = syntax;
             this.Array = array;
@@ -646,8 +646,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundLibraryTypeExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string library)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -671,9 +671,9 @@ namespace SuperBasic.Compiler.Binding
         public BoundLibraryMethodExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string method)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(method, null), "'method' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!method.IsDefault(), "'method' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -700,9 +700,9 @@ namespace SuperBasic.Compiler.Binding
         public BoundLibraryPropertyExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string property)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(property, null), "'property' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!property.IsDefault(), "'property' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -729,9 +729,9 @@ namespace SuperBasic.Compiler.Binding
         public BoundLibraryEventExpression(ObjectAccessExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string eventName)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(eventName, null), "'eventName' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!eventName.IsDefault(), "'eventName' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -758,10 +758,10 @@ namespace SuperBasic.Compiler.Binding
         public BoundLibraryMethodInvocationExpression(InvocationExpressionSyntax syntax, bool hasValue, bool hasErrors, string library, string method, IReadOnlyList<BaseBoundExpression> arguments)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(library, null), "'library' must not be null.");
-            Debug.Assert(!ReferenceEquals(method, null), "'method' must not be null.");
-            Debug.Assert(!ReferenceEquals(arguments, null), "'arguments' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!library.IsDefault(), "'library' must not be null.");
+            Debug.Assert(!method.IsDefault(), "'method' must not be null.");
+            Debug.Assert(!arguments.IsDefault(), "'arguments' must not be null.");
 
             this.Syntax = syntax;
             this.Library = library;
@@ -794,8 +794,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundSubModuleExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string name)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(name, null), "'name' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!name.IsDefault(), "'name' must not be null.");
 
             this.Syntax = syntax;
             this.Name = name;
@@ -819,8 +819,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundSubModuleInvocationExpression(InvocationExpressionSyntax syntax, bool hasValue, bool hasErrors, string subModule)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(subModule, null), "'subModule' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!subModule.IsDefault(), "'subModule' must not be null.");
 
             this.Syntax = syntax;
             this.SubModule = subModule;
@@ -844,8 +844,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundVariableExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string name)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(name, null), "'name' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!name.IsDefault(), "'name' must not be null.");
 
             this.Syntax = syntax;
             this.Name = name;
@@ -869,8 +869,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundStringLiteralExpression(StringLiteralExpressionSyntax syntax, bool hasValue, bool hasErrors, string value)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(value, null), "'value' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!value.IsDefault(), "'value' must not be null.");
 
             this.Syntax = syntax;
             this.Value = value;
@@ -894,8 +894,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundNumberLiteralExpression(NumberLiteralExpressionSyntax syntax, bool hasValue, bool hasErrors, double value)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(value, null), "'value' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!value.IsDefault(), "'value' must not be null.");
 
             this.Syntax = syntax;
             this.Value = value;
@@ -919,8 +919,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundParenthesisExpression(ParenthesisExpressionSyntax syntax, bool hasValue, bool hasErrors, BaseBoundExpression expression)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
-            Debug.Assert(!ReferenceEquals(expression, null), "'expression' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
+            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Syntax = syntax;
             this.Expression = expression;
@@ -944,7 +944,7 @@ namespace SuperBasic.Compiler.Binding
         public BoundInvalidExpression(BaseExpressionSyntax syntax, bool hasValue, bool hasErrors)
             : base(hasValue, hasErrors)
         {
-            Debug.Assert(!ReferenceEquals(syntax, null), "'syntax' must not be null.");
+            Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
 
             this.Syntax = syntax;
         }

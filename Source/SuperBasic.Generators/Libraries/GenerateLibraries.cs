@@ -9,9 +9,9 @@ namespace SuperBasic.Generators.Scanning
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateLibraries : BaseGeneratorTask<LibrariesModels.LibraryCollection>
+    public sealed class GenerateLibraries : BaseGeneratorTask<LibraryCollection>
     {
-        protected override void Generate(LibrariesModels.LibraryCollection model)
+        protected override void Generate(LibraryCollection model)
         {
             this.Line("namespace SuperBasic.Compiler.Parsing");
             this.Brace();
@@ -33,7 +33,7 @@ namespace SuperBasic.Generators.Scanning
             this.Unbrace();
         }
 
-        private void GenerateLibraryExists(LibrariesModels.LibraryCollection model)
+        private void GenerateLibraryExists(LibraryCollection model)
         {
             this.Line("public static bool LibraryExists(string library)");
             this.Brace();
@@ -56,7 +56,7 @@ namespace SuperBasic.Generators.Scanning
             this.Unbrace();
         }
 
-        private void GenerateMethodExists(LibrariesModels.LibraryCollection model)
+        private void GenerateMethodExists(LibraryCollection model)
         {
             this.Line("public static bool MethodExists(string library, string method)");
             this.Brace();
@@ -93,7 +93,7 @@ namespace SuperBasic.Generators.Scanning
             this.Unbrace();
         }
 
-        private void GenerateGetMethodParameterCount(LibrariesModels.LibraryCollection model)
+        private void GenerateGetMethodParameterCount(LibraryCollection model)
         {
             this.Line($"public static int GetMethodParameterCount(string library, string method)");
             this.Brace();
@@ -126,7 +126,7 @@ namespace SuperBasic.Generators.Scanning
             this.Unbrace();
         }
 
-        private void GenerateDoesMethodReturnValue(LibrariesModels.LibraryCollection model)
+        private void GenerateDoesMethodReturnValue(LibraryCollection model)
         {
             this.Line($"public static bool DoesMethodReturnValue(string library, string method)");
             this.Brace();
@@ -160,7 +160,7 @@ namespace SuperBasic.Generators.Scanning
             this.Unbrace();
         }
 
-        private void GeneratePropertyExists(LibrariesModels.LibraryCollection model)
+        private void GeneratePropertyExists(LibraryCollection model)
         {
             this.Line("public static bool PropertyExists(string library, string property)");
             this.Brace();
@@ -197,7 +197,7 @@ namespace SuperBasic.Generators.Scanning
             this.Unbrace();
         }
 
-        private void GeneratePropertyAccess(LibrariesModels.LibraryCollection model, string methodName, Func<LibrariesModels.Property, bool> accessExists)
+        private void GeneratePropertyAccess(LibraryCollection model, string methodName, Func<Property, bool> accessExists)
         {
             this.Line($"public static bool {methodName}(string library, string property)");
             this.Brace();

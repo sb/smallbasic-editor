@@ -4,9 +4,9 @@
 
 namespace SuperBasic.Generators.Diagnostics
 {
-    public sealed class GenerateDiagnosticCode : BaseGeneratorTask<DiagnosticsModels.DiagnosticsCollection>
+    public sealed class GenerateDiagnosticCode : BaseGeneratorTask<DiagnosticsCollection>
     {
-        protected override void Generate(DiagnosticsModels.DiagnosticsCollection model)
+        protected override void Generate(DiagnosticsCollection model)
         {
             this.Line("namespace SuperBasic.Compiler.Diagnostics");
             this.Brace();

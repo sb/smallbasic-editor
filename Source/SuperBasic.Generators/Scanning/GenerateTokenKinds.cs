@@ -8,9 +8,9 @@ namespace SuperBasic.Generators.Scanning
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateTokenKinds : BaseGeneratorTask<ScanningModels.TokenKindCollection>
+    public sealed class GenerateTokenKinds : BaseGeneratorTask<TokenKindCollection>
     {
-        protected override void Generate(ScanningModels.TokenKindCollection model)
+        protected override void Generate(TokenKindCollection model)
         {
             this.Line("namespace SuperBasic.Compiler.Scanning");
             this.Brace();

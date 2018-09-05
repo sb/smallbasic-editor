@@ -7,9 +7,9 @@ namespace SuperBasic.Generators.Diagnostics
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateDiagnosticBag : BaseGeneratorTask<DiagnosticsModels.DiagnosticsCollection>
+    public sealed class GenerateDiagnosticBag : BaseGeneratorTask<DiagnosticsCollection>
     {
-        protected override void Generate(DiagnosticsModels.DiagnosticsCollection model)
+        protected override void Generate(DiagnosticsCollection model)
         {
             this.Line("namespace SuperBasic.Compiler.Diagnostics");
             this.Brace();
