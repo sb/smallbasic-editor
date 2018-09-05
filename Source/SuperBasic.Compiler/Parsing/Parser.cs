@@ -9,6 +9,7 @@ namespace SuperBasic.Compiler.Parsing
     using System.Linq;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Compiler.Scanning;
+    using SuperBasic.Utilities;
 
     internal sealed class Parser
     {
@@ -296,7 +297,7 @@ namespace SuperBasic.Compiler.Parsing
 
             while (this.index < this.tokens.Count)
             {
-                if (!ReferenceEquals(currentArgument, null))
+                if (!currentArgument.IsDefault())
                 {
                     switch (this.Peek())
                     {
@@ -327,7 +328,7 @@ namespace SuperBasic.Compiler.Parsing
                 }
             }
 
-            if (!ReferenceEquals(currentArgument, null))
+            if (!currentArgument.IsDefault())
             {
                 arguments.Add(new ArgumentSyntax(currentArgument, commaTokenOpt: null));
             }

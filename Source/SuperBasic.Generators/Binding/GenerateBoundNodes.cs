@@ -9,11 +9,11 @@ namespace SuperBasic.Generators.Binding
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateBoundNodes : BaseGeneratorTask<BindingModels.BoundNodeCollection>
+    public sealed class GenerateBoundNodes : BaseGeneratorTask<BoundNodeCollection>
     {
         private readonly string[] nonChildrenTypes = new[] { "string", "bool", "double", "TokenKind" };
 
-        protected override void Generate(BindingModels.BoundNodeCollection model)
+        protected override void Generate(BoundNodeCollection model)
         {
             this.Line("namespace SuperBasic.Compiler.Binding");
             this.Brace();
@@ -37,7 +37,7 @@ namespace SuperBasic.Generators.Binding
             this.Unbrace();
         }
 
-        private void ValidateNode(BindingModels.BoundNodeCollection model, BindingModels.BoundNode node)
+        private void ValidateNode(BoundNodeCollection model, BoundNode node)
         {
             bool foundRequired = this.GetParentMembers(model, node.Inherits).Any(member => !member.IsOptional);
 
@@ -63,7 +63,7 @@ namespace SuperBasic.Generators.Binding
                     this.Log.LogError($"Abstract node '{node.Name}' name should start with 'BaseBound'.");
                 }
 
-                if (!ReferenceEquals(node.Syntax, null))
+                if (!node.Syntax.IsDefault())
                 {
                     this.Log.LogError($"Abstract node '{node.Name}' should not define 'Syntax'.");
                 }
@@ -92,15 +92,15 @@ namespace SuperBasic.Generators.Binding
             }
         }
 
-        private void GenerateNode(BindingModels.BoundNodeCollection model, BindingModels.BoundNode node)
+        private void GenerateNode(BoundNodeCollection model, BoundNode node)
         {
-            string getFullType(BindingModels.Member member) => member.IsList ? $"IReadOnlyList<{member.Type}>" : member.Type;
+            string getFullType(Member member) => member.IsList ? $"IReadOnlyList<{member.Type}>" : member.Type;
 
             this.Line($"internal {(node.IsAbstract ? "abstract" : "sealed")} class {node.Name} : {node.Inherits}");
             this.Brace();
 
-            IEnumerable<BindingModels.Member> parentMembers = this.GetParentMembers(model, node.Inherits);
-            IEnumerable<BindingModels.Member> allMembers = parentMembers.Concat(node.Members);
+            IEnumerable<Member> parentMembers = this.GetParentMembers(model, node.Inherits);
+            IEnumerable<Member> allMembers = parentMembers.Concat(node.Members);
 
             if (allMembers.Any())
             {
@@ -124,14 +124,14 @@ namespace SuperBasic.Generators.Binding
 
                 if (!node.IsAbstract)
                 {
-                    this.Line($@"Debug.Assert(!ReferenceEquals(syntax, null), ""'syntax' must not be null."");");
+                    this.Line($@"Debug.Assert(!syntax.IsDefault(), ""'syntax' must not be null."");");
                 }
 
                 foreach (var member in node.Members)
                 {
                     if (!member.IsOptional)
                     {
-                        this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.ToLowerFirstChar()}, null), ""'{member.Name.ToLowerFirstChar()}' must not be null."");");
+                        this.Line($@"Debug.Assert(!{member.Name.ToLowerFirstChar()}.IsDefault(), ""'{member.Name.ToLowerFirstChar()}' must not be null."");");
                     }
                 }
 
@@ -170,7 +170,7 @@ namespace SuperBasic.Generators.Binding
             this.Unbrace();
         }
 
-        private void GenerateChildrenProperty(IEnumerable<BindingModels.Member> members)
+        private void GenerateChildrenProperty(IEnumerable<Member> members)
         {
             this.Line("public override IEnumerable<BaseBoundNode> Children");
             this.Brace();
@@ -194,7 +194,7 @@ namespace SuperBasic.Generators.Binding
                     }
                     else if (member.IsOptional)
                     {
-                        this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
+                        this.Line($"if (!this.{member.Name}.IsDefault())");
                         this.Brace();
                         this.Line($"yield return this.{member.Name};");
                         this.Unbrace();
@@ -210,16 +210,16 @@ namespace SuperBasic.Generators.Binding
             this.Unbrace();
         }
 
-        private IEnumerable<BindingModels.Member> GetParentMembers(BindingModels.BoundNodeCollection model, string parentName)
+        private IEnumerable<Member> GetParentMembers(BoundNodeCollection model, string parentName)
         {
             if (string.IsNullOrWhiteSpace(parentName) || parentName == "BaseBoundNode")
             {
                 yield break;
             }
 
-            BindingModels.BoundNode parent = model.SingleOrDefault(parentNode => parentNode.Name == parentName);
+            BoundNode parent = model.SingleOrDefault(parentNode => parentNode.Name == parentName);
 
-            if (ReferenceEquals(parent, null))
+            if (parent.IsDefault())
             {
                 this.Log.LogError($"Cannot find parent node '{parentName}'.");
                 yield break;
@@ -236,7 +236,7 @@ namespace SuperBasic.Generators.Binding
             }
         }
 
-        private void GenerateBaseVisitor(BindingModels.BoundNodeCollection model)
+        private void GenerateBaseVisitor(BoundNodeCollection model)
         {
             this.Line("internal abstract class BaseBoundNodeVisitor");
             this.Brace();

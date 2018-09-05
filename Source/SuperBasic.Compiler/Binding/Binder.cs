@@ -43,7 +43,7 @@ namespace SuperBasic.Compiler.Binding
                     case BaseStatementSyntax child:
                         {
                             var statement = this.BindStatementOpt(child);
-                            if (!ReferenceEquals(statement, null))
+                            if (!statement.IsDefault())
                             {
                                 mainModule.Add(statement);
                             }
@@ -105,7 +105,7 @@ namespace SuperBasic.Compiler.Binding
             {
                 var statement = this.BindStatementOpt(child);
 
-                if (!ReferenceEquals(statement, null))
+                if (!statement.IsDefault())
                 {
                     statements.Add(statement);
                 }
@@ -129,7 +129,7 @@ namespace SuperBasic.Compiler.Binding
             }
 
             BoundElsePart elsePart = null;
-            if (!ReferenceEquals(syntax.ElsePartOpt, null))
+            if (!syntax.ElsePartOpt.IsDefault())
             {
                 BoundStatementBlock elseBody = this.BindStatementBlock(syntax.ElsePartOpt.Body);
                 elsePart = new BoundElsePart(syntax.ElsePartOpt, elseBody);
@@ -154,7 +154,7 @@ namespace SuperBasic.Compiler.Binding
             BaseBoundExpression toExpression = this.BindExpression(syntax.ToExpression);
 
             BaseBoundExpression stepExpression = null;
-            if (!ReferenceEquals(syntax.StepClauseOpt, null))
+            if (!syntax.StepClauseOpt.IsDefault())
             {
                 stepExpression = this.BindExpression(syntax.StepClauseOpt.Expression);
             }
@@ -391,7 +391,7 @@ namespace SuperBasic.Compiler.Binding
             string identifier = syntax.IdentifierToken.Text;
 
             BoundLibraryTypeExpression libraryExpression = baseExpression as BoundLibraryTypeExpression;
-            if (ReferenceEquals(libraryExpression, null))
+            if (libraryExpression.IsDefault())
             {
                 this.diagnostics.ReportUnsupportedDotBaseExpression(syntax.BaseExpression.Range);
                 return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);

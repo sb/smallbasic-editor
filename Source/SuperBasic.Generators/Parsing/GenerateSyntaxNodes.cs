@@ -9,9 +9,9 @@ namespace SuperBasic.Generators.Parsing
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateSyntaxNodes : BaseGeneratorTask<ParsingModels.SyntaxNodeCollection>
+    public sealed class GenerateSyntaxNodes : BaseGeneratorTask<SyntaxNodeCollection>
     {
-        protected override void Generate(ParsingModels.SyntaxNodeCollection model)
+        protected override void Generate(SyntaxNodeCollection model)
         {
             this.Line("namespace SuperBasic.Compiler.Parsing");
             this.Brace();
@@ -34,7 +34,7 @@ namespace SuperBasic.Generators.Parsing
             this.Unbrace();
         }
 
-        private void ValidateNode(ParsingModels.SyntaxNode node)
+        private void ValidateNode(SyntaxNode node)
         {
             bool foundRequired = false;
 
@@ -47,7 +47,7 @@ namespace SuperBasic.Generators.Parsing
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' cannot be both optional and a list.");
                 }
 
-                if ((member.Type == "Token") == ReferenceEquals(member.TokenKinds, null))
+                if ((member.Type == "Token") == member.TokenKinds.IsDefault())
                 {
                     this.Log.LogError($"Member '{node.Name}.{member.Name}' of type 'Token' must specify 'TokenKinds', and vice versa.");
                 }
@@ -98,9 +98,9 @@ namespace SuperBasic.Generators.Parsing
             }
         }
 
-        private void GenerateNode(ParsingModels.SyntaxNode node)
+        private void GenerateNode(SyntaxNode node)
         {
-            string getFullType(ParsingModels.Member member) => member.IsList ? $"IReadOnlyList<{member.Type}>" : member.Type;
+            string getFullType(Member member) => member.IsList ? $"IReadOnlyList<{member.Type}>" : member.Type;
 
             this.Line($"internal {(node.IsAbstract ? "abstract" : "sealed")} class {node.Name} : {node.Inherits}");
             this.Brace();
@@ -134,13 +134,13 @@ namespace SuperBasic.Generators.Parsing
             this.Unbrace();
         }
 
-        private void GenerateNullAsserts(ParsingModels.SyntaxNode node)
+        private void GenerateNullAsserts(SyntaxNode node)
         {
             foreach (var member in node.Members)
             {
                 if (!member.IsOptional)
                 {
-                    this.Line($@"Debug.Assert(!ReferenceEquals({member.Name.ToLowerFirstChar()}, null), ""'{member.Name.ToLowerFirstChar()}' must not be null."");");
+                    this.Line($@"Debug.Assert(!{member.Name.ToLowerFirstChar()}.IsDefault(), ""'{member.Name.ToLowerFirstChar()}' must not be null."");");
                 }
 
                 if (member.Type == "Token" && member.TokenKinds != "*")
@@ -150,7 +150,7 @@ namespace SuperBasic.Generators.Parsing
 
                     if (member.IsOptional)
                     {
-                        this.Line($"if (!ReferenceEquals({member.Name.ToLowerFirstChar()}, null))");
+                        this.Line($"if (!{member.Name.ToLowerFirstChar()}.IsDefault())");
                         this.Brace();
                         this.Line(tokenKindAssert);
                         this.Unbrace();
@@ -163,7 +163,7 @@ namespace SuperBasic.Generators.Parsing
             }
         }
 
-        private void GenerateChildrenProperty(IEnumerable<ParsingModels.Member> members)
+        private void GenerateChildrenProperty(IEnumerable<Member> members)
         {
             this.Line("public override IEnumerable<BaseSyntaxNode> Children");
             this.Brace();
@@ -187,7 +187,7 @@ namespace SuperBasic.Generators.Parsing
                     }
                     else if (member.IsOptional)
                     {
-                        this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
+                        this.Line($"if (!this.{member.Name}.IsDefault())");
                         this.Brace();
                         this.Line($"yield return this.{member.Name};");
                         this.Unbrace();
@@ -203,7 +203,7 @@ namespace SuperBasic.Generators.Parsing
             this.Unbrace();
         }
 
-        private void GenerateRangeProperty(IEnumerable<ParsingModels.Member> members)
+        private void GenerateRangeProperty(IEnumerable<Member> members)
         {
             this.Line("public override TextRange Range");
             this.Brace();
@@ -219,7 +219,7 @@ namespace SuperBasic.Generators.Parsing
             this.Unbrace();
             this.Unbrace();
 
-            void generatePositionMethod(string methodName, string positionProperty, string listSelector, IEnumerable<ParsingModels.Member> ordered)
+            void generatePositionMethod(string methodName, string positionProperty, string listSelector, IEnumerable<Member> ordered)
             {
                 this.Line($"TextPosition {methodName}()");
                 this.Brace();
@@ -231,14 +231,14 @@ namespace SuperBasic.Generators.Parsing
                     {
                         string localName = $"{member.Name.ToLowerFirstChar()}Child";
                         this.Line($"var {localName} = this.{member.Name}.{listSelector}();");
-                        this.Line($"if (!ReferenceEquals({localName}, null))");
+                        this.Line($"if (!{localName}.IsDefault())");
                         this.Brace();
                         this.Line($"return {localName}.Range.{positionProperty};");
                         this.Unbrace();
                     }
                     else if (member.IsOptional)
                     {
-                        this.Line($"if (!ReferenceEquals(this.{member.Name}, null))");
+                        this.Line($"if (!this.{member.Name}.IsDefault())");
                         this.Brace();
                         this.Line($"return this.{member.Name}.Range.{positionProperty};");
                         this.Unbrace();
@@ -260,7 +260,7 @@ namespace SuperBasic.Generators.Parsing
             }
         }
 
-        private void GenerateBaseVisitor(ParsingModels.SyntaxNodeCollection model)
+        private void GenerateBaseVisitor(SyntaxNodeCollection model)
         {
             this.Line("internal abstract class BaseSyntaxNodeVisitor");
             this.Brace();
