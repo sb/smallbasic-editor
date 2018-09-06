@@ -16,6 +16,7 @@
     <DisabledWarnings Include="SA1008" Comment="Opening parenthesis must be spaced correctly (has a bug with tuples)." />
     <DisabledWarnings Include="SA1114" Comment="Parameter list must follow declaration (tests assertions)." />
     <DisabledWarnings Include="SA1115" Comment="The parameter must begin on the line after the previous parameter (tests assertions)." />
+    <DisabledWarnings Include="SA1118" Comment="The parameter spans multiple lines (generated libraries)." />
     <DisabledWarnings Include="SA1204" Comment="Static members must appear before non-static members." />
     <DisabledWarnings Include="SA1402" Comment="File may only contain a single class." />
     <DisabledWarnings Include="SA1515" Comment="Single-line comment must be preceded by blank line (tests diagnostics assertions)." />
