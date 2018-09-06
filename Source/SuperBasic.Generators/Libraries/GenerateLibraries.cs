@@ -5,6 +5,7 @@
 namespace SuperBasic.Generators.Scanning
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using SuperBasic.Utilities;
@@ -13,235 +14,229 @@ namespace SuperBasic.Generators.Scanning
     {
         protected override void Generate(LibraryCollection model)
         {
-            this.Line("namespace SuperBasic.Compiler.Parsing");
+            this.Line("namespace SuperBasic.Compiler.Binding");
             this.Brace();
 
+            this.Line("using System.Collections.Generic;");
             this.Line("using SuperBasic.Utilities;");
+            this.Line("using SuperBasic.Utilities.Resources;");
             this.Blank();
 
-            this.Line("internal static class LibrariesMetadata");
-            this.Brace();
-            this.GenerateLibraryExists(model);
-            this.GenerateMethodExists(model);
-            this.GenerateGetMethodParameterCount(model);
-            this.GenerateDoesMethodReturnValue(model);
-            this.GeneratePropertyExists(model);
-            this.GeneratePropertyAccess(model, "HasGetter", property => property.HasGetter);
-            this.GeneratePropertyAccess(model, "HasSetter", property => property.HasSetter);
-            this.Unbrace();
+            this.GenerateModelTypes();
+            this.GenerateLibrariesType(model);
 
             this.Unbrace();
         }
 
-        private void GenerateLibraryExists(LibraryCollection model)
+        private void GenerateModelTypes()
         {
-            this.Line("public static bool LibraryExists(string library)");
+            generateType(
+                "Library",
+                ("string", "Name"),
+                ("string", "Description"),
+                ("IReadOnlyDictionary<string, Method>", "Methods"),
+                ("IReadOnlyDictionary<string, Property>", "Properties"),
+                ("IReadOnlyDictionary<string, Event>", "Events"));
+
+            generateType(
+                "Parameter",
+                ("string", "Name"),
+                ("string", "Description"));
+
+            generateType(
+                "Method",
+                ("string", "Name"),
+                ("string", "Description"),
+                ("bool", "ReturnsValue"),
+                ("string", "ReturnValueDescription"),
+                ("IReadOnlyDictionary<string, Parameter>", "Parameters"));
+
+            generateType(
+                "Property",
+                ("string", "Name"),
+                ("string", "Description"),
+                ("bool", "HasGetter"),
+                ("bool", "HasSetter"));
+
+            generateType(
+                "Event",
+                ("string", "Name"),
+                ("string", "Description"));
+
+            void generateType(string name, params (string Type, string Name)[] members)
+            {
+                this.Line($"internal sealed class {name}");
+                this.Brace();
+
+                this.Line($"public {name}(");
+                this.Indent();
+
+                for (var i = 0; i < members.Length; i++)
+                {
+                    var member = members[i];
+                    this.Line($"{member.Type} {member.Name.ToLowerFirstChar()}{(i + 1 < members.Length ? "," : ")")}");
+                }
+
+                this.Unindent();
+
+                this.Brace();
+
+                foreach (var member in members)
+                {
+                    this.Line($"this.{member.Name} = {member.Name.ToLowerFirstChar()};");
+                }
+
+                this.Unbrace();
+
+                foreach (var member in members)
+                {
+                    this.Blank();
+                    this.Line($"public {member.Type} {member.Name} {{ get; private set; }}");
+                }
+
+                this.Unbrace();
+            }
+        }
+
+        private void GenerateLibrariesType(LibraryCollection model)
+        {
+            this.Line("internal static class Libraries");
             this.Brace();
 
-            this.Line("switch (library)");
+            this.Line("static Libraries()");
             this.Brace();
+
+            this.Line("var types = new Dictionary<string, Library>();");
+            this.Blank();
 
             foreach (var library in model)
             {
-                this.Line($@"case ""{library.Name}"":");
+                this.GenerateLibraryInitialization(library);
+                this.Blank();
             }
 
-            this.Indent();
-            this.Line("return true;");
-            this.Unindent();
-
+            this.Line("Types = types;");
             this.Unbrace();
 
-            this.Line("return false;");
+            this.Blank();
+            this.Line("public static IReadOnlyDictionary<string, Library> Types { get; private set; }");
+
             this.Unbrace();
         }
 
-        private void GenerateMethodExists(LibraryCollection model)
+        private void GenerateLibraryInitialization(Library library)
         {
-            this.Line("public static bool MethodExists(string library, string method)");
+            this.Line($"// Initialization code for library '{library.Name}'");
             this.Brace();
 
-            this.Line("switch (library)");
-            this.Brace();
+            this.GenerateMethodsInitialization(library);
+            this.Blank();
 
-            foreach (var library in model.Where(library => library.Methods.Any()))
+            this.GeneratePropertiesInitialization(library);
+            this.Blank();
+
+            this.GenerateEventsInitialization(library);
+            this.Blank();
+
+            this.Line($@"types.Add(""{library.Name}"", new Library(""{library.Name}"", LibrariesResources.{library.Name}, methods, properties, events));");
+            this.Unbrace();
+        }
+
+        private void GenerateMethodsInitialization(Library library)
+        {
+            this.Line("var methods = new Dictionary<string, Method>();");
+
+            foreach (var method in library.Methods)
             {
-                this.Line($@"case ""{library.Name}"":");
-                this.Brace();
+                this.Blank();
 
-                this.Line("switch (method)");
-                this.Brace();
-
-                foreach (var method in library.Methods)
-                {
-                    this.Line($@"case ""{method.Name}"":");
-                }
-
+                this.Line($@"methods.Add(""{method.Name}"", new Method(");
                 this.Indent();
-                this.Line("return true;");
+
+                this.Line($@"""{method.Name}"",");
+                this.Line($"LibrariesResources.{library.Name}_{method.Name},");
+
+                if (method.ReturnsValue)
+                {
+                    this.Line("returnsValue: true,");
+                    this.Line($"LibrariesResources.{library.Name}_{method.Name}_ReturnValue,");
+                }
+                else
+                {
+                    this.Line("returnsValue: false,");
+                    this.Line("returnValueDescription: null,");
+                }
+
+                if (method.Parameters.Any())
+                {
+                    this.Line("new Dictionary<string, Parameter>");
+                    this.Line("{");
+                    this.Indent();
+
+                    foreach (var parameter in method.Parameters)
+                    {
+                        this.Line($@"{{ ""{parameter.Name}"", new Parameter(""{parameter.Name}"", LibrariesResources.{library.Name}_{method.Name}_Parameters_{parameter.Name}) }},");
+                    }
+
+                    this.Unindent();
+                    this.Line("}));");
+                }
+                else
+                {
+                    this.Line("new Dictionary<string, Parameter>()));");
+                }
+
                 this.Unindent();
-
-                this.Unbrace();
-
-                this.Line("break;");
-                this.Unbrace();
             }
-
-            this.Unbrace();
-
-            this.Line("return false;");
-            this.Unbrace();
         }
 
-        private void GenerateGetMethodParameterCount(LibraryCollection model)
+        private void GeneratePropertiesInitialization(Library library)
         {
-            this.Line($"public static int GetMethodParameterCount(string library, string method)");
-            this.Brace();
-
-            this.Line("switch (library)");
-            this.Brace();
-
-            foreach (var library in model.Where(library => library.Methods.Any()))
+            if (library.Properties.Any())
             {
-                this.Line($@"case ""{library.Name}"":");
-                this.Brace();
-
-                this.Line("switch (method)");
-                this.Brace();
-
-                foreach (var method in library.Methods)
-                {
-                    this.Line($@"case ""{method.Name}"": return {method.Parameters.Count};");
-                }
-
-                this.Unbrace();
-
-                this.Line("break;");
-                this.Unbrace();
-            }
-
-            this.Unbrace();
-
-            this.Line($@"throw ExceptionUtilities.UnexpectedValue($""{{library}}.{{method}}"");");
-            this.Unbrace();
-        }
-
-        private void GenerateDoesMethodReturnValue(LibraryCollection model)
-        {
-            this.Line($"public static bool DoesMethodReturnValue(string library, string method)");
-            this.Brace();
-
-            this.Line("switch (library)");
-            this.Brace();
-
-            foreach (var library in model.Where(library => library.Methods.Any()))
-            {
-                this.Line($@"case ""{library.Name}"":");
-                this.Brace();
-
-                this.Line("switch (method)");
-                this.Brace();
-
-                foreach (var method in library.Methods)
-                {
-                    string returnsValue = method.ReturnsValue.ToString(CultureInfo.CurrentCulture).ToLowerFirstChar();
-                    this.Line($@"case ""{method.Name}"": return {returnsValue};");
-                }
-
-                this.Unbrace();
-
-                this.Line("break;");
-                this.Unbrace();
-            }
-
-            this.Unbrace();
-
-            this.Line($@"throw ExceptionUtilities.UnexpectedValue($""{{library}}.{{method}}"");");
-            this.Unbrace();
-        }
-
-        private void GeneratePropertyExists(LibraryCollection model)
-        {
-            this.Line("public static bool PropertyExists(string library, string property)");
-            this.Brace();
-
-            this.Line("switch (library)");
-            this.Brace();
-
-            foreach (var library in model.Where(library => library.Properties.Any()))
-            {
-                this.Line($@"case ""{library.Name}"":");
-                this.Brace();
-
-                this.Line("switch (property)");
-                this.Brace();
+                this.Line("var properties = new Dictionary<string, Property>");
+                this.Line("{");
+                this.Indent();
 
                 foreach (var property in library.Properties)
                 {
-                    this.Line($@"case ""{property.Name}"":");
+                    this.Line(
+                        $@"{{ ""{property.Name}"", new Property(" +
+                        $@"""{property.Name}"", " +
+                        $"LibrariesResources.{library.Name}_{property.Name}, " +
+                        $"hasGetter: {(property.HasGetter ? "true" : "false")}, " +
+                        $"hasSetter: {(property.HasSetter ? "true" : "false")}) }},");
                 }
 
-                this.Indent();
-                this.Line("return true;");
                 this.Unindent();
-
-                this.Unbrace();
-
-                this.Line("break;");
-                this.Unbrace();
+                this.Line("};");
             }
-
-            this.Unbrace();
-
-            this.Line("return false;");
-            this.Unbrace();
+            else
+            {
+                this.Line("var properties = new Dictionary<string, Property>();");
+            }
         }
 
-        private void GeneratePropertyAccess(LibraryCollection model, string methodName, Func<Property, bool> accessExists)
+        private void GenerateEventsInitialization(Library library)
         {
-            this.Line($"public static bool {methodName}(string library, string property)");
-            this.Brace();
-
-            this.Line("switch (library)");
-            this.Brace();
-
-            foreach (var library in model.Where(library => library.Properties.Any()))
+            if (library.Events.Any())
             {
-                this.Line($@"case ""{library.Name}"":");
-                this.Brace();
+                this.Line("var events = new Dictionary<string, Event>");
+                this.Line("{");
+                this.Indent();
 
-                this.Line("switch (property)");
-                this.Brace();
-
-                void writeSwitch(bool returnValue)
+                foreach (var @event in library.Events)
                 {
-                    var properties = library.Properties.Where(property => accessExists(property) == returnValue);
-                    if (properties.Any())
-                    {
-                        foreach (var property in properties)
-                        {
-                            this.Line($@"case ""{property.Name}"":");
-                        }
-
-                        this.Indent();
-                        this.Line($"return {returnValue.ToString(CultureInfo.CurrentCulture).ToLowerFirstChar()};");
-                        this.Unindent();
-                    }
+                    this.Line($@"{{ ""{@event.Name}"", new Event(""{@event.Name}"", LibrariesResources.{library.Name}_{@event.Name}) }},");
                 }
 
-                writeSwitch(true);
-                writeSwitch(false);
-
-                this.Unbrace();
-
-                this.Line("break;");
-                this.Unbrace();
+                this.Unindent();
+                this.Line("};");
             }
-
-            this.Unbrace();
-
-            this.Line($@"throw ExceptionUtilities.UnexpectedValue($""{{library}}.{{property}}"");");
-            this.Unbrace();
+            else
+            {
+                this.Line("var events = new Dictionary<string, Event>();");
+            }
         }
     }
 }

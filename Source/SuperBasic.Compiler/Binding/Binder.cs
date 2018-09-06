@@ -219,7 +219,7 @@ namespace SuperBasic.Compiler.Binding
 
                 case BoundLibraryPropertyExpression property:
                     {
-                        if (!LibrariesMetadata.HasSetter(property.Library, property.Property))
+                        if (!Libraries.Types[property.Library].Properties[property.Property].HasSetter)
                         {
                             this.diagnostics.ReportPropertyHasNoSetter(property.Syntax.Range, property.Library, property.Property);
                         }
@@ -399,19 +399,18 @@ namespace SuperBasic.Compiler.Binding
 
             string libraryName = libraryExpression.Library;
 
-            if (LibrariesMetadata.PropertyExists(libraryName, identifier))
+            if (Libraries.Types[libraryName].Properties.TryGetValue(identifier, out Property property))
             {
-                bool hasGetter = LibrariesMetadata.HasGetter(libraryName, identifier);
-                if (expectsValue && !hasGetter)
+                if (expectsValue && !property.HasGetter)
                 {
                     this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
                     return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
                 }
 
-                return new BoundLibraryPropertyExpression(syntax, hasValue: hasGetter, baseExpression.HasErrors, libraryName, identifier);
+                return new BoundLibraryPropertyExpression(syntax, hasValue: property.HasGetter, baseExpression.HasErrors, libraryName, identifier);
             }
 
-            if (LibrariesMetadata.MethodExists(libraryName, identifier))
+            if (Libraries.Types[libraryName].Methods.ContainsKey(identifier))
             {
                 if (expectsValue)
                 {
@@ -443,24 +442,23 @@ namespace SuperBasic.Compiler.Binding
             {
                 case BoundLibraryMethodExpression libraryMethod:
                     {
-                        int parametersCount = LibrariesMetadata.GetMethodParameterCount(libraryMethod.Library, libraryMethod.Method);
-                        bool returnsValue = LibrariesMetadata.DoesMethodReturnValue(libraryMethod.Library, libraryMethod.Method);
+                        Method method = Libraries.Types[libraryMethod.Library].Methods[libraryMethod.Method];
 
                         if (!hasErrors)
                         {
-                            if (arguments.Count != parametersCount)
+                            if (arguments.Count != method.Parameters.Count)
                             {
                                 hasErrors = true;
-                                this.diagnostics.ReportUnexpectedArgumentsCount(syntax.Range, arguments.Count, parametersCount);
+                                this.diagnostics.ReportUnexpectedArgumentsCount(syntax.Range, arguments.Count, method.Parameters.Count);
                             }
-                            else if (expectsValue && !returnsValue)
+                            else if (expectsValue && !method.ReturnsValue)
                             {
                                 hasErrors = true;
                                 this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
                             }
                         }
 
-                        return new BoundLibraryMethodInvocationExpression(syntax, returnsValue, hasErrors, libraryMethod.Library, libraryMethod.Method, arguments);
+                        return new BoundLibraryMethodInvocationExpression(syntax, method.ReturnsValue, hasErrors, libraryMethod.Library, libraryMethod.Method, arguments);
                     }
 
                 case BoundSubModuleExpression subModule:
@@ -495,7 +493,7 @@ namespace SuperBasic.Compiler.Binding
             bool hasErrors = false;
             string name = syntax.IdentifierToken.Text;
 
-            if (LibrariesMetadata.LibraryExists(name))
+            if (Libraries.Types.ContainsKey(name))
             {
                 if (expectsValue)
                 {

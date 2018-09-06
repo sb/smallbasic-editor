@@ -6,11 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\DiagnosticsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DiagnosticsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <Compile Update="Resources\DiagnosticsResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DiagnosticsResources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\TokenKindsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenKindsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <Compile Update="Resources\TokenKindsResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -19,14 +30,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\DiagnosticsResources.resx">
+    <EmbeddedResource Update="Resources\LibrariesResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>DiagnosticsResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>LibrariesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\TokenKindsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>TokenKindsResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Update="Resources\LibrariesResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LibrariesResources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
