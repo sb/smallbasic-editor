@@ -70,7 +70,7 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This expression must return a value to be used here..
+        ///   Looks up a localized string similar to This expression must have a value to be used here..
         /// </summary>
         public static string ExpectedExpressionWithAValue {
             get {
@@ -79,7 +79,7 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The label &apos;{0}&apos; is not defined..
+        ///   Looks up a localized string similar to The label &apos;{0}&apos; is not defined in the same module..
         /// </summary>
         public static string GoToUndefinedLabel {
             get {
@@ -133,7 +133,7 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This method call returns a result. Did you mean to assign it to a variable?.
+        ///   Looks up a localized string similar to This expression returns a result. Did you mean to assign it to a variable?.
         /// </summary>
         public static string UnassignedExpressionStatement {
             get {

@@ -29,7 +29,7 @@ namespace SuperBasic.Utilities.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public LibrariesResources() {
+        internal LibrariesResources() {
         }
         
         /// <summary>
@@ -61,29 +61,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The array to check..
+        ///   Looks up a localized string similar to This object provides a way of storing more than one value for a given name. These values can be accessed by another index..
         /// </summary>
-        public static string Array_ContainsIndex_Parameters_array {
+        public static string Array {
             get {
-                return ResourceManager.GetString("Array_ContainsIndex_Parameters_array", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The index to check..
-        /// </summary>
-        public static string Array_ContainsIndex_Parameters_index {
-            get {
-                return ResourceManager.GetString("Array_ContainsIndex_Parameters_index", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &quot;True&quot; or &quot;False&quot; depending on if the index was present in the specified..
-        /// </summary>
-        public static string Array_ContainsIndex_ReturnValue {
-            get {
-                return ResourceManager.GetString("Array_ContainsIndex_Returns", resourceCulture);
+                return ResourceManager.GetString("Array", resourceCulture);
             }
         }
         
@@ -99,27 +81,27 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The array to check..
         /// </summary>
-        public static string Array_ContainsValue_Parameters_array {
+        public static string Array_ContainsIndex_array {
             get {
-                return ResourceManager.GetString("Array_ContainsValue_Parameters_array", resourceCulture);
+                return ResourceManager.GetString("Array_ContainsIndex_array", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The value to check..
+        ///   Looks up a localized string similar to The index to check..
         /// </summary>
-        public static string Array_ContainsValue_Parameters_value {
+        public static string Array_ContainsIndex_index {
             get {
-                return ResourceManager.GetString("Array_ContainsValue_Parameters_value", resourceCulture);
+                return ResourceManager.GetString("Array_ContainsIndex_index", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;True&quot; or &quot;False&quot; depending on if the value was present in the specified..
+        ///   Looks up a localized string similar to &quot;True&quot; or &quot;False&quot; depending on if the index was present in the specified..
         /// </summary>
-        public static string Array_ContainsValue_ReturnValue {
+        public static string Array_ContainsIndex_ReturnValue {
             get {
-                return ResourceManager.GetString("Array_ContainsValue_Returns", resourceCulture);
+                return ResourceManager.GetString("Array_ContainsIndex_ReturnValue", resourceCulture);
             }
         }
         
@@ -133,20 +115,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The array whose indices are requested..
+        ///   Looks up a localized string similar to The array to check..
         /// </summary>
-        public static string Array_GetAllIndices_Parameters_array {
+        public static string Array_ContainsValue_array {
             get {
-                return ResourceManager.GetString("Array_GetAllIndices_Parameters_array", resourceCulture);
+                return ResourceManager.GetString("Array_ContainsValue_array", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An array filled with all the indices of the specified array. The index of the returned array starts from 1..
+        ///   Looks up a localized string similar to &quot;True&quot; or &quot;False&quot; depending on if the value was present in the specified..
         /// </summary>
-        public static string Array_GetAllIndices_ReturnValue {
+        public static string Array_ContainsValue_ReturnValue {
             get {
-                return ResourceManager.GetString("Array_GetAllIndices_Returns", resourceCulture);
+                return ResourceManager.GetString("Array_ContainsValue_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value to check..
+        /// </summary>
+        public static string Array_ContainsValue_value {
+            get {
+                return ResourceManager.GetString("Array_ContainsValue_value", resourceCulture);
             }
         }
         
@@ -160,20 +151,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The array for which the count is requested..
+        ///   Looks up a localized string similar to The array whose indices are requested..
         /// </summary>
-        public static string Array_GetItemCount_Parameters_array {
+        public static string Array_GetAllIndices_array {
             get {
-                return ResourceManager.GetString("Array_GetItemCount_Parameters_array", resourceCulture);
+                return ResourceManager.GetString("Array_GetAllIndices_array", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number of items in the specified array..
+        ///   Looks up a localized string similar to An array filled with all the indices of the specified array. The index of the returned array starts from 1..
         /// </summary>
-        public static string Array_GetItemCount_ReturnValue {
+        public static string Array_GetAllIndices_ReturnValue {
             get {
-                return ResourceManager.GetString("Array_GetItemCount_Returns", resourceCulture);
+                return ResourceManager.GetString("Array_GetAllIndices_ReturnValue", resourceCulture);
             }
         }
         
@@ -187,20 +178,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The variable to check..
+        ///   Looks up a localized string similar to The array for which the count is requested..
         /// </summary>
-        public static string Array_IsArray_Parameters_array {
+        public static string Array_GetItemCount_array {
             get {
-                return ResourceManager.GetString("Array_IsArray_Parameters_array", resourceCulture);
+                return ResourceManager.GetString("Array_GetItemCount_array", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;True&quot; if the specified variable is an array. &quot;False&quot; otherwise..
+        ///   Looks up a localized string similar to The number of items in the specified array..
         /// </summary>
-        public static string Array_IsArray_ReturnValue {
+        public static string Array_GetItemCount_ReturnValue {
             get {
-                return ResourceManager.GetString("Array_IsArray_Returns", resourceCulture);
+                return ResourceManager.GetString("Array_GetItemCount_ReturnValue", resourceCulture);
             }
         }
         
@@ -214,11 +205,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This object provides a way of storing more than one value for a given name. These values can be accessed by another index..
+        ///   Looks up a localized string similar to The variable to check..
         /// </summary>
-        public static string Array {
+        public static string Array_IsArray_array {
             get {
-                return ResourceManager.GetString("Array", resourceCulture);
+                return ResourceManager.GetString("Array_IsArray_array", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;True&quot; if the specified variable is an array. &quot;False&quot; otherwise..
+        /// </summary>
+        public static string Array_IsArray_ReturnValue {
+            get {
+                return ResourceManager.GetString("Array_IsArray_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This class provides access to the system clock.
+        /// </summary>
+        public static string Clock {
+            get {
+                return ResourceManager.GetString("Clock", resourceCulture);
             }
         }
         
@@ -295,15 +304,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This class provides access to the system clock.
-        /// </summary>
-        public static string Clock {
-            get {
-                return ResourceManager.GetString("Clock", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gets the current system time..
         /// </summary>
         public static string Clock_Time {
@@ -331,38 +331,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The caption to display in the button..
+        ///   Looks up a localized string similar to The Controls object allows you to add, move and interact with controls..
         /// </summary>
-        public static string Controls_AddButton_Parameters_caption {
+        public static string Controls {
             get {
-                return ResourceManager.GetString("Controls_AddButton_Parameters_caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the button..
-        /// </summary>
-        public static string Controls_AddButton_Parameters_left {
-            get {
-                return ResourceManager.GetString("Controls_AddButton_Parameters_left", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the button..
-        /// </summary>
-        public static string Controls_AddButton_Parameters_top {
-            get {
-                return ResourceManager.GetString("Controls_AddButton_Parameters_top", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The button that was just added to the Graphics Window..
-        /// </summary>
-        public static string Controls_AddButton_ReturnValue {
-            get {
-                return ResourceManager.GetString("Controls_AddButton_Returns", resourceCulture);
+                return ResourceManager.GetString("Controls", resourceCulture);
             }
         }
         
@@ -376,29 +349,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the text box..
+        ///   Looks up a localized string similar to The caption to display in the button..
         /// </summary>
-        public static string Controls_AddMultiLineTextBox_Parameters_left {
+        public static string Controls_AddButton_caption {
             get {
-                return ResourceManager.GetString("Controls_AddMultiLineTextBox_Parameters_left", resourceCulture);
+                return ResourceManager.GetString("Controls_AddButton_caption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the text box..
+        ///   Looks up a localized string similar to The x co-ordinate of the button..
         /// </summary>
-        public static string Controls_AddMultiLineTextBox_Parameters_top {
+        public static string Controls_AddButton_left {
             get {
-                return ResourceManager.GetString("Controls_AddMultiLineTextBox_Parameters_top", resourceCulture);
+                return ResourceManager.GetString("Controls_AddButton_left", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text box that was just added to the Graphics Window..
+        ///   Looks up a localized string similar to The button that was just added to the Graphics Window..
         /// </summary>
-        public static string Controls_AddMultiLineTextBox_ReturnValue {
+        public static string Controls_AddButton_ReturnValue {
             get {
-                return ResourceManager.GetString("Controls_AddMultiLineTextBox_Returns", resourceCulture);
+                return ResourceManager.GetString("Controls_AddButton_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the button..
+        /// </summary>
+        public static string Controls_AddButton_top {
+            get {
+                return ResourceManager.GetString("Controls_AddButton_top", resourceCulture);
             }
         }
         
@@ -414,27 +396,27 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The x co-ordinate of the text box..
         /// </summary>
-        public static string Controls_AddTextBox_Parameters_left {
+        public static string Controls_AddMultiLineTextBox_left {
             get {
-                return ResourceManager.GetString("Controls_AddTextBox_Parameters_left", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the text box..
-        /// </summary>
-        public static string Controls_AddTextBox_Parameters_top {
-            get {
-                return ResourceManager.GetString("Controls_AddTextBox_Parameters_top", resourceCulture);
+                return ResourceManager.GetString("Controls_AddMultiLineTextBox_left", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The text box that was just added to the Graphics Window..
         /// </summary>
-        public static string Controls_AddTextBox_ReturnValue {
+        public static string Controls_AddMultiLineTextBox_ReturnValue {
             get {
-                return ResourceManager.GetString("Controls_AddTextBox_Returns", resourceCulture);
+                return ResourceManager.GetString("Controls_AddMultiLineTextBox_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the text box..
+        /// </summary>
+        public static string Controls_AddMultiLineTextBox_top {
+            get {
+                return ResourceManager.GetString("Controls_AddMultiLineTextBox_top", resourceCulture);
             }
         }
         
@@ -448,29 +430,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the text box..
+        /// </summary>
+        public static string Controls_AddTextBox_left {
+            get {
+                return ResourceManager.GetString("Controls_AddTextBox_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The text box that was just added to the Graphics Window..
+        /// </summary>
+        public static string Controls_AddTextBox_ReturnValue {
+            get {
+                return ResourceManager.GetString("Controls_AddTextBox_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the text box..
+        /// </summary>
+        public static string Controls_AddTextBox_top {
+            get {
+                return ResourceManager.GetString("Controls_AddTextBox_top", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Raises an event when any button control is clicked..
         /// </summary>
         public static string Controls_ButtonClicked {
             get {
                 return ResourceManager.GetString("Controls_ButtonClicked", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Button whose caption is requested..
-        /// </summary>
-        public static string Controls_GetButtonCaption_Parameters_buttonName {
-            get {
-                return ResourceManager.GetString("Controls_GetButtonCaption_Parameters_buttonName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The current caption of the button..
-        /// </summary>
-        public static string Controls_GetButtonCaption_ReturnValue {
-            get {
-                return ResourceManager.GetString("Controls_GetButtonCaption_Returns", resourceCulture);
             }
         }
         
@@ -484,20 +475,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The TextBox whose text is requested..
+        ///   Looks up a localized string similar to The Button whose caption is requested..
         /// </summary>
-        public static string Controls_GetTextBoxText_Parameters_textBoxName {
+        public static string Controls_GetButtonCaption_buttonName {
             get {
-                return ResourceManager.GetString("Controls_GetTextBoxText_Parameters_textBoxName", resourceCulture);
+                return ResourceManager.GetString("Controls_GetButtonCaption_buttonName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text in the TextBox.
+        ///   Looks up a localized string similar to The current caption of the button..
         /// </summary>
-        public static string Controls_GetTextBoxText_ReturnValue {
+        public static string Controls_GetButtonCaption_ReturnValue {
             get {
-                return ResourceManager.GetString("Controls_GetTextBoxText_Returns", resourceCulture);
+                return ResourceManager.GetString("Controls_GetButtonCaption_ReturnValue", resourceCulture);
             }
         }
         
@@ -511,11 +502,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the control..
+        ///   Looks up a localized string similar to The text in the TextBox.
         /// </summary>
-        public static string Controls_HideControl_Parameters_controlName {
+        public static string Controls_GetTextBoxText_ReturnValue {
             get {
-                return ResourceManager.GetString("Controls_HideControl_Parameters_controlName", resourceCulture);
+                return ResourceManager.GetString("Controls_GetTextBoxText_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TextBox whose text is requested..
+        /// </summary>
+        public static string Controls_GetTextBoxText_textBoxName {
+            get {
+                return ResourceManager.GetString("Controls_GetTextBoxText_textBoxName", resourceCulture);
             }
         }
         
@@ -525,6 +525,15 @@ namespace SuperBasic.Utilities.Resources {
         public static string Controls_HideControl {
             get {
                 return ResourceManager.GetString("Controls_HideControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the control..
+        /// </summary>
+        public static string Controls_HideControl_controlName {
+            get {
+                return ResourceManager.GetString("Controls_HideControl_controlName", resourceCulture);
             }
         }
         
@@ -547,33 +556,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the control to move..
-        /// </summary>
-        public static string Controls_Move_Parameters_control {
-            get {
-                return ResourceManager.GetString("Controls_Move_Parameters_control", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the new position..
-        /// </summary>
-        public static string Controls_Move_Parameters_x {
-            get {
-                return ResourceManager.GetString("Controls_Move_Parameters_x", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the new position..
-        /// </summary>
-        public static string Controls_Move_Parameters_y {
-            get {
-                return ResourceManager.GetString("Controls_Move_Parameters_y", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Moves the control with the specified name to a new position..
         /// </summary>
         public static string Controls_Move {
@@ -583,11 +565,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the control that needs to be removed..
+        ///   Looks up a localized string similar to The name of the control to move..
         /// </summary>
-        public static string Controls_Remove_Parameters_controlName {
+        public static string Controls_Move_control {
             get {
-                return ResourceManager.GetString("Controls_Remove_Parameters_controlName", resourceCulture);
+                return ResourceManager.GetString("Controls_Move_control", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the new position..
+        /// </summary>
+        public static string Controls_Move_x {
+            get {
+                return ResourceManager.GetString("Controls_Move_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the new position..
+        /// </summary>
+        public static string Controls_Move_y {
+            get {
+                return ResourceManager.GetString("Controls_Move_y", resourceCulture);
             }
         }
         
@@ -601,20 +601,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Button whose caption needs to be set..
+        ///   Looks up a localized string similar to The name of the control that needs to be removed..
         /// </summary>
-        public static string Controls_SetButtonCaption_Parameters_buttonName {
+        public static string Controls_Remove_controlName {
             get {
-                return ResourceManager.GetString("Controls_SetButtonCaption_Parameters_buttonName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The new caption for the button..
-        /// </summary>
-        public static string Controls_SetButtonCaption_Parameters_caption {
-            get {
-                return ResourceManager.GetString("Controls_SetButtonCaption_Parameters_caption", resourceCulture);
+                return ResourceManager.GetString("Controls_Remove_controlName", resourceCulture);
             }
         }
         
@@ -628,29 +619,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the control to be resized..
+        ///   Looks up a localized string similar to The Button whose caption needs to be set..
         /// </summary>
-        public static string Controls_SetSize_Parameters_control {
+        public static string Controls_SetButtonCaption_buttonName {
             get {
-                return ResourceManager.GetString("Controls_SetSize_Parameters_control", resourceCulture);
+                return ResourceManager.GetString("Controls_SetButtonCaption_buttonName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height of the control..
+        ///   Looks up a localized string similar to The new caption for the button..
         /// </summary>
-        public static string Controls_SetSize_Parameters_height {
+        public static string Controls_SetButtonCaption_caption {
             get {
-                return ResourceManager.GetString("Controls_SetSize_Parameters_height", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The width of the control..
-        /// </summary>
-        public static string Controls_SetSize_Parameters_width {
-            get {
-                return ResourceManager.GetString("Controls_SetSize_Parameters_width", resourceCulture);
+                return ResourceManager.GetString("Controls_SetButtonCaption_caption", resourceCulture);
             }
         }
         
@@ -664,20 +646,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The new text for the TextBox..
+        ///   Looks up a localized string similar to The name of the control to be resized..
         /// </summary>
-        public static string Controls_SetTextBoxText_Parameters_text {
+        public static string Controls_SetSize_control {
             get {
-                return ResourceManager.GetString("Controls_SetTextBoxText_Parameters_text", resourceCulture);
+                return ResourceManager.GetString("Controls_SetSize_control", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The TextBox whose text needs to be set..
+        ///   Looks up a localized string similar to The height of the control..
         /// </summary>
-        public static string Controls_SetTextBoxText_Parameters_textBoxName {
+        public static string Controls_SetSize_height {
             get {
-                return ResourceManager.GetString("Controls_SetTextBoxText_Parameters_textBoxName", resourceCulture);
+                return ResourceManager.GetString("Controls_SetSize_height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The width of the control..
+        /// </summary>
+        public static string Controls_SetSize_width {
+            get {
+                return ResourceManager.GetString("Controls_SetSize_width", resourceCulture);
             }
         }
         
@@ -691,11 +682,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the control..
+        ///   Looks up a localized string similar to The new text for the TextBox..
         /// </summary>
-        public static string Controls_ShowControl_Parameters_controlName {
+        public static string Controls_SetTextBoxText_text {
             get {
-                return ResourceManager.GetString("Controls_ShowControl_Parameters_controlName", resourceCulture);
+                return ResourceManager.GetString("Controls_SetTextBoxText_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TextBox whose text needs to be set..
+        /// </summary>
+        public static string Controls_SetTextBoxText_textBoxName {
+            get {
+                return ResourceManager.GetString("Controls_SetTextBoxText_textBoxName", resourceCulture);
             }
         }
         
@@ -709,11 +709,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Controls object allows you to add, move and interact with controls..
+        ///   Looks up a localized string similar to The name of the control..
         /// </summary>
-        public static string Controls {
+        public static string Controls_ShowControl_controlName {
             get {
-                return ResourceManager.GetString("Controls", resourceCulture);
+                return ResourceManager.GetString("Controls_ShowControl_controlName", resourceCulture);
             }
         }
         
@@ -727,20 +727,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This class provides methods to interact with the desktop..
+        /// </summary>
+        public static string Desktop {
+            get {
+                return ResourceManager.GetString("Desktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gets the screen height of the primary desktop..
         /// </summary>
         public static string Desktop_Height {
             get {
                 return ResourceManager.GetString("Desktop_Height", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The filename or URL of the picture..
-        /// </summary>
-        public static string Desktop_SetWallPaper_Parameters_fileOrUrl {
-            get {
-                return ResourceManager.GetString("Desktop_SetWallPaper_Parameters_fileOrUrl", resourceCulture);
             }
         }
         
@@ -754,11 +754,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This class provides methods to interact with the desktop..
+        ///   Looks up a localized string similar to The filename or URL of the picture..
         /// </summary>
-        public static string Desktop {
+        public static string Desktop_SetWallPaper_fileOrUrl {
             get {
-                return ResourceManager.GetString("Desktop", resourceCulture);
+                return ResourceManager.GetString("Desktop_SetWallPaper_fileOrUrl", resourceCulture);
             }
         }
         
@@ -772,20 +772,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to This class provides access to an online Dictionary service..
         /// </summary>
-        public static string Dictionary_GetDefinition_Parameters_word {
+        public static string Dictionary {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinition_Parameters_word", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
-        /// </summary>
-        public static string Dictionary_GetDefinition_ReturnValue {
-            get {
-                return ResourceManager.GetString("Dictionary_GetDefinition_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary", resourceCulture);
             }
         }
         
@@ -799,20 +790,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinition_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinition_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinition_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinition_word", resourceCulture);
             }
         }
         
@@ -826,20 +817,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToFrench_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToFrench_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToFrench_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToFrench_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToEnglish_word", resourceCulture);
             }
         }
         
@@ -853,20 +844,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToGerman_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToFrench_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToGerman_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToFrench_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToGerman_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToFrench_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToGerman_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToFrench_word", resourceCulture);
             }
         }
         
@@ -880,20 +871,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToItalian_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToGerman_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToItalian_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToGerman_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToItalian_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToGerman_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToItalian_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToGerman_word", resourceCulture);
             }
         }
         
@@ -907,20 +898,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToJapanese_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToItalian_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToJapanese_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToItalian_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToJapanese_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToItalian_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToJapanese_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToItalian_word", resourceCulture);
             }
         }
         
@@ -934,20 +925,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToKorean_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToJapanese_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToKorean_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToJapanese_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToKorean_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToJapanese_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToKorean_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToJapanese_word", resourceCulture);
             }
         }
         
@@ -961,20 +952,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToSimplifiedChinese_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToKorean_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSimplifiedChinese_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToKorean_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToKorean_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSimplifiedChinese_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToKorean_word", resourceCulture);
             }
         }
         
@@ -988,20 +979,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToSpanish_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSpanish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToSpanish_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToSimplifiedChinese_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSpanish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSimplifiedChinese_word", resourceCulture);
             }
         }
         
@@ -1015,20 +1006,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToTraditionalChinese_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToSpanish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToTraditionalChinese_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSpanish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToSpanish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToTraditionalChinese_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToSpanish_word", resourceCulture);
             }
         }
         
@@ -1042,20 +1033,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionFrenchToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionFrenchToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionFrenchToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionEnglishToTraditionalChinese_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionFrenchToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionEnglishToTraditionalChinese_word", resourceCulture);
             }
         }
         
@@ -1069,20 +1060,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionGermanToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionFrenchToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionGermanToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionFrenchToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionGermanToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionFrenchToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionGermanToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionFrenchToEnglish_word", resourceCulture);
             }
         }
         
@@ -1096,20 +1087,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionItalianToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionGermanToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionItalianToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionGermanToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionItalianToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionGermanToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionItalianToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionGermanToEnglish_word", resourceCulture);
             }
         }
         
@@ -1123,20 +1114,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionJapaneseToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionItalianToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionJapaneseToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionItalianToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionItalianToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionJapaneseToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionItalianToEnglish_word", resourceCulture);
             }
         }
         
@@ -1150,20 +1141,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionKoreanToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionKoreanToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionKoreanToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionJapaneseToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionKoreanToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionJapaneseToEnglish_word", resourceCulture);
             }
         }
         
@@ -1177,20 +1168,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionSimplifiedChineseToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionKoreanToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionSimplifiedChineseToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionKoreanToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionKoreanToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionSimplifiedChineseToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionKoreanToEnglish_word", resourceCulture);
             }
         }
         
@@ -1204,20 +1195,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionSpanishToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionSpanishToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionSpanishToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionSimplifiedChineseToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionSpanishToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionSimplifiedChineseToEnglish_word", resourceCulture);
             }
         }
         
@@ -1231,20 +1222,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The word to define..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary_GetDefinitionTraditionalChineseToEnglish_Parameters_word {
+        public static string Dictionary_GetDefinitionSpanishToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionTraditionalChineseToEnglish_Parameters_word", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionSpanishToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The definition(s) of the specified word..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue {
+        public static string Dictionary_GetDefinitionSpanishToEnglish_word {
             get {
-                return ResourceManager.GetString("Dictionary_GetDefinitionTraditionalChineseToEnglish_Returns", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionSpanishToEnglish_word", resourceCulture);
             }
         }
         
@@ -1258,371 +1249,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This class provides access to an online Dictionary service..
+        ///   Looks up a localized string similar to The definition(s) of the specified word..
         /// </summary>
-        public static string Dictionary {
+        public static string Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue {
             get {
-                return ResourceManager.GetString("Dictionary", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The contents to append to the end of the file..
+        ///   Looks up a localized string similar to The word to define..
         /// </summary>
-        public static string File_AppendContents_Parameters_contents {
+        public static string Dictionary_GetDefinitionTraditionalChineseToEnglish_word {
             get {
-                return ResourceManager.GetString("File_AppendContents_Parameters_contents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
-        /// </summary>
-        public static string File_AppendContents_Parameters_filePath {
-            get {
-                return ResourceManager.GetString("File_AppendContents_Parameters_filePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_AppendContents_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_AppendContents_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Opens the specified file and appends the contents to the end of the file..
-        /// </summary>
-        public static string File_AppendContents {
-            get {
-                return ResourceManager.GetString("File_AppendContents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The destination location or the file path..
-        /// </summary>
-        public static string File_CopyFile_Parameters_destinationFilePath {
-            get {
-                return ResourceManager.GetString("File_CopyFile_Parameters_destinationFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the file that needs to be copied. An example of a full path will be c:\temp\settings.data..
-        /// </summary>
-        public static string File_CopyFile_Parameters_sourceFilePath {
-            get {
-                return ResourceManager.GetString("File_CopyFile_Parameters_sourceFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_CopyFile_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_CopyFile_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Copies the specified source file to the destination file path. If the destination points to a location that doesn&apos;t exist, the method will attempt to create it automatically. Existing files will be overwritten. It is always best to check if the destination file exists if you don&apos;t want to overwrite existing files..
-        /// </summary>
-        public static string File_CopyFile {
-            get {
-                return ResourceManager.GetString("File_CopyFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the directory to be created..
-        /// </summary>
-        public static string File_CreateDirectory_Parameters_directoryPath {
-            get {
-                return ResourceManager.GetString("File_CreateDirectory_Parameters_directoryPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_CreateDirectory_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_CreateDirectory_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Creates the specified directory..
-        /// </summary>
-        public static string File_CreateDirectory {
-            get {
-                return ResourceManager.GetString("File_CreateDirectory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the directory to be deleted..
-        /// </summary>
-        public static string File_DeleteDirectory_Parameters_directoryPath {
-            get {
-                return ResourceManager.GetString("File_DeleteDirectory_Parameters_directoryPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_DeleteDirectory_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_DeleteDirectory_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deletes the specified directory..
-        /// </summary>
-        public static string File_DeleteDirectory {
-            get {
-                return ResourceManager.GetString("File_DeleteDirectory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The destination location or the file path. An example of a full path will be c:\temp\settings.data..
-        /// </summary>
-        public static string File_DeleteFile_Parameters_filePath {
-            get {
-                return ResourceManager.GetString("File_DeleteFile_Parameters_filePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_DeleteFile_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_DeleteFile_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deletes the specified file..
-        /// </summary>
-        public static string File_DeleteFile {
-            get {
-                return ResourceManager.GetString("File_DeleteFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The directory to look for subdirectories..
-        /// </summary>
-        public static string File_GetDirectories_Parameters_directoryPath {
-            get {
-                return ResourceManager.GetString("File_GetDirectories_Parameters_directoryPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return the list of directories as an array. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_GetDirectories_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_GetDirectories_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the path of all the directories in the specified directory path..
-        /// </summary>
-        public static string File_GetDirectories {
-            get {
-                return ResourceManager.GetString("File_GetDirectories", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The directory to look for files..
-        /// </summary>
-        public static string File_GetFiles_Parameters_directoryPath {
-            get {
-                return ResourceManager.GetString("File_GetFiles_Parameters_directoryPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return the files as an array. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_GetFiles_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_GetFiles_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the path of all the files in the specified directory path..
-        /// </summary>
-        public static string File_GetFiles {
-            get {
-                return ResourceManager.GetString("File_GetFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the settings file specific for this program..
-        /// </summary>
-        public static string File_GetSettingsFilePath_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_GetSettingsFilePath_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the full path of the settings file for this program. The settings file name is based on the program&apos;s name and is present in the same location as the program..
-        /// </summary>
-        public static string File_GetSettingsFilePath {
-            get {
-                return ResourceManager.GetString("File_GetSettingsFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full file path of the temporary file..
-        /// </summary>
-        public static string File_GetTemporaryFilePath_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_GetTemporaryFilePath_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Creates a new temporary file in a temporary directory and returns the full file path..
-        /// </summary>
-        public static string File_GetTemporaryFilePath {
-            get {
-                return ResourceManager.GetString("File_GetTemporaryFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The contents to insert into the file..
-        /// </summary>
-        public static string File_InsertLine_Parameters_contents {
-            get {
-                return ResourceManager.GetString("File_InsertLine_Parameters_contents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
-        /// </summary>
-        public static string File_InsertLine_Parameters_filePath {
-            get {
-                return ResourceManager.GetString("File_InsertLine_Parameters_filePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The line number of the text to insert..
-        /// </summary>
-        public static string File_InsertLine_Parameters_lineNumber {
-            get {
-                return ResourceManager.GetString("File_InsertLine_Parameters_lineNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
-        /// </summary>
-        public static string File_InsertLine_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_InsertLine_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Opens the specified file and inserts the contents at the specified line number. This operation will not overwrite any existing content at the specified line..
-        /// </summary>
-        public static string File_InsertLine {
-            get {
-                return ResourceManager.GetString("File_InsertLine", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets or sets the last encountered file operation based error message. This property is useful for finding out when some method fails to execute..
-        /// </summary>
-        public static string File_LastError {
-            get {
-                return ResourceManager.GetString("File_LastError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the file to read. An example of a full path will be c:\temp\settings.data..
-        /// </summary>
-        public static string File_ReadContents_Parameters_filePath {
-            get {
-                return ResourceManager.GetString("File_ReadContents_Parameters_filePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The entire contents of the file..
-        /// </summary>
-        public static string File_ReadContents_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_ReadContents_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Opens a file and reads the entire file&apos;s contents. This method will be fast for small files that are less than an MB in size, but will start to slow down and will be noticeable for files greater than 10MB..
-        /// </summary>
-        public static string File_ReadContents {
-            get {
-                return ResourceManager.GetString("File_ReadContents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
-        /// </summary>
-        public static string File_ReadLine_Parameters_filePath {
-            get {
-                return ResourceManager.GetString("File_ReadLine_Parameters_filePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The line number of the text to be read..
-        /// </summary>
-        public static string File_ReadLine_Parameters_lineNumber {
-            get {
-                return ResourceManager.GetString("File_ReadLine_Parameters_lineNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The text at the specified line of the specified file..
-        /// </summary>
-        public static string File_ReadLine_ReturnValue {
-            get {
-                return ResourceManager.GetString("File_ReadLine_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Opens the specified file and reads the contents at the specified line number..
-        /// </summary>
-        public static string File_ReadLine {
-            get {
-                return ResourceManager.GetString("File_ReadLine", resourceCulture);
+                return ResourceManager.GetString("Dictionary_GetDefinitionTraditionalChineseToEnglish_word", resourceCulture);
             }
         }
         
@@ -1636,29 +1276,362 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The contents to write into the specified file..
+        ///   Looks up a localized string similar to Opens the specified file and appends the contents to the end of the file..
         /// </summary>
-        public static string File_WriteContents_Parameters_contents {
+        public static string File_AppendContents {
             get {
-                return ResourceManager.GetString("File_WriteContents_Parameters_contents", resourceCulture);
+                return ResourceManager.GetString("File_AppendContents", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The full path of the file to write to. An example of a full path will be c:\temp\settings.data..
+        ///   Looks up a localized string similar to The contents to append to the end of the file..
         /// </summary>
-        public static string File_WriteContents_Parameters_filePath {
+        public static string File_AppendContents_contents {
             get {
-                return ResourceManager.GetString("File_WriteContents_Parameters_filePath", resourceCulture);
+                return ResourceManager.GetString("File_AppendContents_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_AppendContents_filePath {
+            get {
+                return ResourceManager.GetString("File_AppendContents_filePath", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
         /// </summary>
-        public static string File_WriteContents_ReturnValue {
+        public static string File_AppendContents_ReturnValue {
             get {
-                return ResourceManager.GetString("File_WriteContents_Returns", resourceCulture);
+                return ResourceManager.GetString("File_AppendContents_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copies the specified source file to the destination file path. If the destination points to a location that doesn&apos;t exist, the method will attempt to create it automatically. Existing files will be overwritten. It is always best to check if the destination file exists if you don&apos;t want to overwrite existing files..
+        /// </summary>
+        public static string File_CopyFile {
+            get {
+                return ResourceManager.GetString("File_CopyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The destination location or the file path..
+        /// </summary>
+        public static string File_CopyFile_destinationFilePath {
+            get {
+                return ResourceManager.GetString("File_CopyFile_destinationFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_CopyFile_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_CopyFile_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the file that needs to be copied. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_CopyFile_sourceFilePath {
+            get {
+                return ResourceManager.GetString("File_CopyFile_sourceFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates the specified directory..
+        /// </summary>
+        public static string File_CreateDirectory {
+            get {
+                return ResourceManager.GetString("File_CreateDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the directory to be created..
+        /// </summary>
+        public static string File_CreateDirectory_directoryPath {
+            get {
+                return ResourceManager.GetString("File_CreateDirectory_directoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_CreateDirectory_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_CreateDirectory_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletes the specified directory..
+        /// </summary>
+        public static string File_DeleteDirectory {
+            get {
+                return ResourceManager.GetString("File_DeleteDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the directory to be deleted..
+        /// </summary>
+        public static string File_DeleteDirectory_directoryPath {
+            get {
+                return ResourceManager.GetString("File_DeleteDirectory_directoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_DeleteDirectory_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_DeleteDirectory_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletes the specified file..
+        /// </summary>
+        public static string File_DeleteFile {
+            get {
+                return ResourceManager.GetString("File_DeleteFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The destination location or the file path. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_DeleteFile_filePath {
+            get {
+                return ResourceManager.GetString("File_DeleteFile_filePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_DeleteFile_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_DeleteFile_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the path of all the directories in the specified directory path..
+        /// </summary>
+        public static string File_GetDirectories {
+            get {
+                return ResourceManager.GetString("File_GetDirectories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The directory to look for subdirectories..
+        /// </summary>
+        public static string File_GetDirectories_directoryPath {
+            get {
+                return ResourceManager.GetString("File_GetDirectories_directoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return the list of directories as an array. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_GetDirectories_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_GetDirectories_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the path of all the files in the specified directory path..
+        /// </summary>
+        public static string File_GetFiles {
+            get {
+                return ResourceManager.GetString("File_GetFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The directory to look for files..
+        /// </summary>
+        public static string File_GetFiles_directoryPath {
+            get {
+                return ResourceManager.GetString("File_GetFiles_directoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return the files as an array. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_GetFiles_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_GetFiles_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the full path of the settings file for this program. The settings file name is based on the program&apos;s name and is present in the same location as the program..
+        /// </summary>
+        public static string File_GetSettingsFilePath {
+            get {
+                return ResourceManager.GetString("File_GetSettingsFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the settings file specific for this program..
+        /// </summary>
+        public static string File_GetSettingsFilePath_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_GetSettingsFilePath_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new temporary file in a temporary directory and returns the full file path..
+        /// </summary>
+        public static string File_GetTemporaryFilePath {
+            get {
+                return ResourceManager.GetString("File_GetTemporaryFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full file path of the temporary file..
+        /// </summary>
+        public static string File_GetTemporaryFilePath_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_GetTemporaryFilePath_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens the specified file and inserts the contents at the specified line number. This operation will not overwrite any existing content at the specified line..
+        /// </summary>
+        public static string File_InsertLine {
+            get {
+                return ResourceManager.GetString("File_InsertLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The contents to insert into the file..
+        /// </summary>
+        public static string File_InsertLine_contents {
+            get {
+                return ResourceManager.GetString("File_InsertLine_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_InsertLine_filePath {
+            get {
+                return ResourceManager.GetString("File_InsertLine_filePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The line number of the text to insert..
+        /// </summary>
+        public static string File_InsertLine_lineNumber {
+            get {
+                return ResourceManager.GetString("File_InsertLine_lineNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_InsertLine_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_InsertLine_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets or sets the last encountered file operation based error message. This property is useful for finding out when some method fails to execute..
+        /// </summary>
+        public static string File_LastError {
+            get {
+                return ResourceManager.GetString("File_LastError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens a file and reads the entire file&apos;s contents. This method will be fast for small files that are less than an MB in size, but will start to slow down and will be noticeable for files greater than 10MB..
+        /// </summary>
+        public static string File_ReadContents {
+            get {
+                return ResourceManager.GetString("File_ReadContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the file to read. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_ReadContents_filePath {
+            get {
+                return ResourceManager.GetString("File_ReadContents_filePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entire contents of the file..
+        /// </summary>
+        public static string File_ReadContents_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_ReadContents_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens the specified file and reads the contents at the specified line number..
+        /// </summary>
+        public static string File_ReadLine {
+            get {
+                return ResourceManager.GetString("File_ReadLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_ReadLine_filePath {
+            get {
+                return ResourceManager.GetString("File_ReadLine_filePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The line number of the text to be read..
+        /// </summary>
+        public static string File_ReadLine_lineNumber {
+            get {
+                return ResourceManager.GetString("File_ReadLine_lineNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The text at the specified line of the specified file..
+        /// </summary>
+        public static string File_ReadLine_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_ReadLine_ReturnValue", resourceCulture);
             }
         }
         
@@ -1672,38 +1645,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The contents to write at the specified line of the specified file..
+        ///   Looks up a localized string similar to The contents to write into the specified file..
         /// </summary>
-        public static string File_WriteLine_Parameters_contents {
+        public static string File_WriteContents_contents {
             get {
-                return ResourceManager.GetString("File_WriteLine_Parameters_contents", resourceCulture);
+                return ResourceManager.GetString("File_WriteContents_contents", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
+        ///   Looks up a localized string similar to The full path of the file to write to. An example of a full path will be c:\temp\settings.data..
         /// </summary>
-        public static string File_WriteLine_Parameters_filePath {
+        public static string File_WriteContents_filePath {
             get {
-                return ResourceManager.GetString("File_WriteLine_Parameters_filePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The line number of the text to write..
-        /// </summary>
-        public static string File_WriteLine_Parameters_lineNumber {
-            get {
-                return ResourceManager.GetString("File_WriteLine_Parameters_lineNumber", resourceCulture);
+                return ResourceManager.GetString("File_WriteContents_filePath", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
         /// </summary>
-        public static string File_WriteLine_ReturnValue {
+        public static string File_WriteContents_ReturnValue {
             get {
-                return ResourceManager.GetString("File_WriteLine_Returns", resourceCulture);
+                return ResourceManager.GetString("File_WriteContents_ReturnValue", resourceCulture);
             }
         }
         
@@ -1717,11 +1681,47 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A file URL for Flickr&apos;s picture of the moment.
+        ///   Looks up a localized string similar to The contents to write at the specified line of the specified file..
         /// </summary>
-        public static string Flickr_GetPictureOfMoment_ReturnValue {
+        public static string File_WriteLine_contents {
             get {
-                return ResourceManager.GetString("Flickr_GetPictureOfMoment_Returns", resourceCulture);
+                return ResourceManager.GetString("File_WriteLine_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The full path of the file to read from. An example of a full path will be c:\temp\settings.data..
+        /// </summary>
+        public static string File_WriteLine_filePath {
+            get {
+                return ResourceManager.GetString("File_WriteLine_filePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The line number of the text to write..
+        /// </summary>
+        public static string File_WriteLine_lineNumber {
+            get {
+                return ResourceManager.GetString("File_WriteLine_lineNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the operation was successful, this will return &quot;SUCCESS&quot;. Otherwise, it will return &quot;FAILED&quot;..
+        /// </summary>
+        public static string File_WriteLine_ReturnValue {
+            get {
+                return ResourceManager.GetString("File_WriteLine_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This class provides access to Flickr photo services..
+        /// </summary>
+        public static string Flickr {
+            get {
+                return ResourceManager.GetString("Flickr", resourceCulture);
             }
         }
         
@@ -1735,20 +1735,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The tag for the requested picture..
+        ///   Looks up a localized string similar to A file URL for Flickr&apos;s picture of the moment.
         /// </summary>
-        public static string Flickr_GetRandomPicture_Parameters_tag {
+        public static string Flickr_GetPictureOfMoment_ReturnValue {
             get {
-                return ResourceManager.GetString("Flickr_GetRandomPicture_Parameters_tag", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A file URL for Flickr&apos;s random picture.
-        /// </summary>
-        public static string Flickr_GetRandomPicture_ReturnValue {
-            get {
-                return ResourceManager.GetString("Flickr_GetRandomPicture_Returns", resourceCulture);
+                return ResourceManager.GetString("Flickr_GetPictureOfMoment_ReturnValue", resourceCulture);
             }
         }
         
@@ -1762,11 +1753,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This class provides access to Flickr photo services..
+        ///   Looks up a localized string similar to A file URL for Flickr&apos;s random picture.
         /// </summary>
-        public static string Flickr {
+        public static string Flickr_GetRandomPicture_ReturnValue {
             get {
-                return ResourceManager.GetString("Flickr", resourceCulture);
+                return ResourceManager.GetString("Flickr_GetRandomPicture_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The tag for the requested picture..
+        /// </summary>
+        public static string Flickr_GetRandomPicture_tag {
+            get {
+                return ResourceManager.GetString("Flickr_GetRandomPicture_tag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The GraphicsWindow provides graphics related input and output functionality. For example, using this class, it is possible to draw and fill circles and rectangles..
+        /// </summary>
+        public static string GraphicsWindow {
+            get {
+                return ResourceManager.GetString("GraphicsWindow", resourceCulture);
             }
         }
         
@@ -1807,42 +1816,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to draw..
-        /// </summary>
-        public static string GraphicsWindow_DrawBoundText_Parameters_text {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The maximum available width. This parameter helps define when the text should wrap..
-        /// </summary>
-        public static string GraphicsWindow_DrawBoundText_Parameters_width {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_Parameters_width", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the text start point..
-        /// </summary>
-        public static string GraphicsWindow_DrawBoundText_Parameters_x {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_Parameters_x", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the text start point..
-        /// </summary>
-        public static string GraphicsWindow_DrawBoundText_Parameters_y {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_Parameters_y", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Draws a line of text on the screen at the specified location..
         /// </summary>
         public static string GraphicsWindow_DrawBoundText {
@@ -1852,38 +1825,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height of the ellipse..
+        ///   Looks up a localized string similar to The text to draw..
         /// </summary>
-        public static string GraphicsWindow_DrawEllipse_Parameters_height {
+        public static string GraphicsWindow_DrawBoundText_text {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_Parameters_height", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The width of the ellipse..
+        ///   Looks up a localized string similar to The maximum available width. This parameter helps define when the text should wrap..
         /// </summary>
-        public static string GraphicsWindow_DrawEllipse_Parameters_width {
+        public static string GraphicsWindow_DrawBoundText_width {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_Parameters_width", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_width", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the ellipse..
+        ///   Looks up a localized string similar to The x co-ordinate of the text start point..
         /// </summary>
-        public static string GraphicsWindow_DrawEllipse_Parameters_x {
+        public static string GraphicsWindow_DrawBoundText_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_x", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the ellipse..
+        ///   Looks up a localized string similar to The y co-ordinate of the text start point..
         /// </summary>
-        public static string GraphicsWindow_DrawEllipse_Parameters_y {
+        public static string GraphicsWindow_DrawBoundText_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawBoundText_y", resourceCulture);
             }
         }
         
@@ -1897,29 +1870,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the image to draw..
+        ///   Looks up a localized string similar to The height of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_DrawImage_Parameters_imageName {
+        public static string GraphicsWindow_DrawEllipse_height {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawImage_Parameters_imageName", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the point to draw the image at..
+        ///   Looks up a localized string similar to The width of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_DrawImage_Parameters_x {
+        public static string GraphicsWindow_DrawEllipse_width {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawImage_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_width", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the point to draw the image at..
+        ///   Looks up a localized string similar to The x co-ordinate of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_DrawImage_Parameters_y {
+        public static string GraphicsWindow_DrawEllipse_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawImage_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the ellipse..
+        /// </summary>
+        public static string GraphicsWindow_DrawEllipse_y {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_DrawEllipse_y", resourceCulture);
             }
         }
         
@@ -1933,38 +1915,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the first point..
+        ///   Looks up a localized string similar to The name of the image to draw..
         /// </summary>
-        public static string GraphicsWindow_DrawLine_Parameters_x1 {
+        public static string GraphicsWindow_DrawImage_imageName {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawLine_Parameters_x1", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawImage_imageName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the second point..
+        ///   Looks up a localized string similar to The x co-ordinate of the point to draw the image at..
         /// </summary>
-        public static string GraphicsWindow_DrawLine_Parameters_x2 {
+        public static string GraphicsWindow_DrawImage_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawLine_Parameters_x2", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawImage_x", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the first point..
+        ///   Looks up a localized string similar to The y co-ordinate of the point to draw the image at..
         /// </summary>
-        public static string GraphicsWindow_DrawLine_Parameters_y1 {
+        public static string GraphicsWindow_DrawImage_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawLine_Parameters_y1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the second point..
-        /// </summary>
-        public static string GraphicsWindow_DrawLine_Parameters_y2 {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawLine_Parameters_y2", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawImage_y", resourceCulture);
             }
         }
         
@@ -1978,38 +1951,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height of the rectangle..
+        ///   Looks up a localized string similar to The x co-ordinate of the first point..
         /// </summary>
-        public static string GraphicsWindow_DrawRectangle_Parameters_height {
+        public static string GraphicsWindow_DrawLine_x1 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_Parameters_height", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawLine_x1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The width of the rectangle..
+        ///   Looks up a localized string similar to The x co-ordinate of the second point..
         /// </summary>
-        public static string GraphicsWindow_DrawRectangle_Parameters_width {
+        public static string GraphicsWindow_DrawLine_x2 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_Parameters_width", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawLine_x2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the rectangle..
+        ///   Looks up a localized string similar to The y co-ordinate of the first point..
         /// </summary>
-        public static string GraphicsWindow_DrawRectangle_Parameters_x {
+        public static string GraphicsWindow_DrawLine_y1 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawLine_y1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the rectangle..
+        ///   Looks up a localized string similar to The y co-ordinate of the second point..
         /// </summary>
-        public static string GraphicsWindow_DrawRectangle_Parameters_y {
+        public static string GraphicsWindow_DrawLine_y2 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawLine_y2", resourceCulture);
             }
         }
         
@@ -2023,47 +1996,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height to draw the image..
+        ///   Looks up a localized string similar to The height of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_DrawResizedImage_Parameters_height {
+        public static string GraphicsWindow_DrawRectangle_height {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_Parameters_height", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the image to draw.
+        ///   Looks up a localized string similar to The width of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_DrawResizedImage_Parameters_imageName {
+        public static string GraphicsWindow_DrawRectangle_width {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_Parameters_imageName", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_width", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The width to draw the image..
+        ///   Looks up a localized string similar to The x co-ordinate of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_DrawResizedImage_Parameters_width {
+        public static string GraphicsWindow_DrawRectangle_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_Parameters_width", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_x", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the point to draw the image at..
+        ///   Looks up a localized string similar to The y co-ordinate of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_DrawResizedImage_Parameters_x {
+        public static string GraphicsWindow_DrawRectangle_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_Parameters_x", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the point to draw the image at..
-        /// </summary>
-        public static string GraphicsWindow_DrawResizedImage_Parameters_y {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawRectangle_y", resourceCulture);
             }
         }
         
@@ -2077,29 +2041,47 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to draw.
+        ///   Looks up a localized string similar to The height to draw the image..
         /// </summary>
-        public static string GraphicsWindow_DrawText_Parameters_text {
+        public static string GraphicsWindow_DrawResizedImage_height {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawText_Parameters_text", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the text start point..
+        ///   Looks up a localized string similar to The name of the image to draw.
         /// </summary>
-        public static string GraphicsWindow_DrawText_Parameters_x {
+        public static string GraphicsWindow_DrawResizedImage_imageName {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawText_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_imageName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the text start point..
+        ///   Looks up a localized string similar to The width to draw the image..
         /// </summary>
-        public static string GraphicsWindow_DrawText_Parameters_y {
+        public static string GraphicsWindow_DrawResizedImage_width {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawText_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the point to draw the image at..
+        /// </summary>
+        public static string GraphicsWindow_DrawResizedImage_x {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the point to draw the image at..
+        /// </summary>
+        public static string GraphicsWindow_DrawResizedImage_y {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_DrawResizedImage_y", resourceCulture);
             }
         }
         
@@ -2113,56 +2095,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the first point..
+        ///   Looks up a localized string similar to The text to draw.
         /// </summary>
-        public static string GraphicsWindow_DrawTriangle_Parameters_x1 {
+        public static string GraphicsWindow_DrawText_text {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_Parameters_x1", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawText_text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the second point..
+        ///   Looks up a localized string similar to The x co-ordinate of the text start point..
         /// </summary>
-        public static string GraphicsWindow_DrawTriangle_Parameters_x2 {
+        public static string GraphicsWindow_DrawText_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_Parameters_x2", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawText_x", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the third point..
+        ///   Looks up a localized string similar to The y co-ordinate of the text start point..
         /// </summary>
-        public static string GraphicsWindow_DrawTriangle_Parameters_x3 {
+        public static string GraphicsWindow_DrawText_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_Parameters_x3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the first point..
-        /// </summary>
-        public static string GraphicsWindow_DrawTriangle_Parameters_y1 {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_Parameters_y1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the second point..
-        /// </summary>
-        public static string GraphicsWindow_DrawTriangle_Parameters_y2 {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_Parameters_y2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the third point..
-        /// </summary>
-        public static string GraphicsWindow_DrawTriangle_Parameters_y3 {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_Parameters_y3", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawText_y", resourceCulture);
             }
         }
         
@@ -2176,38 +2131,56 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height of the ellipse..
+        ///   Looks up a localized string similar to The x co-ordinate of the first point..
         /// </summary>
-        public static string GraphicsWindow_FillEllipse_Parameters_height {
+        public static string GraphicsWindow_DrawTriangle_x1 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillEllipse_Parameters_height", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_x1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The width of the ellipse..
+        ///   Looks up a localized string similar to The x co-ordinate of the second point..
         /// </summary>
-        public static string GraphicsWindow_FillEllipse_Parameters_width {
+        public static string GraphicsWindow_DrawTriangle_x2 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillEllipse_Parameters_width", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_x2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the ellipse..
+        ///   Looks up a localized string similar to The x co-ordinate of the third point..
         /// </summary>
-        public static string GraphicsWindow_FillEllipse_Parameters_x {
+        public static string GraphicsWindow_DrawTriangle_x3 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillEllipse_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_x3", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the ellipse..
+        ///   Looks up a localized string similar to The y co-ordinate of the first point..
         /// </summary>
-        public static string GraphicsWindow_FillEllipse_Parameters_y {
+        public static string GraphicsWindow_DrawTriangle_y1 {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillEllipse_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_y1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the second point..
+        /// </summary>
+        public static string GraphicsWindow_DrawTriangle_y2 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_y2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the third point..
+        /// </summary>
+        public static string GraphicsWindow_DrawTriangle_y3 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_DrawTriangle_y3", resourceCulture);
             }
         }
         
@@ -2221,38 +2194,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height of the rectangle..
+        ///   Looks up a localized string similar to The height of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_FillRectangle_Parameters_height {
+        public static string GraphicsWindow_FillEllipse_height {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillRectangle_Parameters_height", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillEllipse_height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The width of the rectangle..
+        ///   Looks up a localized string similar to The width of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_FillRectangle_Parameters_width {
+        public static string GraphicsWindow_FillEllipse_width {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillRectangle_Parameters_width", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillEllipse_width", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the rectangle..
+        ///   Looks up a localized string similar to The x co-ordinate of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_FillRectangle_Parameters_x {
+        public static string GraphicsWindow_FillEllipse_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillRectangle_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillEllipse_x", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the rectangle..
+        ///   Looks up a localized string similar to The y co-ordinate of the ellipse..
         /// </summary>
-        public static string GraphicsWindow_FillRectangle_Parameters_y {
+        public static string GraphicsWindow_FillEllipse_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillRectangle_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillEllipse_y", resourceCulture);
             }
         }
         
@@ -2266,56 +2239,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the first point..
+        ///   Looks up a localized string similar to The height of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_FillTriangle_Parameters_x1 {
+        public static string GraphicsWindow_FillRectangle_height {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillTriangle_Parameters_x1", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillRectangle_height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the second point..
+        ///   Looks up a localized string similar to The width of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_FillTriangle_Parameters_x2 {
+        public static string GraphicsWindow_FillRectangle_width {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillTriangle_Parameters_x2", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillRectangle_width", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the third point..
+        ///   Looks up a localized string similar to The x co-ordinate of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_FillTriangle_Parameters_x3 {
+        public static string GraphicsWindow_FillRectangle_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillTriangle_Parameters_x3", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillRectangle_x", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the first point..
+        ///   Looks up a localized string similar to The y co-ordinate of the rectangle..
         /// </summary>
-        public static string GraphicsWindow_FillTriangle_Parameters_y1 {
+        public static string GraphicsWindow_FillRectangle_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_FillTriangle_Parameters_y1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the second point..
-        /// </summary>
-        public static string GraphicsWindow_FillTriangle_Parameters_y2 {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_FillTriangle_Parameters_y2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the third point..
-        /// </summary>
-        public static string GraphicsWindow_FillTriangle_Parameters_y3 {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_FillTriangle_Parameters_y3", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_FillRectangle_y", resourceCulture);
             }
         }
         
@@ -2325,6 +2280,60 @@ namespace SuperBasic.Utilities.Resources {
         public static string GraphicsWindow_FillTriangle {
             get {
                 return ResourceManager.GetString("GraphicsWindow_FillTriangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the first point..
+        /// </summary>
+        public static string GraphicsWindow_FillTriangle_x1 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_FillTriangle_x1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the second point..
+        /// </summary>
+        public static string GraphicsWindow_FillTriangle_x2 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_FillTriangle_x2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the third point..
+        /// </summary>
+        public static string GraphicsWindow_FillTriangle_x3 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_FillTriangle_x3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the first point..
+        /// </summary>
+        public static string GraphicsWindow_FillTriangle_y1 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_FillTriangle_y1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the second point..
+        /// </summary>
+        public static string GraphicsWindow_FillTriangle_y2 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_FillTriangle_y2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the third point..
+        /// </summary>
+        public static string GraphicsWindow_FillTriangle_y3 {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_FillTriangle_y3", resourceCulture);
             }
         }
         
@@ -2365,42 +2374,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The blue component of the color (0-255)..
-        /// </summary>
-        public static string GraphicsWindow_GetColorFromRGB_Parameters_blue {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_Parameters_blue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The green component of the color (0-255)..
-        /// </summary>
-        public static string GraphicsWindow_GetColorFromRGB_Parameters_green {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_Parameters_green", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The red component of the Color (0-255)..
-        /// </summary>
-        public static string GraphicsWindow_GetColorFromRGB_Parameters_red {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_Parameters_red", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Returns a color that can be used to set the brush or pen color..
-        /// </summary>
-        public static string GraphicsWindow_GetColorFromRGB_ReturnValue {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Constructs a color given the Red, Green and Blue values..
         /// </summary>
         public static string GraphicsWindow_GetColorFromRGB {
@@ -2410,29 +2383,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the pixel..
+        ///   Looks up a localized string similar to The blue component of the color (0-255)..
         /// </summary>
-        public static string GraphicsWindow_GetPixel_Parameters_x {
+        public static string GraphicsWindow_GetColorFromRGB_blue {
             get {
-                return ResourceManager.GetString("GraphicsWindow_GetPixel_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_blue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the pixel..
+        ///   Looks up a localized string similar to The green component of the color (0-255)..
         /// </summary>
-        public static string GraphicsWindow_GetPixel_Parameters_y {
+        public static string GraphicsWindow_GetColorFromRGB_green {
             get {
-                return ResourceManager.GetString("GraphicsWindow_GetPixel_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_green", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The color of the pixel..
+        ///   Looks up a localized string similar to The red component of the Color (0-255)..
         /// </summary>
-        public static string GraphicsWindow_GetPixel_ReturnValue {
+        public static string GraphicsWindow_GetColorFromRGB_red {
             get {
-                return ResourceManager.GetString("GraphicsWindow_GetPixel_Returns", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_red", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns a color that can be used to set the brush or pen color..
+        /// </summary>
+        public static string GraphicsWindow_GetColorFromRGB_ReturnValue {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_GetColorFromRGB_ReturnValue", resourceCulture);
             }
         }
         
@@ -2446,11 +2428,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A valid random color..
+        ///   Looks up a localized string similar to The color of the pixel..
         /// </summary>
-        public static string GraphicsWindow_GetRandomColor_ReturnValue {
+        public static string GraphicsWindow_GetPixel_ReturnValue {
             get {
-                return ResourceManager.GetString("GraphicsWindow_GetRandomColor_Returns", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_GetPixel_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the pixel..
+        /// </summary>
+        public static string GraphicsWindow_GetPixel_x {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_GetPixel_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the pixel..
+        /// </summary>
+        public static string GraphicsWindow_GetPixel_y {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_GetPixel_y", resourceCulture);
             }
         }
         
@@ -2460,6 +2460,15 @@ namespace SuperBasic.Utilities.Resources {
         public static string GraphicsWindow_GetRandomColor {
             get {
                 return ResourceManager.GetString("GraphicsWindow_GetRandomColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A valid random color..
+        /// </summary>
+        public static string GraphicsWindow_GetRandomColor_ReturnValue {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_GetRandomColor_ReturnValue", resourceCulture);
             }
         }
         
@@ -2590,38 +2599,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draws the pixel specified by the x and y co-ordinates using the specified color..
+        /// </summary>
+        public static string GraphicsWindow_SetPixel {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_SetPixel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The color of the pixel to set..
         /// </summary>
-        public static string GraphicsWindow_SetPixel_Parameters_color {
+        public static string GraphicsWindow_SetPixel_color {
             get {
-                return ResourceManager.GetString("GraphicsWindow_SetPixel_Parameters_color", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_SetPixel_color", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The x co-ordinate of the pixel..
         /// </summary>
-        public static string GraphicsWindow_SetPixel_Parameters_x {
+        public static string GraphicsWindow_SetPixel_x {
             get {
-                return ResourceManager.GetString("GraphicsWindow_SetPixel_Parameters_x", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_SetPixel_x", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The y co-ordinate of the pixel..
         /// </summary>
-        public static string GraphicsWindow_SetPixel_Parameters_y {
+        public static string GraphicsWindow_SetPixel_y {
             get {
-                return ResourceManager.GetString("GraphicsWindow_SetPixel_Parameters_y", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Draws the pixel specified by the x and y co-ordinates using the specified color..
-        /// </summary>
-        public static string GraphicsWindow_SetPixel {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_SetPixel", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_SetPixel_y", resourceCulture);
             }
         }
         
@@ -2635,24 +2644,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to be displayed on the message box..
-        /// </summary>
-        public static string GraphicsWindow_ShowMessage_Parameters_text {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_ShowMessage_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The title for the message box..
-        /// </summary>
-        public static string GraphicsWindow_ShowMessage_Parameters_title {
-            get {
-                return ResourceManager.GetString("GraphicsWindow_ShowMessage_Parameters_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Displays a message box to the user..
         /// </summary>
         public static string GraphicsWindow_ShowMessage {
@@ -2662,11 +2653,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The GraphicsWindow provides graphics related input and output functionality. For example, using this class, it is possible to draw and fill circles and rectangles..
+        ///   Looks up a localized string similar to The text to be displayed on the message box..
         /// </summary>
-        public static string GraphicsWindow {
+        public static string GraphicsWindow_ShowMessage_text {
             get {
-                return ResourceManager.GetString("GraphicsWindow", resourceCulture);
+                return ResourceManager.GetString("GraphicsWindow_ShowMessage_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The title for the message box..
+        /// </summary>
+        public static string GraphicsWindow_ShowMessage_title {
+            get {
+                return ResourceManager.GetString("GraphicsWindow_ShowMessage_title", resourceCulture);
             }
         }
         
@@ -2707,20 +2707,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the image in memory..
+        ///   Looks up a localized string similar to This class helps to load and store images in memory..
         /// </summary>
-        public static string ImageList_GetHeightOfImage_Parameters_imageName {
+        public static string ImageList {
             get {
-                return ResourceManager.GetString("ImageList_GetHeightOfImage_Parameters_imageName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The height of the specified image..
-        /// </summary>
-        public static string ImageList_GetHeightOfImage_ReturnValue {
-            get {
-                return ResourceManager.GetString("ImageList_GetHeightOfImage_Returns", resourceCulture);
+                return ResourceManager.GetString("ImageList", resourceCulture);
             }
         }
         
@@ -2736,18 +2727,18 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The name of the image in memory..
         /// </summary>
-        public static string ImageList_GetWidthOfImage_Parameters_imageName {
+        public static string ImageList_GetHeightOfImage_imageName {
             get {
-                return ResourceManager.GetString("ImageList_GetWidthOfImage_Parameters_imageName", resourceCulture);
+                return ResourceManager.GetString("ImageList_GetHeightOfImage_imageName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The width of the specified image..
+        ///   Looks up a localized string similar to The height of the specified image..
         /// </summary>
-        public static string ImageList_GetWidthOfImage_ReturnValue {
+        public static string ImageList_GetHeightOfImage_ReturnValue {
             get {
-                return ResourceManager.GetString("ImageList_GetWidthOfImage_Returns", resourceCulture);
+                return ResourceManager.GetString("ImageList_GetHeightOfImage_ReturnValue", resourceCulture);
             }
         }
         
@@ -2761,20 +2752,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file name to load the image from. This could be a local file or a URL to the Internet location..
+        ///   Looks up a localized string similar to The name of the image in memory..
         /// </summary>
-        public static string ImageList_LoadImage_Parameters_fileNameOrUrl {
+        public static string ImageList_GetWidthOfImage_imageName {
             get {
-                return ResourceManager.GetString("ImageList_LoadImage_Parameters_fileNameOrUrl", resourceCulture);
+                return ResourceManager.GetString("ImageList_GetWidthOfImage_imageName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Returns the name of the image that was loaded..
+        ///   Looks up a localized string similar to The width of the specified image..
         /// </summary>
-        public static string ImageList_LoadImage_ReturnValue {
+        public static string ImageList_GetWidthOfImage_ReturnValue {
             get {
-                return ResourceManager.GetString("ImageList_LoadImage_Returns", resourceCulture);
+                return ResourceManager.GetString("ImageList_GetWidthOfImage_ReturnValue", resourceCulture);
             }
         }
         
@@ -2788,29 +2779,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This class helps to load and store images in memory..
+        ///   Looks up a localized string similar to The file name to load the image from. This could be a local file or a URL to the Internet location..
         /// </summary>
-        public static string ImageList {
+        public static string ImageList_LoadImage_fileNameOrUrl {
             get {
-                return ResourceManager.GetString("ImageList", resourceCulture);
+                return ResourceManager.GetString("ImageList_LoadImage_fileNameOrUrl", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number to get the absolute value for..
+        ///   Looks up a localized string similar to Returns the name of the image that was loaded..
         /// </summary>
-        public static string Math_Abs_Parameters_number {
+        public static string ImageList_LoadImage_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Abs_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("ImageList_LoadImage_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The absolute value of the given number..
+        ///   Looks up a localized string similar to The Math class provides lots of useful mathematics related methods.
         /// </summary>
-        public static string Math_Abs_ReturnValue {
+        public static string Math {
             get {
-                return ResourceManager.GetString("Math_Abs_Returns", resourceCulture);
+                return ResourceManager.GetString("Math", resourceCulture);
             }
         }
         
@@ -2824,20 +2815,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The cosine value whose angle is needed..
+        ///   Looks up a localized string similar to The number to get the absolute value for..
         /// </summary>
-        public static string Math_ArcCos_Parameters_cosValue {
+        public static string Math_Abs_number {
             get {
-                return ResourceManager.GetString("Math_ArcCos_Parameters_cosValue", resourceCulture);
+                return ResourceManager.GetString("Math_Abs_number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle (in radians) for the given cosine Value..
+        ///   Looks up a localized string similar to The absolute value of the given number..
         /// </summary>
-        public static string Math_ArcCos_ReturnValue {
+        public static string Math_Abs_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_ArcCos_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Abs_ReturnValue", resourceCulture);
             }
         }
         
@@ -2851,20 +2842,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sine value whose angle is needed..
+        ///   Looks up a localized string similar to The cosine value whose angle is needed..
         /// </summary>
-        public static string Math_ArcSin_Parameters_sinValue {
+        public static string Math_ArcCos_cosValue {
             get {
-                return ResourceManager.GetString("Math_ArcSin_Parameters_sinValue", resourceCulture);
+                return ResourceManager.GetString("Math_ArcCos_cosValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle (in radians) for the given sine Value..
+        ///   Looks up a localized string similar to The angle (in radians) for the given cosine Value..
         /// </summary>
-        public static string Math_ArcSin_ReturnValue {
+        public static string Math_ArcCos_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_ArcSin_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_ArcCos_ReturnValue", resourceCulture);
             }
         }
         
@@ -2878,20 +2869,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The tangent value whose angle is needed..
+        ///   Looks up a localized string similar to The angle (in radians) for the given sine Value..
         /// </summary>
-        public static string Math_ArcTan_Parameters_tanValue {
+        public static string Math_ArcSin_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_ArcTan_Parameters_tanValue", resourceCulture);
+                return ResourceManager.GetString("Math_ArcSin_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle (in radians) for the given tangent Value..
+        ///   Looks up a localized string similar to The sine value whose angle is needed..
         /// </summary>
-        public static string Math_ArcTan_ReturnValue {
+        public static string Math_ArcSin_sinValue {
             get {
-                return ResourceManager.GetString("Math_ArcTan_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_ArcSin_sinValue", resourceCulture);
             }
         }
         
@@ -2905,20 +2896,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number whose ceiling is required..
+        ///   Looks up a localized string similar to The angle (in radians) for the given tangent Value..
         /// </summary>
-        public static string Math_Ceiling_Parameters_number {
+        public static string Math_ArcTan_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Ceiling_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("Math_ArcTan_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The ceiling value of the given number..
+        ///   Looks up a localized string similar to The tangent value whose angle is needed..
         /// </summary>
-        public static string Math_Ceiling_ReturnValue {
+        public static string Math_ArcTan_tanValue {
             get {
-                return ResourceManager.GetString("Math_Ceiling_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_ArcTan_tanValue", resourceCulture);
             }
         }
         
@@ -2932,20 +2923,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle whose cosine is needed (in radians)..
+        ///   Looks up a localized string similar to The number whose ceiling is required..
         /// </summary>
-        public static string Math_Cos_Parameters_angle {
+        public static string Math_Ceiling_number {
             get {
-                return ResourceManager.GetString("Math_Cos_Parameters_angle", resourceCulture);
+                return ResourceManager.GetString("Math_Ceiling_number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The cosine of the given angle..
+        ///   Looks up a localized string similar to The ceiling value of the given number..
         /// </summary>
-        public static string Math_Cos_ReturnValue {
+        public static string Math_Ceiling_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Cos_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Ceiling_ReturnValue", resourceCulture);
             }
         }
         
@@ -2959,20 +2950,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number whose floor value is required..
+        ///   Looks up a localized string similar to The angle whose cosine is needed (in radians)..
         /// </summary>
-        public static string Math_Floor_Parameters_number {
+        public static string Math_Cos_angle {
             get {
-                return ResourceManager.GetString("Math_Floor_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("Math_Cos_angle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The floor value of the given number..
+        ///   Looks up a localized string similar to The cosine of the given angle..
         /// </summary>
-        public static string Math_Floor_ReturnValue {
+        public static string Math_Cos_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Floor_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Cos_ReturnValue", resourceCulture);
             }
         }
         
@@ -2986,20 +2977,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle in radians..
+        ///   Looks up a localized string similar to The number whose floor value is required..
         /// </summary>
-        public static string Math_GetDegrees_Parameters_angle {
+        public static string Math_Floor_number {
             get {
-                return ResourceManager.GetString("Math_GetDegrees_Parameters_angle", resourceCulture);
+                return ResourceManager.GetString("Math_Floor_number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The converted angle in degrees..
+        ///   Looks up a localized string similar to The floor value of the given number..
         /// </summary>
-        public static string Math_GetDegrees_ReturnValue {
+        public static string Math_Floor_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_GetDegrees_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Floor_ReturnValue", resourceCulture);
             }
         }
         
@@ -3013,20 +3004,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle in degrees..
+        ///   Looks up a localized string similar to The angle in radians..
         /// </summary>
-        public static string Math_GetRadians_Parameters_angle {
+        public static string Math_GetDegrees_angle {
             get {
-                return ResourceManager.GetString("Math_GetRadians_Parameters_angle", resourceCulture);
+                return ResourceManager.GetString("Math_GetDegrees_angle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The converted angle in radians..
+        ///   Looks up a localized string similar to The converted angle in degrees..
         /// </summary>
-        public static string Math_GetRadians_ReturnValue {
+        public static string Math_GetDegrees_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_GetRadians_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_GetDegrees_ReturnValue", resourceCulture);
             }
         }
         
@@ -3040,20 +3031,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The maximum number for the requested random value..
+        ///   Looks up a localized string similar to The angle in degrees..
         /// </summary>
-        public static string Math_GetRandomNumber_Parameters_maxNumber {
+        public static string Math_GetRadians_angle {
             get {
-                return ResourceManager.GetString("Math_GetRandomNumber_Parameters_maxNumber", resourceCulture);
+                return ResourceManager.GetString("Math_GetRadians_angle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Random number that is less than or equal to the specified max..
+        ///   Looks up a localized string similar to The converted angle in radians..
         /// </summary>
-        public static string Math_GetRandomNumber_ReturnValue {
+        public static string Math_GetRadians_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_GetRandomNumber_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_GetRadians_ReturnValue", resourceCulture);
             }
         }
         
@@ -3067,20 +3058,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number whose logarithm value is required.
+        ///   Looks up a localized string similar to The maximum number for the requested random value..
         /// </summary>
-        public static string Math_Log_Parameters_number {
+        public static string Math_GetRandomNumber_maxNumber {
             get {
-                return ResourceManager.GetString("Math_Log_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("Math_GetRandomNumber_maxNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The log value of the given number.
+        ///   Looks up a localized string similar to A Random number that is less than or equal to the specified max..
         /// </summary>
-        public static string Math_Log_ReturnValue {
+        public static string Math_GetRandomNumber_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Log_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_GetRandomNumber_ReturnValue", resourceCulture);
             }
         }
         
@@ -3094,29 +3085,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The first of the two numbers to compare..
+        ///   Looks up a localized string similar to The number whose logarithm value is required.
         /// </summary>
-        public static string Math_Max_Parameters_number1 {
+        public static string Math_Log_number {
             get {
-                return ResourceManager.GetString("Math_Max_Parameters_number1", resourceCulture);
+                return ResourceManager.GetString("Math_Log_number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The second of the two numbers to compare..
+        ///   Looks up a localized string similar to The log value of the given number.
         /// </summary>
-        public static string Math_Max_Parameters_number2 {
+        public static string Math_Log_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Max_Parameters_number2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The greater value of the two numbers..
-        /// </summary>
-        public static string Math_Max_ReturnValue {
-            get {
-                return ResourceManager.GetString("Math_Max_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Log_ReturnValue", resourceCulture);
             }
         }
         
@@ -3132,27 +3114,27 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The first of the two numbers to compare..
         /// </summary>
-        public static string Math_Min_Parameters_number1 {
+        public static string Math_Max_number1 {
             get {
-                return ResourceManager.GetString("Math_Min_Parameters_number1", resourceCulture);
+                return ResourceManager.GetString("Math_Max_number1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The second of the two numbers to compare..
         /// </summary>
-        public static string Math_Min_Parameters_number2 {
+        public static string Math_Max_number2 {
             get {
-                return ResourceManager.GetString("Math_Min_Parameters_number2", resourceCulture);
+                return ResourceManager.GetString("Math_Max_number2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The smaller value of the two numbers..
+        ///   Looks up a localized string similar to The greater value of the two numbers..
         /// </summary>
-        public static string Math_Min_ReturnValue {
+        public static string Math_Max_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Min_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Max_ReturnValue", resourceCulture);
             }
         }
         
@@ -3166,20 +3148,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number whose natural logarithm value is required..
+        ///   Looks up a localized string similar to The first of the two numbers to compare..
         /// </summary>
-        public static string Math_NaturalLog_Parameters_number {
+        public static string Math_Min_number1 {
             get {
-                return ResourceManager.GetString("Math_NaturalLog_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("Math_Min_number1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The natural log value of the given number..
+        ///   Looks up a localized string similar to The second of the two numbers to compare..
         /// </summary>
-        public static string Math_NaturalLog_ReturnValue {
+        public static string Math_Min_number2 {
             get {
-                return ResourceManager.GetString("Math_NaturalLog_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Min_number2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The smaller value of the two numbers..
+        /// </summary>
+        public static string Math_Min_ReturnValue {
+            get {
+                return ResourceManager.GetString("Math_Min_ReturnValue", resourceCulture);
             }
         }
         
@@ -3193,38 +3184,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number whose natural logarithm value is required..
+        /// </summary>
+        public static string Math_NaturalLog_number {
+            get {
+                return ResourceManager.GetString("Math_NaturalLog_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The natural log value of the given number..
+        /// </summary>
+        public static string Math_NaturalLog_ReturnValue {
+            get {
+                return ResourceManager.GetString("Math_NaturalLog_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gets the value of Pi.
         /// </summary>
         public static string Math_Pi {
             get {
                 return ResourceManager.GetString("Math_Pi", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The number to be raised to the exponent power..
-        /// </summary>
-        public static string Math_Power_Parameters_baseNumber {
-            get {
-                return ResourceManager.GetString("Math_Power_Parameters_baseNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The power to raise the base number..
-        /// </summary>
-        public static string Math_Power_Parameters_exponent {
-            get {
-                return ResourceManager.GetString("Math_Power_Parameters_exponent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The base number raised to the specified exponent..
-        /// </summary>
-        public static string Math_Power_ReturnValue {
-            get {
-                return ResourceManager.GetString("Math_Power_Returns", resourceCulture);
             }
         }
         
@@ -3238,29 +3220,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number to divide..
+        ///   Looks up a localized string similar to The number to be raised to the exponent power..
         /// </summary>
-        public static string Math_Remainder_Parameters_dividend {
+        public static string Math_Power_baseNumber {
             get {
-                return ResourceManager.GetString("Math_Remainder_Parameters_dividend", resourceCulture);
+                return ResourceManager.GetString("Math_Power_baseNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number that divides..
+        ///   Looks up a localized string similar to The power to raise the base number..
         /// </summary>
-        public static string Math_Remainder_Parameters_divisor {
+        public static string Math_Power_exponent {
             get {
-                return ResourceManager.GetString("Math_Remainder_Parameters_divisor", resourceCulture);
+                return ResourceManager.GetString("Math_Power_exponent", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The remainder after the division..
+        ///   Looks up a localized string similar to The base number raised to the specified exponent..
         /// </summary>
-        public static string Math_Remainder_ReturnValue {
+        public static string Math_Power_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Remainder_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Power_ReturnValue", resourceCulture);
             }
         }
         
@@ -3274,20 +3256,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number whose approximation is required..
+        ///   Looks up a localized string similar to The number to divide..
         /// </summary>
-        public static string Math_Round_Parameters_number {
+        public static string Math_Remainder_dividend {
             get {
-                return ResourceManager.GetString("Math_Round_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("Math_Remainder_dividend", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The rounded value of the given number..
+        ///   Looks up a localized string similar to The number that divides..
         /// </summary>
-        public static string Math_Round_ReturnValue {
+        public static string Math_Remainder_divisor {
             get {
-                return ResourceManager.GetString("Math_Round_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Remainder_divisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The remainder after the division..
+        /// </summary>
+        public static string Math_Remainder_ReturnValue {
+            get {
+                return ResourceManager.GetString("Math_Remainder_ReturnValue", resourceCulture);
             }
         }
         
@@ -3301,20 +3292,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle whose sine is needed (in radians).
+        ///   Looks up a localized string similar to The number whose approximation is required..
         /// </summary>
-        public static string Math_Sin_Parameters_angle {
+        public static string Math_Round_number {
             get {
-                return ResourceManager.GetString("Math_Sin_Parameters_angle", resourceCulture);
+                return ResourceManager.GetString("Math_Round_number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sine of the given angle.
+        ///   Looks up a localized string similar to The rounded value of the given number..
         /// </summary>
-        public static string Math_Sin_ReturnValue {
+        public static string Math_Round_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Sin_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Round_ReturnValue", resourceCulture);
             }
         }
         
@@ -3328,20 +3319,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number whose square root value is needed..
+        ///   Looks up a localized string similar to The angle whose sine is needed (in radians).
         /// </summary>
-        public static string Math_SquareRoot_Parameters_number {
+        public static string Math_Sin_angle {
             get {
-                return ResourceManager.GetString("Math_SquareRoot_Parameters_number", resourceCulture);
+                return ResourceManager.GetString("Math_Sin_angle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The square root value of the given number..
+        ///   Looks up a localized string similar to The sine of the given angle.
         /// </summary>
-        public static string Math_SquareRoot_ReturnValue {
+        public static string Math_Sin_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_SquareRoot_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_Sin_ReturnValue", resourceCulture);
             }
         }
         
@@ -3355,29 +3346,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Math class provides lots of useful mathematics related methods.
+        ///   Looks up a localized string similar to The number whose square root value is needed..
         /// </summary>
-        public static string Math {
+        public static string Math_SquareRoot_number {
             get {
-                return ResourceManager.GetString("Math", resourceCulture);
+                return ResourceManager.GetString("Math_SquareRoot_number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle whose tangent is needed (in radians)..
+        ///   Looks up a localized string similar to The square root value of the given number..
         /// </summary>
-        public static string Math_Tan_Parameters_angle {
+        public static string Math_SquareRoot_ReturnValue {
             get {
-                return ResourceManager.GetString("Math_Tan_Parameters_angle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The tangent of the given angle..
-        /// </summary>
-        public static string Math_Tan_ReturnValue {
-            get {
-                return ResourceManager.GetString("Math_Tan_Returns", resourceCulture);
+                return ResourceManager.GetString("Math_SquareRoot_ReturnValue", resourceCulture);
             }
         }
         
@@ -3387,6 +3369,33 @@ namespace SuperBasic.Utilities.Resources {
         public static string Math_Tan {
             get {
                 return ResourceManager.GetString("Math_Tan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The angle whose tangent is needed (in radians)..
+        /// </summary>
+        public static string Math_Tan_angle {
+            get {
+                return ResourceManager.GetString("Math_Tan_angle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The tangent of the given angle..
+        /// </summary>
+        public static string Math_Tan_ReturnValue {
+            get {
+                return ResourceManager.GetString("Math_Tan_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The mouse class provides accessors to get or set the mouse related properties, like the cursor position, pointer, etc..
+        /// </summary>
+        public static string Mouse {
+            get {
+                return ResourceManager.GetString("Mouse", resourceCulture);
             }
         }
         
@@ -3445,29 +3454,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The mouse class provides accessors to get or set the mouse related properties, like the cursor position, pointer, etc..
+        ///   Looks up a localized string similar to This helper class provides network access methods.
         /// </summary>
-        public static string Mouse {
+        public static string Network {
             get {
-                return ResourceManager.GetString("Mouse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The URL of the file on the network..
-        /// </summary>
-        public static string Network_DownloadFile_Parameters_url {
-            get {
-                return ResourceManager.GetString("Network_DownloadFile_Parameters_url", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A local file name that the remote file was downloaded as..
-        /// </summary>
-        public static string Network_DownloadFile_ReturnValue {
-            get {
-                return ResourceManager.GetString("Network_DownloadFile_Returns", resourceCulture);
+                return ResourceManager.GetString("Network", resourceCulture);
             }
         }
         
@@ -3481,20 +3472,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The URL of the web page.
+        ///   Looks up a localized string similar to A local file name that the remote file was downloaded as..
         /// </summary>
-        public static string Network_GetWebPageContents_Parameters_url {
+        public static string Network_DownloadFile_ReturnValue {
             get {
-                return ResourceManager.GetString("Network_GetWebPageContents_Parameters_url", resourceCulture);
+                return ResourceManager.GetString("Network_DownloadFile_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The contents of the specified web page..
+        ///   Looks up a localized string similar to The URL of the file on the network..
         /// </summary>
-        public static string Network_GetWebPageContents_ReturnValue {
+        public static string Network_DownloadFile_url {
             get {
-                return ResourceManager.GetString("Network_GetWebPageContents_Returns", resourceCulture);
+                return ResourceManager.GetString("Network_DownloadFile_url", resourceCulture);
             }
         }
         
@@ -3508,11 +3499,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This helper class provides network access methods.
+        ///   Looks up a localized string similar to The contents of the specified web page..
         /// </summary>
-        public static string Network {
+        public static string Network_GetWebPageContents_ReturnValue {
             get {
-                return ResourceManager.GetString("Network", resourceCulture);
+                return ResourceManager.GetString("Network_GetWebPageContents_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The URL of the web page.
+        /// </summary>
+        public static string Network_GetWebPageContents_url {
+            get {
+                return ResourceManager.GetString("Network_GetWebPageContents_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Program class provides helpers to control the program execution..
+        /// </summary>
+        public static string Program {
+            get {
+                return ResourceManager.GetString("Program", resourceCulture);
             }
         }
         
@@ -3526,20 +3535,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The amount of delay..
-        /// </summary>
-        public static string Program_Delay_Parameters_milliSeconds {
-            get {
-                return ResourceManager.GetString("Program_Delay_Parameters_milliSeconds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Delays program execution by the specified amount of MilliSeconds..
         /// </summary>
         public static string Program_Delay {
             get {
                 return ResourceManager.GetString("Program_Delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The amount of delay..
+        /// </summary>
+        public static string Program_Delay_milliSeconds {
+            get {
+                return ResourceManager.GetString("Program_Delay_milliSeconds", resourceCulture);
             }
         }
         
@@ -3562,24 +3571,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Index of the argument..
-        /// </summary>
-        public static string Program_GetArgument_Parameters_index {
-            get {
-                return ResourceManager.GetString("Program_GetArgument_Parameters_index", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The command-line argument at the specified index..
-        /// </summary>
-        public static string Program_GetArgument_ReturnValue {
-            get {
-                return ResourceManager.GetString("Program_GetArgument_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Returns the specified argument passed to this program..
         /// </summary>
         public static string Program_GetArgument {
@@ -3589,560 +3580,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Program class provides helpers to control the program execution..
+        ///   Looks up a localized string similar to Index of the argument..
         /// </summary>
-        public static string Program {
+        public static string Program_GetArgument_index {
             get {
-                return ResourceManager.GetString("Program", resourceCulture);
+                return ResourceManager.GetString("Program_GetArgument_index", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The height of the ellipse shape..
+        ///   Looks up a localized string similar to The command-line argument at the specified index..
         /// </summary>
-        public static string Shapes_AddEllipse_Parameters_height {
+        public static string Program_GetArgument_ReturnValue {
             get {
-                return ResourceManager.GetString("Shapes_AddEllipse_Parameters_height", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The width of the ellipse shape..
-        /// </summary>
-        public static string Shapes_AddEllipse_Parameters_width {
-            get {
-                return ResourceManager.GetString("Shapes_AddEllipse_Parameters_width", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Ellipse shape that was just added to the Graphics Window..
-        /// </summary>
-        public static string Shapes_AddEllipse_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_AddEllipse_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds an ellipse shape with the specified width and height..
-        /// </summary>
-        public static string Shapes_AddEllipse {
-            get {
-                return ResourceManager.GetString("Shapes_AddEllipse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the image to draw..
-        /// </summary>
-        public static string Shapes_AddImage_Parameters_imageName {
-            get {
-                return ResourceManager.GetString("Shapes_AddImage_Parameters_imageName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The image that was just added to the Graphics Window..
-        /// </summary>
-        public static string Shapes_AddImage_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_AddImage_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds an image as a shape that can be moved, animated or rotated..
-        /// </summary>
-        public static string Shapes_AddImage {
-            get {
-                return ResourceManager.GetString("Shapes_AddImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the first point..
-        /// </summary>
-        public static string Shapes_AddLine_Parameters_x1 {
-            get {
-                return ResourceManager.GetString("Shapes_AddLine_Parameters_x1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the second point..
-        /// </summary>
-        public static string Shapes_AddLine_Parameters_x2 {
-            get {
-                return ResourceManager.GetString("Shapes_AddLine_Parameters_x2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the first point..
-        /// </summary>
-        public static string Shapes_AddLine_Parameters_y1 {
-            get {
-                return ResourceManager.GetString("Shapes_AddLine_Parameters_y1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the second point..
-        /// </summary>
-        public static string Shapes_AddLine_Parameters_y2 {
-            get {
-                return ResourceManager.GetString("Shapes_AddLine_Parameters_y2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The line that was just added to the Graphics Window..
-        /// </summary>
-        public static string Shapes_AddLine_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_AddLine_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds a line between the specified points..
-        /// </summary>
-        public static string Shapes_AddLine {
-            get {
-                return ResourceManager.GetString("Shapes_AddLine", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The height of the rectangle shape..
-        /// </summary>
-        public static string Shapes_AddRectangle_Parameters_height {
-            get {
-                return ResourceManager.GetString("Shapes_AddRectangle_Parameters_height", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The width of the rectangle shape..
-        /// </summary>
-        public static string Shapes_AddRectangle_Parameters_width {
-            get {
-                return ResourceManager.GetString("Shapes_AddRectangle_Parameters_width", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Rectangle shape that was just added to the Graphics Window..
-        /// </summary>
-        public static string Shapes_AddRectangle_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_AddRectangle_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds a rectangle shape with the specified width and height..
-        /// </summary>
-        public static string Shapes_AddRectangle {
-            get {
-                return ResourceManager.GetString("Shapes_AddRectangle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The text to add..
-        /// </summary>
-        public static string Shapes_AddText_Parameters_text {
-            get {
-                return ResourceManager.GetString("Shapes_AddText_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The text shape that was just added to the Graphics Window..
-        /// </summary>
-        public static string Shapes_AddText_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_AddText_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds some text as a shape that can be moved, animated or rotated..
-        /// </summary>
-        public static string Shapes_AddText {
-            get {
-                return ResourceManager.GetString("Shapes_AddText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the first point..
-        /// </summary>
-        public static string Shapes_AddTriangle_Parameters_x1 {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Parameters_x1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the second point..
-        /// </summary>
-        public static string Shapes_AddTriangle_Parameters_x2 {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Parameters_x2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the third point..
-        /// </summary>
-        public static string Shapes_AddTriangle_Parameters_x3 {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Parameters_x3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the first point..
-        /// </summary>
-        public static string Shapes_AddTriangle_Parameters_y1 {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Parameters_y1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the second point..
-        /// </summary>
-        public static string Shapes_AddTriangle_Parameters_y2 {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Parameters_y2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the third point..
-        /// </summary>
-        public static string Shapes_AddTriangle_Parameters_y3 {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Parameters_y3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Triangle shape that was just added to the Graphics Window..
-        /// </summary>
-        public static string Shapes_AddTriangle_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds a triangle shape represented by the specified points..
-        /// </summary>
-        public static string Shapes_AddTriangle {
-            get {
-                return ResourceManager.GetString("Shapes_AddTriangle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The time for the animation, in milliseconds..
-        /// </summary>
-        public static string Shapes_Animate_Parameters_duration {
-            get {
-                return ResourceManager.GetString("Shapes_Animate_Parameters_duration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape to move..
-        /// </summary>
-        public static string Shapes_Animate_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_Animate_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the new position..
-        /// </summary>
-        public static string Shapes_Animate_Parameters_x {
-            get {
-                return ResourceManager.GetString("Shapes_Animate_Parameters_x", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the new position..
-        /// </summary>
-        public static string Shapes_Animate_Parameters_y {
-            get {
-                return ResourceManager.GetString("Shapes_Animate_Parameters_y", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Animates a shape with the specified name to a new position..
-        /// </summary>
-        public static string Shapes_Animate {
-            get {
-                return ResourceManager.GetString("Shapes_Animate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape..
-        /// </summary>
-        public static string Shapes_GetLeft_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_GetLeft_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The left co-ordinate of the shape..
-        /// </summary>
-        public static string Shapes_GetLeft_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_GetLeft_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the left co-ordinate of the specified shape..
-        /// </summary>
-        public static string Shapes_GetLeft {
-            get {
-                return ResourceManager.GetString("Shapes_GetLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape..
-        /// </summary>
-        public static string Shapes_GetOpacity_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_GetOpacity_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The opacity of the object as a value between 0 and 100. 0 is completely transparent and 100 is completely opaque..
-        /// </summary>
-        public static string Shapes_GetOpacity_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_GetOpacity_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the opacity of a shape..
-        /// </summary>
-        public static string Shapes_GetOpacity {
-            get {
-                return ResourceManager.GetString("Shapes_GetOpacity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape..
-        /// </summary>
-        public static string Shapes_GetTop_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_GetTop_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The top co-ordinate of the shape..
-        /// </summary>
-        public static string Shapes_GetTop_ReturnValue {
-            get {
-                return ResourceManager.GetString("Shapes_GetTop_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the top co-ordinate of the specified shape..
-        /// </summary>
-        public static string Shapes_GetTop {
-            get {
-                return ResourceManager.GetString("Shapes_GetTop", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape..
-        /// </summary>
-        public static string Shapes_HideShape_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_HideShape_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hides an already added shape..
-        /// </summary>
-        public static string Shapes_HideShape {
-            get {
-                return ResourceManager.GetString("Shapes_HideShape", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape to move..
-        /// </summary>
-        public static string Shapes_Move_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_Move_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the new position..
-        /// </summary>
-        public static string Shapes_Move_Parameters_x {
-            get {
-                return ResourceManager.GetString("Shapes_Move_Parameters_x", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the new position..
-        /// </summary>
-        public static string Shapes_Move_Parameters_y {
-            get {
-                return ResourceManager.GetString("Shapes_Move_Parameters_y", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Moves the shape with the specified name to a new position..
-        /// </summary>
-        public static string Shapes_Move {
-            get {
-                return ResourceManager.GetString("Shapes_Move", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape that needs to be removed..
-        /// </summary>
-        public static string Shapes_Remove_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_Remove_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removes a shape from the Graphics Window..
-        /// </summary>
-        public static string Shapes_Remove {
-            get {
-                return ResourceManager.GetString("Shapes_Remove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The angle to rotate the shape..
-        /// </summary>
-        public static string Shapes_Rotate_Parameters_angle {
-            get {
-                return ResourceManager.GetString("Shapes_Rotate_Parameters_angle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape to rotate..
-        /// </summary>
-        public static string Shapes_Rotate_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_Rotate_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rotates the shape with the specified name to the specified angle..
-        /// </summary>
-        public static string Shapes_Rotate {
-            get {
-                return ResourceManager.GetString("Shapes_Rotate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The opacity level ranging from 0 to 100. 0 is completely transparent and 100 is completely opaque..
-        /// </summary>
-        public static string Shapes_SetOpacity_Parameters_level {
-            get {
-                return ResourceManager.GetString("Shapes_SetOpacity_Parameters_level", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape..
-        /// </summary>
-        public static string Shapes_SetOpacity_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_SetOpacity_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sets how opaque a shape should render..
-        /// </summary>
-        public static string Shapes_SetOpacity {
-            get {
-                return ResourceManager.GetString("Shapes_SetOpacity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the text shape..
-        /// </summary>
-        public static string Shapes_SetText_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_SetText_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The new text value to set..
-        /// </summary>
-        public static string Shapes_SetText_Parameters_text {
-            get {
-                return ResourceManager.GetString("Shapes_SetText_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sets the text of a text shape..
-        /// </summary>
-        public static string Shapes_SetText {
-            get {
-                return ResourceManager.GetString("Shapes_SetText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the shape..
-        /// </summary>
-        public static string Shapes_ShowShape_Parameters_shapeName {
-            get {
-                return ResourceManager.GetString("Shapes_ShowShape_Parameters_shapeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Shows a previously hidden shape..
-        /// </summary>
-        public static string Shapes_ShowShape {
-            get {
-                return ResourceManager.GetString("Shapes_ShowShape", resourceCulture);
+                return ResourceManager.GetString("Program_GetArgument_ReturnValue", resourceCulture);
             }
         }
         
@@ -4156,29 +3607,551 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x-axis zoom level..
+        ///   Looks up a localized string similar to Adds an ellipse shape with the specified width and height..
         /// </summary>
-        public static string Shapes_Zoom_Parameters_scaleX {
+        public static string Shapes_AddEllipse {
             get {
-                return ResourceManager.GetString("Shapes_Zoom_Parameters_scaleX", resourceCulture);
+                return ResourceManager.GetString("Shapes_AddEllipse", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The y-axis zoom level..
+        ///   Looks up a localized string similar to The height of the ellipse shape..
         /// </summary>
-        public static string Shapes_Zoom_Parameters_scaleY {
+        public static string Shapes_AddEllipse_height {
             get {
-                return ResourceManager.GetString("Shapes_Zoom_Parameters_scaleY", resourceCulture);
+                return ResourceManager.GetString("Shapes_AddEllipse_height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the shape to zoom..
+        ///   Looks up a localized string similar to The Ellipse shape that was just added to the Graphics Window..
         /// </summary>
-        public static string Shapes_Zoom_Parameters_shapeName {
+        public static string Shapes_AddEllipse_ReturnValue {
             get {
-                return ResourceManager.GetString("Shapes_Zoom_Parameters_shapeName", resourceCulture);
+                return ResourceManager.GetString("Shapes_AddEllipse_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The width of the ellipse shape..
+        /// </summary>
+        public static string Shapes_AddEllipse_width {
+            get {
+                return ResourceManager.GetString("Shapes_AddEllipse_width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds an image as a shape that can be moved, animated or rotated..
+        /// </summary>
+        public static string Shapes_AddImage {
+            get {
+                return ResourceManager.GetString("Shapes_AddImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the image to draw..
+        /// </summary>
+        public static string Shapes_AddImage_imageName {
+            get {
+                return ResourceManager.GetString("Shapes_AddImage_imageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The image that was just added to the Graphics Window..
+        /// </summary>
+        public static string Shapes_AddImage_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_AddImage_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds a line between the specified points..
+        /// </summary>
+        public static string Shapes_AddLine {
+            get {
+                return ResourceManager.GetString("Shapes_AddLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The line that was just added to the Graphics Window..
+        /// </summary>
+        public static string Shapes_AddLine_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_AddLine_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the first point..
+        /// </summary>
+        public static string Shapes_AddLine_x1 {
+            get {
+                return ResourceManager.GetString("Shapes_AddLine_x1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the second point..
+        /// </summary>
+        public static string Shapes_AddLine_x2 {
+            get {
+                return ResourceManager.GetString("Shapes_AddLine_x2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the first point..
+        /// </summary>
+        public static string Shapes_AddLine_y1 {
+            get {
+                return ResourceManager.GetString("Shapes_AddLine_y1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the second point..
+        /// </summary>
+        public static string Shapes_AddLine_y2 {
+            get {
+                return ResourceManager.GetString("Shapes_AddLine_y2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds a rectangle shape with the specified width and height..
+        /// </summary>
+        public static string Shapes_AddRectangle {
+            get {
+                return ResourceManager.GetString("Shapes_AddRectangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The height of the rectangle shape..
+        /// </summary>
+        public static string Shapes_AddRectangle_height {
+            get {
+                return ResourceManager.GetString("Shapes_AddRectangle_height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Rectangle shape that was just added to the Graphics Window..
+        /// </summary>
+        public static string Shapes_AddRectangle_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_AddRectangle_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The width of the rectangle shape..
+        /// </summary>
+        public static string Shapes_AddRectangle_width {
+            get {
+                return ResourceManager.GetString("Shapes_AddRectangle_width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds some text as a shape that can be moved, animated or rotated..
+        /// </summary>
+        public static string Shapes_AddText {
+            get {
+                return ResourceManager.GetString("Shapes_AddText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The text shape that was just added to the Graphics Window..
+        /// </summary>
+        public static string Shapes_AddText_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_AddText_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The text to add..
+        /// </summary>
+        public static string Shapes_AddText_text {
+            get {
+                return ResourceManager.GetString("Shapes_AddText_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds a triangle shape represented by the specified points..
+        /// </summary>
+        public static string Shapes_AddTriangle {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Triangle shape that was just added to the Graphics Window..
+        /// </summary>
+        public static string Shapes_AddTriangle_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the first point..
+        /// </summary>
+        public static string Shapes_AddTriangle_x1 {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_x1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the second point..
+        /// </summary>
+        public static string Shapes_AddTriangle_x2 {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_x2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the third point..
+        /// </summary>
+        public static string Shapes_AddTriangle_x3 {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_x3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the first point..
+        /// </summary>
+        public static string Shapes_AddTriangle_y1 {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_y1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the second point..
+        /// </summary>
+        public static string Shapes_AddTriangle_y2 {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_y2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the third point..
+        /// </summary>
+        public static string Shapes_AddTriangle_y3 {
+            get {
+                return ResourceManager.GetString("Shapes_AddTriangle_y3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Animates a shape with the specified name to a new position..
+        /// </summary>
+        public static string Shapes_Animate {
+            get {
+                return ResourceManager.GetString("Shapes_Animate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The time for the animation, in milliseconds..
+        /// </summary>
+        public static string Shapes_Animate_duration {
+            get {
+                return ResourceManager.GetString("Shapes_Animate_duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape to move..
+        /// </summary>
+        public static string Shapes_Animate_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_Animate_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the new position..
+        /// </summary>
+        public static string Shapes_Animate_x {
+            get {
+                return ResourceManager.GetString("Shapes_Animate_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the new position..
+        /// </summary>
+        public static string Shapes_Animate_y {
+            get {
+                return ResourceManager.GetString("Shapes_Animate_y", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the left co-ordinate of the specified shape..
+        /// </summary>
+        public static string Shapes_GetLeft {
+            get {
+                return ResourceManager.GetString("Shapes_GetLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The left co-ordinate of the shape..
+        /// </summary>
+        public static string Shapes_GetLeft_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_GetLeft_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape..
+        /// </summary>
+        public static string Shapes_GetLeft_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_GetLeft_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the opacity of a shape..
+        /// </summary>
+        public static string Shapes_GetOpacity {
+            get {
+                return ResourceManager.GetString("Shapes_GetOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The opacity of the object as a value between 0 and 100. 0 is completely transparent and 100 is completely opaque..
+        /// </summary>
+        public static string Shapes_GetOpacity_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_GetOpacity_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape..
+        /// </summary>
+        public static string Shapes_GetOpacity_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_GetOpacity_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the top co-ordinate of the specified shape..
+        /// </summary>
+        public static string Shapes_GetTop {
+            get {
+                return ResourceManager.GetString("Shapes_GetTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The top co-ordinate of the shape..
+        /// </summary>
+        public static string Shapes_GetTop_ReturnValue {
+            get {
+                return ResourceManager.GetString("Shapes_GetTop_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape..
+        /// </summary>
+        public static string Shapes_GetTop_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_GetTop_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hides an already added shape..
+        /// </summary>
+        public static string Shapes_HideShape {
+            get {
+                return ResourceManager.GetString("Shapes_HideShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape..
+        /// </summary>
+        public static string Shapes_HideShape_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_HideShape_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moves the shape with the specified name to a new position..
+        /// </summary>
+        public static string Shapes_Move {
+            get {
+                return ResourceManager.GetString("Shapes_Move", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape to move..
+        /// </summary>
+        public static string Shapes_Move_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_Move_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the new position..
+        /// </summary>
+        public static string Shapes_Move_x {
+            get {
+                return ResourceManager.GetString("Shapes_Move_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the new position..
+        /// </summary>
+        public static string Shapes_Move_y {
+            get {
+                return ResourceManager.GetString("Shapes_Move_y", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removes a shape from the Graphics Window..
+        /// </summary>
+        public static string Shapes_Remove {
+            get {
+                return ResourceManager.GetString("Shapes_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape that needs to be removed..
+        /// </summary>
+        public static string Shapes_Remove_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_Remove_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotates the shape with the specified name to the specified angle..
+        /// </summary>
+        public static string Shapes_Rotate {
+            get {
+                return ResourceManager.GetString("Shapes_Rotate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The angle to rotate the shape..
+        /// </summary>
+        public static string Shapes_Rotate_angle {
+            get {
+                return ResourceManager.GetString("Shapes_Rotate_angle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape to rotate..
+        /// </summary>
+        public static string Shapes_Rotate_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_Rotate_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets how opaque a shape should render..
+        /// </summary>
+        public static string Shapes_SetOpacity {
+            get {
+                return ResourceManager.GetString("Shapes_SetOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The opacity level ranging from 0 to 100. 0 is completely transparent and 100 is completely opaque..
+        /// </summary>
+        public static string Shapes_SetOpacity_level {
+            get {
+                return ResourceManager.GetString("Shapes_SetOpacity_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape..
+        /// </summary>
+        public static string Shapes_SetOpacity_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_SetOpacity_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets the text of a text shape..
+        /// </summary>
+        public static string Shapes_SetText {
+            get {
+                return ResourceManager.GetString("Shapes_SetText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the text shape..
+        /// </summary>
+        public static string Shapes_SetText_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_SetText_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new text value to set..
+        /// </summary>
+        public static string Shapes_SetText_text {
+            get {
+                return ResourceManager.GetString("Shapes_SetText_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shows a previously hidden shape..
+        /// </summary>
+        public static string Shapes_ShowShape {
+            get {
+                return ResourceManager.GetString("Shapes_ShowShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape..
+        /// </summary>
+        public static string Shapes_ShowShape_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_ShowShape_shapeName", resourceCulture);
             }
         }
         
@@ -4192,11 +4165,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The path for the audio file. This could either be a local file (e.g.: c:\music\track1.mp3) or a file on the network (e.g.: http://contoso.com/track01.wma)..
+        ///   Looks up a localized string similar to The x-axis zoom level..
         /// </summary>
-        public static string Sound_Pause_Parameters_filePath {
+        public static string Shapes_Zoom_scaleX {
             get {
-                return ResourceManager.GetString("Sound_Pause_Parameters_filePath", resourceCulture);
+                return ResourceManager.GetString("Shapes_Zoom_scaleX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y-axis zoom level..
+        /// </summary>
+        public static string Shapes_Zoom_scaleY {
+            get {
+                return ResourceManager.GetString("Shapes_Zoom_scaleY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the shape to zoom..
+        /// </summary>
+        public static string Shapes_Zoom_shapeName {
+            get {
+                return ResourceManager.GetString("Shapes_Zoom_shapeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Sound object provides operations that allow the playback of sounds. Some sample sounds are provided along with the library..
+        /// </summary>
+        public static string Sound {
+            get {
+                return ResourceManager.GetString("Sound", resourceCulture);
             }
         }
         
@@ -4212,9 +4212,9 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The path for the audio file. This could either be a local file (e.g.: c:\music\track1.mp3) or a file on the network (e.g.: http://contoso.com/track01.wma)..
         /// </summary>
-        public static string Sound_Play_Parameters_filePath {
+        public static string Sound_Pause_filePath {
             get {
-                return ResourceManager.GetString("Sound_Play_Parameters_filePath", resourceCulture);
+                return ResourceManager.GetString("Sound_Pause_filePath", resourceCulture);
             }
         }
         
@@ -4230,9 +4230,9 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The path for the audio file. This could either be a local file (e.g.: c:\music\track1.mp3) or a file on the network (e.g.: http://contoso.com/track01.wma)..
         /// </summary>
-        public static string Sound_PlayAndWait_Parameters_filePath {
+        public static string Sound_Play_filePath {
             get {
-                return ResourceManager.GetString("Sound_PlayAndWait_Parameters_filePath", resourceCulture);
+                return ResourceManager.GetString("Sound_Play_filePath", resourceCulture);
             }
         }
         
@@ -4242,6 +4242,15 @@ namespace SuperBasic.Utilities.Resources {
         public static string Sound_PlayAndWait {
             get {
                 return ResourceManager.GetString("Sound_PlayAndWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The path for the audio file. This could either be a local file (e.g.: c:\music\track1.mp3) or a file on the network (e.g.: http://contoso.com/track01.wma)..
+        /// </summary>
+        public static string Sound_PlayAndWait_filePath {
+            get {
+                return ResourceManager.GetString("Sound_PlayAndWait_filePath", resourceCulture);
             }
         }
         
@@ -4318,15 +4327,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A set of musical notes to play. The format is a subset of the Music Macro Language supported by QBasic..
-        /// </summary>
-        public static string Sound_PlayMusic_Parameters_notes {
-            get {
-                return ResourceManager.GetString("Sound_PlayMusic_Parameters_notes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Plays musical notes..
         /// </summary>
         public static string Sound_PlayMusic {
@@ -4336,11 +4336,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The path for the audio file. This could either be a local file (e.g.: c:\music\track1.mp3) or a file on the network (e.g.: http://contoso.com/track01.wma)..
+        ///   Looks up a localized string similar to A set of musical notes to play. The format is a subset of the Music Macro Language supported by QBasic..
         /// </summary>
-        public static string Sound_Stop_Parameters_filePath {
+        public static string Sound_PlayMusic_notes {
             get {
-                return ResourceManager.GetString("Sound_Stop_Parameters_filePath", resourceCulture);
+                return ResourceManager.GetString("Sound_PlayMusic_notes", resourceCulture);
             }
         }
         
@@ -4354,92 +4354,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Sound object provides operations that allow the playback of sounds. Some sample sounds are provided along with the library..
+        ///   Looks up a localized string similar to The path for the audio file. This could either be a local file (e.g.: c:\music\track1.mp3) or a file on the network (e.g.: http://contoso.com/track01.wma)..
         /// </summary>
-        public static string Sound {
+        public static string Sound_Stop_filePath {
             get {
-                return ResourceManager.GetString("Sound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the stack..
-        /// </summary>
-        public static string Stack_GetCount_Parameters_stackName {
-            get {
-                return ResourceManager.GetString("Stack_GetCount_Parameters_stackName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The number of items in the specified stack..
-        /// </summary>
-        public static string Stack_GetCount_ReturnValue {
-            get {
-                return ResourceManager.GetString("Stack_GetCount_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gets the count of items in the specified stack..
-        /// </summary>
-        public static string Stack_GetCount {
-            get {
-                return ResourceManager.GetString("Stack_GetCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the stack..
-        /// </summary>
-        public static string Stack_PopValue_Parameters_stackName {
-            get {
-                return ResourceManager.GetString("Stack_PopValue_Parameters_stackName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The value from the stack..
-        /// </summary>
-        public static string Stack_PopValue_ReturnValue {
-            get {
-                return ResourceManager.GetString("Stack_PopValue_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pops the value from the specified stack..
-        /// </summary>
-        public static string Stack_PopValue {
-            get {
-                return ResourceManager.GetString("Stack_PopValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name of the stack..
-        /// </summary>
-        public static string Stack_PushValue_Parameters_stackName {
-            get {
-                return ResourceManager.GetString("Stack_PushValue_Parameters_stackName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The value to push..
-        /// </summary>
-        public static string Stack_PushValue_Parameters_value {
-            get {
-                return ResourceManager.GetString("Stack_PushValue_Parameters_value", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pushes a value to the specified stack..
-        /// </summary>
-        public static string Stack_PushValue {
-            get {
-                return ResourceManager.GetString("Stack_PushValue", resourceCulture);
+                return ResourceManager.GetString("Sound_Stop_filePath", resourceCulture);
             }
         }
         
@@ -4453,29 +4372,92 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First part of the text to be appended..
+        ///   Looks up a localized string similar to Gets the count of items in the specified stack..
         /// </summary>
-        public static string Text_Append_Parameters_text1 {
+        public static string Stack_GetCount {
             get {
-                return ResourceManager.GetString("Text_Append_Parameters_text1", resourceCulture);
+                return ResourceManager.GetString("Stack_GetCount", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Second part of the text to be appended..
+        ///   Looks up a localized string similar to The number of items in the specified stack..
         /// </summary>
-        public static string Text_Append_Parameters_text2 {
+        public static string Stack_GetCount_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_Append_Parameters_text2", resourceCulture);
+                return ResourceManager.GetString("Stack_GetCount_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The appended text containing both the specified parts..
+        ///   Looks up a localized string similar to The name of the stack..
         /// </summary>
-        public static string Text_Append_ReturnValue {
+        public static string Stack_GetCount_stackName {
             get {
-                return ResourceManager.GetString("Text_Append_Returns", resourceCulture);
+                return ResourceManager.GetString("Stack_GetCount_stackName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pops the value from the specified stack..
+        /// </summary>
+        public static string Stack_PopValue {
+            get {
+                return ResourceManager.GetString("Stack_PopValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value from the stack..
+        /// </summary>
+        public static string Stack_PopValue_ReturnValue {
+            get {
+                return ResourceManager.GetString("Stack_PopValue_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the stack..
+        /// </summary>
+        public static string Stack_PopValue_stackName {
+            get {
+                return ResourceManager.GetString("Stack_PopValue_stackName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pushes a value to the specified stack..
+        /// </summary>
+        public static string Stack_PushValue {
+            get {
+                return ResourceManager.GetString("Stack_PushValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the stack..
+        /// </summary>
+        public static string Stack_PushValue_stackName {
+            get {
+                return ResourceManager.GetString("Stack_PushValue_stackName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value to push..
+        /// </summary>
+        public static string Stack_PushValue_value {
+            get {
+                return ResourceManager.GetString("Stack_PushValue_value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Text object provides helpful operations for working with Text..
+        /// </summary>
+        public static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
             }
         }
         
@@ -4489,20 +4471,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to convert to lower case..
+        ///   Looks up a localized string similar to The appended text containing both the specified parts..
         /// </summary>
-        public static string Text_ConvertToLowerCase_Parameters_text {
+        public static string Text_Append_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_ConvertToLowerCase_Parameters_text", resourceCulture);
+                return ResourceManager.GetString("Text_Append_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The lower case version of the given text..
+        ///   Looks up a localized string similar to First part of the text to be appended..
         /// </summary>
-        public static string Text_ConvertToLowerCase_ReturnValue {
+        public static string Text_Append_text1 {
             get {
-                return ResourceManager.GetString("Text_ConvertToLowerCase_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_Append_text1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Second part of the text to be appended..
+        /// </summary>
+        public static string Text_Append_text2 {
+            get {
+                return ResourceManager.GetString("Text_Append_text2", resourceCulture);
             }
         }
         
@@ -4516,20 +4507,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to convert to upper case..
+        ///   Looks up a localized string similar to The lower case version of the given text..
         /// </summary>
-        public static string Text_ConvertToUpperCase_Parameters_text {
+        public static string Text_ConvertToLowerCase_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_ConvertToUpperCase_Parameters_text", resourceCulture);
+                return ResourceManager.GetString("Text_ConvertToLowerCase_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The upper case version of the given text..
+        ///   Looks up a localized string similar to The text to convert to lower case..
         /// </summary>
-        public static string Text_ConvertToUpperCase_ReturnValue {
+        public static string Text_ConvertToLowerCase_text {
             get {
-                return ResourceManager.GetString("Text_ConvertToUpperCase_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_ConvertToLowerCase_text", resourceCulture);
             }
         }
         
@@ -4543,29 +4534,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sub-text to search for..
+        ///   Looks up a localized string similar to The upper case version of the given text..
         /// </summary>
-        public static string Text_EndsWith_Parameters_subText {
+        public static string Text_ConvertToUpperCase_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_EndsWith_Parameters_subText", resourceCulture);
+                return ResourceManager.GetString("Text_ConvertToUpperCase_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The larger text to search within..
+        ///   Looks up a localized string similar to The text to convert to upper case..
         /// </summary>
-        public static string Text_EndsWith_Parameters_text {
+        public static string Text_ConvertToUpperCase_text {
             get {
-                return ResourceManager.GetString("Text_EndsWith_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to True if the subtext was found at the end of the given text..
-        /// </summary>
-        public static string Text_EndsWith_ReturnValue {
-            get {
-                return ResourceManager.GetString("Text_EndsWith_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_ConvertToUpperCase_text", resourceCulture);
             }
         }
         
@@ -4579,20 +4561,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The character code (Unicode based) for the required character..
+        ///   Looks up a localized string similar to True if the subtext was found at the end of the given text..
         /// </summary>
-        public static string Text_GetCharacter_Parameters_characterCode {
+        public static string Text_EndsWith_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_GetCharacter_Parameters_characterCode", resourceCulture);
+                return ResourceManager.GetString("Text_EndsWith_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Unicode character that corresponds to the code specified..
+        ///   Looks up a localized string similar to The sub-text to search for..
         /// </summary>
-        public static string Text_GetCharacter_ReturnValue {
+        public static string Text_EndsWith_subText {
             get {
-                return ResourceManager.GetString("Text_GetCharacter_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_EndsWith_subText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The larger text to search within..
+        /// </summary>
+        public static string Text_EndsWith_text {
+            get {
+                return ResourceManager.GetString("Text_EndsWith_text", resourceCulture);
             }
         }
         
@@ -4606,20 +4597,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The character whose code is requested..
+        ///   Looks up a localized string similar to The character code (Unicode based) for the required character..
         /// </summary>
-        public static string Text_GetCharacterCode_Parameters_character {
+        public static string Text_GetCharacter_characterCode {
             get {
-                return ResourceManager.GetString("Text_GetCharacterCode_Parameters_character", resourceCulture);
+                return ResourceManager.GetString("Text_GetCharacter_characterCode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Unicode based code that corresponds to the character specified..
+        ///   Looks up a localized string similar to A Unicode character that corresponds to the code specified..
         /// </summary>
-        public static string Text_GetCharacterCode_ReturnValue {
+        public static string Text_GetCharacter_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_GetCharacterCode_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_GetCharacter_ReturnValue", resourceCulture);
             }
         }
         
@@ -4633,29 +4624,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to search for..
+        ///   Looks up a localized string similar to The character whose code is requested..
         /// </summary>
-        public static string Text_GetIndexOf_Parameters_subText {
+        public static string Text_GetCharacterCode_character {
             get {
-                return ResourceManager.GetString("Text_GetIndexOf_Parameters_subText", resourceCulture);
+                return ResourceManager.GetString("Text_GetCharacterCode_character", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text to search in..
+        ///   Looks up a localized string similar to A Unicode based code that corresponds to the character specified..
         /// </summary>
-        public static string Text_GetIndexOf_Parameters_text {
+        public static string Text_GetCharacterCode_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_GetIndexOf_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The position at which the sub-text appears in the specified text. If the text doesn&apos;t appear, it returns 0..
-        /// </summary>
-        public static string Text_GetIndexOf_ReturnValue {
-            get {
-                return ResourceManager.GetString("Text_GetIndexOf_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_GetCharacterCode_ReturnValue", resourceCulture);
             }
         }
         
@@ -4669,20 +4651,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text whose length is needed..
+        ///   Looks up a localized string similar to The position at which the sub-text appears in the specified text. If the text doesn&apos;t appear, it returns 0..
         /// </summary>
-        public static string Text_GetLength_Parameters_text {
+        public static string Text_GetIndexOf_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_GetLength_Parameters_text", resourceCulture);
+                return ResourceManager.GetString("Text_GetIndexOf_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The length of the given text..
+        ///   Looks up a localized string similar to The text to search for..
         /// </summary>
-        public static string Text_GetLength_ReturnValue {
+        public static string Text_GetIndexOf_subText {
             get {
-                return ResourceManager.GetString("Text_GetLength_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_GetIndexOf_subText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The text to search in..
+        /// </summary>
+        public static string Text_GetIndexOf_text {
+            get {
+                return ResourceManager.GetString("Text_GetIndexOf_text", resourceCulture);
             }
         }
         
@@ -4696,38 +4687,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies the length of the sub text..
+        ///   Looks up a localized string similar to The length of the given text..
         /// </summary>
-        public static string Text_GetSubText_Parameters_length {
+        public static string Text_GetLength_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_GetSubText_Parameters_length", resourceCulture);
+                return ResourceManager.GetString("Text_GetLength_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies where to start from..
+        ///   Looks up a localized string similar to The text whose length is needed..
         /// </summary>
-        public static string Text_GetSubText_Parameters_start {
+        public static string Text_GetLength_text {
             get {
-                return ResourceManager.GetString("Text_GetSubText_Parameters_start", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The text to derive the sub-text from..
-        /// </summary>
-        public static string Text_GetSubText_Parameters_text {
-            get {
-                return ResourceManager.GetString("Text_GetSubText_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The requested sub-text.
-        /// </summary>
-        public static string Text_GetSubText_ReturnValue {
-            get {
-                return ResourceManager.GetString("Text_GetSubText_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_GetLength_text", resourceCulture);
             }
         }
         
@@ -4741,29 +4714,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specifies the length of the sub text..
+        /// </summary>
+        public static string Text_GetSubText_length {
+            get {
+                return ResourceManager.GetString("Text_GetSubText_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The requested sub-text.
+        /// </summary>
+        public static string Text_GetSubText_ReturnValue {
+            get {
+                return ResourceManager.GetString("Text_GetSubText_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specifies where to start from..
         /// </summary>
-        public static string Text_GetSubTextToEnd_Parameters_start {
+        public static string Text_GetSubText_start {
             get {
-                return ResourceManager.GetString("Text_GetSubTextToEnd_Parameters_start", resourceCulture);
+                return ResourceManager.GetString("Text_GetSubText_start", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The text to derive the sub-text from..
         /// </summary>
-        public static string Text_GetSubTextToEnd_Parameters_text {
+        public static string Text_GetSubText_text {
             get {
-                return ResourceManager.GetString("Text_GetSubTextToEnd_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The requested sub-text..
-        /// </summary>
-        public static string Text_GetSubTextToEnd_ReturnValue {
-            get {
-                return ResourceManager.GetString("Text_GetSubTextToEnd_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_GetSubText_text", resourceCulture);
             }
         }
         
@@ -4777,29 +4759,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sub-text to search for..
+        ///   Looks up a localized string similar to The requested sub-text..
         /// </summary>
-        public static string Text_IsSubText_Parameters_subText {
+        public static string Text_GetSubTextToEnd_ReturnValue {
             get {
-                return ResourceManager.GetString("Text_IsSubText_Parameters_subText", resourceCulture);
+                return ResourceManager.GetString("Text_GetSubTextToEnd_ReturnValue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The larger text within which the sub-text will be searched..
+        ///   Looks up a localized string similar to Specifies where to start from..
         /// </summary>
-        public static string Text_IsSubText_Parameters_text {
+        public static string Text_GetSubTextToEnd_start {
             get {
-                return ResourceManager.GetString("Text_IsSubText_Parameters_text", resourceCulture);
+                return ResourceManager.GetString("Text_GetSubTextToEnd_start", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to True if the subtext was found within the given text..
+        ///   Looks up a localized string similar to The text to derive the sub-text from..
         /// </summary>
-        public static string Text_IsSubText_ReturnValue {
+        public static string Text_GetSubTextToEnd_text {
             get {
-                return ResourceManager.GetString("Text_IsSubText_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_GetSubTextToEnd_text", resourceCulture);
             }
         }
         
@@ -4813,29 +4795,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to True if the subtext was found within the given text..
+        /// </summary>
+        public static string Text_IsSubText_ReturnValue {
+            get {
+                return ResourceManager.GetString("Text_IsSubText_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The sub-text to search for..
         /// </summary>
-        public static string Text_StartsWith_Parameters_subText {
+        public static string Text_IsSubText_subText {
             get {
-                return ResourceManager.GetString("Text_StartsWith_Parameters_subText", resourceCulture);
+                return ResourceManager.GetString("Text_IsSubText_subText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The larger text to search within..
+        ///   Looks up a localized string similar to The larger text within which the sub-text will be searched..
         /// </summary>
-        public static string Text_StartsWith_Parameters_text {
+        public static string Text_IsSubText_text {
             get {
-                return ResourceManager.GetString("Text_StartsWith_Parameters_text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to True if the subtext was found at the start of the given text..
-        /// </summary>
-        public static string Text_StartsWith_ReturnValue {
-            get {
-                return ResourceManager.GetString("Text_StartsWith_Returns", resourceCulture);
+                return ResourceManager.GetString("Text_IsSubText_text", resourceCulture);
             }
         }
         
@@ -4849,11 +4831,38 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Text object provides helpful operations for working with Text..
+        ///   Looks up a localized string similar to True if the subtext was found at the start of the given text..
         /// </summary>
-        public static string Text {
+        public static string Text_StartsWith_ReturnValue {
             get {
-                return ResourceManager.GetString("Text", resourceCulture);
+                return ResourceManager.GetString("Text_StartsWith_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The sub-text to search for..
+        /// </summary>
+        public static string Text_StartsWith_subText {
+            get {
+                return ResourceManager.GetString("Text_StartsWith_subText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The larger text to search within..
+        /// </summary>
+        public static string Text_StartsWith_text {
+            get {
+                return ResourceManager.GetString("Text_StartsWith_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TextWindow provides text-related input and output functionalities. For example using this class, it is possible to write or read some text or number to and from the text-based text window..
+        /// </summary>
+        public static string TextWindow {
+            get {
+                return ResourceManager.GetString("TextWindow", resourceCulture);
             }
         }
         
@@ -4948,15 +4957,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text that was read from the text window.
-        /// </summary>
-        public static string TextWindow_Read_ReturnValue {
-            get {
-                return ResourceManager.GetString("TextWindow_Read_Returns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Reads a line of text from the text window. This function will not return until the user hits ENTER..
         /// </summary>
         public static string TextWindow_Read {
@@ -4966,11 +4966,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The number that was read from the text window.
+        ///   Looks up a localized string similar to The text that was read from the text window.
         /// </summary>
-        public static string TextWindow_ReadNumber_ReturnValue {
+        public static string TextWindow_Read_ReturnValue {
             get {
-                return ResourceManager.GetString("TextWindow_ReadNumber_Returns", resourceCulture);
+                return ResourceManager.GetString("TextWindow_Read_ReturnValue", resourceCulture);
             }
         }
         
@@ -4984,20 +4984,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number that was read from the text window.
+        /// </summary>
+        public static string TextWindow_ReadNumber_ReturnValue {
+            get {
+                return ResourceManager.GetString("TextWindow_ReadNumber_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shows the Text window to enable interactions with it..
         /// </summary>
         public static string TextWindow_Show {
             get {
                 return ResourceManager.GetString("TextWindow_Show", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The TextWindow provides text-related input and output functionalities. For example using this class, it is possible to write or read some text or number to and from the text-based text window..
-        /// </summary>
-        public static string TextWindow {
-            get {
-                return ResourceManager.GetString("TextWindow", resourceCulture);
             }
         }
         
@@ -5020,15 +5020,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text or number to write to the text window.
-        /// </summary>
-        public static string TextWindow_Write_Parameters_data {
-            get {
-                return ResourceManager.GetString("TextWindow_Write_Parameters_data", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Writes text or number to the text window. Unlike WriteLine, this will not append a new line character, which means, anything written to the text window after this call will be on the same line..
         /// </summary>
         public static string TextWindow_Write {
@@ -5038,11 +5029,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text or number to write to the text window..
+        ///   Looks up a localized string similar to The text or number to write to the text window.
         /// </summary>
-        public static string TextWindow_WriteLine_Parameters_data {
+        public static string TextWindow_Write_data {
             get {
-                return ResourceManager.GetString("TextWindow_WriteLine_Parameters_data", resourceCulture);
+                return ResourceManager.GetString("TextWindow_Write_data", resourceCulture);
             }
         }
         
@@ -5052,6 +5043,24 @@ namespace SuperBasic.Utilities.Resources {
         public static string TextWindow_WriteLine {
             get {
                 return ResourceManager.GetString("TextWindow_WriteLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The text or number to write to the text window..
+        /// </summary>
+        public static string TextWindow_WriteLine_data {
+            get {
+                return ResourceManager.GetString("TextWindow_WriteLine_data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Timer object provides an easy way for doing something repeatedly with a constant interval between..
+        /// </summary>
+        public static string Timer {
+            get {
+                return ResourceManager.GetString("Timer", resourceCulture);
             }
         }
         
@@ -5083,20 +5092,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Timer object provides an easy way for doing something repeatedly with a constant interval between..
-        /// </summary>
-        public static string Timer {
-            get {
-                return ResourceManager.GetString("Timer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Raises an event when the timer ticks..
         /// </summary>
         public static string Timer_Tick {
             get {
                 return ResourceManager.GetString("Timer_Tick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Turtle provides Logo-like functionality to draw shapes by manipulating the properties of a pen and drawing primitives..
+        /// </summary>
+        public static string Turtle {
+            get {
+                return ResourceManager.GetString("Turtle", resourceCulture);
             }
         }
         
@@ -5119,15 +5128,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The distance to move the turtle..
-        /// </summary>
-        public static string Turtle_Move_Parameters_distance {
-            get {
-                return ResourceManager.GetString("Turtle_Move_Parameters_distance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Moves the turtle to a specified distance. If the pen is down, it will draw a line as it moves..
         /// </summary>
         public static string Turtle_Move {
@@ -5137,20 +5137,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The x co-ordinate of the destination point..
+        ///   Looks up a localized string similar to The distance to move the turtle..
         /// </summary>
-        public static string Turtle_MoveTo_Parameters_x {
+        public static string Turtle_Move_distance {
             get {
-                return ResourceManager.GetString("Turtle_MoveTo_Parameters_x", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The y co-ordinate of the destination point..
-        /// </summary>
-        public static string Turtle_MoveTo_Parameters_y {
-            get {
-                return ResourceManager.GetString("Turtle_MoveTo_Parameters_y", resourceCulture);
+                return ResourceManager.GetString("Turtle_Move_distance", resourceCulture);
             }
         }
         
@@ -5160,6 +5151,24 @@ namespace SuperBasic.Utilities.Resources {
         public static string Turtle_MoveTo {
             get {
                 return ResourceManager.GetString("Turtle_MoveTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The x co-ordinate of the destination point..
+        /// </summary>
+        public static string Turtle_MoveTo_x {
+            get {
+                return ResourceManager.GetString("Turtle_MoveTo_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The y co-ordinate of the destination point..
+        /// </summary>
+        public static string Turtle_MoveTo_y {
+            get {
+                return ResourceManager.GetString("Turtle_MoveTo_y", resourceCulture);
             }
         }
         
@@ -5200,29 +5209,20 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Turtle provides Logo-like functionality to draw shapes by manipulating the properties of a pen and drawing primitives..
+        ///   Looks up a localized string similar to Turns the turtle by the specified angle. Angle is in degrees and can be either positive or negative. If the angle is positive, the turtle turns to its right. If it is negative, the turtle turns to its left..
         /// </summary>
-        public static string Turtle {
+        public static string Turtle_Turn {
             get {
-                return ResourceManager.GetString("Turtle", resourceCulture);
+                return ResourceManager.GetString("Turtle_Turn", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The angle to turn the turtle..
         /// </summary>
-        public static string Turtle_Turn_Parameters_angle {
+        public static string Turtle_Turn_angle {
             get {
-                return ResourceManager.GetString("Turtle_Turn_Parameters_angle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Turns the turtle by the specified angle. Angle is in degrees and can be either positive or negative. If the angle is positive, the turtle turns to its right. If it is negative, the turtle turns to its left..
-        /// </summary>
-        public static string Turtle_Turn {
-            get {
-                return ResourceManager.GetString("Turtle_Turn", resourceCulture);
+                return ResourceManager.GetString("Turtle_Turn_angle", resourceCulture);
             }
         }
         

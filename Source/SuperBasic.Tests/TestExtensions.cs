@@ -2,16 +2,18 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Compiler.Tests
+namespace SuperBasic.Tests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using FluentAssertions;
+    using SuperBasic.Compiler;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Utilities;
 
+    // TODO: verify Debug.Assert() does not fail tests anymore: https://github.com/Microsoft/vstest/issues/1688
     internal static class TestExtensions
     {
         public static void VerifyDiagnostics(this SuperBasicCompilation compilation, params Diagnostic[] diagnostics)
@@ -42,7 +44,7 @@ namespace SuperBasic.Compiler.Tests
                 constructorArgs.AddRange(diagnostic.Args.Select(arg => $@"""{arg}"""));
 
                 return $@"
-                // {textLines[line]}
+                // {(textLines.Length > line ? textLines[line] : string.Empty)}
                 // {new string(' ', start)}{new string('^', end - start + 1)}
                 // {diagnostic.ToDisplayString()}
                 new Diagnostic({constructorArgs.Join(", ")})";

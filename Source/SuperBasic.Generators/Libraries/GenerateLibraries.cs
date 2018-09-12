@@ -175,7 +175,7 @@ namespace SuperBasic.Generators.Scanning
 
                     foreach (var parameter in method.Parameters)
                     {
-                        this.Line($@"{{ ""{parameter.Name}"", new Parameter(""{parameter.Name}"", LibrariesResources.{library.Name}_{method.Name}_Parameters_{parameter.Name}) }},");
+                        this.Line($@"{{ ""{parameter.Name}"", new Parameter(""{parameter.Name}"", LibrariesResources.{library.Name}_{method.Name}_{parameter.Name}) }},");
                     }
 
                     this.Unindent();

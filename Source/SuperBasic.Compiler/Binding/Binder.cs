@@ -6,7 +6,7 @@ namespace SuperBasic.Compiler.Binding
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Diagnostics;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Compiler.Parsing;
     using SuperBasic.Compiler.Scanning;
@@ -36,7 +36,16 @@ namespace SuperBasic.Compiler.Binding
                         {
                             var body = this.BindStatementBlock(subModuleStatement.Body);
                             var subModule = new BoundSubModule(subModuleStatement, subModuleStatement.NameToken.Text, body);
-                            subModules.Add(subModuleStatement.NameToken.Text, subModule);
+
+                            if (subModules.ContainsKey(subModule.Name))
+                            {
+                                this.diagnostics.ReportTwoSubModulesWithTheSameName(subModuleStatement.NameToken.Range, subModule.Name);
+                            }
+                            else
+                            {
+                                subModules.Add(subModule.Name, subModule);
+                            }
+
                             break;
                         }
 
@@ -235,7 +244,6 @@ namespace SuperBasic.Compiler.Binding
                         }
                         else
                         {
-                            // todo: test
                             this.diagnostics.ReportAssigningNonSubModuleToEvent(@event.Syntax.Range);
                             return new BoundInvalidExpressionStatement(syntax, assignment);
                         }
@@ -286,7 +294,7 @@ namespace SuperBasic.Compiler.Binding
         private BoundBinaryExpression BindBinaryOperatorExpression(BinaryOperatorExpressionSyntax syntax)
         {
             BaseBoundExpression left = this.BindExpression(syntax.Left);
-            BaseBoundExpression right = this.BindExpression(syntax.Right);
+            BaseBoundExpression right = this.BindExpression(syntax.Right, expectsValue: !(left is BoundLibraryEventExpression));
 
             switch (syntax.OperatorToken.Kind)
             {
@@ -390,39 +398,45 @@ namespace SuperBasic.Compiler.Binding
             BaseBoundExpression baseExpression = this.BindExpression(syntax.BaseExpression, expectsValue: false);
             string identifier = syntax.IdentifierToken.Text;
 
-            BoundLibraryTypeExpression libraryExpression = baseExpression as BoundLibraryTypeExpression;
-            if (libraryExpression.IsDefault())
+            if (baseExpression is BoundLibraryTypeExpression libraryTypeExpression)
+            {
+                Library library = Libraries.Types[libraryTypeExpression.Library];
+
+                if (library.Properties.TryGetValue(identifier, out Property property))
+                {
+                    if (expectsValue && !property.HasGetter)
+                    {
+                        this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
+                        return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
+                    }
+
+                    return new BoundLibraryPropertyExpression(syntax, hasValue: property.HasGetter, baseExpression.HasErrors, library.Name, identifier);
+                }
+
+                if (library.Methods.ContainsKey(identifier))
+                {
+                    if (expectsValue)
+                    {
+                        this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
+                        return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
+                    }
+
+                    return new BoundLibraryMethodExpression(syntax, hasValue: false, baseExpression.HasErrors, library.Name, identifier);
+                }
+
+                if (library.Events.ContainsKey(identifier))
+                {
+                    return new BoundLibraryEventExpression(syntax, hasValue: false, baseExpression.HasErrors, library.Name, identifier);
+                }
+
+                this.diagnostics.ReportLibraryMemberNotFound(syntax.Range, library.Name, identifier);
+                return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
+            }
+            else
             {
                 this.diagnostics.ReportUnsupportedDotBaseExpression(syntax.BaseExpression.Range);
                 return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
             }
-
-            string libraryName = libraryExpression.Library;
-
-            if (Libraries.Types[libraryName].Properties.TryGetValue(identifier, out Property property))
-            {
-                if (expectsValue && !property.HasGetter)
-                {
-                    this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
-                    return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
-                }
-
-                return new BoundLibraryPropertyExpression(syntax, hasValue: property.HasGetter, baseExpression.HasErrors, libraryName, identifier);
-            }
-
-            if (Libraries.Types[libraryName].Methods.ContainsKey(identifier))
-            {
-                if (expectsValue)
-                {
-                    this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
-                    return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
-                }
-
-                return new BoundLibraryMethodExpression(syntax, hasValue: false, baseExpression.HasErrors, libraryName, identifier);
-            }
-
-            this.diagnostics.ReportLibraryMemberNotFound(syntax.Range, libraryName, identifier);
-            return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
         }
 
         private BaseBoundExpression BindInvocationExpression(InvocationExpressionSyntax syntax, bool expectsValue)
@@ -433,7 +447,7 @@ namespace SuperBasic.Compiler.Binding
 
             foreach (ArgumentSyntax arg in syntax.Arguments)
             {
-                BaseBoundExpression argument = this.BindExpression(arg);
+                BaseBoundExpression argument = this.BindExpression(arg.Expression);
                 hasErrors |= argument.HasErrors;
                 arguments.Add(argument);
             }
