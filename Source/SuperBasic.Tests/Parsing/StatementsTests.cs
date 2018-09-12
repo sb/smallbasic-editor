@@ -1,13 +1,15 @@
-// <copyright file="ParsingTests.cs" company="2018 Omar Tawfik">
+// <copyright file="StatementsTests.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Compiler.Tests
+namespace SuperBasic.Tests.Parsing
 {
+    using FluentAssertions;
+    using SuperBasic.Compiler;
     using SuperBasic.Compiler.Diagnostics;
     using Xunit;
 
-    public sealed class ParsingTests
+    public sealed class StatementsTests
     {
         [Fact]
         public void ItReportsUnterminatedSubModules()
@@ -145,28 +147,6 @@ EndWhile").VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItReportsUnevenParenthesis()
-        {
-            new SuperBasicCompilation(@"
-TextWindow.WriteLine(5").VerifyDiagnostics(
-                // TextWindow.WriteLine(5
-                //                      ^
-                // I was expecting to see ')' after this.
-                new Diagnostic(DiagnosticCode.UnexpectedEndOfStream, ((1, 21), (1, 21)), ")"));
-        }
-
-        [Fact]
-        public void ItReportsUnevenBrackets()
-        {
-            new SuperBasicCompilation(@"
-x = a[1").VerifyDiagnostics(
-                // x = a[1
-                //       ^
-                // I was expecting to see ']' after this.
-                new Diagnostic(DiagnosticCode.UnexpectedEndOfStream, ((1, 6), (1, 6)), "]"));
-        }
-
-        [Fact]
         public void ItReportsInvalidStartOfStatements()
         {
             new SuperBasicCompilation(@"
@@ -225,7 +205,7 @@ EndWhile").VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItReportsMissingTokens()
+        public void ItReportsMissingThenAfterIf()
         {
             new SuperBasicCompilation(@"
 If x < 1
@@ -237,7 +217,20 @@ EndIf").VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItReportsInvalidTokens()
+        public void ItReportsMissingThenAfterElseIf()
+        {
+            new SuperBasicCompilation(@"
+If x < 1 Then
+ElseIf x > 1
+EndIf").VerifyDiagnostics(
+                // EndIf
+                // ^^^^^
+                // I didn't expect to see 'EndIf' here. I was expecting 'Then' instead.
+                new Diagnostic(DiagnosticCode.UnexpectedTokenFound, ((3, 0), (3, 4)), "EndIf", "Then"));
+        }
+
+        [Fact]
+        public void ItReportsStepAfterIf()
         {
             new SuperBasicCompilation(@"
 If x < 1 Step
@@ -253,38 +246,29 @@ EndIf").VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItReportsArgumentsWithoutCommasInInvocation()
+        public void ItReportsStepAfterElseIf()
         {
             new SuperBasicCompilation(@"
-x = Math.Sin(1 4)").VerifyDiagnostics(
-                // x = Math.Sin(1 4)
-                //                ^
-                // I didn't expect to see 'number' here. I was expecting ',' instead.
-                new Diagnostic(DiagnosticCode.UnexpectedTokenFound, ((1, 15), (1, 15)), "number", ","));
+If x > 1 Then
+ElseIf x < 1 Step
+EndIf").VerifyDiagnostics(
+                // ElseIf x < 1 Step
+                //              ^^^^
+                // I didn't expect to see 'Step' here. I was expecting 'Then' instead.
+                new Diagnostic(DiagnosticCode.UnexpectedTokenFound, ((2, 13), (2, 16)), "Step", "Then"),
+                // ElseIf x < 1 Step
+                //              ^^^^
+                // This statement should go on a new line.
+                new Diagnostic(DiagnosticCode.UnexpectedStatementInsteadOfNewLine, ((2, 13), (2, 16))));
         }
 
         [Fact]
-        public void ItReportsCommasWithoutArgumentsInInvocation()
+        public void ItReportsExtraTokensAfterIfStatement()
         {
             new SuperBasicCompilation(@"
-x = Math.Sin(, )").VerifyDiagnostics(
-                // x = Math.Sin(, )
-                //              ^
-                // I didn't expect to see ',' here. I was expecting 'identifier' instead.
-                new Diagnostic(DiagnosticCode.UnexpectedTokenFound, ((1, 13), (1, 13)), ",", "identifier"));
-        }
-
-        [Fact]
-        public void ItReportsExtraTokensInStatements()
-        {
-            new SuperBasicCompilation(@"
-For x  = 1 To 2 Step : 1
+For x  = 1 To 2 Step 1 :
 EndFor").VerifyDiagnostics(
-                // For x  = 1 To 2 Step : 1
-                //                      ^
-                // I didn't expect to see ':' here. I was expecting 'identifier' instead.
-                new Diagnostic(DiagnosticCode.UnexpectedTokenFound, ((1, 21), (1, 21)), ":", "identifier"),
-                // For x  = 1 To 2 Step : 1
+                // For x  = 1 To 2 Step 1 :
                 //                        ^
                 // This statement should go on a new line.
                 new Diagnostic(DiagnosticCode.UnexpectedStatementInsteadOfNewLine, ((1, 23), (1, 23))));

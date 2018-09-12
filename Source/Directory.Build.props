@@ -11,8 +11,10 @@
     <DisabledWarnings Include="CA2225" Comment="Operator overloads have named alternates." />
     <DisabledWarnings Include="CA2227" Comment="Collection properties should be read only (required for XML deserialization)." />
 
+    <DisabledWarnings Include="IDE1001" Comment="The analyzer assembly '{0}' has changed. Diagnostics may be incorrect until Visual Studio is restarted." />
     <DisabledWarnings Include="IDE0041" Comment="Use 'is null' check (replaced by custom analyzer)." />
 
+    <DisabledWarnings Include="SA1005" Comment="Single line comment must begin with a space (tests assertions)." />
     <DisabledWarnings Include="SA1008" Comment="Opening parenthesis must be spaced correctly (has a bug with tuples)." />
     <DisabledWarnings Include="SA1114" Comment="Parameter list must follow declaration (tests assertions)." />
     <DisabledWarnings Include="SA1115" Comment="The parameter must begin on the line after the previous parameter (tests assertions)." />

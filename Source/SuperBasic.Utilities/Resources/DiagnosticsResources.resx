@@ -121,10 +121,10 @@
     <value>You can only assign submodules to events.</value>
   </data>
   <data name="ExpectedExpressionWithAValue" xml:space="preserve">
-    <value>This expression must return a value to be used here.</value>
+    <value>This expression must have a value to be used here.</value>
   </data>
   <data name="GoToUndefinedLabel" xml:space="preserve">
-    <value>The label '{0}' is not defined.</value>
+    <value>The label '{0}' is not defined in the same module.</value>
   </data>
   <data name="InvalidExpressionStatement" xml:space="preserve">
     <value>This expression is not a valid statement.</value>
@@ -142,7 +142,7 @@
     <value>A submodule with the same name '{0}' is already defined in the same program.</value>
   </data>
   <data name="UnassignedExpressionStatement" xml:space="preserve">
-    <value>This method call returns a result. Did you mean to assign it to a variable?</value>
+    <value>This expression returns a result. Did you mean to assign it to a variable?</value>
   </data>
   <data name="UnexpectedArgumentsCount" xml:space="preserve">
     <value>You are passing '{0}' arguments to this method, while it expects '{1}' arguments.</value>

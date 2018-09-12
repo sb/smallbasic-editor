@@ -135,8 +135,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Array_ContainsIndex_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_ContainsIndex_Parameters_array) },
-                        { "index", new Parameter("index", LibrariesResources.Array_ContainsIndex_Parameters_index) },
+                        { "array", new Parameter("array", LibrariesResources.Array_ContainsIndex_array) },
+                        { "index", new Parameter("index", LibrariesResources.Array_ContainsIndex_index) },
                     }));
 
                 methods.Add("ContainsValue", new Method(
@@ -146,8 +146,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Array_ContainsValue_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_ContainsValue_Parameters_array) },
-                        { "value", new Parameter("value", LibrariesResources.Array_ContainsValue_Parameters_value) },
+                        { "array", new Parameter("array", LibrariesResources.Array_ContainsValue_array) },
+                        { "value", new Parameter("value", LibrariesResources.Array_ContainsValue_value) },
                     }));
 
                 methods.Add("GetAllIndices", new Method(
@@ -157,7 +157,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Array_GetAllIndices_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_GetAllIndices_Parameters_array) },
+                        { "array", new Parameter("array", LibrariesResources.Array_GetAllIndices_array) },
                     }));
 
                 methods.Add("GetItemCount", new Method(
@@ -167,7 +167,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Array_GetItemCount_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_GetItemCount_Parameters_array) },
+                        { "array", new Parameter("array", LibrariesResources.Array_GetItemCount_array) },
                     }));
 
                 methods.Add("IsArray", new Method(
@@ -177,7 +177,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Array_IsArray_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_IsArray_Parameters_array) },
+                        { "array", new Parameter("array", LibrariesResources.Array_IsArray_array) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -222,9 +222,9 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Controls_AddButton_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "caption", new Parameter("caption", LibrariesResources.Controls_AddButton_Parameters_caption) },
-                        { "left", new Parameter("left", LibrariesResources.Controls_AddButton_Parameters_left) },
-                        { "top", new Parameter("top", LibrariesResources.Controls_AddButton_Parameters_top) },
+                        { "caption", new Parameter("caption", LibrariesResources.Controls_AddButton_caption) },
+                        { "left", new Parameter("left", LibrariesResources.Controls_AddButton_left) },
+                        { "top", new Parameter("top", LibrariesResources.Controls_AddButton_top) },
                     }));
 
                 methods.Add("AddMultiLineTextBox", new Method(
@@ -234,8 +234,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Controls_AddMultiLineTextBox_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "left", new Parameter("left", LibrariesResources.Controls_AddMultiLineTextBox_Parameters_left) },
-                        { "top", new Parameter("top", LibrariesResources.Controls_AddMultiLineTextBox_Parameters_top) },
+                        { "left", new Parameter("left", LibrariesResources.Controls_AddMultiLineTextBox_left) },
+                        { "top", new Parameter("top", LibrariesResources.Controls_AddMultiLineTextBox_top) },
                     }));
 
                 methods.Add("AddTextBox", new Method(
@@ -245,8 +245,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Controls_AddTextBox_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "left", new Parameter("left", LibrariesResources.Controls_AddTextBox_Parameters_left) },
-                        { "top", new Parameter("top", LibrariesResources.Controls_AddTextBox_Parameters_top) },
+                        { "left", new Parameter("left", LibrariesResources.Controls_AddTextBox_left) },
+                        { "top", new Parameter("top", LibrariesResources.Controls_AddTextBox_top) },
                     }));
 
                 methods.Add("GetButtonCaption", new Method(
@@ -256,7 +256,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Controls_GetButtonCaption_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_GetButtonCaption_Parameters_buttonName) },
+                        { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_GetButtonCaption_buttonName) },
                     }));
 
                 methods.Add("GetTextBoxText", new Method(
@@ -266,7 +266,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Controls_GetTextBoxText_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_GetTextBoxText_Parameters_textBoxName) },
+                        { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_GetTextBoxText_textBoxName) },
                     }));
 
                 methods.Add("HideControl", new Method(
@@ -276,7 +276,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_HideControl_Parameters_controlName) },
+                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_HideControl_controlName) },
                     }));
 
                 methods.Add("Move", new Method(
@@ -286,9 +286,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "control", new Parameter("control", LibrariesResources.Controls_Move_Parameters_control) },
-                        { "x", new Parameter("x", LibrariesResources.Controls_Move_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.Controls_Move_Parameters_y) },
+                        { "control", new Parameter("control", LibrariesResources.Controls_Move_control) },
+                        { "x", new Parameter("x", LibrariesResources.Controls_Move_x) },
+                        { "y", new Parameter("y", LibrariesResources.Controls_Move_y) },
                     }));
 
                 methods.Add("Remove", new Method(
@@ -298,7 +298,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_Remove_Parameters_controlName) },
+                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_Remove_controlName) },
                     }));
 
                 methods.Add("SetButtonCaption", new Method(
@@ -308,8 +308,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_SetButtonCaption_Parameters_buttonName) },
-                        { "caption", new Parameter("caption", LibrariesResources.Controls_SetButtonCaption_Parameters_caption) },
+                        { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_SetButtonCaption_buttonName) },
+                        { "caption", new Parameter("caption", LibrariesResources.Controls_SetButtonCaption_caption) },
                     }));
 
                 methods.Add("SetSize", new Method(
@@ -319,9 +319,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "control", new Parameter("control", LibrariesResources.Controls_SetSize_Parameters_control) },
-                        { "width", new Parameter("width", LibrariesResources.Controls_SetSize_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.Controls_SetSize_Parameters_height) },
+                        { "control", new Parameter("control", LibrariesResources.Controls_SetSize_control) },
+                        { "width", new Parameter("width", LibrariesResources.Controls_SetSize_width) },
+                        { "height", new Parameter("height", LibrariesResources.Controls_SetSize_height) },
                     }));
 
                 methods.Add("SetTextBoxText", new Method(
@@ -331,8 +331,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_SetTextBoxText_Parameters_textBoxName) },
-                        { "text", new Parameter("text", LibrariesResources.Controls_SetTextBoxText_Parameters_text) },
+                        { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_SetTextBoxText_textBoxName) },
+                        { "text", new Parameter("text", LibrariesResources.Controls_SetTextBoxText_text) },
                     }));
 
                 methods.Add("ShowControl", new Method(
@@ -342,7 +342,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_ShowControl_Parameters_controlName) },
+                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_ShowControl_controlName) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -371,7 +371,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "fileOrUrl", new Parameter("fileOrUrl", LibrariesResources.Desktop_SetWallPaper_Parameters_fileOrUrl) },
+                        { "fileOrUrl", new Parameter("fileOrUrl", LibrariesResources.Desktop_SetWallPaper_fileOrUrl) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -396,7 +396,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinition_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinition_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinition_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToEnglish", new Method(
@@ -406,7 +406,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToFrench", new Method(
@@ -416,7 +416,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToGerman", new Method(
@@ -426,7 +426,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToItalian", new Method(
@@ -436,7 +436,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToJapanese", new Method(
@@ -446,7 +446,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToKorean", new Method(
@@ -456,7 +456,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToSimplifiedChinese", new Method(
@@ -466,7 +466,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToSpanish", new Method(
@@ -476,7 +476,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_word) },
                     }));
 
                 methods.Add("GetDefinitionEnglishToTraditionalChinese", new Method(
@@ -486,7 +486,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_word) },
                     }));
 
                 methods.Add("GetDefinitionFrenchToEnglish", new Method(
@@ -496,7 +496,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionGermanToEnglish", new Method(
@@ -506,7 +506,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionItalianToEnglish", new Method(
@@ -516,7 +516,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionJapaneseToEnglish", new Method(
@@ -526,7 +526,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionKoreanToEnglish", new Method(
@@ -536,7 +536,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionSimplifiedChineseToEnglish", new Method(
@@ -546,7 +546,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionSpanishToEnglish", new Method(
@@ -556,7 +556,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_word) },
                     }));
 
                 methods.Add("GetDefinitionTraditionalChineseToEnglish", new Method(
@@ -566,7 +566,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_Parameters_word) },
+                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_word) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -587,8 +587,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_AppendContents_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_AppendContents_Parameters_filePath) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_AppendContents_Parameters_contents) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_AppendContents_filePath) },
+                        { "contents", new Parameter("contents", LibrariesResources.File_AppendContents_contents) },
                     }));
 
                 methods.Add("CopyFile", new Method(
@@ -598,8 +598,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_CopyFile_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "sourceFilePath", new Parameter("sourceFilePath", LibrariesResources.File_CopyFile_Parameters_sourceFilePath) },
-                        { "destinationFilePath", new Parameter("destinationFilePath", LibrariesResources.File_CopyFile_Parameters_destinationFilePath) },
+                        { "sourceFilePath", new Parameter("sourceFilePath", LibrariesResources.File_CopyFile_sourceFilePath) },
+                        { "destinationFilePath", new Parameter("destinationFilePath", LibrariesResources.File_CopyFile_destinationFilePath) },
                     }));
 
                 methods.Add("CreateDirectory", new Method(
@@ -609,7 +609,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_CreateDirectory_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_CreateDirectory_Parameters_directoryPath) },
+                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_CreateDirectory_directoryPath) },
                     }));
 
                 methods.Add("DeleteDirectory", new Method(
@@ -619,7 +619,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_DeleteDirectory_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_DeleteDirectory_Parameters_directoryPath) },
+                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_DeleteDirectory_directoryPath) },
                     }));
 
                 methods.Add("DeleteFile", new Method(
@@ -629,7 +629,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_DeleteFile_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_DeleteFile_Parameters_filePath) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_DeleteFile_filePath) },
                     }));
 
                 methods.Add("GetDirectories", new Method(
@@ -639,7 +639,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_GetDirectories_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetDirectories_Parameters_directoryPath) },
+                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetDirectories_directoryPath) },
                     }));
 
                 methods.Add("GetFiles", new Method(
@@ -649,7 +649,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_GetFiles_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetFiles_Parameters_directoryPath) },
+                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetFiles_directoryPath) },
                     }));
 
                 methods.Add("GetSettingsFilePath", new Method(
@@ -673,9 +673,9 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_InsertLine_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_InsertLine_Parameters_filePath) },
-                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_InsertLine_Parameters_lineNumber) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_InsertLine_Parameters_contents) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_InsertLine_filePath) },
+                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_InsertLine_lineNumber) },
+                        { "contents", new Parameter("contents", LibrariesResources.File_InsertLine_contents) },
                     }));
 
                 methods.Add("ReadContents", new Method(
@@ -685,7 +685,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_ReadContents_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_ReadContents_Parameters_filePath) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_ReadContents_filePath) },
                     }));
 
                 methods.Add("ReadLine", new Method(
@@ -695,8 +695,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_ReadLine_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_ReadLine_Parameters_filePath) },
-                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_ReadLine_Parameters_lineNumber) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_ReadLine_filePath) },
+                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_ReadLine_lineNumber) },
                     }));
 
                 methods.Add("WriteContents", new Method(
@@ -706,8 +706,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_WriteContents_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_WriteContents_Parameters_filePath) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_WriteContents_Parameters_contents) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_WriteContents_filePath) },
+                        { "contents", new Parameter("contents", LibrariesResources.File_WriteContents_contents) },
                     }));
 
                 methods.Add("WriteLine", new Method(
@@ -717,9 +717,9 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.File_WriteLine_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_WriteLine_Parameters_filePath) },
-                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_WriteLine_Parameters_lineNumber) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_WriteLine_Parameters_contents) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.File_WriteLine_filePath) },
+                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_WriteLine_lineNumber) },
+                        { "contents", new Parameter("contents", LibrariesResources.File_WriteLine_contents) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -750,7 +750,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Flickr_GetRandomPicture_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "tag", new Parameter("tag", LibrariesResources.Flickr_GetRandomPicture_Parameters_tag) },
+                        { "tag", new Parameter("tag", LibrariesResources.Flickr_GetRandomPicture_tag) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -778,10 +778,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawBoundText_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawBoundText_Parameters_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawBoundText_Parameters_width) },
-                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawBoundText_Parameters_text) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawBoundText_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawBoundText_y) },
+                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawBoundText_width) },
+                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawBoundText_text) },
                     }));
 
                 methods.Add("DrawEllipse", new Method(
@@ -791,10 +791,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawEllipse_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawEllipse_Parameters_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawEllipse_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawEllipse_Parameters_height) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawEllipse_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawEllipse_y) },
+                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawEllipse_width) },
+                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawEllipse_height) },
                     }));
 
                 methods.Add("DrawImage", new Method(
@@ -804,9 +804,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawImage_Parameters_imageName) },
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawImage_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawImage_Parameters_y) },
+                        { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawImage_imageName) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawImage_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawImage_y) },
                     }));
 
                 methods.Add("DrawLine", new Method(
@@ -816,10 +816,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawLine_Parameters_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawLine_Parameters_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawLine_Parameters_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawLine_Parameters_y2) },
+                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawLine_x1) },
+                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawLine_y1) },
+                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawLine_x2) },
+                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawLine_y2) },
                     }));
 
                 methods.Add("DrawRectangle", new Method(
@@ -829,10 +829,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawRectangle_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawRectangle_Parameters_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawRectangle_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawRectangle_Parameters_height) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawRectangle_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawRectangle_y) },
+                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawRectangle_width) },
+                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawRectangle_height) },
                     }));
 
                 methods.Add("DrawResizedImage", new Method(
@@ -842,11 +842,11 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawResizedImage_Parameters_imageName) },
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawResizedImage_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawResizedImage_Parameters_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawResizedImage_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawResizedImage_Parameters_height) },
+                        { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawResizedImage_imageName) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawResizedImage_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawResizedImage_y) },
+                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawResizedImage_width) },
+                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawResizedImage_height) },
                     }));
 
                 methods.Add("DrawText", new Method(
@@ -856,9 +856,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawText_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawText_Parameters_y) },
-                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawText_Parameters_text) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawText_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawText_y) },
+                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawText_text) },
                     }));
 
                 methods.Add("DrawTriangle", new Method(
@@ -868,12 +868,12 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawTriangle_Parameters_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawTriangle_Parameters_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawTriangle_Parameters_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawTriangle_Parameters_y2) },
-                        { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_DrawTriangle_Parameters_x3) },
-                        { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_DrawTriangle_Parameters_y3) },
+                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawTriangle_x1) },
+                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawTriangle_y1) },
+                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawTriangle_x2) },
+                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawTriangle_y2) },
+                        { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_DrawTriangle_x3) },
+                        { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_DrawTriangle_y3) },
                     }));
 
                 methods.Add("FillEllipse", new Method(
@@ -883,10 +883,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillEllipse_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillEllipse_Parameters_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillEllipse_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillEllipse_Parameters_height) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillEllipse_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillEllipse_y) },
+                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillEllipse_width) },
+                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillEllipse_height) },
                     }));
 
                 methods.Add("FillRectangle", new Method(
@@ -896,10 +896,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillRectangle_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillRectangle_Parameters_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillRectangle_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillRectangle_Parameters_height) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillRectangle_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillRectangle_y) },
+                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillRectangle_width) },
+                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillRectangle_height) },
                     }));
 
                 methods.Add("FillTriangle", new Method(
@@ -909,12 +909,12 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_FillTriangle_Parameters_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_FillTriangle_Parameters_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_FillTriangle_Parameters_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_FillTriangle_Parameters_y2) },
-                        { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_FillTriangle_Parameters_x3) },
-                        { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_FillTriangle_Parameters_y3) },
+                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_FillTriangle_x1) },
+                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_FillTriangle_y1) },
+                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_FillTriangle_x2) },
+                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_FillTriangle_y2) },
+                        { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_FillTriangle_x3) },
+                        { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_FillTriangle_y3) },
                     }));
 
                 methods.Add("GetColorFromRGB", new Method(
@@ -924,9 +924,9 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.GraphicsWindow_GetColorFromRGB_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "red", new Parameter("red", LibrariesResources.GraphicsWindow_GetColorFromRGB_Parameters_red) },
-                        { "green", new Parameter("green", LibrariesResources.GraphicsWindow_GetColorFromRGB_Parameters_green) },
-                        { "blue", new Parameter("blue", LibrariesResources.GraphicsWindow_GetColorFromRGB_Parameters_blue) },
+                        { "red", new Parameter("red", LibrariesResources.GraphicsWindow_GetColorFromRGB_red) },
+                        { "green", new Parameter("green", LibrariesResources.GraphicsWindow_GetColorFromRGB_green) },
+                        { "blue", new Parameter("blue", LibrariesResources.GraphicsWindow_GetColorFromRGB_blue) },
                     }));
 
                 methods.Add("GetPixel", new Method(
@@ -936,8 +936,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.GraphicsWindow_GetPixel_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_GetPixel_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_GetPixel_Parameters_y) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_GetPixel_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_GetPixel_y) },
                     }));
 
                 methods.Add("GetRandomColor", new Method(
@@ -961,9 +961,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_SetPixel_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_Parameters_y) },
-                        { "color", new Parameter("color", LibrariesResources.GraphicsWindow_SetPixel_Parameters_color) },
+                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_SetPixel_x) },
+                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_y) },
+                        { "color", new Parameter("color", LibrariesResources.GraphicsWindow_SetPixel_color) },
                     }));
 
                 methods.Add("Show", new Method(
@@ -980,8 +980,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_ShowMessage_Parameters_text) },
-                        { "title", new Parameter("title", LibrariesResources.GraphicsWindow_ShowMessage_Parameters_title) },
+                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_ShowMessage_text) },
+                        { "title", new Parameter("title", LibrariesResources.GraphicsWindow_ShowMessage_title) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -1030,7 +1030,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.ImageList_GetHeightOfImage_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetHeightOfImage_Parameters_imageName) },
+                        { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetHeightOfImage_imageName) },
                     }));
 
                 methods.Add("GetWidthOfImage", new Method(
@@ -1040,7 +1040,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.ImageList_GetWidthOfImage_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetWidthOfImage_Parameters_imageName) },
+                        { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetWidthOfImage_imageName) },
                     }));
 
                 methods.Add("LoadImage", new Method(
@@ -1050,7 +1050,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.ImageList_LoadImage_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "fileNameOrUrl", new Parameter("fileNameOrUrl", LibrariesResources.ImageList_LoadImage_Parameters_fileNameOrUrl) },
+                        { "fileNameOrUrl", new Parameter("fileNameOrUrl", LibrariesResources.ImageList_LoadImage_fileNameOrUrl) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -1071,7 +1071,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Abs_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_Abs_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_Abs_number) },
                     }));
 
                 methods.Add("ArcCos", new Method(
@@ -1081,7 +1081,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_ArcCos_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "cosValue", new Parameter("cosValue", LibrariesResources.Math_ArcCos_Parameters_cosValue) },
+                        { "cosValue", new Parameter("cosValue", LibrariesResources.Math_ArcCos_cosValue) },
                     }));
 
                 methods.Add("ArcSin", new Method(
@@ -1091,7 +1091,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_ArcSin_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "sinValue", new Parameter("sinValue", LibrariesResources.Math_ArcSin_Parameters_sinValue) },
+                        { "sinValue", new Parameter("sinValue", LibrariesResources.Math_ArcSin_sinValue) },
                     }));
 
                 methods.Add("ArcTan", new Method(
@@ -1101,7 +1101,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_ArcTan_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "tanValue", new Parameter("tanValue", LibrariesResources.Math_ArcTan_Parameters_tanValue) },
+                        { "tanValue", new Parameter("tanValue", LibrariesResources.Math_ArcTan_tanValue) },
                     }));
 
                 methods.Add("Ceiling", new Method(
@@ -1111,7 +1111,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Ceiling_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_Ceiling_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_Ceiling_number) },
                     }));
 
                 methods.Add("Cos", new Method(
@@ -1121,7 +1121,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Cos_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_Cos_Parameters_angle) },
+                        { "angle", new Parameter("angle", LibrariesResources.Math_Cos_angle) },
                     }));
 
                 methods.Add("Floor", new Method(
@@ -1131,7 +1131,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Floor_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_Floor_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_Floor_number) },
                     }));
 
                 methods.Add("GetDegrees", new Method(
@@ -1141,7 +1141,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_GetDegrees_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_GetDegrees_Parameters_angle) },
+                        { "angle", new Parameter("angle", LibrariesResources.Math_GetDegrees_angle) },
                     }));
 
                 methods.Add("GetRadians", new Method(
@@ -1151,7 +1151,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_GetRadians_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_GetRadians_Parameters_angle) },
+                        { "angle", new Parameter("angle", LibrariesResources.Math_GetRadians_angle) },
                     }));
 
                 methods.Add("GetRandomNumber", new Method(
@@ -1161,7 +1161,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_GetRandomNumber_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "maxNumber", new Parameter("maxNumber", LibrariesResources.Math_GetRandomNumber_Parameters_maxNumber) },
+                        { "maxNumber", new Parameter("maxNumber", LibrariesResources.Math_GetRandomNumber_maxNumber) },
                     }));
 
                 methods.Add("Log", new Method(
@@ -1171,7 +1171,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Log_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_Log_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_Log_number) },
                     }));
 
                 methods.Add("Max", new Method(
@@ -1181,8 +1181,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Max_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number1", new Parameter("number1", LibrariesResources.Math_Max_Parameters_number1) },
-                        { "number2", new Parameter("number2", LibrariesResources.Math_Max_Parameters_number2) },
+                        { "number1", new Parameter("number1", LibrariesResources.Math_Max_number1) },
+                        { "number2", new Parameter("number2", LibrariesResources.Math_Max_number2) },
                     }));
 
                 methods.Add("Min", new Method(
@@ -1192,8 +1192,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Min_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number1", new Parameter("number1", LibrariesResources.Math_Min_Parameters_number1) },
-                        { "number2", new Parameter("number2", LibrariesResources.Math_Min_Parameters_number2) },
+                        { "number1", new Parameter("number1", LibrariesResources.Math_Min_number1) },
+                        { "number2", new Parameter("number2", LibrariesResources.Math_Min_number2) },
                     }));
 
                 methods.Add("NaturalLog", new Method(
@@ -1203,7 +1203,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_NaturalLog_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_NaturalLog_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_NaturalLog_number) },
                     }));
 
                 methods.Add("Power", new Method(
@@ -1213,8 +1213,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Power_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "baseNumber", new Parameter("baseNumber", LibrariesResources.Math_Power_Parameters_baseNumber) },
-                        { "exponent", new Parameter("exponent", LibrariesResources.Math_Power_Parameters_exponent) },
+                        { "baseNumber", new Parameter("baseNumber", LibrariesResources.Math_Power_baseNumber) },
+                        { "exponent", new Parameter("exponent", LibrariesResources.Math_Power_exponent) },
                     }));
 
                 methods.Add("Remainder", new Method(
@@ -1224,8 +1224,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Remainder_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "dividend", new Parameter("dividend", LibrariesResources.Math_Remainder_Parameters_dividend) },
-                        { "divisor", new Parameter("divisor", LibrariesResources.Math_Remainder_Parameters_divisor) },
+                        { "dividend", new Parameter("dividend", LibrariesResources.Math_Remainder_dividend) },
+                        { "divisor", new Parameter("divisor", LibrariesResources.Math_Remainder_divisor) },
                     }));
 
                 methods.Add("Round", new Method(
@@ -1235,7 +1235,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Round_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_Round_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_Round_number) },
                     }));
 
                 methods.Add("Sin", new Method(
@@ -1245,7 +1245,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Sin_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_Sin_Parameters_angle) },
+                        { "angle", new Parameter("angle", LibrariesResources.Math_Sin_angle) },
                     }));
 
                 methods.Add("SquareRoot", new Method(
@@ -1255,7 +1255,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_SquareRoot_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "number", new Parameter("number", LibrariesResources.Math_SquareRoot_Parameters_number) },
+                        { "number", new Parameter("number", LibrariesResources.Math_SquareRoot_number) },
                     }));
 
                 methods.Add("Tan", new Method(
@@ -1265,7 +1265,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Math_Tan_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_Tan_Parameters_angle) },
+                        { "angle", new Parameter("angle", LibrariesResources.Math_Tan_angle) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -1320,7 +1320,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Network_DownloadFile_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "url", new Parameter("url", LibrariesResources.Network_DownloadFile_Parameters_url) },
+                        { "url", new Parameter("url", LibrariesResources.Network_DownloadFile_url) },
                     }));
 
                 methods.Add("GetWebPageContents", new Method(
@@ -1330,7 +1330,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Network_GetWebPageContents_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "url", new Parameter("url", LibrariesResources.Network_GetWebPageContents_Parameters_url) },
+                        { "url", new Parameter("url", LibrariesResources.Network_GetWebPageContents_url) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -1351,7 +1351,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "milliSeconds", new Parameter("milliSeconds", LibrariesResources.Program_Delay_Parameters_milliSeconds) },
+                        { "milliSeconds", new Parameter("milliSeconds", LibrariesResources.Program_Delay_milliSeconds) },
                     }));
 
                 methods.Add("End", new Method(
@@ -1368,7 +1368,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Program_GetArgument_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "index", new Parameter("index", LibrariesResources.Program_GetArgument_Parameters_index) },
+                        { "index", new Parameter("index", LibrariesResources.Program_GetArgument_index) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -1393,8 +1393,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_AddEllipse_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "width", new Parameter("width", LibrariesResources.Shapes_AddEllipse_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.Shapes_AddEllipse_Parameters_height) },
+                        { "width", new Parameter("width", LibrariesResources.Shapes_AddEllipse_width) },
+                        { "height", new Parameter("height", LibrariesResources.Shapes_AddEllipse_height) },
                     }));
 
                 methods.Add("AddImage", new Method(
@@ -1404,7 +1404,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_AddImage_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "imageName", new Parameter("imageName", LibrariesResources.Shapes_AddImage_Parameters_imageName) },
+                        { "imageName", new Parameter("imageName", LibrariesResources.Shapes_AddImage_imageName) },
                     }));
 
                 methods.Add("AddLine", new Method(
@@ -1414,10 +1414,10 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_AddLine_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "x1", new Parameter("x1", LibrariesResources.Shapes_AddLine_Parameters_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.Shapes_AddLine_Parameters_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.Shapes_AddLine_Parameters_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.Shapes_AddLine_Parameters_y2) },
+                        { "x1", new Parameter("x1", LibrariesResources.Shapes_AddLine_x1) },
+                        { "y1", new Parameter("y1", LibrariesResources.Shapes_AddLine_y1) },
+                        { "x2", new Parameter("x2", LibrariesResources.Shapes_AddLine_x2) },
+                        { "y2", new Parameter("y2", LibrariesResources.Shapes_AddLine_y2) },
                     }));
 
                 methods.Add("AddRectangle", new Method(
@@ -1427,8 +1427,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_AddRectangle_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "width", new Parameter("width", LibrariesResources.Shapes_AddRectangle_Parameters_width) },
-                        { "height", new Parameter("height", LibrariesResources.Shapes_AddRectangle_Parameters_height) },
+                        { "width", new Parameter("width", LibrariesResources.Shapes_AddRectangle_width) },
+                        { "height", new Parameter("height", LibrariesResources.Shapes_AddRectangle_height) },
                     }));
 
                 methods.Add("AddText", new Method(
@@ -1438,7 +1438,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_AddText_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Shapes_AddText_Parameters_text) },
+                        { "text", new Parameter("text", LibrariesResources.Shapes_AddText_text) },
                     }));
 
                 methods.Add("AddTriangle", new Method(
@@ -1448,12 +1448,12 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_AddTriangle_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "x1", new Parameter("x1", LibrariesResources.Shapes_AddTriangle_Parameters_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.Shapes_AddTriangle_Parameters_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.Shapes_AddTriangle_Parameters_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.Shapes_AddTriangle_Parameters_y2) },
-                        { "x3", new Parameter("x3", LibrariesResources.Shapes_AddTriangle_Parameters_x3) },
-                        { "y3", new Parameter("y3", LibrariesResources.Shapes_AddTriangle_Parameters_y3) },
+                        { "x1", new Parameter("x1", LibrariesResources.Shapes_AddTriangle_x1) },
+                        { "y1", new Parameter("y1", LibrariesResources.Shapes_AddTriangle_y1) },
+                        { "x2", new Parameter("x2", LibrariesResources.Shapes_AddTriangle_x2) },
+                        { "y2", new Parameter("y2", LibrariesResources.Shapes_AddTriangle_y2) },
+                        { "x3", new Parameter("x3", LibrariesResources.Shapes_AddTriangle_x3) },
+                        { "y3", new Parameter("y3", LibrariesResources.Shapes_AddTriangle_y3) },
                     }));
 
                 methods.Add("Animate", new Method(
@@ -1463,10 +1463,10 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Animate_Parameters_shapeName) },
-                        { "x", new Parameter("x", LibrariesResources.Shapes_Animate_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.Shapes_Animate_Parameters_y) },
-                        { "duration", new Parameter("duration", LibrariesResources.Shapes_Animate_Parameters_duration) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Animate_shapeName) },
+                        { "x", new Parameter("x", LibrariesResources.Shapes_Animate_x) },
+                        { "y", new Parameter("y", LibrariesResources.Shapes_Animate_y) },
+                        { "duration", new Parameter("duration", LibrariesResources.Shapes_Animate_duration) },
                     }));
 
                 methods.Add("GetLeft", new Method(
@@ -1476,7 +1476,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_GetLeft_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetLeft_Parameters_shapeName) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetLeft_shapeName) },
                     }));
 
                 methods.Add("GetOpacity", new Method(
@@ -1486,7 +1486,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_GetOpacity_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetOpacity_Parameters_shapeName) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetOpacity_shapeName) },
                     }));
 
                 methods.Add("GetTop", new Method(
@@ -1496,7 +1496,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Shapes_GetTop_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetTop_Parameters_shapeName) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetTop_shapeName) },
                     }));
 
                 methods.Add("HideShape", new Method(
@@ -1506,7 +1506,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_HideShape_Parameters_shapeName) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_HideShape_shapeName) },
                     }));
 
                 methods.Add("Move", new Method(
@@ -1516,9 +1516,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Move_Parameters_shapeName) },
-                        { "x", new Parameter("x", LibrariesResources.Shapes_Move_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.Shapes_Move_Parameters_y) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Move_shapeName) },
+                        { "x", new Parameter("x", LibrariesResources.Shapes_Move_x) },
+                        { "y", new Parameter("y", LibrariesResources.Shapes_Move_y) },
                     }));
 
                 methods.Add("Remove", new Method(
@@ -1528,7 +1528,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Remove_Parameters_shapeName) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Remove_shapeName) },
                     }));
 
                 methods.Add("Rotate", new Method(
@@ -1538,8 +1538,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Rotate_Parameters_shapeName) },
-                        { "angle", new Parameter("angle", LibrariesResources.Shapes_Rotate_Parameters_angle) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Rotate_shapeName) },
+                        { "angle", new Parameter("angle", LibrariesResources.Shapes_Rotate_angle) },
                     }));
 
                 methods.Add("SetOpacity", new Method(
@@ -1549,8 +1549,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetOpacity_Parameters_shapeName) },
-                        { "level", new Parameter("level", LibrariesResources.Shapes_SetOpacity_Parameters_level) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetOpacity_shapeName) },
+                        { "level", new Parameter("level", LibrariesResources.Shapes_SetOpacity_level) },
                     }));
 
                 methods.Add("SetText", new Method(
@@ -1560,8 +1560,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetText_Parameters_shapeName) },
-                        { "text", new Parameter("text", LibrariesResources.Shapes_SetText_Parameters_text) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetText_shapeName) },
+                        { "text", new Parameter("text", LibrariesResources.Shapes_SetText_text) },
                     }));
 
                 methods.Add("ShowShape", new Method(
@@ -1571,7 +1571,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_ShowShape_Parameters_shapeName) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_ShowShape_shapeName) },
                     }));
 
                 methods.Add("Zoom", new Method(
@@ -1581,9 +1581,9 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Zoom_Parameters_shapeName) },
-                        { "scaleX", new Parameter("scaleX", LibrariesResources.Shapes_Zoom_Parameters_scaleX) },
-                        { "scaleY", new Parameter("scaleY", LibrariesResources.Shapes_Zoom_Parameters_scaleY) },
+                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Zoom_shapeName) },
+                        { "scaleX", new Parameter("scaleX", LibrariesResources.Shapes_Zoom_scaleX) },
+                        { "scaleY", new Parameter("scaleY", LibrariesResources.Shapes_Zoom_scaleY) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -1604,7 +1604,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Pause_Parameters_filePath) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Pause_filePath) },
                     }));
 
                 methods.Add("Play", new Method(
@@ -1614,7 +1614,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Play_Parameters_filePath) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Play_filePath) },
                     }));
 
                 methods.Add("PlayAndWait", new Method(
@@ -1624,7 +1624,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_PlayAndWait_Parameters_filePath) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_PlayAndWait_filePath) },
                     }));
 
                 methods.Add("PlayBellRing", new Method(
@@ -1690,7 +1690,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "notes", new Parameter("notes", LibrariesResources.Sound_PlayMusic_Parameters_notes) },
+                        { "notes", new Parameter("notes", LibrariesResources.Sound_PlayMusic_notes) },
                     }));
 
                 methods.Add("Stop", new Method(
@@ -1700,7 +1700,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Stop_Parameters_filePath) },
+                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Stop_filePath) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -1721,7 +1721,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Stack_GetCount_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_GetCount_Parameters_stackName) },
+                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_GetCount_stackName) },
                     }));
 
                 methods.Add("PopValue", new Method(
@@ -1731,7 +1731,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Stack_PopValue_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_PopValue_Parameters_stackName) },
+                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_PopValue_stackName) },
                     }));
 
                 methods.Add("PushValue", new Method(
@@ -1741,8 +1741,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_PushValue_Parameters_stackName) },
-                        { "value", new Parameter("value", LibrariesResources.Stack_PushValue_Parameters_value) },
+                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_PushValue_stackName) },
+                        { "value", new Parameter("value", LibrariesResources.Stack_PushValue_value) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -1763,8 +1763,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_Append_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text1", new Parameter("text1", LibrariesResources.Text_Append_Parameters_text1) },
-                        { "text2", new Parameter("text2", LibrariesResources.Text_Append_Parameters_text2) },
+                        { "text1", new Parameter("text1", LibrariesResources.Text_Append_text1) },
+                        { "text2", new Parameter("text2", LibrariesResources.Text_Append_text2) },
                     }));
 
                 methods.Add("ConvertToLowerCase", new Method(
@@ -1774,7 +1774,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_ConvertToLowerCase_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_ConvertToLowerCase_Parameters_text) },
+                        { "text", new Parameter("text", LibrariesResources.Text_ConvertToLowerCase_text) },
                     }));
 
                 methods.Add("ConvertToUpperCase", new Method(
@@ -1784,7 +1784,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_ConvertToUpperCase_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_ConvertToUpperCase_Parameters_text) },
+                        { "text", new Parameter("text", LibrariesResources.Text_ConvertToUpperCase_text) },
                     }));
 
                 methods.Add("EndsWith", new Method(
@@ -1794,8 +1794,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_EndsWith_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_EndsWith_Parameters_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_EndsWith_Parameters_subText) },
+                        { "text", new Parameter("text", LibrariesResources.Text_EndsWith_text) },
+                        { "subText", new Parameter("subText", LibrariesResources.Text_EndsWith_subText) },
                     }));
 
                 methods.Add("GetCharacter", new Method(
@@ -1805,7 +1805,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_GetCharacter_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "characterCode", new Parameter("characterCode", LibrariesResources.Text_GetCharacter_Parameters_characterCode) },
+                        { "characterCode", new Parameter("characterCode", LibrariesResources.Text_GetCharacter_characterCode) },
                     }));
 
                 methods.Add("GetCharacterCode", new Method(
@@ -1815,7 +1815,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_GetCharacterCode_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "character", new Parameter("character", LibrariesResources.Text_GetCharacterCode_Parameters_character) },
+                        { "character", new Parameter("character", LibrariesResources.Text_GetCharacterCode_character) },
                     }));
 
                 methods.Add("GetIndexOf", new Method(
@@ -1825,8 +1825,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_GetIndexOf_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetIndexOf_Parameters_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_GetIndexOf_Parameters_subText) },
+                        { "text", new Parameter("text", LibrariesResources.Text_GetIndexOf_text) },
+                        { "subText", new Parameter("subText", LibrariesResources.Text_GetIndexOf_subText) },
                     }));
 
                 methods.Add("GetLength", new Method(
@@ -1836,7 +1836,7 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_GetLength_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetLength_Parameters_text) },
+                        { "text", new Parameter("text", LibrariesResources.Text_GetLength_text) },
                     }));
 
                 methods.Add("GetSubText", new Method(
@@ -1846,9 +1846,9 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_GetSubText_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetSubText_Parameters_text) },
-                        { "start", new Parameter("start", LibrariesResources.Text_GetSubText_Parameters_start) },
-                        { "length", new Parameter("length", LibrariesResources.Text_GetSubText_Parameters_length) },
+                        { "text", new Parameter("text", LibrariesResources.Text_GetSubText_text) },
+                        { "start", new Parameter("start", LibrariesResources.Text_GetSubText_start) },
+                        { "length", new Parameter("length", LibrariesResources.Text_GetSubText_length) },
                     }));
 
                 methods.Add("GetSubTextToEnd", new Method(
@@ -1858,8 +1858,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_GetSubTextToEnd_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetSubTextToEnd_Parameters_text) },
-                        { "start", new Parameter("start", LibrariesResources.Text_GetSubTextToEnd_Parameters_start) },
+                        { "text", new Parameter("text", LibrariesResources.Text_GetSubTextToEnd_text) },
+                        { "start", new Parameter("start", LibrariesResources.Text_GetSubTextToEnd_start) },
                     }));
 
                 methods.Add("IsSubText", new Method(
@@ -1869,8 +1869,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_IsSubText_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_IsSubText_Parameters_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_IsSubText_Parameters_subText) },
+                        { "text", new Parameter("text", LibrariesResources.Text_IsSubText_text) },
+                        { "subText", new Parameter("subText", LibrariesResources.Text_IsSubText_subText) },
                     }));
 
                 methods.Add("StartsWith", new Method(
@@ -1880,8 +1880,8 @@ namespace SuperBasic.Compiler.Binding
                     LibrariesResources.Text_StartsWith_ReturnValue,
                     new Dictionary<string, Parameter>
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_StartsWith_Parameters_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_StartsWith_Parameters_subText) },
+                        { "text", new Parameter("text", LibrariesResources.Text_StartsWith_text) },
+                        { "subText", new Parameter("subText", LibrariesResources.Text_StartsWith_subText) },
                     }));
 
                 var properties = new Dictionary<string, Property>();
@@ -1958,7 +1958,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "data", new Parameter("data", LibrariesResources.TextWindow_Write_Parameters_data) },
+                        { "data", new Parameter("data", LibrariesResources.TextWindow_Write_data) },
                     }));
 
                 methods.Add("WriteLine", new Method(
@@ -1968,7 +1968,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "data", new Parameter("data", LibrariesResources.TextWindow_WriteLine_Parameters_data) },
+                        { "data", new Parameter("data", LibrariesResources.TextWindow_WriteLine_data) },
                     }));
 
                 var properties = new Dictionary<string, Property>
@@ -2036,7 +2036,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "distance", new Parameter("distance", LibrariesResources.Turtle_Move_Parameters_distance) },
+                        { "distance", new Parameter("distance", LibrariesResources.Turtle_Move_distance) },
                     }));
 
                 methods.Add("MoveTo", new Method(
@@ -2046,8 +2046,8 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "x", new Parameter("x", LibrariesResources.Turtle_MoveTo_Parameters_x) },
-                        { "y", new Parameter("y", LibrariesResources.Turtle_MoveTo_Parameters_y) },
+                        { "x", new Parameter("x", LibrariesResources.Turtle_MoveTo_x) },
+                        { "y", new Parameter("y", LibrariesResources.Turtle_MoveTo_y) },
                     }));
 
                 methods.Add("PenDown", new Method(
@@ -2078,7 +2078,7 @@ namespace SuperBasic.Compiler.Binding
                     returnValueDescription: null,
                     new Dictionary<string, Parameter>
                     {
-                        { "angle", new Parameter("angle", LibrariesResources.Turtle_Turn_Parameters_angle) },
+                        { "angle", new Parameter("angle", LibrariesResources.Turtle_Turn_angle) },
                     }));
 
                 methods.Add("TurnLeft", new Method(

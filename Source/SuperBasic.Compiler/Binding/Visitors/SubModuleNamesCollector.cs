@@ -23,11 +23,7 @@ namespace SuperBasic.Compiler.Binding
 
         public override void VisitSubModuleStatement(SubModuleStatementSyntax node)
         {
-            string name = node.NameToken.Text;
-            if (!this.names.Add(name))
-            {
-                this.diagnostics.ReportTwoSubModulesWithTheSameName(node.NameToken.Range, name);
-            }
+            this.names.Add(node.NameToken.Text);
         }
     }
 }

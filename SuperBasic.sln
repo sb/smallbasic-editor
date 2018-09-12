@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Utilities", "Sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Compiler", "Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj", "{3393CEA2-C5E4-4A42-95BA-E3F89159D944}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Compiler.Tests", "Source\SuperBasic.Compiler.Tests\SuperBasic.Compiler.Tests.csproj", "{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Tests", "Source\SuperBasic.Tests\SuperBasic.Tests.csproj", "{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperBasic.Analyzers", "Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj", "{26DB4C77-E15E-46A5-A81C-B2FB0C7AF621}"
 EndProject

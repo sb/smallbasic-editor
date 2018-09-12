@@ -118,7 +118,7 @@
   <SyntaxNode Name="BinaryOperatorExpressionSyntax" Inherits="BaseExpressionSyntax">
     <Members>
       <Member Name="Left" Type="BaseExpressionSyntax" />
-      <Member Name="OperatorToken" Type="Token" TokenKinds="Equal,NotEqual,Plus,Minus,Multiply,Divide,Colon,LessThan,GreaterThan,LessThanOrEqual,GreaterThanOrEqual" />
+      <Member Name="OperatorToken" Type="Token" TokenKinds="Equal,NotEqual,Plus,Minus,Multiply,Divide,Colon,LessThan,GreaterThan,LessThanOrEqual,GreaterThanOrEqual,And,Or" />
       <Member Name="Right" Type="BaseExpressionSyntax" />
     </Members>
   </SyntaxNode>
