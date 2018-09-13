@@ -7,15 +7,26 @@ namespace SuperBasic.Compiler.Runtime
     using System;
     using SuperBasic.Compiler.Scanning;
 
-    internal sealed class NegateInstruction : BaseUnaryInstruction
+    internal sealed class UnaryMinusInstruction : BaseUnaryInstruction
     {
-        public NegateInstruction(TextRange range)
+        public UnaryMinusInstruction(TextRange range)
             : base(range)
         {
         }
 
         protected override BaseValue Execute(BaseValue value)
             => new NumberValue(-value.ToNumber());
+    }
+
+    internal sealed class NegateBooleanInstruction : BaseUnaryInstruction
+    {
+        public NegateBooleanInstruction(TextRange range)
+            : base(range)
+        {
+        }
+
+        protected override BaseValue Execute(BaseValue value)
+            => new BooleanValue(!value.ToBoolean());
     }
 
     internal sealed class EqualInstruction : BaseBinaryInstruction

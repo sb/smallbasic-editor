@@ -19,7 +19,7 @@
   <SyntaxNode Name="IfPartSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="IfToken" Type="Token" TokenKinds="If" />
-      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="Condition" Type="BaseExpressionSyntax" />
       <Member Name="ThenToken" Type="Token" TokenKinds="Then" />
       <Member Name="Body" Type="StatementBlockSyntax" />
     </Members>
@@ -27,7 +27,7 @@
   <SyntaxNode Name="ElseIfPartSyntax" Inherits="BaseSyntaxNode">
     <Members>
       <Member Name="ElseIfToken" Type="Token" TokenKinds="ElseIf" />
-      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="Condition" Type="BaseExpressionSyntax" />
       <Member Name="ThenToken" Type="Token" TokenKinds="Then" />
       <Member Name="Body" Type="StatementBlockSyntax" />
     </Members>
@@ -50,7 +50,7 @@
   <SyntaxNode Name="WhileStatementSyntax" Inherits="BaseStatementSyntax">
     <Members>
       <Member Name="WhileToken" Type="Token" TokenKinds="While" />
-      <Member Name="Expression" Type="BaseExpressionSyntax" />
+      <Member Name="Condition" Type="BaseExpressionSyntax" />
       <Member Name="Body" Type="StatementBlockSyntax" />
       <Member Name="EndWhileToken" Type="Token" TokenKinds="EndWhile" />
     </Members>

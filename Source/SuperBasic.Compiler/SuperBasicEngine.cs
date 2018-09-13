@@ -7,6 +7,7 @@ namespace SuperBasic.Compiler
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
 
@@ -42,8 +43,14 @@ namespace SuperBasic.Compiler
             this.Memory = new ArrayValue();
             this.Modules = new Dictionary<string, RuntimeModule>();
 
-            // TODO: emit compilation into this.modules
-            // add main to exeuction stack
+            RuntimeModule mainModule = this.EmitAndSaveModule("Program", compilation.MainModule);
+
+            foreach (BoundSubModule subModule in compilation.SubModules.Values)
+            {
+                this.EmitAndSaveModule(subModule.Name, subModule.Body);
+            }
+
+            this.ExecutionStack.Push(new Frame(mainModule));
         }
 
         public ExecutionState State { get; private set; }
@@ -123,6 +130,15 @@ namespace SuperBasic.Compiler
         {
             Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be blocked.");
             this.State = ExecutionState.BlockedOnNumberInput;
+        }
+
+        private RuntimeModule EmitAndSaveModule(string name, BoundStatementBlock body)
+        {
+            ModuleEmitter emitter = new ModuleEmitter(body);
+            RuntimeModule module = new RuntimeModule(name, emitter.Instructions);
+
+            this.Modules.Add(module.Name, module);
+            return module;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SuperBasic.Generators.Binding
 
     public sealed class GenerateBoundNodes : BaseGeneratorTask<BoundNodeCollection>
     {
-        private readonly string[] nonChildrenTypes = new[] { "string", "bool", "double", "TokenKind" };
+        private readonly string[] nonChildrenTypes = new[] { "string", "bool", "decimal", "TokenKind" };
 
         protected override void Generate(BoundNodeCollection model)
         {

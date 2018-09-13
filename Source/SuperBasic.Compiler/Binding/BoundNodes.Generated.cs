@@ -75,20 +75,20 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundIfPart : BaseBoundNode
     {
-        public BoundIfPart(IfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
+        public BoundIfPart(IfPartSyntax syntax, BaseBoundExpression condition, BoundStatementBlock body)
         {
             Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
-            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!condition.IsDefault(), "'condition' must not be null.");
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
-            this.Expression = expression;
+            this.Condition = condition;
             this.Body = body;
         }
 
         public IfPartSyntax Syntax { get; private set; }
 
-        public BaseBoundExpression Expression { get; private set; }
+        public BaseBoundExpression Condition { get; private set; }
 
         public BoundStatementBlock Body { get; private set; }
 
@@ -96,7 +96,7 @@ namespace SuperBasic.Compiler.Binding
         {
             get
             {
-                yield return this.Expression;
+                yield return this.Condition;
                 yield return this.Body;
             }
         }
@@ -104,20 +104,20 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundElseIfPart : BaseBoundNode
     {
-        public BoundElseIfPart(ElseIfPartSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
+        public BoundElseIfPart(ElseIfPartSyntax syntax, BaseBoundExpression condition, BoundStatementBlock body)
         {
             Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
-            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!condition.IsDefault(), "'condition' must not be null.");
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
-            this.Expression = expression;
+            this.Condition = condition;
             this.Body = body;
         }
 
         public ElseIfPartSyntax Syntax { get; private set; }
 
-        public BaseBoundExpression Expression { get; private set; }
+        public BaseBoundExpression Condition { get; private set; }
 
         public BoundStatementBlock Body { get; private set; }
 
@@ -125,7 +125,7 @@ namespace SuperBasic.Compiler.Binding
         {
             get
             {
-                yield return this.Expression;
+                yield return this.Condition;
                 yield return this.Body;
             }
         }
@@ -197,20 +197,20 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundWhileStatement : BaseBoundStatement
     {
-        public BoundWhileStatement(WhileStatementSyntax syntax, BaseBoundExpression expression, BoundStatementBlock body)
+        public BoundWhileStatement(WhileStatementSyntax syntax, BaseBoundExpression condition, BoundStatementBlock body)
         {
             Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
-            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!condition.IsDefault(), "'condition' must not be null.");
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Syntax = syntax;
-            this.Expression = expression;
+            this.Condition = condition;
             this.Body = body;
         }
 
         public WhileStatementSyntax Syntax { get; private set; }
 
-        public BaseBoundExpression Expression { get; private set; }
+        public BaseBoundExpression Condition { get; private set; }
 
         public BoundStatementBlock Body { get; private set; }
 
@@ -218,7 +218,7 @@ namespace SuperBasic.Compiler.Binding
         {
             get
             {
-                yield return this.Expression;
+                yield return this.Condition;
                 yield return this.Body;
             }
         }
@@ -841,19 +841,19 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundVariableExpression : BaseBoundExpression
     {
-        public BoundVariableExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string name)
+        public BoundVariableExpression(IdentifierExpressionSyntax syntax, bool hasValue, bool hasErrors, string variable)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
-            Debug.Assert(!name.IsDefault(), "'name' must not be null.");
+            Debug.Assert(!variable.IsDefault(), "'variable' must not be null.");
 
             this.Syntax = syntax;
-            this.Name = name;
+            this.Variable = variable;
         }
 
         public IdentifierExpressionSyntax Syntax { get; private set; }
 
-        public string Name { get; private set; }
+        public string Variable { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
@@ -891,7 +891,7 @@ namespace SuperBasic.Compiler.Binding
 
     internal sealed class BoundNumberLiteralExpression : BaseBoundExpression
     {
-        public BoundNumberLiteralExpression(NumberLiteralExpressionSyntax syntax, bool hasValue, bool hasErrors, double value)
+        public BoundNumberLiteralExpression(NumberLiteralExpressionSyntax syntax, bool hasValue, bool hasErrors, decimal value)
             : base(hasValue, hasErrors)
         {
             Debug.Assert(!syntax.IsDefault(), "'syntax' must not be null.");
@@ -903,7 +903,7 @@ namespace SuperBasic.Compiler.Binding
 
         public NumberLiteralExpressionSyntax Syntax { get; private set; }
 
-        public double Value { get; private set; }
+        public decimal Value { get; private set; }
 
         public override IEnumerable<BaseBoundNode> Children
         {
