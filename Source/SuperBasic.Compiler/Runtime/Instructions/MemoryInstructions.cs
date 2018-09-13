@@ -122,11 +122,11 @@ namespace SuperBasic.Compiler.Runtime
         }
     }
 
-    internal sealed class PushNumberInstruction : BaseNonJumpInstruction
+    internal sealed class PushValueInstruction : BaseNonJumpInstruction
     {
-        private readonly decimal value;
+        private readonly BaseValue value;
 
-        public PushNumberInstruction(decimal value, TextRange range)
+        public PushValueInstruction(BaseValue value, TextRange range)
             : base(range)
         {
             this.value = value;
@@ -134,23 +134,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            engine.EvaluationStack.Push(new NumberValue(this.value));
-        }
-    }
-
-    internal sealed class PushStringInstruction : BaseNonJumpInstruction
-    {
-        private readonly string value;
-
-        public PushStringInstruction(string value, TextRange range)
-            : base(range)
-        {
-            this.value = value;
-        }
-
-        protected override void Execute(SuperBasicEngine engine)
-        {
-            engine.EvaluationStack.Push(StringValue.Create(this.value));
+            engine.EvaluationStack.Push(this.value);
         }
     }
 }

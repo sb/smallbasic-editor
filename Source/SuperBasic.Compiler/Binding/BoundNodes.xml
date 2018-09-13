@@ -16,13 +16,13 @@
 
   <BoundNode Name="BoundIfPart" Inherits="BaseBoundNode" Syntax="IfPartSyntax">
     <Members>
-      <Member Name="Expression" Type="BaseBoundExpression" />
+      <Member Name="Condition" Type="BaseBoundExpression" />
       <Member Name="Body" Type="BoundStatementBlock" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundElseIfPart" Inherits="BaseBoundNode" Syntax="ElseIfPartSyntax">
     <Members>
-      <Member Name="Expression" Type="BaseBoundExpression" />
+      <Member Name="Condition" Type="BaseBoundExpression" />
       <Member Name="Body" Type="BoundStatementBlock" />
     </Members>
   </BoundNode>
@@ -41,7 +41,7 @@
 
   <BoundNode Name="BoundWhileStatement" Inherits="BaseBoundStatement" Syntax="WhileStatementSyntax">
     <Members>
-      <Member Name="Expression" Type="BaseBoundExpression" />
+      <Member Name="Condition" Type="BaseBoundExpression" />
       <Member Name="Body" Type="BoundStatementBlock" />
     </Members>
   </BoundNode>
@@ -180,7 +180,7 @@
   </BoundNode>
   <BoundNode Name="BoundVariableExpression" Inherits="BaseBoundExpression" Syntax="IdentifierExpressionSyntax">
     <Members>
-      <Member Name="Name" Type="string" />
+      <Member Name="Variable" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundStringLiteralExpression" Inherits="BaseBoundExpression" Syntax="StringLiteralExpressionSyntax">
@@ -190,7 +190,7 @@
   </BoundNode>
   <BoundNode Name="BoundNumberLiteralExpression" Inherits="BaseBoundExpression" Syntax="NumberLiteralExpressionSyntax">
     <Members>
-      <Member Name="Value" Type="double" />
+      <Member Name="Value" Type="decimal" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundParenthesisExpression" Inherits="BaseBoundExpression" Syntax="ParenthesisExpressionSyntax">

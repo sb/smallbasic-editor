@@ -126,24 +126,24 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class IfPartSyntax : BaseSyntaxNode
     {
-        public IfPartSyntax(Token ifToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax body)
+        public IfPartSyntax(Token ifToken, BaseExpressionSyntax condition, Token thenToken, StatementBlockSyntax body)
         {
             Debug.Assert(!ifToken.IsDefault(), "'ifToken' must not be null.");
             Debug.Assert(ifToken.Kind == TokenKind.If, "'ifToken' must have a TokenKind of 'If'.");
-            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!condition.IsDefault(), "'condition' must not be null.");
             Debug.Assert(!thenToken.IsDefault(), "'thenToken' must not be null.");
             Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.IfToken = ifToken;
-            this.Expression = expression;
+            this.Condition = condition;
             this.ThenToken = thenToken;
             this.Body = body;
         }
 
         public Token IfToken { get; private set; }
 
-        public BaseExpressionSyntax Expression { get; private set; }
+        public BaseExpressionSyntax Condition { get; private set; }
 
         public Token ThenToken { get; private set; }
 
@@ -153,7 +153,7 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.Expression;
+                yield return this.Condition;
                 yield return this.Body;
             }
         }
@@ -179,24 +179,24 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class ElseIfPartSyntax : BaseSyntaxNode
     {
-        public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax expression, Token thenToken, StatementBlockSyntax body)
+        public ElseIfPartSyntax(Token elseIfToken, BaseExpressionSyntax condition, Token thenToken, StatementBlockSyntax body)
         {
             Debug.Assert(!elseIfToken.IsDefault(), "'elseIfToken' must not be null.");
             Debug.Assert(elseIfToken.Kind == TokenKind.ElseIf, "'elseIfToken' must have a TokenKind of 'ElseIf'.");
-            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!condition.IsDefault(), "'condition' must not be null.");
             Debug.Assert(!thenToken.IsDefault(), "'thenToken' must not be null.");
             Debug.Assert(thenToken.Kind == TokenKind.Then, "'thenToken' must have a TokenKind of 'Then'.");
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.ElseIfToken = elseIfToken;
-            this.Expression = expression;
+            this.Condition = condition;
             this.ThenToken = thenToken;
             this.Body = body;
         }
 
         public Token ElseIfToken { get; private set; }
 
-        public BaseExpressionSyntax Expression { get; private set; }
+        public BaseExpressionSyntax Condition { get; private set; }
 
         public Token ThenToken { get; private set; }
 
@@ -206,7 +206,7 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.Expression;
+                yield return this.Condition;
                 yield return this.Body;
             }
         }
@@ -334,24 +334,24 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class WhileStatementSyntax : BaseStatementSyntax
     {
-        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax expression, StatementBlockSyntax body, Token endWhileToken)
+        public WhileStatementSyntax(Token whileToken, BaseExpressionSyntax condition, StatementBlockSyntax body, Token endWhileToken)
         {
             Debug.Assert(!whileToken.IsDefault(), "'whileToken' must not be null.");
             Debug.Assert(whileToken.Kind == TokenKind.While, "'whileToken' must have a TokenKind of 'While'.");
-            Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
+            Debug.Assert(!condition.IsDefault(), "'condition' must not be null.");
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
             Debug.Assert(!endWhileToken.IsDefault(), "'endWhileToken' must not be null.");
             Debug.Assert(endWhileToken.Kind == TokenKind.EndWhile, "'endWhileToken' must have a TokenKind of 'EndWhile'.");
 
             this.WhileToken = whileToken;
-            this.Expression = expression;
+            this.Condition = condition;
             this.Body = body;
             this.EndWhileToken = endWhileToken;
         }
 
         public Token WhileToken { get; private set; }
 
-        public BaseExpressionSyntax Expression { get; private set; }
+        public BaseExpressionSyntax Condition { get; private set; }
 
         public StatementBlockSyntax Body { get; private set; }
 
@@ -361,7 +361,7 @@ namespace SuperBasic.Compiler.Parsing
         {
             get
             {
-                yield return this.Expression;
+                yield return this.Condition;
                 yield return this.Body;
             }
         }

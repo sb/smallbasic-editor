@@ -126,14 +126,14 @@ namespace SuperBasic.Compiler.Binding
 
         private BoundIfStatement BindIfStatement(IfStatementSyntax syntax)
         {
-            BaseBoundExpression ifExpression = this.BindExpression(syntax.IfPart.Expression);
+            BaseBoundExpression ifExpression = this.BindExpression(syntax.IfPart.Condition);
             BoundStatementBlock ifBody = this.BindStatementBlock(syntax.IfPart.Body);
             BoundIfPart ifPart = new BoundIfPart(syntax.IfPart, ifExpression, ifBody);
 
             List<BoundElseIfPart> elseIfParts = new List<BoundElseIfPart>();
             foreach (var part in syntax.ElseIfParts)
             {
-                BaseBoundExpression elseIfExpression = this.BindExpression(part.Expression);
+                BaseBoundExpression elseIfExpression = this.BindExpression(part.Condition);
                 BoundStatementBlock elseIfBody = this.BindStatementBlock(part.Body);
                 elseIfParts.Add(new BoundElseIfPart(part, elseIfExpression, elseIfBody));
             }
@@ -150,7 +150,7 @@ namespace SuperBasic.Compiler.Binding
 
         private BoundWhileStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
-            BaseBoundExpression expression = this.BindExpression(syntax.Expression);
+            BaseBoundExpression expression = this.BindExpression(syntax.Condition);
             BoundStatementBlock body = this.BindStatementBlock(syntax.Body);
 
             return new BoundWhileStatement(syntax, expression, body);
@@ -219,7 +219,7 @@ namespace SuperBasic.Compiler.Binding
             {
                 case BoundVariableExpression variable:
                     {
-                        return new BoundVariableAssignmentStatement(syntax, variable.Name, assignment.Right);
+                        return new BoundVariableAssignmentStatement(syntax, variable.Variable, assignment.Right);
                     }
 
                 case BoundArrayAccessExpression arrayAccess:
@@ -338,7 +338,7 @@ namespace SuperBasic.Compiler.Binding
 
                 case BoundVariableExpression variable:
                     {
-                        arrayName = variable.Name;
+                        arrayName = variable.Variable;
                         indices.Add(indexExpression);
                         break;
                     }
@@ -385,7 +385,7 @@ namespace SuperBasic.Compiler.Binding
         {
             string value = syntax.NumberToken.Text;
 
-            if (double.TryParse(value, out double result))
+            if (decimal.TryParse(value, out decimal result))
             {
                 return new BoundNumberLiteralExpression(syntax, hasValue: true, hasErrors: false, result);
             }

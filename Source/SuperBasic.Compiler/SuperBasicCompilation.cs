@@ -20,10 +20,17 @@ namespace SuperBasic.Compiler
             var scanner = new Scanner(this.Text, this.diagnostics);
             var parser = new Parser(scanner.Tokens, this.diagnostics);
             var binder = new Binder(parser.SyntaxTree, this.diagnostics);
+
+            this.MainModule = binder.MainModule;
+            this.SubModules = binder.SubModules;
         }
 
         public string Text { get; private set; }
 
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
+
+        internal BoundStatementBlock MainModule { get; private set; }
+
+        internal IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
     }
 }

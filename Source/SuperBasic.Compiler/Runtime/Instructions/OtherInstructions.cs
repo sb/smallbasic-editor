@@ -80,4 +80,24 @@ namespace SuperBasic.Compiler.Runtime
             engine.EvaluationStack.Push(value);
         }
     }
+
+    internal sealed class SetEventCallBackInstruction : BaseNonJumpInstruction
+    {
+        private readonly string library;
+        private readonly string eventName;
+        private readonly string subModule;
+
+        public SetEventCallBackInstruction(string library, string eventName, string subModule, TextRange range)
+            : base(range)
+        {
+            this.library = library;
+            this.eventName = eventName;
+            this.subModule = subModule;
+        }
+
+        protected override void Execute(SuperBasicEngine engine)
+        {
+            // TODO: implement events
+        }
+    }
 }

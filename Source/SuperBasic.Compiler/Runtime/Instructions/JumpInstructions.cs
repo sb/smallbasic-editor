@@ -20,9 +20,9 @@ namespace SuperBasic.Compiler.Runtime
         protected override int GetNextInstructionIndex(SuperBasicEngine engine) => throw new InvalidOperationException("This should have been removed during rewriting.");
     }
 
-    internal sealed class TransientGoToInstruction : BaseJumpInstruction
+    internal sealed class TransientUnconditionalGoToInstruction : BaseJumpInstruction
     {
-        public TransientGoToInstruction(string label, TextRange range)
+        public TransientUnconditionalGoToInstruction(string label, TextRange range)
             : base(range)
         {
             this.Label = label;
@@ -35,16 +35,16 @@ namespace SuperBasic.Compiler.Runtime
 
     internal sealed class TransientConditionalGoToInstruction : BaseJumpInstruction
     {
-        public TransientConditionalGoToInstruction(string trueLabel, string falseLabel, TextRange range)
+        public TransientConditionalGoToInstruction(string trueLabelOpt, string falseLabelOpt, TextRange range)
             : base(range)
         {
-            this.TrueLabel = trueLabel;
-            this.FalseLabel = falseLabel;
+            this.TrueLabelOpt = trueLabelOpt;
+            this.FalseLabelOpt = falseLabelOpt;
         }
 
-        public string TrueLabel { get; private set; }
+        public string TrueLabelOpt { get; private set; }
 
-        public string FalseLabel { get; private set; }
+        public string FalseLabelOpt { get; private set; }
 
         protected override int GetNextInstructionIndex(SuperBasicEngine engine) => throw new InvalidOperationException("This should have been removed during rewriting.");
     }
@@ -64,16 +64,26 @@ namespace SuperBasic.Compiler.Runtime
 
     internal sealed class ConditionalJumpInstruction : BaseJumpInstruction
     {
-        private readonly int trueTarget;
-        private readonly int falseTarget;
+        private readonly int? trueTargetOpt;
+        private readonly int? falseTargetOpt;
 
-        public ConditionalJumpInstruction(int trueTarget, int falseTarget, TextRange range)
+        public ConditionalJumpInstruction(int? trueTargetOpt, int? falseTargetOpt, TextRange range)
             : base(range)
         {
-            this.trueTarget = trueTarget;
-            this.falseTarget = falseTarget;
+            this.trueTargetOpt = trueTargetOpt;
+            this.falseTargetOpt = falseTargetOpt;
         }
 
-        protected override int GetNextInstructionIndex(SuperBasicEngine engine) => engine.EvaluationStack.Pop().ToBoolean() ? this.trueTarget : this.falseTarget;
+        protected override int GetNextInstructionIndex(SuperBasicEngine engine)
+        {
+            if (engine.EvaluationStack.Pop().ToBoolean())
+            {
+                return this.trueTargetOpt ?? engine.ExecutionStack.Peek().InstructionIndex + 1;
+            }
+            else
+            {
+                return this.falseTargetOpt ?? engine.ExecutionStack.Peek().InstructionIndex + 1;
+            }
+        }
     }
 }
