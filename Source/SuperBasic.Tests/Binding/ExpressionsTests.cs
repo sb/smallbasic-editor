@@ -66,7 +66,6 @@ TextWindow.WriteLine() = 5").VerifyDiagnostics(
                 new Diagnostic(DiagnosticCode.UnexpectedTokenInsteadOfStatement, ((1, 0), (1, 0)), "number"));
         }
 
-
         [Fact]
         public void ItReportsStandAloneVariable()
         {

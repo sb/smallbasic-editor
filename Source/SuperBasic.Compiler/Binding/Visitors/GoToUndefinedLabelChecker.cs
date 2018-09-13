@@ -5,15 +5,15 @@
 namespace SuperBasic.Compiler.Binding
 {
     using System.Collections.Generic;
+    using System.Linq;
     using SuperBasic.Compiler.Diagnostics;
-    using SuperBasic.Utilities;
 
     internal class GoToUndefinedLabelChecker : BaseBoundNodeVisitor
     {
         private readonly DiagnosticBag diagnostics;
-        private readonly IReadOnlyHashSet<string> labels = new HashSet<string>();
+        private readonly IReadOnlyCollection<string> labels = new HashSet<string>();
 
-        public GoToUndefinedLabelChecker(DiagnosticBag diagnostics, IReadOnlyHashSet<string> labels)
+        public GoToUndefinedLabelChecker(DiagnosticBag diagnostics, IReadOnlyCollection<string> labels)
         {
             this.diagnostics = diagnostics;
             this.labels = labels;

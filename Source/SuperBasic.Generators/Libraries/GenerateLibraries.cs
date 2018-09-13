@@ -14,7 +14,7 @@ namespace SuperBasic.Generators.Scanning
     {
         protected override void Generate(LibraryCollection model)
         {
-            this.Line("namespace SuperBasic.Compiler.Binding");
+            this.Line("namespace SuperBasic.Compiler.Runtime");
             this.Brace();
 
             this.Line("using System.Collections.Generic;");

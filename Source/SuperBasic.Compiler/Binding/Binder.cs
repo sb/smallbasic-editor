@@ -6,16 +6,17 @@ namespace SuperBasic.Compiler.Binding
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Linq;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Compiler.Parsing;
+    using SuperBasic.Compiler.Runtime;
     using SuperBasic.Compiler.Scanning;
     using SuperBasic.Utilities;
 
     internal sealed class Binder
     {
         private readonly DiagnosticBag diagnostics;
-        private readonly IReadOnlyHashSet<string> definedSubModules;
+        private readonly IReadOnlyCollection<string> definedSubModules;
 
         public Binder(StatementBlockSyntax syntaxTree, DiagnosticBag diagnostics)
         {

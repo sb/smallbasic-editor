@@ -13,7 +13,6 @@ namespace SuperBasic.Tests
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Utilities;
 
-    // TODO: verify Debug.Assert() does not fail tests anymore: https://github.com/Microsoft/vstest/issues/1688
     internal static class TestExtensions
     {
         public static void VerifyDiagnostics(this SuperBasicCompilation compilation, params Diagnostic[] diagnostics)

@@ -19,7 +19,7 @@ namespace SuperBasic.Compiler.Binding
             this.diagnostics = diagnostics;
         }
 
-        public IReadOnlyHashSet<string> Labels => this.labels;
+        public IReadOnlyCollection<string> Labels => this.labels;
 
         public override void VisitLabelStatement(BoundLabelStatement node)
         {
