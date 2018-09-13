@@ -12,7 +12,6 @@ namespace SuperBasic.Generators
     using Microsoft.Build.Utilities;
     using SuperBasic.Utilities;
 
-    // TODO: use this in reporting errors: https://stackoverflow.com/questions/22173213/object-position-line-column-in-xml-after-deserialization-net (override Log property in this type with a Func<>)
     public abstract class BaseGeneratorTask<TModel> : Task
     {
         private bool braceLastAdded = false;

@@ -19,7 +19,7 @@
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\Diagnostics.xml" Link="Diagnostics\Diagnostics.xml" />
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.xml" Link="Parsing\SyntaxNodes.xml" />
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Link="Binding\BoundNodes.xml" />
-    <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Libraries\Libraries.xml" Link="Libraries\Libraries.xml" />
+    <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Link="Libraries\Libraries.xml" />
   </ItemGroup>
 
   <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(_TempBinaryPath)" />
@@ -42,7 +42,7 @@
     <GenerateDiagnosticBag Input="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\Diagnostics.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticBag.Generated.cs" />
     <GenerateSyntaxNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.Generated.cs" />
     <GenerateBoundNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.Generated.cs" />
-    <GenerateLibraries Input="$(RootDirectory)\Source\SuperBasic.Compiler\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Libraries\Libraries.Generated.cs" />
+    <GenerateLibraries Input="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Generated.cs" />
   </Target>
 
 </Project>
