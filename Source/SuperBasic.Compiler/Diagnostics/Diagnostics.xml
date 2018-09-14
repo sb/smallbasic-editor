@@ -1,4 +1,5 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
   <!-- Scanning -->
   <Diagnostic Name="UnrecognizedCharacter">
     <Parameters>
@@ -72,4 +73,15 @@
     </Parameters>
   </Diagnostic>
   <Diagnostic Name="UnsupportedInvocationBaseExpression" />
+  <Diagnostic Name="LibraryTypeDeprecatedFromDesktop">
+    <Parameters>
+      <Parameter Name="library" Type="string" />
+    </Parameters>
+  </Diagnostic>
+  <Diagnostic Name="LibraryMemberDeprecatedFromDesktop">
+    <Parameters>
+      <Parameter Name="library" Type="string" />
+      <Parameter Name="member" Type="string" />
+    </Parameters>
+  </Diagnostic>
 </root>

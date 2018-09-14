@@ -18,17 +18,6 @@ namespace SuperBasic.Compiler.Runtime
             => new NumberValue(-value.ToNumber());
     }
 
-    internal sealed class NegateBooleanInstruction : BaseUnaryInstruction
-    {
-        public NegateBooleanInstruction(TextRange range)
-            : base(range)
-        {
-        }
-
-        protected override BaseValue Execute(BaseValue value)
-            => new BooleanValue(!value.ToBoolean());
-    }
-
     internal sealed class EqualInstruction : BaseBinaryInstruction
     {
         public EqualInstruction(TextRange range)
@@ -37,7 +26,18 @@ namespace SuperBasic.Compiler.Runtime
         }
 
         protected override BaseValue Execute(BaseValue first, BaseValue second)
-            => first.ToString().Equals(second.ToString(), StringComparison.CurrentCulture) ? StringValue.True : StringValue.False;
+            => new BooleanValue(first.ToString() == second.ToString());
+    }
+
+    internal sealed class NotEqualInstruction : BaseBinaryInstruction
+    {
+        public NotEqualInstruction(TextRange range)
+            : base(range)
+        {
+        }
+
+        protected override BaseValue Execute(BaseValue first, BaseValue second)
+            => new BooleanValue(first.ToString() != second.ToString());
     }
 
     internal sealed class LessThanInstruction : BaseBinaryInstruction
@@ -48,7 +48,18 @@ namespace SuperBasic.Compiler.Runtime
         }
 
         protected override BaseValue Execute(BaseValue first, BaseValue second)
-            => first.ToNumber() < second.ToNumber() ? StringValue.True : StringValue.False;
+            => new BooleanValue(first.ToNumber() < second.ToNumber());
+    }
+
+    internal sealed class GreaterThanInstruction : BaseBinaryInstruction
+    {
+        public GreaterThanInstruction(TextRange range)
+            : base(range)
+        {
+        }
+
+        protected override BaseValue Execute(BaseValue first, BaseValue second)
+            => new BooleanValue(first.ToNumber() > second.ToNumber());
     }
 
     internal sealed class LessThanOrEqualInstruction : BaseBinaryInstruction
@@ -59,7 +70,18 @@ namespace SuperBasic.Compiler.Runtime
         }
 
         protected override BaseValue Execute(BaseValue first, BaseValue second)
-            => first.ToNumber() <= second.ToNumber() ? StringValue.True : StringValue.False;
+            => new BooleanValue(first.ToNumber() <= second.ToNumber());
+    }
+
+    internal sealed class GreaterThanOrEqualInstruction : BaseBinaryInstruction
+    {
+        public GreaterThanOrEqualInstruction(TextRange range)
+            : base(range)
+        {
+        }
+
+        protected override BaseValue Execute(BaseValue first, BaseValue second)
+            => new BooleanValue(first.ToNumber() >= second.ToNumber());
     }
 
     internal sealed class AddInstruction : BaseBinaryInstruction

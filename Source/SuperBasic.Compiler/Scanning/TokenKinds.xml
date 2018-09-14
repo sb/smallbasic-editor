@@ -1,4 +1,5 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
   <TokenKind Name="If" Display="&quot;If&quot;" />
   <TokenKind Name="Then" Display="&quot;Then&quot;" />
   <TokenKind Name="Else" Display="&quot;Else&quot;" />

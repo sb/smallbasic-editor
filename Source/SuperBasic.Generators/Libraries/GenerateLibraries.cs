@@ -4,9 +4,7 @@
 
 namespace SuperBasic.Generators.Scanning
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using SuperBasic.Utilities;
 
@@ -17,8 +15,9 @@ namespace SuperBasic.Generators.Scanning
             this.Line("namespace SuperBasic.Compiler.Runtime");
             this.Brace();
 
+            this.Line("using System;");
             this.Line("using System.Collections.Generic;");
-            this.Line("using SuperBasic.Utilities;");
+            this.Line("using System.Diagnostics;");
             this.Line("using SuperBasic.Utilities.Resources;");
             this.Blank();
 
@@ -30,10 +29,14 @@ namespace SuperBasic.Generators.Scanning
 
         private void GenerateModelTypes()
         {
+            this.Line("internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);");
+            this.Blank();
+
             generateType(
                 "Library",
                 ("string", "Name"),
                 ("string", "Description"),
+                ("bool", "IsDeprecated"),
                 ("IReadOnlyDictionary<string, Method>", "Methods"),
                 ("IReadOnlyDictionary<string, Property>", "Properties"),
                 ("IReadOnlyDictionary<string, Event>", "Events"));
@@ -49,14 +52,17 @@ namespace SuperBasic.Generators.Scanning
                 ("string", "Description"),
                 ("bool", "ReturnsValue"),
                 ("string", "ReturnValueDescription"),
+                ("bool", "IsDeprecated"),
+                ("DExecuteLibraryMember", "Execute"),
                 ("IReadOnlyDictionary<string, Parameter>", "Parameters"));
 
             generateType(
                 "Property",
                 ("string", "Name"),
                 ("string", "Description"),
-                ("bool", "HasGetter"),
-                ("bool", "HasSetter"));
+                ("bool", "IsDeprecated"),
+                ("DExecuteLibraryMember", "Getter"),
+                ("DExecuteLibraryMember", "Setter"));
 
             generateType(
                 "Event",
@@ -73,25 +79,25 @@ namespace SuperBasic.Generators.Scanning
 
                 for (var i = 0; i < members.Length; i++)
                 {
-                    var member = members[i];
-                    this.Line($"{member.Type} {member.Name.ToLowerFirstChar()}{(i + 1 < members.Length ? "," : ")")}");
+                    var (Type, Name) = members[i];
+                    this.Line($"{Type} {Name.ToLowerFirstChar()}{(i + 1 < members.Length ? "," : ")")}");
                 }
 
                 this.Unindent();
 
                 this.Brace();
 
-                foreach (var member in members)
+                foreach (var (Type, Name) in members)
                 {
-                    this.Line($"this.{member.Name} = {member.Name.ToLowerFirstChar()};");
+                    this.Line($"this.{Name} = {Name.ToLowerFirstChar()};");
                 }
 
                 this.Unbrace();
 
-                foreach (var member in members)
+                foreach (var (Type, Name) in members)
                 {
                     this.Blank();
-                    this.Line($"public {member.Type} {member.Name} {{ get; private set; }}");
+                    this.Line($"public {Type} {Name} {{ get; private set; }}");
                 }
 
                 this.Unbrace();
@@ -100,7 +106,7 @@ namespace SuperBasic.Generators.Scanning
 
         private void GenerateLibrariesType(LibraryCollection model)
         {
-            this.Line("internal static class Libraries");
+            this.Line("internal static partial class Libraries");
             this.Brace();
 
             this.Line("static Libraries()");
@@ -138,7 +144,17 @@ namespace SuperBasic.Generators.Scanning
             this.GenerateEventsInitialization(library);
             this.Blank();
 
-            this.Line($@"types.Add(""{library.Name}"", new Library(""{library.Name}"", LibrariesResources.{library.Name}, methods, properties, events));");
+            string[] arguments = new string[]
+            {
+                $@"""{library.Name}""",
+                $"LibrariesResources.{library.Name}",
+                $"isDeprecated: {(library.IsDeprecated ? "true" : "false")}",
+                "methods",
+                "properties",
+                "events"
+            };
+
+            this.Line($@"types.Add(""{library.Name}"", new Library({arguments.Join(", ")}));");
             this.Unbrace();
         }
 
@@ -150,22 +166,84 @@ namespace SuperBasic.Generators.Scanning
             {
                 this.Blank();
 
+                this.Line($"// Initialization code for method {library.Name}.{method.Name}:");
+                this.Brace();
+
+                string executionMethodName = $"Execute_{library.Name}_{method.Name}";
+
+                if (!library.NeedsPlugin && method.ReturnType.IsDefault())
+                {
+                    this.Line($@"Debug.Assert(Type.GetType(""SuperBasic.Compiler.Runtime.Libraries"").GetMethod(""{executionMethodName}"").ReturnType.ToString() == ""System.Void"", ""Exeuction method '{executionMethodName}' should have void return type."");");
+                    this.Blank();
+                }
+
+                this.Line("void execute(SuperBasicEngine engine)");
+                this.Brace();
+
+                if (library.IsDeprecated)
+                {
+                    this.Line($@"throw new InvalidOperationException(""Library '{library.Name}' is deprecated."");");
+                }
+                else if (method.IsDeprecated)
+                {
+                    this.Line($@"throw new InvalidOperationException(""Library method '{library.Name}.{method.Name}' is deprecated."");");
+                }
+                else
+                {
+                    foreach (var parameter in Enumerable.Reverse(method.Parameters))
+                    {
+                        this.Line($"{parameter.Type.ToNativeType()} {parameter.Name.ToLowerFirstChar()} = engine.EvaluationStack.Pop(){parameter.Type.ToNativeTypeConverter()};");
+                    }
+
+                    string arguments = method.Parameters.Select(p => p.Name.ToLowerFirstChar()).Select(p => $"{p}: {p}").Join(", ");
+
+                    if (library.NeedsPlugin)
+                    {
+                        if (method.ReturnType.IsDefault())
+                        {
+                            this.Line($"engine.Plugins.{library.Name}.{method.Name}({arguments});");
+                        }
+                        else
+                        {
+                            this.Line($"{method.ReturnType.ToNativeType()} returnValue = engine.Plugins.{library.Name}.{method.Name}({arguments});");
+                            this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
+                        }
+                    }
+                    else
+                    {
+                        if (method.ReturnType.IsDefault())
+                        {
+                            this.Line($"{executionMethodName}({arguments});");
+                        }
+                        else
+                        {
+                            this.Line($"{method.ReturnType.ToNativeType()} returnValue = {executionMethodName}({arguments});");
+                            this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
+                        }
+                    }
+                }
+
+                this.Unbrace();
+
                 this.Line($@"methods.Add(""{method.Name}"", new Method(");
                 this.Indent();
 
                 this.Line($@"""{method.Name}"",");
                 this.Line($"LibrariesResources.{library.Name}_{method.Name},");
 
-                if (method.ReturnsValue)
-                {
-                    this.Line("returnsValue: true,");
-                    this.Line($"LibrariesResources.{library.Name}_{method.Name}_ReturnValue,");
-                }
-                else
+                if (method.ReturnType.IsDefault())
                 {
                     this.Line("returnsValue: false,");
                     this.Line("returnValueDescription: null,");
                 }
+                else
+                {
+                    this.Line("returnsValue: true,");
+                    this.Line($"LibrariesResources.{library.Name}_{method.Name}_ReturnValue,");
+                }
+
+                this.Line($"isDeprecated: {(method.IsDeprecated ? "true" : "false")},");
+                this.Line("execute: execute,");
 
                 if (method.Parameters.Any())
                 {
@@ -187,33 +265,101 @@ namespace SuperBasic.Generators.Scanning
                 }
 
                 this.Unindent();
+                this.Unbrace();
             }
         }
 
         private void GeneratePropertiesInitialization(Library library)
         {
-            if (library.Properties.Any())
-            {
-                this.Line("var properties = new Dictionary<string, Property>");
-                this.Line("{");
-                this.Indent();
+            this.Line("var properties = new Dictionary<string, Property>();");
 
-                foreach (var property in library.Properties)
+            foreach (var property in library.Properties)
+            {
+                this.Blank();
+
+                this.Line($"// Initialization code for property {library.Name}.{property.Name}:");
+                this.Brace();
+
+                string getterMethodName = $"Get_{library.Name}_{property.Name}";
+                string setterMethodName = $"Set_{library.Name}_{property.Name}";
+
+                if (!library.NeedsPlugin)
                 {
-                    this.Line(
-                        $@"{{ ""{property.Name}"", new Property(" +
-                        $@"""{property.Name}"", " +
-                        $"LibrariesResources.{library.Name}_{property.Name}, " +
-                        $"hasGetter: {(property.HasGetter ? "true" : "false")}, " +
-                        $"hasSetter: {(property.HasSetter ? "true" : "false")}) }},");
+                    this.Line($@"Debug.Assert(Type.GetType(""SuperBasic.Compiler.Runtime.Libraries"").GetMethod(""{setterMethodName}"").ReturnType.ToString() == ""System.Void"", ""Setter method '{setterMethodName}' should have void return type."");");
+                    this.Blank();
                 }
 
-                this.Unindent();
-                this.Line("};");
-            }
-            else
-            {
-                this.Line("var properties = new Dictionary<string, Property>();");
+                if (property.HasGetter)
+                {
+                    this.Line("void getter(SuperBasicEngine engine)");
+                    this.Brace();
+
+                    if (library.IsDeprecated)
+                    {
+                        this.Line($@"throw new InvalidOperationException(""Library '{library.Name}' is deprecated."");");
+                    }
+                    else if (property.IsDeprecated)
+                    {
+                        this.Line($@"throw new InvalidOperationException(""Library property '{library.Name}.{property.Name}' is deprecated."");");
+                    }
+                    else
+                    {
+                        if (library.NeedsPlugin)
+                        {
+                            this.Line($"{property.Type.ToNativeType()} value = engine.Plugins.{library.Name}.{property.Name};");
+                        }
+                        else
+                        {
+                            this.Line($"{property.Type.ToNativeType()} value = {getterMethodName}();");
+                        }
+
+                        this.Line($"engine.EvaluationStack.Push({"value".ToValueConstructor(property.Type)});");
+                    }
+
+                    this.Unbrace();
+                }
+
+                if (property.HasSetter)
+                {
+                    this.Line("void setter(SuperBasicEngine engine)");
+                    this.Brace();
+
+                    if (library.IsDeprecated)
+                    {
+                        this.Line($@"throw new InvalidOperationException(""Library '{library.Name}' is deprecated."");");
+                    }
+                    else if (property.IsDeprecated)
+                    {
+                        this.Line($@"throw new InvalidOperationException(""Library property '{library.Name}.{property.Name}' is deprecated."");");
+                    }
+                    else
+                    {
+                        this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()};");
+
+                        if (library.NeedsPlugin)
+                        {
+                            this.Line($"engine.Plugins.{library.Name}.{property.Name} = value;");
+                        }
+                        else
+                        {
+                            this.Line($"{setterMethodName}(value: value);");
+                        }
+                    }
+
+                    this.Unbrace();
+                }
+
+                string[] arguments = new string[]
+                {
+                    $@"""{property.Name}""",
+                    $"LibrariesResources.{library.Name}_{property.Name}",
+                    $"isDeprecated: {(property.IsDeprecated ? "true" : "false")}",
+                    $"getter: {(property.HasGetter ? "getter" : "null")}",
+                    $"setter: {(property.HasSetter ? "setter" : "null")}",
+                };
+
+                this.Line($@"properties.Add(""{property.Name}"", new Property({arguments.Join(", ")}));");
+                this.Unbrace();
             }
         }
 

@@ -11,5 +11,7 @@ namespace SuperBasic.Compiler.Runtime
         public abstract decimal ToNumber();
 
         public new abstract string ToString();
+
+        public abstract ArrayValue ToArray();
     }
 }

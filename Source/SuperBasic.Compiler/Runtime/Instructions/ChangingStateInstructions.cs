@@ -16,6 +16,16 @@ namespace SuperBasic.Compiler.Runtime
         protected override void Execute(SuperBasicEngine engine) => engine.Pause();
     }
 
+    internal sealed class TerminateInstruction : BaseNonJumpInstruction
+    {
+        public TerminateInstruction(TextRange range)
+            : base(range)
+        {
+        }
+
+        protected override void Execute(SuperBasicEngine engine) => engine.Terminate();
+    }
+
     internal sealed class BlockOnStringInputInstruction : BaseNonJumpInstruction
     {
         public BlockOnStringInputInstruction(TextRange range)

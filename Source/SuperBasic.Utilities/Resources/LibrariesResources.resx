@@ -207,7 +207,6 @@
   <data name="Clock_Year" xml:space="preserve">
     <value>Gets the current year.</value>
   </data>
-
   <data name="Controls" xml:space="preserve">
     <value>The Controls object allows you to add, move and interact with controls.</value>
   </data>
@@ -688,7 +687,6 @@
   <data name="Flickr_GetRandomPicture_ReturnValue" xml:space="preserve">
     <value>A file URL for Flickr's random picture</value>
   </data>
-
   <data name="GraphicsWindow" xml:space="preserve">
     <value>The GraphicsWindow provides graphics related input and output functionality. For example, using this class, it is possible to draw and fill circles and rectangles.</value>
   </data>
@@ -1023,10 +1021,10 @@
     <value>The width of the specified image.</value>
   </data>
   <data name="ImageList_LoadImage" xml:space="preserve">
-    <value>Loads an image from a file or the Internet into memory.</value>
+    <value>Loads an image from the Internet into memory.</value>
   </data>
-  <data name="ImageList_LoadImage_fileNameOrUrl" xml:space="preserve">
-    <value>The file name to load the image from. This could be a local file or a URL to the Internet location.</value>
+  <data name="ImageList_LoadImage_imageUrl" xml:space="preserve">
+    <value>The URL to load the image from.</value>
   </data>
   <data name="ImageList_LoadImage_ReturnValue" xml:space="preserve">
     <value>Returns the name of the image that was loaded.</value>
@@ -1583,7 +1581,6 @@
   <data name="Stack_PushValue_value" xml:space="preserve">
     <value>The value to push.</value>
   </data>
-
   <data name="Text" xml:space="preserve">
     <value>The Text object provides helpful operations for working with Text.</value>
   </data>
@@ -1853,5 +1850,8 @@
   </data>
   <data name="Turtle_Y" xml:space="preserve">
     <value>Gets or sets the Y location of the Turtle. While setting, this will move the turtle instantly to the new location.</value>
+  </data>
+  <data name="Program_Pause" xml:space="preserve">
+    <value>Pauses the program when debugging to inspect variables.</value>
   </data>
 </root>

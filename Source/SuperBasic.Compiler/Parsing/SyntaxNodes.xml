@@ -1,4 +1,5 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
   <SyntaxNode Name="BaseStatementSyntax" IsAbstract="true" Inherits="BaseSyntaxNode" />
 
   <SyntaxNode Name="SubModuleStatementSyntax" Inherits="BaseStatementSyntax">

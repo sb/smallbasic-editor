@@ -1,4 +1,5 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
   <BoundNode Name="BoundSubModule" Inherits="BaseBoundNode" Syntax="SubModuleStatementSyntax">
     <Members>
       <Member Name="Name" Type="string" />

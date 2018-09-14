@@ -229,7 +229,7 @@ namespace SuperBasic.Compiler.Binding
 
                 case BoundLibraryPropertyExpression property:
                     {
-                        if (!Libraries.Types[property.Library].Properties[property.Property].HasSetter)
+                        if (Libraries.Types[property.Library].Properties[property.Property].Setter.IsDefault())
                         {
                             this.diagnostics.ReportPropertyHasNoSetter(property.Syntax.Range, property.Library, property.Property);
                         }
@@ -398,6 +398,7 @@ namespace SuperBasic.Compiler.Binding
         {
             BaseBoundExpression baseExpression = this.BindExpression(syntax.BaseExpression, expectsValue: false);
             string identifier = syntax.IdentifierToken.Text;
+            bool hasErrors = baseExpression.HasErrors;
 
             if (baseExpression is BoundLibraryTypeExpression libraryTypeExpression)
             {
@@ -405,29 +406,49 @@ namespace SuperBasic.Compiler.Binding
 
                 if (library.Properties.TryGetValue(identifier, out Property property))
                 {
-                    if (expectsValue && !property.HasGetter)
+                    bool noGetter = property.Getter.IsDefault();
+
+                    if (!hasErrors)
                     {
-                        this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
-                        return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
+                        if (expectsValue && noGetter)
+                        {
+                            hasErrors = true;
+                            this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
+                        }
+                        else if (property.IsDeprecated)
+                        {
+                            hasErrors = true;
+                            this.diagnostics.ReportLibraryMemberDeprecatedFromDesktop(syntax.Range, library.Name, property.Name);
+                            // TODO: add test for this error
+                        }
                     }
 
-                    return new BoundLibraryPropertyExpression(syntax, hasValue: property.HasGetter, baseExpression.HasErrors, library.Name, identifier);
+                    return new BoundLibraryPropertyExpression(syntax, hasValue: !noGetter, hasErrors, library.Name, identifier);
                 }
 
-                if (library.Methods.ContainsKey(identifier))
+                if (library.Methods.TryGetValue(identifier, out Method method))
                 {
-                    if (expectsValue)
+                    if (!hasErrors)
                     {
-                        this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
-                        return new BoundInvalidExpression(syntax, hasValue: true, hasErrors: true);
+                        if (expectsValue)
+                        {
+                            hasErrors = true;
+                            this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
+                        }
+                        else if (method.IsDeprecated)
+                        {
+                            hasErrors = true;
+                            this.diagnostics.ReportLibraryMemberDeprecatedFromDesktop(syntax.Range, library.Name, method.Name);
+                            // TODO: add test for this error
+                        }
                     }
 
-                    return new BoundLibraryMethodExpression(syntax, hasValue: false, baseExpression.HasErrors, library.Name, identifier);
+                    return new BoundLibraryMethodExpression(syntax, hasValue: false, hasErrors, library.Name, identifier);
                 }
 
                 if (library.Events.ContainsKey(identifier))
                 {
-                    return new BoundLibraryEventExpression(syntax, hasValue: false, baseExpression.HasErrors, library.Name, identifier);
+                    return new BoundLibraryEventExpression(syntax, hasValue: false, hasErrors, library.Name, identifier);
                 }
 
                 this.diagnostics.ReportLibraryMemberNotFound(syntax.Range, library.Name, identifier);
@@ -508,12 +529,18 @@ namespace SuperBasic.Compiler.Binding
             bool hasErrors = false;
             string name = syntax.IdentifierToken.Text;
 
-            if (Libraries.Types.ContainsKey(name))
+            if (Libraries.Types.TryGetValue(name, out Library library))
             {
                 if (expectsValue)
                 {
                     hasErrors = true;
                     this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
+                }
+                else if (library.IsDeprecated)
+                {
+                    hasErrors = true;
+                    this.diagnostics.ReportLibraryTypeDeprecatedFromDesktop(syntax.Range, name);
+                    // TODO: add test for this error
                 }
 
                 return new BoundLibraryTypeExpression(syntax, hasValue: false, hasErrors, name);
