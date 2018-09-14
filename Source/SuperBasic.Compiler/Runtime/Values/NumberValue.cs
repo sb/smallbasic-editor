@@ -20,5 +20,7 @@ namespace SuperBasic.Compiler.Runtime
         public override decimal ToNumber() => this.Value;
 
         public override string ToString() => this.Value.ToString(CultureInfo.CurrentCulture);
+
+        public override ArrayValue ToArray() => new ArrayValue();
     }
 }

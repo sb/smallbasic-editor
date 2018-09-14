@@ -1,476 +1,470 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
   <Library Name="Array">
     <Methods>
-      <Method Name="ContainsIndex" ReturnsValue="true">
+      <Method Name="ContainsIndex" ReturnType="BooleanValue">
         <Parameters>
-          <Parameter Name="array" />
-          <Parameter Name="index" />
+          <Parameter Name="array" Type="ArrayValue" />
+          <Parameter Name="index" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ContainsValue" ReturnsValue="true">
+      <Method Name="ContainsValue" ReturnType="BooleanValue">
         <Parameters>
-          <Parameter Name="array" />
-          <Parameter Name="value" />
+          <Parameter Name="array" Type="ArrayValue" />
+          <Parameter Name="value" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetAllIndices" ReturnsValue="true">
+      <Method Name="GetAllIndices" ReturnType="ArrayValue">
         <Parameters>
-          <Parameter Name="array" />
+          <Parameter Name="array" Type="ArrayValue" />
         </Parameters>
       </Method>
-      <Method Name="GetItemCount" ReturnsValue="true">
+      <Method Name="GetItemCount" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="array" />
+          <Parameter Name="array" Type="ArrayValue" />
         </Parameters>
       </Method>
-      <Method Name="IsArray" ReturnsValue="true">
+      <Method Name="IsArray" ReturnType="BooleanValue">
         <Parameters>
-          <Parameter Name="array" />
+          <Parameter Name="array" Type="BaseValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
   <Library Name="Clock">
     <Properties>
-      <Property Name="Date" HasGetter="true" HasSetter="false" />
-      <Property Name="Day" HasGetter="true" HasSetter="false" />
-      <Property Name="ElapsedMilliseconds" HasGetter="true" HasSetter="false" />
-      <Property Name="Hour" HasGetter="true" HasSetter="false" />
-      <Property Name="Millisecond" HasGetter="true" HasSetter="false" />
-      <Property Name="Minute" HasGetter="true" HasSetter="false" />
-      <Property Name="Month" HasGetter="true" HasSetter="false" />
-      <Property Name="Second" HasGetter="true" HasSetter="false" />
-      <Property Name="Time" HasGetter="true" HasSetter="false" />
-      <Property Name="WeekDay" HasGetter="true" HasSetter="false" />
-      <Property Name="Year" HasGetter="true" HasSetter="false" />
+      <Property Name="Date" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="Day" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="ElapsedMilliseconds" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Hour" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Millisecond" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Minute" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Month" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Second" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Time" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="WeekDay" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="Year" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-
-  <Library Name="Controls">
+  <Library Name="Controls" NeedsPlugin="true">
     <Methods>
-      <Method Name="AddButton" ReturnsValue="true">
+      <Method Name="AddButton" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="caption" />
-          <Parameter Name="left" />
-          <Parameter Name="top" />
+          <Parameter Name="caption" Type="StringValue" />
+          <Parameter Name="left" Type="NumberValue" />
+          <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddMultiLineTextBox" ReturnsValue="true">
+      <Method Name="AddMultiLineTextBox" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="left" />
-          <Parameter Name="top" />
+          <Parameter Name="left" Type="NumberValue" />
+          <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddTextBox" ReturnsValue="true">
+      <Method Name="AddTextBox" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="left" />
-          <Parameter Name="top" />
+          <Parameter Name="left" Type="NumberValue" />
+          <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetButtonCaption" ReturnsValue="true">
+      <Method Name="GetButtonCaption" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="buttonName" />
+          <Parameter Name="buttonName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetTextBoxText" ReturnsValue="true">
+      <Method Name="GetTextBoxText" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="textBoxName" />
+          <Parameter Name="textBoxName" Type="StringValue" />
         </Parameters>
       </Method>
       <Method Name="HideControl" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="controlName" />
+          <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
       <Method Name="Move" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="control" />
-          <Parameter Name="x" />
-          <Parameter Name="y" />
+          <Parameter Name="control" Type="StringValue" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
       <Method Name="Remove" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="controlName" />
+          <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
       <Method Name="SetButtonCaption" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="buttonName" />
-          <Parameter Name="caption" />
+          <Parameter Name="buttonName" Type="StringValue" />
+          <Parameter Name="caption" Type="StringValue" />
         </Parameters>
       </Method>
       <Method Name="SetSize" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="control" />
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="control" Type="StringValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
       <Method Name="SetTextBoxText" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="textBoxName" />
-          <Parameter Name="text" />
+          <Parameter Name="textBoxName" Type="StringValue" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
       <Method Name="ShowControl" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="controlName" />
+          <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="LastClickedButton" HasGetter="true" HasSetter="false" />
-      <Property Name="LastTypedTextBox" HasGetter="true" HasSetter="false" />
+      <Property Name="LastClickedButton" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="LastTypedTextBox" HasGetter="true" HasSetter="false" Type="StringValue" />
     </Properties>
     <Events>
       <Event Name="ButtonClicked" />
       <Event Name="TextTyped" />
     </Events>
   </Library>
-
-  <Library Name="Desktop">
+  <Library Name="Desktop" IsDeprecated="true">
     <Methods>
       <Method Name="SetWallPaper" ReturnsValue="false">
         <Parameters>
-          <Parameter Name="fileOrUrl" />
+          <Parameter Name="fileOrUrl" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="Height" HasGetter="true" HasSetter="false" />
-      <Property Name="Width" HasGetter="true" HasSetter="false" />
+      <Property Name="Height" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-
-  <Library Name="Dictionary">
+  <Library Name="Dictionary" IsDeprecated="true">
     <Methods>
-      <Method Name="GetDefinition" ReturnsValue="true">
+      <Method Name="GetDefinition" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToFrench" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToFrench" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToGerman" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToGerman" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToItalian" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToItalian" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToJapanese" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToJapanese" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToKorean" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToKorean" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToSimplifiedChinese" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToSimplifiedChinese" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToSpanish" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToSpanish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionEnglishToTraditionalChinese" ReturnsValue="true">
+      <Method Name="GetDefinitionEnglishToTraditionalChinese" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionFrenchToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionFrenchToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionGermanToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionGermanToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionItalianToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionItalianToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionJapaneseToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionJapaneseToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionKoreanToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionKoreanToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionSimplifiedChineseToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionSimplifiedChineseToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionSpanishToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionSpanishToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDefinitionTraditionalChineseToEnglish" ReturnsValue="true">
+      <Method Name="GetDefinitionTraditionalChineseToEnglish" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="word" />
+          <Parameter Name="word" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
-  <Library Name="File">
+  <Library Name="File" IsDeprecated="true">
     <Methods>
-      <Method Name="AppendContents" ReturnsValue="true">
+      <Method Name="AppendContents" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
-          <Parameter Name="contents" />
+          <Parameter Name="filePath" Type="StringValue" />
+          <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="CopyFile" ReturnsValue="true">
+      <Method Name="CopyFile" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="sourceFilePath" />
-          <Parameter Name="destinationFilePath" />
+          <Parameter Name="sourceFilePath" Type="StringValue" />
+          <Parameter Name="destinationFilePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="CreateDirectory" ReturnsValue="true">
+      <Method Name="CreateDirectory" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="directoryPath" />
+          <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="DeleteDirectory" ReturnsValue="true">
+      <Method Name="DeleteDirectory" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="directoryPath" />
+          <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="DeleteFile" ReturnsValue="true">
+      <Method Name="DeleteFile" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
+          <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDirectories" ReturnsValue="true">
+      <Method Name="GetDirectories" ReturnType="BaseValue">
         <Parameters>
-          <Parameter Name="directoryPath" />
+          <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetFiles" ReturnsValue="true">
+      <Method Name="GetFiles" ReturnType="BaseValue">
         <Parameters>
-          <Parameter Name="directoryPath" />
+          <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetSettingsFilePath" ReturnsValue="true" />
-      <Method Name="GetTemporaryFilePath" ReturnsValue="true" />
-      <Method Name="InsertLine" ReturnsValue="true">
+      <Method Name="GetSettingsFilePath" ReturnType="StringValue" />
+      <Method Name="GetTemporaryFilePath" ReturnType="StringValue" />
+      <Method Name="InsertLine" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
-          <Parameter Name="lineNumber" />
-          <Parameter Name="contents" />
+          <Parameter Name="filePath" Type="StringValue" />
+          <Parameter Name="lineNumber" Type="NumberValue" />
+          <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ReadContents" ReturnsValue="true">
+      <Method Name="ReadContents" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
+          <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ReadLine" ReturnsValue="true">
+      <Method Name="ReadLine" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
-          <Parameter Name="lineNumber" />
+          <Parameter Name="filePath" Type="StringValue" />
+          <Parameter Name="lineNumber" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="WriteContents" ReturnsValue="true">
+      <Method Name="WriteContents" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
-          <Parameter Name="contents" />
+          <Parameter Name="filePath" Type="StringValue" />
+          <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="WriteLine" ReturnsValue="true">
+      <Method Name="WriteLine" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="filePath" />
-          <Parameter Name="lineNumber" />
-          <Parameter Name="contents" />
+          <Parameter Name="filePath" Type="StringValue" />
+          <Parameter Name="lineNumber" Type="NumberValue" />
+          <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="LastError" HasGetter="true" HasSetter="true" />
+      <Property Name="LastError" HasGetter="true" HasSetter="true" Type="StringValue" />
     </Properties>
   </Library>
-
-  <Library Name="Flickr">
+  <Library Name="Flickr" IsDeprecated="true">
     <Methods>
-      <Method Name="GetPictureOfMoment" ReturnsValue="true" />
-      <Method Name="GetRandomPicture" ReturnsValue="true">
+      <Method Name="GetPictureOfMoment" ReturnType="StringValue" />
+      <Method Name="GetRandomPicture" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="tag" />
+          <Parameter Name="tag" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
-  <Library Name="GraphicsWindow">
+  <Library Name="GraphicsWindow" NeedsPlugin="true">
     <Methods>
-      <Method Name="Clear" ReturnsValue="false" />
-      <Method Name="DrawBoundText" ReturnsValue="false">
+      <Method Name="Clear" />
+      <Method Name="DrawBoundText">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="width" />
-          <Parameter Name="text" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="text" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawEllipse" ReturnsValue="false">
+      <Method Name="DrawEllipse">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawImage" ReturnsValue="false">
+      <Method Name="DrawImage">
         <Parameters>
-          <Parameter Name="imageName" />
-          <Parameter Name="x" />
-          <Parameter Name="y" />
+          <Parameter Name="imageName" Type="StringValue" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawLine" ReturnsValue="false">
+      <Method Name="DrawLine">
         <Parameters>
-          <Parameter Name="x1" />
-          <Parameter Name="y1" />
-          <Parameter Name="x2" />
-          <Parameter Name="y2" />
+          <Parameter Name="x1" Type="NumberValue" />
+          <Parameter Name="y1" Type="NumberValue" />
+          <Parameter Name="x2" Type="NumberValue" />
+          <Parameter Name="y2" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawRectangle" ReturnsValue="false">
+      <Method Name="DrawRectangle">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawResizedImage" ReturnsValue="false">
+      <Method Name="DrawResizedImage">
         <Parameters>
-          <Parameter Name="imageName" />
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="imageName" Type="StringValue" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawText" ReturnsValue="false">
+      <Method Name="DrawText">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="text" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="DrawTriangle" ReturnsValue="false">
+      <Method Name="DrawTriangle">
         <Parameters>
-          <Parameter Name="x1" />
-          <Parameter Name="y1" />
-          <Parameter Name="x2" />
-          <Parameter Name="y2" />
-          <Parameter Name="x3" />
-          <Parameter Name="y3" />
+          <Parameter Name="x1" Type="NumberValue" />
+          <Parameter Name="y1" Type="NumberValue" />
+          <Parameter Name="x2" Type="NumberValue" />
+          <Parameter Name="y2" Type="NumberValue" />
+          <Parameter Name="x3" Type="NumberValue" />
+          <Parameter Name="y3" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="FillEllipse" ReturnsValue="false">
+      <Method Name="FillEllipse">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="FillRectangle" ReturnsValue="false">
+      <Method Name="FillRectangle">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="FillTriangle" ReturnsValue="false">
+      <Method Name="FillTriangle">
         <Parameters>
-          <Parameter Name="x1" />
-          <Parameter Name="y1" />
-          <Parameter Name="x2" />
-          <Parameter Name="y2" />
-          <Parameter Name="x3" />
-          <Parameter Name="y3" />
+          <Parameter Name="x1" Type="NumberValue" />
+          <Parameter Name="y1" Type="NumberValue" />
+          <Parameter Name="x2" Type="NumberValue" />
+          <Parameter Name="y2" Type="NumberValue" />
+          <Parameter Name="x3" Type="NumberValue" />
+          <Parameter Name="y3" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetColorFromRGB" ReturnsValue="true">
+      <Method Name="GetColorFromRGB" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="red" />
-          <Parameter Name="green" />
-          <Parameter Name="blue" />
+          <Parameter Name="red" Type="NumberValue" />
+          <Parameter Name="green" Type="NumberValue" />
+          <Parameter Name="blue" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetPixel" ReturnsValue="true">
+      <Method Name="GetPixel" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetRandomColor" ReturnsValue="true" />
-      <Method Name="Hide" ReturnsValue="false" />
-      <Method Name="SetPixel" ReturnsValue="false">
+      <Method Name="GetRandomColor" ReturnType="StringValue" />
+      <Method Name="Hide" />
+      <Method Name="SetPixel">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="color" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="color" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Show" ReturnsValue="false" />
-      <Method Name="ShowMessage" ReturnsValue="false">
+      <Method Name="Show" />
+      <Method Name="ShowMessage">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="title" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="title" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" />
-      <Property Name="BrushColor" HasGetter="true" HasSetter="true" />
-      <Property Name="CanResize" HasGetter="true" HasSetter="true" />
-      <Property Name="FontBold" HasGetter="true" HasSetter="true" />
-      <Property Name="FontItalic" HasGetter="true" HasSetter="true" />
-      <Property Name="FontName" HasGetter="true" HasSetter="true" />
-      <Property Name="FontSize" HasGetter="true" HasSetter="true" />
-      <Property Name="Height" HasGetter="true" HasSetter="true" />
-      <Property Name="LastKey" HasGetter="true" HasSetter="false" />
-      <Property Name="LastText" HasGetter="true" HasSetter="false" />
-      <Property Name="Left" HasGetter="true" HasSetter="true" />
-      <Property Name="MouseX" HasGetter="true" HasSetter="false" />
-      <Property Name="MouseY" HasGetter="true" HasSetter="false" />
-      <Property Name="PenColor" HasGetter="true" HasSetter="true" />
-      <Property Name="PenWidth" HasGetter="true" HasSetter="true" />
-      <Property Name="Title" HasGetter="true" HasSetter="true" />
-      <Property Name="Top" HasGetter="true" HasSetter="true" />
-      <Property Name="Width" HasGetter="true" HasSetter="true" />
+      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="BrushColor" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="CanResize" HasGetter="true" HasSetter="true" Type="BooleanValue" />
+      <Property Name="FontBold" HasGetter="true" HasSetter="true" Type="BooleanValue" />
+      <Property Name="FontItalic" HasGetter="true" HasSetter="true" Type="BooleanValue" />
+      <Property Name="FontName" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="FontSize" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="Height" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="LastKey" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="LastText" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="MouseX" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="MouseY" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="PenColor" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="PenWidth" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="Width" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
     <Events>
       <Event Name="KeyDown" />
@@ -481,509 +475,498 @@
       <Event Name="TextInput" />
     </Events>
   </Library>
-
-  <Library Name="ImageList">
+  <Library Name="ImageList" NeedsPlugin="true">
     <Methods>
-      <Method Name="GetHeightOfImage" ReturnsValue="true">
+      <Method Name="GetHeightOfImage" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="imageName" />
+          <Parameter Name="imageName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetWidthOfImage" ReturnsValue="true">
+      <Method Name="GetWidthOfImage" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="imageName" />
+          <Parameter Name="imageName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="LoadImage" ReturnsValue="true">
+      <Method Name="LoadImage" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="fileNameOrUrl" />
+          <Parameter Name="imageUrl" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
   <Library Name="Math">
     <Methods>
-      <Method Name="Abs" ReturnsValue="true">
+      <Method Name="Abs" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="ArcCos" ReturnsValue="true">
+      <Method Name="ArcCos" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="cosValue" />
+          <Parameter Name="cosValue" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="ArcSin" ReturnsValue="true">
+      <Method Name="ArcSin" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="sinValue" />
+          <Parameter Name="sinValue" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="ArcTan" ReturnsValue="true">
+      <Method Name="ArcTan" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="tanValue" />
+          <Parameter Name="tanValue" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Ceiling" ReturnsValue="true">
+      <Method Name="Ceiling" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Cos" ReturnsValue="true">
+      <Method Name="Cos" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="angle" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Floor" ReturnsValue="true">
+      <Method Name="Floor" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDegrees" ReturnsValue="true">
+      <Method Name="GetDegrees" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="angle" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetRadians" ReturnsValue="true">
+      <Method Name="GetRadians" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="angle" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetRandomNumber" ReturnsValue="true">
+      <Method Name="GetRandomNumber" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="maxNumber" />
+          <Parameter Name="maxNumber" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Log" ReturnsValue="true">
+      <Method Name="Log" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Max" ReturnsValue="true">
+      <Method Name="Max" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number1" />
-          <Parameter Name="number2" />
+          <Parameter Name="number1" Type="NumberValue" />
+          <Parameter Name="number2" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Min" ReturnsValue="true">
+      <Method Name="Min" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number1" />
-          <Parameter Name="number2" />
+          <Parameter Name="number1" Type="NumberValue" />
+          <Parameter Name="number2" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="NaturalLog" ReturnsValue="true">
+      <Method Name="NaturalLog" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Power" ReturnsValue="true">
+      <Method Name="Power" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="baseNumber" />
-          <Parameter Name="exponent" />
+          <Parameter Name="baseNumber" Type="NumberValue" />
+          <Parameter Name="exponent" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Remainder" ReturnsValue="true">
+      <Method Name="Remainder" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="dividend" />
-          <Parameter Name="divisor" />
+          <Parameter Name="dividend" Type="NumberValue" />
+          <Parameter Name="divisor" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Round" ReturnsValue="true">
+      <Method Name="Round" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Sin" ReturnsValue="true">
+      <Method Name="Sin" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="angle" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="SquareRoot" ReturnsValue="true">
+      <Method Name="SquareRoot" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="number" />
+          <Parameter Name="number" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Tan" ReturnsValue="true">
+      <Method Name="Tan" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="angle" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="Pi" HasGetter="true" HasSetter="false" />
+      <Property Name="Pi" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-
-  <Library Name="Mouse">
+  <Library Name="Mouse" IsDeprecated="true">
     <Methods>
-      <Method Name="HideCursor" ReturnsValue="false" />
-      <Method Name="ShowCursor" ReturnsValue="false" />
+      <Method Name="HideCursor" />
+      <Method Name="ShowCursor" />
     </Methods>
     <Properties>
-      <Property Name="IsLeftButtonDown" HasGetter="true" HasSetter="false" />
-      <Property Name="IsRightButtonDown" HasGetter="true" HasSetter="false" />
-      <Property Name="MouseX" HasGetter="true" HasSetter="true" />
-      <Property Name="MouseY" HasGetter="true" HasSetter="true" />
+      <Property Name="IsLeftButtonDown" HasGetter="true" HasSetter="false" Type="BooleanValue" />
+      <Property Name="IsRightButtonDown" HasGetter="true" HasSetter="false" Type="BooleanValue" />
+      <Property Name="MouseX" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="MouseY" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
   </Library>
-
-  <Library Name="Network">
+  <Library Name="Network" IsDeprecated="true">
     <Methods>
-      <Method Name="DownloadFile" ReturnsValue="true">
+      <Method Name="DownloadFile" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="url" />
+          <Parameter Name="url" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetWebPageContents" ReturnsValue="true">
+      <Method Name="GetWebPageContents" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="url" />
+          <Parameter Name="url" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
   <Library Name="Program">
     <Methods>
-      <Method Name="Delay" ReturnsValue="false">
+      <Method Name="Delay">
         <Parameters>
-          <Parameter Name="milliSeconds" />
+          <Parameter Name="milliSeconds" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="End" ReturnsValue="false" />
-      <Method Name="GetArgument" ReturnsValue="true">
+      <Method Name="End" />
+      <Method Name="GetArgument" ReturnType="StringValue" IsDeprecated="true">
         <Parameters>
-          <Parameter Name="index" />
+          <Parameter Name="index" Type="NumberValue" />
         </Parameters>
       </Method>
+      <Method Name="Pause" />
     </Methods>
     <Properties>
-      <Property Name="ArgumentCount" HasGetter="true" HasSetter="false" />
-      <Property Name="Directory" HasGetter="true" HasSetter="false" />
+      <Property Name="ArgumentCount" HasGetter="true" HasSetter="false" Type="NumberValue" IsDeprecated="true" />
+      <Property Name="Directory" HasGetter="true" HasSetter="false" Type="StringValue" IsDeprecated="true" />
     </Properties>
   </Library>
-
-  <Library Name="Shapes">
+  <Library Name="Shapes" NeedsPlugin="true">
     <Methods>
-      <Method Name="AddEllipse" ReturnsValue="true">
+      <Method Name="AddEllipse" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddImage" ReturnsValue="true">
+      <Method Name="AddImage" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="imageName" />
+          <Parameter Name="imageName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="AddLine" ReturnsValue="true">
+      <Method Name="AddLine" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="x1" />
-          <Parameter Name="y1" />
-          <Parameter Name="x2" />
-          <Parameter Name="y2" />
+          <Parameter Name="x1" Type="NumberValue" />
+          <Parameter Name="y1" Type="NumberValue" />
+          <Parameter Name="x2" Type="NumberValue" />
+          <Parameter Name="y2" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddRectangle" ReturnsValue="true">
+      <Method Name="AddRectangle" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="width" />
-          <Parameter Name="height" />
+          <Parameter Name="width" Type="NumberValue" />
+          <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddText" ReturnsValue="true">
+      <Method Name="AddText" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="text" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="AddTriangle" ReturnsValue="true">
+      <Method Name="AddTriangle" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="x1" />
-          <Parameter Name="y1" />
-          <Parameter Name="x2" />
-          <Parameter Name="y2" />
-          <Parameter Name="x3" />
-          <Parameter Name="y3" />
+          <Parameter Name="x1" Type="NumberValue" />
+          <Parameter Name="y1" Type="NumberValue" />
+          <Parameter Name="x2" Type="NumberValue" />
+          <Parameter Name="y2" Type="NumberValue" />
+          <Parameter Name="x3" Type="NumberValue" />
+          <Parameter Name="y3" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Animate" ReturnsValue="false">
+      <Method Name="Animate">
         <Parameters>
-          <Parameter Name="shapeName" />
-          <Parameter Name="x" />
-          <Parameter Name="y" />
-          <Parameter Name="duration" />
+          <Parameter Name="shapeName" Type="StringValue" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
+          <Parameter Name="duration" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetLeft" ReturnsValue="true">
+      <Method Name="GetLeft" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="shapeName" />
+          <Parameter Name="shapeName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetOpacity" ReturnsValue="true">
+      <Method Name="GetOpacity" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="shapeName" />
+          <Parameter Name="shapeName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetTop" ReturnsValue="true">
+      <Method Name="GetTop" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="shapeName" />
+          <Parameter Name="shapeName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="HideShape" ReturnsValue="false">
+      <Method Name="HideShape">
         <Parameters>
-          <Parameter Name="shapeName" />
+          <Parameter Name="shapeName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Move" ReturnsValue="false">
+      <Method Name="Move">
         <Parameters>
-          <Parameter Name="shapeName" />
-          <Parameter Name="x" />
-          <Parameter Name="y" />
+          <Parameter Name="shapeName" Type="StringValue" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Remove" ReturnsValue="false">
+      <Method Name="Remove">
         <Parameters>
-          <Parameter Name="shapeName" />
+          <Parameter Name="shapeName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Rotate" ReturnsValue="false">
+      <Method Name="Rotate">
         <Parameters>
-          <Parameter Name="shapeName" />
-          <Parameter Name="angle" />
+          <Parameter Name="shapeName" Type="StringValue" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="SetOpacity" ReturnsValue="false">
+      <Method Name="SetOpacity">
         <Parameters>
-          <Parameter Name="shapeName" />
-          <Parameter Name="level" />
+          <Parameter Name="shapeName" Type="StringValue" />
+          <Parameter Name="level" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="SetText" ReturnsValue="false">
+      <Method Name="SetText">
         <Parameters>
-          <Parameter Name="shapeName" />
-          <Parameter Name="text" />
+          <Parameter Name="shapeName" Type="StringValue" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ShowShape" ReturnsValue="false">
+      <Method Name="ShowShape">
         <Parameters>
-          <Parameter Name="shapeName" />
+          <Parameter Name="shapeName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Zoom" ReturnsValue="false">
+      <Method Name="Zoom">
         <Parameters>
-          <Parameter Name="shapeName" />
-          <Parameter Name="scaleX" />
-          <Parameter Name="scaleY" />
+          <Parameter Name="shapeName" Type="StringValue" />
+          <Parameter Name="scaleX" Type="NumberValue" />
+          <Parameter Name="scaleY" Type="NumberValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
-  <Library Name="Sound">
+  <Library Name="Sound" IsDeprecated="true">
     <Methods>
-      <Method Name="Pause" ReturnsValue="false">
+      <Method Name="Pause">
         <Parameters>
-          <Parameter Name="filePath" />
+          <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Play" ReturnsValue="false">
+      <Method Name="Play">
         <Parameters>
-          <Parameter Name="filePath" />
+          <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="PlayAndWait" ReturnsValue="false">
+      <Method Name="PlayAndWait">
         <Parameters>
-          <Parameter Name="filePath" />
+          <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="PlayBellRing" ReturnsValue="false" />
-      <Method Name="PlayBellRingAndWait" ReturnsValue="false" />
-      <Method Name="PlayChime" ReturnsValue="false" />
-      <Method Name="PlayChimeAndWait" ReturnsValue="false" />
-      <Method Name="PlayChimes" ReturnsValue="false" />
-      <Method Name="PlayChimesAndWait" ReturnsValue="false" />
-      <Method Name="PlayClick" ReturnsValue="false" />
-      <Method Name="PlayClickAndWait" ReturnsValue="false" />
-      <Method Name="PlayMusic" ReturnsValue="false">
+      <Method Name="PlayBellRing" />
+      <Method Name="PlayBellRingAndWait" />
+      <Method Name="PlayChime" />
+      <Method Name="PlayChimeAndWait" />
+      <Method Name="PlayChimes" />
+      <Method Name="PlayChimesAndWait" />
+      <Method Name="PlayClick" />
+      <Method Name="PlayClickAndWait" />
+      <Method Name="PlayMusic">
         <Parameters>
-          <Parameter Name="notes" />
+          <Parameter Name="notes" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Stop" ReturnsValue="false">
+      <Method Name="Stop">
         <Parameters>
-          <Parameter Name="filePath" />
+          <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
-  <Library Name="Stack">
+  <Library Name="Stack" NeedsPlugin="true">
     <Methods>
-      <Method Name="GetCount" ReturnsValue="true">
+      <Method Name="GetCount" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="stackName" />
+          <Parameter Name="stackName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="PopValue" ReturnsValue="true">
+      <Method Name="PopValue" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="stackName" />
+          <Parameter Name="stackName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="PushValue" ReturnsValue="false">
+      <Method Name="PushValue">
         <Parameters>
-          <Parameter Name="stackName" />
-          <Parameter Name="value" />
+          <Parameter Name="stackName" Type="StringValue" />
+          <Parameter Name="value" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
   <Library Name="Text">
     <Methods>
-      <Method Name="Append" ReturnsValue="true">
+      <Method Name="Append" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="text1" />
-          <Parameter Name="text2" />
+          <Parameter Name="text1" Type="StringValue" />
+          <Parameter Name="text2" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ConvertToLowerCase" ReturnsValue="true">
+      <Method Name="ConvertToLowerCase" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="text" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ConvertToUpperCase" ReturnsValue="true">
+      <Method Name="ConvertToUpperCase" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="text" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="EndsWith" ReturnsValue="true">
+      <Method Name="EndsWith" ReturnType="BooleanValue">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="subText" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="subText" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetCharacter" ReturnsValue="true">
+      <Method Name="GetCharacter" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="characterCode" />
+          <Parameter Name="characterCode" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetCharacterCode" ReturnsValue="true">
+      <Method Name="GetCharacterCode" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="character" />
+          <Parameter Name="character" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetIndexOf" ReturnsValue="true">
+      <Method Name="GetIndexOf" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="subText" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="subText" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetLength" ReturnsValue="true">
+      <Method Name="GetLength" ReturnType="NumberValue">
         <Parameters>
-          <Parameter Name="text" />
+          <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetSubText" ReturnsValue="true">
+      <Method Name="GetSubText" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="start" />
-          <Parameter Name="length" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="start" Type="NumberValue" />
+          <Parameter Name="length" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetSubTextToEnd" ReturnsValue="true">
+      <Method Name="GetSubTextToEnd" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="start" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="start" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="IsSubText" ReturnsValue="true">
+      <Method Name="IsSubText" ReturnType="BooleanValue">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="subText" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="subText" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="StartsWith" ReturnsValue="true">
+      <Method Name="StartsWith" ReturnType="BooleanValue">
         <Parameters>
-          <Parameter Name="text" />
-          <Parameter Name="subText" />
+          <Parameter Name="text" Type="StringValue" />
+          <Parameter Name="subText" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
   </Library>
-
-  <Library Name="TextWindow">
+  <Library Name="TextWindow" NeedsPlugin="true">
     <Methods>
-      <Method Name="Clear" ReturnsValue="false" />
-      <Method Name="Hide" ReturnsValue="false" />
-      <Method Name="Pause" ReturnsValue="false" />
-      <Method Name="PauseIfVisible" ReturnsValue="false" />
-      <Method Name="PauseWithoutMessage" ReturnsValue="false" />
-      <Method Name="Read" ReturnsValue="true" />
-      <Method Name="ReadNumber" ReturnsValue="true" />
-      <Method Name="Show" ReturnsValue="false" />
-      <Method Name="Write" ReturnsValue="false">
+      <Method Name="Clear" />
+      <Method Name="Hide" IsDeprecated="true" />
+      <Method Name="Pause" IsDeprecated="true" />
+      <Method Name="PauseIfVisible" IsDeprecated="true" />
+      <Method Name="PauseWithoutMessage" IsDeprecated="true" />
+      <Method Name="Read" ReturnType="StringValue" />
+      <Method Name="ReadNumber" ReturnType="NumberValue" />
+      <Method Name="Show" IsDeprecated="true" />
+      <Method Name="Write">
         <Parameters>
-          <Parameter Name="data" />
+          <Parameter Name="data" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="WriteLine" ReturnsValue="false">
+      <Method Name="WriteLine">
         <Parameters>
-          <Parameter Name="data" />
+          <Parameter Name="data" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" />
-      <Property Name="CursorLeft" HasGetter="true" HasSetter="true" />
-      <Property Name="CursorTop" HasGetter="true" HasSetter="true" />
-      <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" />
-      <Property Name="Left" HasGetter="true" HasSetter="true" />
-      <Property Name="Title" HasGetter="true" HasSetter="true" />
-      <Property Name="Top" HasGetter="true" HasSetter="true" />
+      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="CursorLeft" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
+      <Property Name="CursorTop" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
+      <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
+      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" IsDeprecated="true" />
+      <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
     </Properties>
   </Library>
-
-  <Library Name="Timer">
+  <Library Name="Timer" NeedsPlugin="true">
     <Methods>
-      <Method Name="Pause" ReturnsValue="false" />
-      <Method Name="Resume" ReturnsValue="false" />
+      <Method Name="Pause" />
+      <Method Name="Resume" />
     </Methods>
     <Properties>
-      <Property Name="Interval" HasGetter="true" HasSetter="true" />
+      <Property Name="Interval" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
     <Events>
       <Event Name="Tick" />
     </Events>
   </Library>
-
-  <Library Name="Turtle">
+  <Library Name="Turtle" NeedsPlugin="true">
     <Methods>
-      <Method Name="Hide" ReturnsValue="false" />
-      <Method Name="Move" ReturnsValue="false">
+      <Method Name="Hide" />
+      <Method Name="Move">
         <Parameters>
-          <Parameter Name="distance" />
+          <Parameter Name="distance" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="MoveTo" ReturnsValue="false">
+      <Method Name="MoveTo">
         <Parameters>
-          <Parameter Name="x" />
-          <Parameter Name="y" />
+          <Parameter Name="x" Type="NumberValue" />
+          <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="PenDown" ReturnsValue="false" />
-      <Method Name="PenUp" ReturnsValue="false" />
-      <Method Name="Show" ReturnsValue="false" />
-      <Method Name="Turn" ReturnsValue="false">
+      <Method Name="PenDown" />
+      <Method Name="PenUp" />
+      <Method Name="Show" />
+      <Method Name="Turn">
         <Parameters>
-          <Parameter Name="angle" />
+          <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="TurnLeft" ReturnsValue="false" />
-      <Method Name="TurnRight" ReturnsValue="false" />
+      <Method Name="TurnLeft" />
+      <Method Name="TurnRight" />
     </Methods>
     <Properties>
-      <Property Name="Angle" HasGetter="true" HasSetter="true" />
-      <Property Name="Speed" HasGetter="true" HasSetter="true" />
-      <Property Name="X" HasGetter="true" HasSetter="true" />
-      <Property Name="Y" HasGetter="true" HasSetter="true" />
+      <Property Name="Angle" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="Speed" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="X" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="Y" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
   </Library>
 </root>

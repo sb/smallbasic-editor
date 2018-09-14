@@ -116,5 +116,15 @@ namespace SuperBasic.Compiler.Diagnostics
         {
             this.builder.Add(new Diagnostic(DiagnosticCode.UnsupportedInvocationBaseExpression, range));
         }
+
+        public void ReportLibraryTypeDeprecatedFromDesktop(TextRange range, string library)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.LibraryTypeDeprecatedFromDesktop, range, library.ToDisplayString()));
+        }
+
+        public void ReportLibraryMemberDeprecatedFromDesktop(TextRange range, string library, string member)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromDesktop, range, library.ToDisplayString(), member.ToDisplayString()));
+        }
     }
 }

@@ -97,11 +97,29 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The library member &apos;{0}.{1}&apos; was available in older versions only, and has not been made available to SuperBasic yet..
+        /// </summary>
+        public static string LibraryMemberDeprecatedFromDesktop {
+            get {
+                return ResourceManager.GetString("LibraryMemberDeprecatedFromDesktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The library &apos;{0}&apos; has no member named &apos;{1}&apos;..
         /// </summary>
         public static string LibraryMemberNotFound {
             get {
                 return ResourceManager.GetString("LibraryMemberNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The library &apos;{0}&apos; was available in older versions only, and has not been made available to SuperBasic yet..
+        /// </summary>
+        public static string LibraryTypeDeprecatedFromDesktop {
+            get {
+                return ResourceManager.GetString("LibraryTypeDeprecatedFromDesktop", resourceCulture);
             }
         }
         

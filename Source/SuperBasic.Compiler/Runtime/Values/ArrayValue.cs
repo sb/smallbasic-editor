@@ -22,5 +22,7 @@ namespace SuperBasic.Compiler.Runtime
         public override decimal ToNumber() => 0;
 
         public override string ToString() => $"[{this.Contents.Select(pair => $"{pair.Key}={pair.Value.ToString()}").Join(", ")}]";
+
+        public override ArrayValue ToArray() => this;
     }
 }

@@ -178,9 +178,23 @@ namespace SuperBasic.Compiler.Runtime
 
         private void EmitLibraryMethodInvocationStatement(BoundLibraryMethodInvocationStatement statement)
         {
-            if (statement.Library == "Program" && statement.Method == "Pause")
+            switch (statement.Library)
             {
-                this.instructions.Add(new PauseInstruction(statement.Syntax.Range));
+                case "Program":
+                    {
+                        switch (statement.Method)
+                        {
+                            case "Pause":
+                                this.instructions.Add(new PauseInstruction(statement.Syntax.Range));
+                                return;
+
+                            case "End":
+                                this.instructions.Add(new TerminateInstruction(statement.Syntax.Range));
+                                return;
+                        }
+
+                        break;
+                    }
             }
 
             foreach (BaseBoundExpression argument in statement.Arguments)
@@ -255,30 +269,34 @@ namespace SuperBasic.Compiler.Runtime
 
         private void EmitBinaryExpression(BoundBinaryExpression expression)
         {
+            BaseInstruction binaryInstruction;
+
             switch (expression.Kind)
             {
-                case TokenKind.Or: this.EmitLogicalOrExpression(expression); break;
-                case TokenKind.And: this.EmitLogicalAndExpression(expression); break;
-
-                case TokenKind.Equal: this.EmitArithmeticBinaryExpression(expression, new EqualInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-                case TokenKind.NotEqual: this.EmitArithmeticBinaryExpression(expression, new EqualInstruction(expression.Syntax.Range), negateResult: true, reverseArgs: false); break;
-
-                case TokenKind.LessThan: this.EmitArithmeticBinaryExpression(expression, new LessThanInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-                case TokenKind.LessThanOrEqual: this.EmitArithmeticBinaryExpression(expression, new LessThanOrEqualInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-                case TokenKind.GreaterThan: this.EmitArithmeticBinaryExpression(expression, new LessThanInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: true); break;
-                case TokenKind.GreaterThanOrEqual: this.EmitArithmeticBinaryExpression(expression, new LessThanOrEqualInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: true); break;
-
-                case TokenKind.Plus: this.EmitArithmeticBinaryExpression(expression, new AddInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-                case TokenKind.Minus: this.EmitArithmeticBinaryExpression(expression, new SubtractInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-                case TokenKind.Multiply: this.EmitArithmeticBinaryExpression(expression, new MultiplyInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-                case TokenKind.Divide: this.EmitArithmeticBinaryExpression(expression, new DivideInstruction(expression.Syntax.Range), negateResult: false, reverseArgs: false); break;
-
+                case TokenKind.Or: this.EmitLogicalOrExpression(expression); return;
+                case TokenKind.And: this.EmitLogicalAndExpression(expression); return;
+                case TokenKind.Equal: binaryInstruction = new EqualInstruction(expression.Syntax.Range); break;
+                case TokenKind.NotEqual: binaryInstruction = new NotEqualInstruction(expression.Syntax.Range); break;
+                case TokenKind.LessThan: binaryInstruction = new LessThanInstruction(expression.Syntax.Range); break;
+                case TokenKind.LessThanOrEqual: binaryInstruction = new LessThanOrEqualInstruction(expression.Syntax.Range); break;
+                case TokenKind.GreaterThan: binaryInstruction = new GreaterThanInstruction(expression.Syntax.Range); break;
+                case TokenKind.GreaterThanOrEqual: binaryInstruction = new GreaterThanOrEqualInstruction(expression.Syntax.Range); break;
+                case TokenKind.Plus: binaryInstruction = new AddInstruction(expression.Syntax.Range); break;
+                case TokenKind.Minus: binaryInstruction = new SubtractInstruction(expression.Syntax.Range); break;
+                case TokenKind.Multiply: binaryInstruction = new MultiplyInstruction(expression.Syntax.Range); break;
+                case TokenKind.Divide: binaryInstruction = new DivideInstruction(expression.Syntax.Range); break;
                 default: throw ExceptionUtilities.UnexpectedValue(expression.Kind);
             }
+
+            this.EmitExpression(expression.Left);
+            this.EmitExpression(expression.Right);
+            this.instructions.Add(binaryInstruction);
         }
 
         private void EmitLogicalOrExpression(BoundBinaryExpression expression)
         {
+            Debug.Assert(expression.Kind == TokenKind.Or, "Invalid expression kind.");
+
             string trySecondLabel = this.GenerateJumpLabel();
             string trueLabel = this.GenerateJumpLabel();
             string falseLabel = this.GenerateJumpLabel();
@@ -296,17 +314,19 @@ namespace SuperBasic.Compiler.Runtime
             TextRange endOfOperatorRange = this.instructions.Last().Range;
 
             this.instructions.Add(new TransientLabelInstruction(trueLabel, endOfOperatorRange));
-            this.instructions.Add(new PushValueInstruction(StringValue.True, endOfOperatorRange));
+            this.instructions.Add(new PushValueInstruction(new BooleanValue(true), endOfOperatorRange));
             this.instructions.Add(new TransientUnconditionalGoToInstruction(endLabel, endOfOperatorRange));
 
             this.instructions.Add(new TransientLabelInstruction(falseLabel, endOfOperatorRange));
-            this.instructions.Add(new PushValueInstruction(StringValue.False, endOfOperatorRange));
+            this.instructions.Add(new PushValueInstruction(new BooleanValue(false), endOfOperatorRange));
 
             this.instructions.Add(new TransientLabelInstruction(endLabel, endOfOperatorRange));
         }
 
         private void EmitLogicalAndExpression(BoundBinaryExpression expression)
         {
+            Debug.Assert(expression.Kind == TokenKind.And, "Invalid expression kind.");
+
             string falseLabel = this.GenerateJumpLabel();
             string endLabel = this.GenerateJumpLabel();
 
@@ -319,34 +339,13 @@ namespace SuperBasic.Compiler.Runtime
 
             TextRange endOfOperatorRange = this.instructions.Last().Range;
 
-            this.instructions.Add(new PushValueInstruction(StringValue.True, endOfOperatorRange));
+            this.instructions.Add(new PushValueInstruction(new BooleanValue(true), endOfOperatorRange));
             this.instructions.Add(new TransientUnconditionalGoToInstruction(endLabel, endOfOperatorRange));
 
             this.instructions.Add(new TransientLabelInstruction(falseLabel, endOfOperatorRange));
-            this.instructions.Add(new PushValueInstruction(StringValue.False, endOfOperatorRange));
+            this.instructions.Add(new PushValueInstruction(new BooleanValue(false), endOfOperatorRange));
 
             this.instructions.Add(new TransientLabelInstruction(endLabel, endOfOperatorRange));
-        }
-
-        private void EmitArithmeticBinaryExpression(BoundBinaryExpression expression, BaseInstruction comparisonInstruction, bool negateResult, bool reverseArgs)
-        {
-            if (reverseArgs)
-            {
-                this.EmitExpression(expression.Right);
-                this.EmitExpression(expression.Left);
-            }
-            else
-            {
-                this.EmitExpression(expression.Left);
-                this.EmitExpression(expression.Right);
-            }
-
-            this.instructions.Add(comparisonInstruction);
-
-            if (negateResult)
-            {
-                this.instructions.Add(new NegateBooleanInstruction(expression.Syntax.Range));
-            }
         }
 
         private void EmitArrayAccessExpression(BoundArrayAccessExpression expression)

@@ -129,8 +129,14 @@
   <data name="InvalidExpressionStatement" xml:space="preserve">
     <value>This expression is not a valid statement.</value>
   </data>
+  <data name="LibraryMemberDeprecatedFromDesktop" xml:space="preserve">
+    <value>The library member '{0}.{1}' was available in older versions only, and has not been made available to SuperBasic yet.</value>
+  </data>
   <data name="LibraryMemberNotFound" xml:space="preserve">
     <value>The library '{0}' has no member named '{1}'.</value>
+  </data>
+  <data name="LibraryTypeDeprecatedFromDesktop" xml:space="preserve">
+    <value>The library '{0}' was available in older versions only, and has not been made available to SuperBasic yet.</value>
   </data>
   <data name="PropertyHasNoSetter" xml:space="preserve">
     <value>Property '{0}.{1}' cannot be assigned to. It is ready only.</value>

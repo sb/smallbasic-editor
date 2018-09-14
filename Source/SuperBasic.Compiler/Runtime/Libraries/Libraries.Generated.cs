@@ -7,21 +7,26 @@
 /// </summary>
 namespace SuperBasic.Compiler.Runtime
 {
+    using System;
     using System.Collections.Generic;
-    using SuperBasic.Utilities;
+    using System.Diagnostics;
     using SuperBasic.Utilities.Resources;
+
+    internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);
 
     internal sealed class Library
     {
         public Library(
             string name,
             string description,
+            bool isDeprecated,
             IReadOnlyDictionary<string, Method> methods,
             IReadOnlyDictionary<string, Property> properties,
             IReadOnlyDictionary<string, Event> events)
         {
             this.Name = name;
             this.Description = description;
+            this.IsDeprecated = isDeprecated;
             this.Methods = methods;
             this.Properties = properties;
             this.Events = events;
@@ -30,6 +35,8 @@ namespace SuperBasic.Compiler.Runtime
         public string Name { get; private set; }
 
         public string Description { get; private set; }
+
+        public bool IsDeprecated { get; private set; }
 
         public IReadOnlyDictionary<string, Method> Methods { get; private set; }
 
@@ -60,12 +67,16 @@ namespace SuperBasic.Compiler.Runtime
             string description,
             bool returnsValue,
             string returnValueDescription,
+            bool isDeprecated,
+            DExecuteLibraryMember execute,
             IReadOnlyDictionary<string, Parameter> parameters)
         {
             this.Name = name;
             this.Description = description;
             this.ReturnsValue = returnsValue;
             this.ReturnValueDescription = returnValueDescription;
+            this.IsDeprecated = isDeprecated;
+            this.Execute = execute;
             this.Parameters = parameters;
         }
 
@@ -77,6 +88,10 @@ namespace SuperBasic.Compiler.Runtime
 
         public string ReturnValueDescription { get; private set; }
 
+        public bool IsDeprecated { get; private set; }
+
+        public DExecuteLibraryMember Execute { get; private set; }
+
         public IReadOnlyDictionary<string, Parameter> Parameters { get; private set; }
     }
 
@@ -85,22 +100,26 @@ namespace SuperBasic.Compiler.Runtime
         public Property(
             string name,
             string description,
-            bool hasGetter,
-            bool hasSetter)
+            bool isDeprecated,
+            DExecuteLibraryMember getter,
+            DExecuteLibraryMember setter)
         {
             this.Name = name;
             this.Description = description;
-            this.HasGetter = hasGetter;
-            this.HasSetter = hasSetter;
+            this.IsDeprecated = isDeprecated;
+            this.Getter = getter;
+            this.Setter = setter;
         }
 
         public string Name { get; private set; }
 
         public string Description { get; private set; }
 
-        public bool HasGetter { get; private set; }
+        public bool IsDeprecated { get; private set; }
 
-        public bool HasSetter { get; private set; }
+        public DExecuteLibraryMember Getter { get; private set; }
+
+        public DExecuteLibraryMember Setter { get; private set; }
     }
 
     internal sealed class Event
@@ -118,7 +137,7 @@ namespace SuperBasic.Compiler.Runtime
         public string Description { get; private set; }
     }
 
-    internal static class Libraries
+    internal static partial class Libraries
     {
         static Libraries()
         {
@@ -128,228 +147,585 @@ namespace SuperBasic.Compiler.Runtime
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("ContainsIndex", new Method(
-                    "ContainsIndex",
-                    LibrariesResources.Array_ContainsIndex,
-                    returnsValue: true,
-                    LibrariesResources.Array_ContainsIndex_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Array.ContainsIndex:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_ContainsIndex_array) },
-                        { "index", new Parameter("index", LibrariesResources.Array_ContainsIndex_index) },
-                    }));
+                        string index = engine.EvaluationStack.Pop().ToString();
+                        ArrayValue array = engine.EvaluationStack.Pop().ToArray();
+                        bool returnValue = Execute_Array_ContainsIndex(array: array, index: index);
+                        engine.EvaluationStack.Push(new BooleanValue(returnValue));
+                    }
 
-                methods.Add("ContainsValue", new Method(
-                    "ContainsValue",
-                    LibrariesResources.Array_ContainsValue,
-                    returnsValue: true,
-                    LibrariesResources.Array_ContainsValue_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "array", new Parameter("array", LibrariesResources.Array_ContainsValue_array) },
-                        { "value", new Parameter("value", LibrariesResources.Array_ContainsValue_value) },
-                    }));
+                    methods.Add("ContainsIndex", new Method(
+                        "ContainsIndex",
+                        LibrariesResources.Array_ContainsIndex,
+                        returnsValue: true,
+                        LibrariesResources.Array_ContainsIndex_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "array", new Parameter("array", LibrariesResources.Array_ContainsIndex_array) },
+                            { "index", new Parameter("index", LibrariesResources.Array_ContainsIndex_index) },
+                        }));
+                }
 
-                methods.Add("GetAllIndices", new Method(
-                    "GetAllIndices",
-                    LibrariesResources.Array_GetAllIndices,
-                    returnsValue: true,
-                    LibrariesResources.Array_GetAllIndices_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Array.ContainsValue:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_GetAllIndices_array) },
-                    }));
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        ArrayValue array = engine.EvaluationStack.Pop().ToArray();
+                        bool returnValue = Execute_Array_ContainsValue(array: array, value: value);
+                        engine.EvaluationStack.Push(new BooleanValue(returnValue));
+                    }
 
-                methods.Add("GetItemCount", new Method(
-                    "GetItemCount",
-                    LibrariesResources.Array_GetItemCount,
-                    returnsValue: true,
-                    LibrariesResources.Array_GetItemCount_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "array", new Parameter("array", LibrariesResources.Array_GetItemCount_array) },
-                    }));
+                    methods.Add("ContainsValue", new Method(
+                        "ContainsValue",
+                        LibrariesResources.Array_ContainsValue,
+                        returnsValue: true,
+                        LibrariesResources.Array_ContainsValue_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "array", new Parameter("array", LibrariesResources.Array_ContainsValue_array) },
+                            { "value", new Parameter("value", LibrariesResources.Array_ContainsValue_value) },
+                        }));
+                }
 
-                methods.Add("IsArray", new Method(
-                    "IsArray",
-                    LibrariesResources.Array_IsArray,
-                    returnsValue: true,
-                    LibrariesResources.Array_IsArray_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Array.GetAllIndices:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "array", new Parameter("array", LibrariesResources.Array_IsArray_array) },
-                    }));
+                        ArrayValue array = engine.EvaluationStack.Pop().ToArray();
+                        ArrayValue returnValue = Execute_Array_GetAllIndices(array: array);
+                        engine.EvaluationStack.Push(returnValue);
+                    }
+
+                    methods.Add("GetAllIndices", new Method(
+                        "GetAllIndices",
+                        LibrariesResources.Array_GetAllIndices,
+                        returnsValue: true,
+                        LibrariesResources.Array_GetAllIndices_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "array", new Parameter("array", LibrariesResources.Array_GetAllIndices_array) },
+                        }));
+                }
+
+                // Initialization code for method Array.GetItemCount:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        ArrayValue array = engine.EvaluationStack.Pop().ToArray();
+                        decimal returnValue = Execute_Array_GetItemCount(array: array);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetItemCount", new Method(
+                        "GetItemCount",
+                        LibrariesResources.Array_GetItemCount,
+                        returnsValue: true,
+                        LibrariesResources.Array_GetItemCount_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "array", new Parameter("array", LibrariesResources.Array_GetItemCount_array) },
+                        }));
+                }
+
+                // Initialization code for method Array.IsArray:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        BaseValue array = engine.EvaluationStack.Pop();
+                        bool returnValue = Execute_Array_IsArray(array: array);
+                        engine.EvaluationStack.Push(new BooleanValue(returnValue));
+                    }
+
+                    methods.Add("IsArray", new Method(
+                        "IsArray",
+                        LibrariesResources.Array_IsArray,
+                        returnsValue: true,
+                        LibrariesResources.Array_IsArray_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "array", new Parameter("array", LibrariesResources.Array_IsArray_array) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Array", new Library("Array", LibrariesResources.Array, methods, properties, events));
+                types.Add("Array", new Library("Array", LibrariesResources.Array, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Clock'
             {
                 var methods = new Dictionary<string, Method>();
 
-                var properties = new Dictionary<string, Property>
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Clock.Date:
                 {
-                    { "Date", new Property("Date", LibrariesResources.Clock_Date, hasGetter: true, hasSetter: false) },
-                    { "Day", new Property("Day", LibrariesResources.Clock_Day, hasGetter: true, hasSetter: false) },
-                    { "ElapsedMilliseconds", new Property("ElapsedMilliseconds", LibrariesResources.Clock_ElapsedMilliseconds, hasGetter: true, hasSetter: false) },
-                    { "Hour", new Property("Hour", LibrariesResources.Clock_Hour, hasGetter: true, hasSetter: false) },
-                    { "Millisecond", new Property("Millisecond", LibrariesResources.Clock_Millisecond, hasGetter: true, hasSetter: false) },
-                    { "Minute", new Property("Minute", LibrariesResources.Clock_Minute, hasGetter: true, hasSetter: false) },
-                    { "Month", new Property("Month", LibrariesResources.Clock_Month, hasGetter: true, hasSetter: false) },
-                    { "Second", new Property("Second", LibrariesResources.Clock_Second, hasGetter: true, hasSetter: false) },
-                    { "Time", new Property("Time", LibrariesResources.Clock_Time, hasGetter: true, hasSetter: false) },
-                    { "WeekDay", new Property("WeekDay", LibrariesResources.Clock_WeekDay, hasGetter: true, hasSetter: false) },
-                    { "Year", new Property("Year", LibrariesResources.Clock_Year, hasGetter: true, hasSetter: false) },
-                };
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Date").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Date' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = Get_Clock_Date();
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("Date", new Property("Date", LibrariesResources.Clock_Date, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Day:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Day").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Day' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Day();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Day", new Property("Day", LibrariesResources.Clock_Day, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.ElapsedMilliseconds:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_ElapsedMilliseconds").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_ElapsedMilliseconds' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_ElapsedMilliseconds();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("ElapsedMilliseconds", new Property("ElapsedMilliseconds", LibrariesResources.Clock_ElapsedMilliseconds, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Hour:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Hour").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Hour' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Hour();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Hour", new Property("Hour", LibrariesResources.Clock_Hour, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Millisecond:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Millisecond").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Millisecond' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Millisecond();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Millisecond", new Property("Millisecond", LibrariesResources.Clock_Millisecond, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Minute:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Minute").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Minute' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Minute();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Minute", new Property("Minute", LibrariesResources.Clock_Minute, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Month:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Month").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Month' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Month();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Month", new Property("Month", LibrariesResources.Clock_Month, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Second:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Second").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Second' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Second();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Second", new Property("Second", LibrariesResources.Clock_Second, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Time:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Time").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Time' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = Get_Clock_Time();
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("Time", new Property("Time", LibrariesResources.Clock_Time, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.WeekDay:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_WeekDay").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_WeekDay' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = Get_Clock_WeekDay();
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("WeekDay", new Property("WeekDay", LibrariesResources.Clock_WeekDay, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Clock.Year:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Year").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Year' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Clock_Year();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Year", new Property("Year", LibrariesResources.Clock_Year, isDeprecated: false, getter: getter, setter: null));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, methods, properties, events));
+                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Controls'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("AddButton", new Method(
-                    "AddButton",
-                    LibrariesResources.Controls_AddButton,
-                    returnsValue: true,
-                    LibrariesResources.Controls_AddButton_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "caption", new Parameter("caption", LibrariesResources.Controls_AddButton_caption) },
-                        { "left", new Parameter("left", LibrariesResources.Controls_AddButton_left) },
-                        { "top", new Parameter("top", LibrariesResources.Controls_AddButton_top) },
-                    }));
-
-                methods.Add("AddMultiLineTextBox", new Method(
-                    "AddMultiLineTextBox",
-                    LibrariesResources.Controls_AddMultiLineTextBox,
-                    returnsValue: true,
-                    LibrariesResources.Controls_AddMultiLineTextBox_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "left", new Parameter("left", LibrariesResources.Controls_AddMultiLineTextBox_left) },
-                        { "top", new Parameter("top", LibrariesResources.Controls_AddMultiLineTextBox_top) },
-                    }));
-
-                methods.Add("AddTextBox", new Method(
-                    "AddTextBox",
-                    LibrariesResources.Controls_AddTextBox,
-                    returnsValue: true,
-                    LibrariesResources.Controls_AddTextBox_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "left", new Parameter("left", LibrariesResources.Controls_AddTextBox_left) },
-                        { "top", new Parameter("top", LibrariesResources.Controls_AddTextBox_top) },
-                    }));
-
-                methods.Add("GetButtonCaption", new Method(
-                    "GetButtonCaption",
-                    LibrariesResources.Controls_GetButtonCaption,
-                    returnsValue: true,
-                    LibrariesResources.Controls_GetButtonCaption_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_GetButtonCaption_buttonName) },
-                    }));
-
-                methods.Add("GetTextBoxText", new Method(
-                    "GetTextBoxText",
-                    LibrariesResources.Controls_GetTextBoxText,
-                    returnsValue: true,
-                    LibrariesResources.Controls_GetTextBoxText_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_GetTextBoxText_textBoxName) },
-                    }));
-
-                methods.Add("HideControl", new Method(
-                    "HideControl",
-                    LibrariesResources.Controls_HideControl,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_HideControl_controlName) },
-                    }));
-
-                methods.Add("Move", new Method(
-                    "Move",
-                    LibrariesResources.Controls_Move,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "control", new Parameter("control", LibrariesResources.Controls_Move_control) },
-                        { "x", new Parameter("x", LibrariesResources.Controls_Move_x) },
-                        { "y", new Parameter("y", LibrariesResources.Controls_Move_y) },
-                    }));
-
-                methods.Add("Remove", new Method(
-                    "Remove",
-                    LibrariesResources.Controls_Remove,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_Remove_controlName) },
-                    }));
-
-                methods.Add("SetButtonCaption", new Method(
-                    "SetButtonCaption",
-                    LibrariesResources.Controls_SetButtonCaption,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_SetButtonCaption_buttonName) },
-                        { "caption", new Parameter("caption", LibrariesResources.Controls_SetButtonCaption_caption) },
-                    }));
-
-                methods.Add("SetSize", new Method(
-                    "SetSize",
-                    LibrariesResources.Controls_SetSize,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "control", new Parameter("control", LibrariesResources.Controls_SetSize_control) },
-                        { "width", new Parameter("width", LibrariesResources.Controls_SetSize_width) },
-                        { "height", new Parameter("height", LibrariesResources.Controls_SetSize_height) },
-                    }));
-
-                methods.Add("SetTextBoxText", new Method(
-                    "SetTextBoxText",
-                    LibrariesResources.Controls_SetTextBoxText,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_SetTextBoxText_textBoxName) },
-                        { "text", new Parameter("text", LibrariesResources.Controls_SetTextBoxText_text) },
-                    }));
-
-                methods.Add("ShowControl", new Method(
-                    "ShowControl",
-                    LibrariesResources.Controls_ShowControl,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "controlName", new Parameter("controlName", LibrariesResources.Controls_ShowControl_controlName) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Controls.AddButton:
                 {
-                    { "LastClickedButton", new Property("LastClickedButton", LibrariesResources.Controls_LastClickedButton, hasGetter: true, hasSetter: false) },
-                    { "LastTypedTextBox", new Property("LastTypedTextBox", LibrariesResources.Controls_LastTypedTextBox, hasGetter: true, hasSetter: false) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal top = engine.EvaluationStack.Pop().ToNumber();
+                        decimal left = engine.EvaluationStack.Pop().ToNumber();
+                        string caption = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.Controls.AddButton(caption: caption, left: left, top: top);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("AddButton", new Method(
+                        "AddButton",
+                        LibrariesResources.Controls_AddButton,
+                        returnsValue: true,
+                        LibrariesResources.Controls_AddButton_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "caption", new Parameter("caption", LibrariesResources.Controls_AddButton_caption) },
+                            { "left", new Parameter("left", LibrariesResources.Controls_AddButton_left) },
+                            { "top", new Parameter("top", LibrariesResources.Controls_AddButton_top) },
+                        }));
+                }
+
+                // Initialization code for method Controls.AddMultiLineTextBox:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal top = engine.EvaluationStack.Pop().ToNumber();
+                        decimal left = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.Controls.AddMultiLineTextBox(left: left, top: top);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("AddMultiLineTextBox", new Method(
+                        "AddMultiLineTextBox",
+                        LibrariesResources.Controls_AddMultiLineTextBox,
+                        returnsValue: true,
+                        LibrariesResources.Controls_AddMultiLineTextBox_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "left", new Parameter("left", LibrariesResources.Controls_AddMultiLineTextBox_left) },
+                            { "top", new Parameter("top", LibrariesResources.Controls_AddMultiLineTextBox_top) },
+                        }));
+                }
+
+                // Initialization code for method Controls.AddTextBox:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal top = engine.EvaluationStack.Pop().ToNumber();
+                        decimal left = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.Controls.AddTextBox(left: left, top: top);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("AddTextBox", new Method(
+                        "AddTextBox",
+                        LibrariesResources.Controls_AddTextBox,
+                        returnsValue: true,
+                        LibrariesResources.Controls_AddTextBox_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "left", new Parameter("left", LibrariesResources.Controls_AddTextBox_left) },
+                            { "top", new Parameter("top", LibrariesResources.Controls_AddTextBox_top) },
+                        }));
+                }
+
+                // Initialization code for method Controls.GetButtonCaption:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string buttonName = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.Controls.GetButtonCaption(buttonName: buttonName);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetButtonCaption", new Method(
+                        "GetButtonCaption",
+                        LibrariesResources.Controls_GetButtonCaption,
+                        returnsValue: true,
+                        LibrariesResources.Controls_GetButtonCaption_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_GetButtonCaption_buttonName) },
+                        }));
+                }
+
+                // Initialization code for method Controls.GetTextBoxText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string textBoxName = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.Controls.GetTextBoxText(textBoxName: textBoxName);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetTextBoxText", new Method(
+                        "GetTextBoxText",
+                        LibrariesResources.Controls_GetTextBoxText,
+                        returnsValue: true,
+                        LibrariesResources.Controls_GetTextBoxText_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_GetTextBoxText_textBoxName) },
+                        }));
+                }
+
+                // Initialization code for method Controls.HideControl:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string controlName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.HideControl(controlName: controlName);
+                    }
+
+                    methods.Add("HideControl", new Method(
+                        "HideControl",
+                        LibrariesResources.Controls_HideControl,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "controlName", new Parameter("controlName", LibrariesResources.Controls_HideControl_controlName) },
+                        }));
+                }
+
+                // Initialization code for method Controls.Move:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string control = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.Move(control: control, x: x, y: y);
+                    }
+
+                    methods.Add("Move", new Method(
+                        "Move",
+                        LibrariesResources.Controls_Move,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "control", new Parameter("control", LibrariesResources.Controls_Move_control) },
+                            { "x", new Parameter("x", LibrariesResources.Controls_Move_x) },
+                            { "y", new Parameter("y", LibrariesResources.Controls_Move_y) },
+                        }));
+                }
+
+                // Initialization code for method Controls.Remove:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string controlName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.Remove(controlName: controlName);
+                    }
+
+                    methods.Add("Remove", new Method(
+                        "Remove",
+                        LibrariesResources.Controls_Remove,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "controlName", new Parameter("controlName", LibrariesResources.Controls_Remove_controlName) },
+                        }));
+                }
+
+                // Initialization code for method Controls.SetButtonCaption:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string caption = engine.EvaluationStack.Pop().ToString();
+                        string buttonName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
+                    }
+
+                    methods.Add("SetButtonCaption", new Method(
+                        "SetButtonCaption",
+                        LibrariesResources.Controls_SetButtonCaption,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_SetButtonCaption_buttonName) },
+                            { "caption", new Parameter("caption", LibrariesResources.Controls_SetButtonCaption_caption) },
+                        }));
+                }
+
+                // Initialization code for method Controls.SetSize:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        string control = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.SetSize(control: control, width: width, height: height);
+                    }
+
+                    methods.Add("SetSize", new Method(
+                        "SetSize",
+                        LibrariesResources.Controls_SetSize,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "control", new Parameter("control", LibrariesResources.Controls_SetSize_control) },
+                            { "width", new Parameter("width", LibrariesResources.Controls_SetSize_width) },
+                            { "height", new Parameter("height", LibrariesResources.Controls_SetSize_height) },
+                        }));
+                }
+
+                // Initialization code for method Controls.SetTextBoxText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string textBoxName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
+                    }
+
+                    methods.Add("SetTextBoxText", new Method(
+                        "SetTextBoxText",
+                        LibrariesResources.Controls_SetTextBoxText,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_SetTextBoxText_textBoxName) },
+                            { "text", new Parameter("text", LibrariesResources.Controls_SetTextBoxText_text) },
+                        }));
+                }
+
+                // Initialization code for method Controls.ShowControl:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string controlName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Controls.ShowControl(controlName: controlName);
+                    }
+
+                    methods.Add("ShowControl", new Method(
+                        "ShowControl",
+                        LibrariesResources.Controls_ShowControl,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "controlName", new Parameter("controlName", LibrariesResources.Controls_ShowControl_controlName) },
+                        }));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Controls.LastClickedButton:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.Controls.LastClickedButton;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("LastClickedButton", new Property("LastClickedButton", LibrariesResources.Controls_LastClickedButton, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Controls.LastTypedTextBox:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.Controls.LastTypedTextBox;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("LastTypedTextBox", new Property("LastTypedTextBox", LibrariesResources.Controls_LastTypedTextBox, isDeprecated: false, getter: getter, setter: null));
+                }
 
                 var events = new Dictionary<string, Event>
                 {
@@ -357,654 +733,1552 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextTyped", new Event("TextTyped", LibrariesResources.Controls_TextTyped) },
                 };
 
-                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, methods, properties, events));
+                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Desktop'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("SetWallPaper", new Method(
-                    "SetWallPaper",
-                    LibrariesResources.Desktop_SetWallPaper,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "fileOrUrl", new Parameter("fileOrUrl", LibrariesResources.Desktop_SetWallPaper_fileOrUrl) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Desktop.SetWallPaper:
                 {
-                    { "Height", new Property("Height", LibrariesResources.Desktop_Height, hasGetter: true, hasSetter: false) },
-                    { "Width", new Property("Width", LibrariesResources.Desktop_Width, hasGetter: true, hasSetter: false) },
-                };
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Desktop_SetWallPaper").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Desktop_SetWallPaper' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Desktop' is deprecated.");
+                    }
+
+                    methods.Add("SetWallPaper", new Method(
+                        "SetWallPaper",
+                        LibrariesResources.Desktop_SetWallPaper,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "fileOrUrl", new Parameter("fileOrUrl", LibrariesResources.Desktop_SetWallPaper_fileOrUrl) },
+                        }));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Desktop.Height:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Desktop_Height").ReturnType.ToString() == "System.Void", "Setter method 'Set_Desktop_Height' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Desktop' is deprecated.");
+                    }
+
+                    properties.Add("Height", new Property("Height", LibrariesResources.Desktop_Height, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Desktop.Width:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Desktop_Width").ReturnType.ToString() == "System.Void", "Setter method 'Set_Desktop_Width' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Desktop' is deprecated.");
+                    }
+
+                    properties.Add("Width", new Property("Width", LibrariesResources.Desktop_Width, isDeprecated: false, getter: getter, setter: null));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, methods, properties, events));
+                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'Dictionary'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("GetDefinition", new Method(
-                    "GetDefinition",
-                    LibrariesResources.Dictionary_GetDefinition,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinition_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinition:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinition_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionEnglishToEnglish", new Method(
-                    "GetDefinitionEnglishToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_word) },
-                    }));
+                    methods.Add("GetDefinition", new Method(
+                        "GetDefinition",
+                        LibrariesResources.Dictionary_GetDefinition,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinition_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinition_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionEnglishToFrench", new Method(
-                    "GetDefinitionEnglishToFrench",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToFrench,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionEnglishToGerman", new Method(
-                    "GetDefinitionEnglishToGerman",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToGerman,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToEnglish", new Method(
+                        "GetDefinitionEnglishToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionEnglishToItalian", new Method(
-                    "GetDefinitionEnglishToItalian",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToItalian,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToFrench:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionEnglishToJapanese", new Method(
-                    "GetDefinitionEnglishToJapanese",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToFrench", new Method(
+                        "GetDefinitionEnglishToFrench",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToFrench,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionEnglishToKorean", new Method(
-                    "GetDefinitionEnglishToKorean",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToKorean,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToGerman:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionEnglishToSimplifiedChinese", new Method(
-                    "GetDefinitionEnglishToSimplifiedChinese",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToGerman", new Method(
+                        "GetDefinitionEnglishToGerman",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToGerman,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionEnglishToSpanish", new Method(
-                    "GetDefinitionEnglishToSpanish",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToItalian:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionEnglishToTraditionalChinese", new Method(
-                    "GetDefinitionEnglishToTraditionalChinese",
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToItalian", new Method(
+                        "GetDefinitionEnglishToItalian",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToItalian,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionFrenchToEnglish", new Method(
-                    "GetDefinitionFrenchToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToJapanese:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionGermanToEnglish", new Method(
-                    "GetDefinitionGermanToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionGermanToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToJapanese", new Method(
+                        "GetDefinitionEnglishToJapanese",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionItalianToEnglish", new Method(
-                    "GetDefinitionItalianToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionItalianToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToKorean:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionJapaneseToEnglish", new Method(
-                    "GetDefinitionJapaneseToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToKorean", new Method(
+                        "GetDefinitionEnglishToKorean",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToKorean,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionKoreanToEnglish", new Method(
-                    "GetDefinitionKoreanToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToSimplifiedChinese:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionSimplifiedChineseToEnglish", new Method(
-                    "GetDefinitionSimplifiedChineseToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_word) },
-                    }));
+                    methods.Add("GetDefinitionEnglishToSimplifiedChinese", new Method(
+                        "GetDefinitionEnglishToSimplifiedChinese",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_word) },
+                        }));
+                }
 
-                methods.Add("GetDefinitionSpanishToEnglish", new Method(
-                    "GetDefinitionSpanishToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Dictionary.GetDefinitionEnglishToSpanish:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
 
-                methods.Add("GetDefinitionTraditionalChineseToEnglish", new Method(
-                    "GetDefinitionTraditionalChineseToEnglish",
-                    LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish,
-                    returnsValue: true,
-                    LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue,
-                    new Dictionary<string, Parameter>
+                    methods.Add("GetDefinitionEnglishToSpanish", new Method(
+                        "GetDefinitionEnglishToSpanish",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionEnglishToTraditionalChinese:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_word) },
-                    }));
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionEnglishToTraditionalChinese", new Method(
+                        "GetDefinitionEnglishToTraditionalChinese",
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionFrenchToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionFrenchToEnglish", new Method(
+                        "GetDefinitionFrenchToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionGermanToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionGermanToEnglish", new Method(
+                        "GetDefinitionGermanToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionGermanToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionItalianToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionItalianToEnglish", new Method(
+                        "GetDefinitionItalianToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionItalianToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionJapaneseToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionJapaneseToEnglish", new Method(
+                        "GetDefinitionJapaneseToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionKoreanToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionKoreanToEnglish", new Method(
+                        "GetDefinitionKoreanToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionSimplifiedChineseToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionSimplifiedChineseToEnglish", new Method(
+                        "GetDefinitionSimplifiedChineseToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionSpanishToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionSpanishToEnglish", new Method(
+                        "GetDefinitionSpanishToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_word) },
+                        }));
+                }
+
+                // Initialization code for method Dictionary.GetDefinitionTraditionalChineseToEnglish:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                    }
+
+                    methods.Add("GetDefinitionTraditionalChineseToEnglish", new Method(
+                        "GetDefinitionTraditionalChineseToEnglish",
+                        LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish,
+                        returnsValue: true,
+                        LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_word) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, methods, properties, events));
+                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'File'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("AppendContents", new Method(
-                    "AppendContents",
-                    LibrariesResources.File_AppendContents,
-                    returnsValue: true,
-                    LibrariesResources.File_AppendContents_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_AppendContents_filePath) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_AppendContents_contents) },
-                    }));
-
-                methods.Add("CopyFile", new Method(
-                    "CopyFile",
-                    LibrariesResources.File_CopyFile,
-                    returnsValue: true,
-                    LibrariesResources.File_CopyFile_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "sourceFilePath", new Parameter("sourceFilePath", LibrariesResources.File_CopyFile_sourceFilePath) },
-                        { "destinationFilePath", new Parameter("destinationFilePath", LibrariesResources.File_CopyFile_destinationFilePath) },
-                    }));
-
-                methods.Add("CreateDirectory", new Method(
-                    "CreateDirectory",
-                    LibrariesResources.File_CreateDirectory,
-                    returnsValue: true,
-                    LibrariesResources.File_CreateDirectory_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_CreateDirectory_directoryPath) },
-                    }));
-
-                methods.Add("DeleteDirectory", new Method(
-                    "DeleteDirectory",
-                    LibrariesResources.File_DeleteDirectory,
-                    returnsValue: true,
-                    LibrariesResources.File_DeleteDirectory_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_DeleteDirectory_directoryPath) },
-                    }));
-
-                methods.Add("DeleteFile", new Method(
-                    "DeleteFile",
-                    LibrariesResources.File_DeleteFile,
-                    returnsValue: true,
-                    LibrariesResources.File_DeleteFile_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_DeleteFile_filePath) },
-                    }));
-
-                methods.Add("GetDirectories", new Method(
-                    "GetDirectories",
-                    LibrariesResources.File_GetDirectories,
-                    returnsValue: true,
-                    LibrariesResources.File_GetDirectories_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetDirectories_directoryPath) },
-                    }));
-
-                methods.Add("GetFiles", new Method(
-                    "GetFiles",
-                    LibrariesResources.File_GetFiles,
-                    returnsValue: true,
-                    LibrariesResources.File_GetFiles_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetFiles_directoryPath) },
-                    }));
-
-                methods.Add("GetSettingsFilePath", new Method(
-                    "GetSettingsFilePath",
-                    LibrariesResources.File_GetSettingsFilePath,
-                    returnsValue: true,
-                    LibrariesResources.File_GetSettingsFilePath_ReturnValue,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("GetTemporaryFilePath", new Method(
-                    "GetTemporaryFilePath",
-                    LibrariesResources.File_GetTemporaryFilePath,
-                    returnsValue: true,
-                    LibrariesResources.File_GetTemporaryFilePath_ReturnValue,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("InsertLine", new Method(
-                    "InsertLine",
-                    LibrariesResources.File_InsertLine,
-                    returnsValue: true,
-                    LibrariesResources.File_InsertLine_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_InsertLine_filePath) },
-                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_InsertLine_lineNumber) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_InsertLine_contents) },
-                    }));
-
-                methods.Add("ReadContents", new Method(
-                    "ReadContents",
-                    LibrariesResources.File_ReadContents,
-                    returnsValue: true,
-                    LibrariesResources.File_ReadContents_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_ReadContents_filePath) },
-                    }));
-
-                methods.Add("ReadLine", new Method(
-                    "ReadLine",
-                    LibrariesResources.File_ReadLine,
-                    returnsValue: true,
-                    LibrariesResources.File_ReadLine_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_ReadLine_filePath) },
-                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_ReadLine_lineNumber) },
-                    }));
-
-                methods.Add("WriteContents", new Method(
-                    "WriteContents",
-                    LibrariesResources.File_WriteContents,
-                    returnsValue: true,
-                    LibrariesResources.File_WriteContents_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_WriteContents_filePath) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_WriteContents_contents) },
-                    }));
-
-                methods.Add("WriteLine", new Method(
-                    "WriteLine",
-                    LibrariesResources.File_WriteLine,
-                    returnsValue: true,
-                    LibrariesResources.File_WriteLine_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "filePath", new Parameter("filePath", LibrariesResources.File_WriteLine_filePath) },
-                        { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_WriteLine_lineNumber) },
-                        { "contents", new Parameter("contents", LibrariesResources.File_WriteLine_contents) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method File.AppendContents:
                 {
-                    { "LastError", new Property("LastError", LibrariesResources.File_LastError, hasGetter: true, hasSetter: true) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("AppendContents", new Method(
+                        "AppendContents",
+                        LibrariesResources.File_AppendContents,
+                        returnsValue: true,
+                        LibrariesResources.File_AppendContents_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_AppendContents_filePath) },
+                            { "contents", new Parameter("contents", LibrariesResources.File_AppendContents_contents) },
+                        }));
+                }
+
+                // Initialization code for method File.CopyFile:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("CopyFile", new Method(
+                        "CopyFile",
+                        LibrariesResources.File_CopyFile,
+                        returnsValue: true,
+                        LibrariesResources.File_CopyFile_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "sourceFilePath", new Parameter("sourceFilePath", LibrariesResources.File_CopyFile_sourceFilePath) },
+                            { "destinationFilePath", new Parameter("destinationFilePath", LibrariesResources.File_CopyFile_destinationFilePath) },
+                        }));
+                }
+
+                // Initialization code for method File.CreateDirectory:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("CreateDirectory", new Method(
+                        "CreateDirectory",
+                        LibrariesResources.File_CreateDirectory,
+                        returnsValue: true,
+                        LibrariesResources.File_CreateDirectory_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_CreateDirectory_directoryPath) },
+                        }));
+                }
+
+                // Initialization code for method File.DeleteDirectory:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("DeleteDirectory", new Method(
+                        "DeleteDirectory",
+                        LibrariesResources.File_DeleteDirectory,
+                        returnsValue: true,
+                        LibrariesResources.File_DeleteDirectory_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_DeleteDirectory_directoryPath) },
+                        }));
+                }
+
+                // Initialization code for method File.DeleteFile:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("DeleteFile", new Method(
+                        "DeleteFile",
+                        LibrariesResources.File_DeleteFile,
+                        returnsValue: true,
+                        LibrariesResources.File_DeleteFile_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_DeleteFile_filePath) },
+                        }));
+                }
+
+                // Initialization code for method File.GetDirectories:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("GetDirectories", new Method(
+                        "GetDirectories",
+                        LibrariesResources.File_GetDirectories,
+                        returnsValue: true,
+                        LibrariesResources.File_GetDirectories_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetDirectories_directoryPath) },
+                        }));
+                }
+
+                // Initialization code for method File.GetFiles:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("GetFiles", new Method(
+                        "GetFiles",
+                        LibrariesResources.File_GetFiles,
+                        returnsValue: true,
+                        LibrariesResources.File_GetFiles_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetFiles_directoryPath) },
+                        }));
+                }
+
+                // Initialization code for method File.GetSettingsFilePath:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("GetSettingsFilePath", new Method(
+                        "GetSettingsFilePath",
+                        LibrariesResources.File_GetSettingsFilePath,
+                        returnsValue: true,
+                        LibrariesResources.File_GetSettingsFilePath_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method File.GetTemporaryFilePath:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("GetTemporaryFilePath", new Method(
+                        "GetTemporaryFilePath",
+                        LibrariesResources.File_GetTemporaryFilePath,
+                        returnsValue: true,
+                        LibrariesResources.File_GetTemporaryFilePath_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method File.InsertLine:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("InsertLine", new Method(
+                        "InsertLine",
+                        LibrariesResources.File_InsertLine,
+                        returnsValue: true,
+                        LibrariesResources.File_InsertLine_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_InsertLine_filePath) },
+                            { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_InsertLine_lineNumber) },
+                            { "contents", new Parameter("contents", LibrariesResources.File_InsertLine_contents) },
+                        }));
+                }
+
+                // Initialization code for method File.ReadContents:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("ReadContents", new Method(
+                        "ReadContents",
+                        LibrariesResources.File_ReadContents,
+                        returnsValue: true,
+                        LibrariesResources.File_ReadContents_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_ReadContents_filePath) },
+                        }));
+                }
+
+                // Initialization code for method File.ReadLine:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("ReadLine", new Method(
+                        "ReadLine",
+                        LibrariesResources.File_ReadLine,
+                        returnsValue: true,
+                        LibrariesResources.File_ReadLine_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_ReadLine_filePath) },
+                            { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_ReadLine_lineNumber) },
+                        }));
+                }
+
+                // Initialization code for method File.WriteContents:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("WriteContents", new Method(
+                        "WriteContents",
+                        LibrariesResources.File_WriteContents,
+                        returnsValue: true,
+                        LibrariesResources.File_WriteContents_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_WriteContents_filePath) },
+                            { "contents", new Parameter("contents", LibrariesResources.File_WriteContents_contents) },
+                        }));
+                }
+
+                // Initialization code for method File.WriteLine:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    methods.Add("WriteLine", new Method(
+                        "WriteLine",
+                        LibrariesResources.File_WriteLine,
+                        returnsValue: true,
+                        LibrariesResources.File_WriteLine_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.File_WriteLine_filePath) },
+                            { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_WriteLine_lineNumber) },
+                            { "contents", new Parameter("contents", LibrariesResources.File_WriteLine_contents) },
+                        }));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property File.LastError:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_File_LastError").ReturnType.ToString() == "System.Void", "Setter method 'Set_File_LastError' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                    }
+
+                    properties.Add("LastError", new Property("LastError", LibrariesResources.File_LastError, isDeprecated: false, getter: getter, setter: setter));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("File", new Library("File", LibrariesResources.File, methods, properties, events));
+                types.Add("File", new Library("File", LibrariesResources.File, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'Flickr'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("GetPictureOfMoment", new Method(
-                    "GetPictureOfMoment",
-                    LibrariesResources.Flickr_GetPictureOfMoment,
-                    returnsValue: true,
-                    LibrariesResources.Flickr_GetPictureOfMoment_ReturnValue,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("GetRandomPicture", new Method(
-                    "GetRandomPicture",
-                    LibrariesResources.Flickr_GetRandomPicture,
-                    returnsValue: true,
-                    LibrariesResources.Flickr_GetRandomPicture_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Flickr.GetPictureOfMoment:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "tag", new Parameter("tag", LibrariesResources.Flickr_GetRandomPicture_tag) },
-                    }));
+                        throw new InvalidOperationException("Library 'Flickr' is deprecated.");
+                    }
+
+                    methods.Add("GetPictureOfMoment", new Method(
+                        "GetPictureOfMoment",
+                        LibrariesResources.Flickr_GetPictureOfMoment,
+                        returnsValue: true,
+                        LibrariesResources.Flickr_GetPictureOfMoment_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Flickr.GetRandomPicture:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Flickr' is deprecated.");
+                    }
+
+                    methods.Add("GetRandomPicture", new Method(
+                        "GetRandomPicture",
+                        LibrariesResources.Flickr_GetRandomPicture,
+                        returnsValue: true,
+                        LibrariesResources.Flickr_GetRandomPicture_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "tag", new Parameter("tag", LibrariesResources.Flickr_GetRandomPicture_tag) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, methods, properties, events));
+                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'GraphicsWindow'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Clear", new Method(
-                    "Clear",
-                    LibrariesResources.GraphicsWindow_Clear,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("DrawBoundText", new Method(
-                    "DrawBoundText",
-                    LibrariesResources.GraphicsWindow_DrawBoundText,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawBoundText_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawBoundText_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawBoundText_width) },
-                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawBoundText_text) },
-                    }));
-
-                methods.Add("DrawEllipse", new Method(
-                    "DrawEllipse",
-                    LibrariesResources.GraphicsWindow_DrawEllipse,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawEllipse_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawEllipse_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawEllipse_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawEllipse_height) },
-                    }));
-
-                methods.Add("DrawImage", new Method(
-                    "DrawImage",
-                    LibrariesResources.GraphicsWindow_DrawImage,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawImage_imageName) },
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawImage_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawImage_y) },
-                    }));
-
-                methods.Add("DrawLine", new Method(
-                    "DrawLine",
-                    LibrariesResources.GraphicsWindow_DrawLine,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawLine_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawLine_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawLine_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawLine_y2) },
-                    }));
-
-                methods.Add("DrawRectangle", new Method(
-                    "DrawRectangle",
-                    LibrariesResources.GraphicsWindow_DrawRectangle,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawRectangle_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawRectangle_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawRectangle_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawRectangle_height) },
-                    }));
-
-                methods.Add("DrawResizedImage", new Method(
-                    "DrawResizedImage",
-                    LibrariesResources.GraphicsWindow_DrawResizedImage,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawResizedImage_imageName) },
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawResizedImage_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawResizedImage_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawResizedImage_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawResizedImage_height) },
-                    }));
-
-                methods.Add("DrawText", new Method(
-                    "DrawText",
-                    LibrariesResources.GraphicsWindow_DrawText,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawText_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawText_y) },
-                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawText_text) },
-                    }));
-
-                methods.Add("DrawTriangle", new Method(
-                    "DrawTriangle",
-                    LibrariesResources.GraphicsWindow_DrawTriangle,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawTriangle_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawTriangle_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawTriangle_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawTriangle_y2) },
-                        { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_DrawTriangle_x3) },
-                        { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_DrawTriangle_y3) },
-                    }));
-
-                methods.Add("FillEllipse", new Method(
-                    "FillEllipse",
-                    LibrariesResources.GraphicsWindow_FillEllipse,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillEllipse_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillEllipse_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillEllipse_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillEllipse_height) },
-                    }));
-
-                methods.Add("FillRectangle", new Method(
-                    "FillRectangle",
-                    LibrariesResources.GraphicsWindow_FillRectangle,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillRectangle_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillRectangle_y) },
-                        { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillRectangle_width) },
-                        { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillRectangle_height) },
-                    }));
-
-                methods.Add("FillTriangle", new Method(
-                    "FillTriangle",
-                    LibrariesResources.GraphicsWindow_FillTriangle,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_FillTriangle_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_FillTriangle_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_FillTriangle_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_FillTriangle_y2) },
-                        { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_FillTriangle_x3) },
-                        { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_FillTriangle_y3) },
-                    }));
-
-                methods.Add("GetColorFromRGB", new Method(
-                    "GetColorFromRGB",
-                    LibrariesResources.GraphicsWindow_GetColorFromRGB,
-                    returnsValue: true,
-                    LibrariesResources.GraphicsWindow_GetColorFromRGB_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "red", new Parameter("red", LibrariesResources.GraphicsWindow_GetColorFromRGB_red) },
-                        { "green", new Parameter("green", LibrariesResources.GraphicsWindow_GetColorFromRGB_green) },
-                        { "blue", new Parameter("blue", LibrariesResources.GraphicsWindow_GetColorFromRGB_blue) },
-                    }));
-
-                methods.Add("GetPixel", new Method(
-                    "GetPixel",
-                    LibrariesResources.GraphicsWindow_GetPixel,
-                    returnsValue: true,
-                    LibrariesResources.GraphicsWindow_GetPixel_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_GetPixel_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_GetPixel_y) },
-                    }));
-
-                methods.Add("GetRandomColor", new Method(
-                    "GetRandomColor",
-                    LibrariesResources.GraphicsWindow_GetRandomColor,
-                    returnsValue: true,
-                    LibrariesResources.GraphicsWindow_GetRandomColor_ReturnValue,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Hide", new Method(
-                    "Hide",
-                    LibrariesResources.GraphicsWindow_Hide,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("SetPixel", new Method(
-                    "SetPixel",
-                    LibrariesResources.GraphicsWindow_SetPixel,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.GraphicsWindow_SetPixel_x) },
-                        { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_y) },
-                        { "color", new Parameter("color", LibrariesResources.GraphicsWindow_SetPixel_color) },
-                    }));
-
-                methods.Add("Show", new Method(
-                    "Show",
-                    LibrariesResources.GraphicsWindow_Show,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("ShowMessage", new Method(
-                    "ShowMessage",
-                    LibrariesResources.GraphicsWindow_ShowMessage,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "text", new Parameter("text", LibrariesResources.GraphicsWindow_ShowMessage_text) },
-                        { "title", new Parameter("title", LibrariesResources.GraphicsWindow_ShowMessage_title) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method GraphicsWindow.Clear:
                 {
-                    { "BackgroundColor", new Property("BackgroundColor", LibrariesResources.GraphicsWindow_BackgroundColor, hasGetter: true, hasSetter: true) },
-                    { "BrushColor", new Property("BrushColor", LibrariesResources.GraphicsWindow_BrushColor, hasGetter: true, hasSetter: true) },
-                    { "CanResize", new Property("CanResize", LibrariesResources.GraphicsWindow_CanResize, hasGetter: true, hasSetter: true) },
-                    { "FontBold", new Property("FontBold", LibrariesResources.GraphicsWindow_FontBold, hasGetter: true, hasSetter: true) },
-                    { "FontItalic", new Property("FontItalic", LibrariesResources.GraphicsWindow_FontItalic, hasGetter: true, hasSetter: true) },
-                    { "FontName", new Property("FontName", LibrariesResources.GraphicsWindow_FontName, hasGetter: true, hasSetter: true) },
-                    { "FontSize", new Property("FontSize", LibrariesResources.GraphicsWindow_FontSize, hasGetter: true, hasSetter: true) },
-                    { "Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, hasGetter: true, hasSetter: true) },
-                    { "LastKey", new Property("LastKey", LibrariesResources.GraphicsWindow_LastKey, hasGetter: true, hasSetter: false) },
-                    { "LastText", new Property("LastText", LibrariesResources.GraphicsWindow_LastText, hasGetter: true, hasSetter: false) },
-                    { "Left", new Property("Left", LibrariesResources.GraphicsWindow_Left, hasGetter: true, hasSetter: true) },
-                    { "MouseX", new Property("MouseX", LibrariesResources.GraphicsWindow_MouseX, hasGetter: true, hasSetter: false) },
-                    { "MouseY", new Property("MouseY", LibrariesResources.GraphicsWindow_MouseY, hasGetter: true, hasSetter: false) },
-                    { "PenColor", new Property("PenColor", LibrariesResources.GraphicsWindow_PenColor, hasGetter: true, hasSetter: true) },
-                    { "PenWidth", new Property("PenWidth", LibrariesResources.GraphicsWindow_PenWidth, hasGetter: true, hasSetter: true) },
-                    { "Title", new Property("Title", LibrariesResources.GraphicsWindow_Title, hasGetter: true, hasSetter: true) },
-                    { "Top", new Property("Top", LibrariesResources.GraphicsWindow_Top, hasGetter: true, hasSetter: true) },
-                    { "Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, hasGetter: true, hasSetter: true) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.GraphicsWindow.Clear();
+                    }
+
+                    methods.Add("Clear", new Method(
+                        "Clear",
+                        LibrariesResources.GraphicsWindow_Clear,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawBoundText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal text = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.DrawBoundText(x: x, y: y, width: width, text: text);
+                    }
+
+                    methods.Add("DrawBoundText", new Method(
+                        "DrawBoundText",
+                        LibrariesResources.GraphicsWindow_DrawBoundText,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawBoundText_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawBoundText_y) },
+                            { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawBoundText_width) },
+                            { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawBoundText_text) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawEllipse:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.DrawEllipse(x: x, y: y, width: width, height: height);
+                    }
+
+                    methods.Add("DrawEllipse", new Method(
+                        "DrawEllipse",
+                        LibrariesResources.GraphicsWindow_DrawEllipse,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawEllipse_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawEllipse_y) },
+                            { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawEllipse_width) },
+                            { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawEllipse_height) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawImage:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string imageName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.DrawImage(imageName: imageName, x: x, y: y);
+                    }
+
+                    methods.Add("DrawImage", new Method(
+                        "DrawImage",
+                        LibrariesResources.GraphicsWindow_DrawImage,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawImage_imageName) },
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawImage_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawImage_y) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawLine:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x1 = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.DrawLine(x1: x1, y1: y1, x2: x2, y2: y2);
+                    }
+
+                    methods.Add("DrawLine", new Method(
+                        "DrawLine",
+                        LibrariesResources.GraphicsWindow_DrawLine,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawLine_x1) },
+                            { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawLine_y1) },
+                            { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawLine_x2) },
+                            { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawLine_y2) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawRectangle:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.DrawRectangle(x: x, y: y, width: width, height: height);
+                    }
+
+                    methods.Add("DrawRectangle", new Method(
+                        "DrawRectangle",
+                        LibrariesResources.GraphicsWindow_DrawRectangle,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawRectangle_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawRectangle_y) },
+                            { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawRectangle_width) },
+                            { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawRectangle_height) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawResizedImage:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string imageName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.DrawResizedImage(imageName: imageName, x: x, y: y, width: width, height: height);
+                    }
+
+                    methods.Add("DrawResizedImage", new Method(
+                        "DrawResizedImage",
+                        LibrariesResources.GraphicsWindow_DrawResizedImage,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawResizedImage_imageName) },
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawResizedImage_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawResizedImage_y) },
+                            { "width", new Parameter("width", LibrariesResources.GraphicsWindow_DrawResizedImage_width) },
+                            { "height", new Parameter("height", LibrariesResources.GraphicsWindow_DrawResizedImage_height) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.DrawText(x: x, y: y, text: text);
+                    }
+
+                    methods.Add("DrawText", new Method(
+                        "DrawText",
+                        LibrariesResources.GraphicsWindow_DrawText,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawText_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawText_y) },
+                            { "text", new Parameter("text", LibrariesResources.GraphicsWindow_DrawText_text) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.DrawTriangle:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y3 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x3 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x1 = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.DrawTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
+                    }
+
+                    methods.Add("DrawTriangle", new Method(
+                        "DrawTriangle",
+                        LibrariesResources.GraphicsWindow_DrawTriangle,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawTriangle_x1) },
+                            { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawTriangle_y1) },
+                            { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_DrawTriangle_x2) },
+                            { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_DrawTriangle_y2) },
+                            { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_DrawTriangle_x3) },
+                            { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_DrawTriangle_y3) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.FillEllipse:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.FillEllipse(x: x, y: y, width: width, height: height);
+                    }
+
+                    methods.Add("FillEllipse", new Method(
+                        "FillEllipse",
+                        LibrariesResources.GraphicsWindow_FillEllipse,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillEllipse_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillEllipse_y) },
+                            { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillEllipse_width) },
+                            { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillEllipse_height) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.FillRectangle:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.FillRectangle(x: x, y: y, width: width, height: height);
+                    }
+
+                    methods.Add("FillRectangle", new Method(
+                        "FillRectangle",
+                        LibrariesResources.GraphicsWindow_FillRectangle,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillRectangle_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillRectangle_y) },
+                            { "width", new Parameter("width", LibrariesResources.GraphicsWindow_FillRectangle_width) },
+                            { "height", new Parameter("height", LibrariesResources.GraphicsWindow_FillRectangle_height) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.FillTriangle:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y3 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x3 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x1 = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.FillTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
+                    }
+
+                    methods.Add("FillTriangle", new Method(
+                        "FillTriangle",
+                        LibrariesResources.GraphicsWindow_FillTriangle,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_FillTriangle_x1) },
+                            { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_FillTriangle_y1) },
+                            { "x2", new Parameter("x2", LibrariesResources.GraphicsWindow_FillTriangle_x2) },
+                            { "y2", new Parameter("y2", LibrariesResources.GraphicsWindow_FillTriangle_y2) },
+                            { "x3", new Parameter("x3", LibrariesResources.GraphicsWindow_FillTriangle_x3) },
+                            { "y3", new Parameter("y3", LibrariesResources.GraphicsWindow_FillTriangle_y3) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.GetColorFromRGB:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal blue = engine.EvaluationStack.Pop().ToNumber();
+                        decimal green = engine.EvaluationStack.Pop().ToNumber();
+                        decimal red = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.GraphicsWindow.GetColorFromRGB(red: red, green: green, blue: blue);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetColorFromRGB", new Method(
+                        "GetColorFromRGB",
+                        LibrariesResources.GraphicsWindow_GetColorFromRGB,
+                        returnsValue: true,
+                        LibrariesResources.GraphicsWindow_GetColorFromRGB_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "red", new Parameter("red", LibrariesResources.GraphicsWindow_GetColorFromRGB_red) },
+                            { "green", new Parameter("green", LibrariesResources.GraphicsWindow_GetColorFromRGB_green) },
+                            { "blue", new Parameter("blue", LibrariesResources.GraphicsWindow_GetColorFromRGB_blue) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.GetPixel:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.GraphicsWindow.GetPixel(x: x, y: y);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetPixel", new Method(
+                        "GetPixel",
+                        LibrariesResources.GraphicsWindow_GetPixel,
+                        returnsValue: true,
+                        LibrariesResources.GraphicsWindow_GetPixel_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_GetPixel_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_GetPixel_y) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.GetRandomColor:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string returnValue = engine.Plugins.GraphicsWindow.GetRandomColor();
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetRandomColor", new Method(
+                        "GetRandomColor",
+                        LibrariesResources.GraphicsWindow_GetRandomColor,
+                        returnsValue: true,
+                        LibrariesResources.GraphicsWindow_GetRandomColor_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method GraphicsWindow.Hide:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.GraphicsWindow.Hide();
+                    }
+
+                    methods.Add("Hide", new Method(
+                        "Hide",
+                        LibrariesResources.GraphicsWindow_Hide,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method GraphicsWindow.SetPixel:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string color = engine.EvaluationStack.Pop().ToString();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.SetPixel(x: x, y: y, color: color);
+                    }
+
+                    methods.Add("SetPixel", new Method(
+                        "SetPixel",
+                        LibrariesResources.GraphicsWindow_SetPixel,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.GraphicsWindow_SetPixel_x) },
+                            { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_y) },
+                            { "color", new Parameter("color", LibrariesResources.GraphicsWindow_SetPixel_color) },
+                        }));
+                }
+
+                // Initialization code for method GraphicsWindow.Show:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.GraphicsWindow.Show();
+                    }
+
+                    methods.Add("Show", new Method(
+                        "Show",
+                        LibrariesResources.GraphicsWindow_Show,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method GraphicsWindow.ShowMessage:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string title = engine.EvaluationStack.Pop().ToString();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.ShowMessage(text: text, title: title);
+                    }
+
+                    methods.Add("ShowMessage", new Method(
+                        "ShowMessage",
+                        LibrariesResources.GraphicsWindow_ShowMessage,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.GraphicsWindow_ShowMessage_text) },
+                            { "title", new Parameter("title", LibrariesResources.GraphicsWindow_ShowMessage_title) },
+                        }));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property GraphicsWindow.BackgroundColor:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.BackgroundColor;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.BackgroundColor = value;
+                    }
+
+                    properties.Add("BackgroundColor", new Property("BackgroundColor", LibrariesResources.GraphicsWindow_BackgroundColor, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.BrushColor:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.BrushColor;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.BrushColor = value;
+                    }
+
+                    properties.Add("BrushColor", new Property("BrushColor", LibrariesResources.GraphicsWindow_BrushColor, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.CanResize:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        bool value = engine.Plugins.GraphicsWindow.CanResize;
+                        engine.EvaluationStack.Push(new BooleanValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        bool value = engine.EvaluationStack.Pop().ToBoolean();
+                        engine.Plugins.GraphicsWindow.CanResize = value;
+                    }
+
+                    properties.Add("CanResize", new Property("CanResize", LibrariesResources.GraphicsWindow_CanResize, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.FontBold:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        bool value = engine.Plugins.GraphicsWindow.FontBold;
+                        engine.EvaluationStack.Push(new BooleanValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        bool value = engine.EvaluationStack.Pop().ToBoolean();
+                        engine.Plugins.GraphicsWindow.FontBold = value;
+                    }
+
+                    properties.Add("FontBold", new Property("FontBold", LibrariesResources.GraphicsWindow_FontBold, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.FontItalic:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        bool value = engine.Plugins.GraphicsWindow.FontItalic;
+                        engine.EvaluationStack.Push(new BooleanValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        bool value = engine.EvaluationStack.Pop().ToBoolean();
+                        engine.Plugins.GraphicsWindow.FontItalic = value;
+                    }
+
+                    properties.Add("FontItalic", new Property("FontItalic", LibrariesResources.GraphicsWindow_FontItalic, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.FontName:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.FontName;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.FontName = value;
+                    }
+
+                    properties.Add("FontName", new Property("FontName", LibrariesResources.GraphicsWindow_FontName, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.FontSize:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.FontSize;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.FontSize = value;
+                    }
+
+                    properties.Add("FontSize", new Property("FontSize", LibrariesResources.GraphicsWindow_FontSize, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.Height:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.Height;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.Height = value;
+                    }
+
+                    properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.LastKey:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.LastKey;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("LastKey", new Property("LastKey", LibrariesResources.GraphicsWindow_LastKey, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property GraphicsWindow.LastText:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.LastText;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    properties.Add("LastText", new Property("LastText", LibrariesResources.GraphicsWindow_LastText, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property GraphicsWindow.Left:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.Left;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.Left = value;
+                    }
+
+                    properties.Add("Left", new Property("Left", LibrariesResources.GraphicsWindow_Left, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.MouseX:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.MouseX;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("MouseX", new Property("MouseX", LibrariesResources.GraphicsWindow_MouseX, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property GraphicsWindow.MouseY:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.MouseY;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("MouseY", new Property("MouseY", LibrariesResources.GraphicsWindow_MouseY, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property GraphicsWindow.PenColor:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.PenColor;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.PenColor = value;
+                    }
+
+                    properties.Add("PenColor", new Property("PenColor", LibrariesResources.GraphicsWindow_PenColor, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.PenWidth:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.PenWidth;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.PenWidth = value;
+                    }
+
+                    properties.Add("PenWidth", new Property("PenWidth", LibrariesResources.GraphicsWindow_PenWidth, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.Title:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.GraphicsWindow.Title;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.GraphicsWindow.Title = value;
+                    }
+
+                    properties.Add("Title", new Property("Title", LibrariesResources.GraphicsWindow_Title, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.Top:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.Top;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.Top = value;
+                    }
+
+                    properties.Add("Top", new Property("Top", LibrariesResources.GraphicsWindow_Top, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property GraphicsWindow.Width:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.GraphicsWindow.Width;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.GraphicsWindow.Width = value;
+                    }
+
+                    properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, getter: getter, setter: setter));
+                }
 
                 var events = new Dictionary<string, Event>
                 {
@@ -1016,1096 +2290,2521 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextInput", new Event("TextInput", LibrariesResources.GraphicsWindow_TextInput) },
                 };
 
-                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, methods, properties, events));
+                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'ImageList'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("GetHeightOfImage", new Method(
-                    "GetHeightOfImage",
-                    LibrariesResources.ImageList_GetHeightOfImage,
-                    returnsValue: true,
-                    LibrariesResources.ImageList_GetHeightOfImage_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method ImageList.GetHeightOfImage:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetHeightOfImage_imageName) },
-                    }));
+                        string imageName = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = engine.Plugins.ImageList.GetHeightOfImage(imageName: imageName);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
 
-                methods.Add("GetWidthOfImage", new Method(
-                    "GetWidthOfImage",
-                    LibrariesResources.ImageList_GetWidthOfImage,
-                    returnsValue: true,
-                    LibrariesResources.ImageList_GetWidthOfImage_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetWidthOfImage_imageName) },
-                    }));
+                    methods.Add("GetHeightOfImage", new Method(
+                        "GetHeightOfImage",
+                        LibrariesResources.ImageList_GetHeightOfImage,
+                        returnsValue: true,
+                        LibrariesResources.ImageList_GetHeightOfImage_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetHeightOfImage_imageName) },
+                        }));
+                }
 
-                methods.Add("LoadImage", new Method(
-                    "LoadImage",
-                    LibrariesResources.ImageList_LoadImage,
-                    returnsValue: true,
-                    LibrariesResources.ImageList_LoadImage_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method ImageList.GetWidthOfImage:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "fileNameOrUrl", new Parameter("fileNameOrUrl", LibrariesResources.ImageList_LoadImage_fileNameOrUrl) },
-                    }));
+                        string imageName = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = engine.Plugins.ImageList.GetWidthOfImage(imageName: imageName);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetWidthOfImage", new Method(
+                        "GetWidthOfImage",
+                        LibrariesResources.ImageList_GetWidthOfImage,
+                        returnsValue: true,
+                        LibrariesResources.ImageList_GetWidthOfImage_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetWidthOfImage_imageName) },
+                        }));
+                }
+
+                // Initialization code for method ImageList.LoadImage:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string imageUrl = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.ImageList.LoadImage(imageUrl: imageUrl);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("LoadImage", new Method(
+                        "LoadImage",
+                        LibrariesResources.ImageList_LoadImage,
+                        returnsValue: true,
+                        LibrariesResources.ImageList_LoadImage_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "imageUrl", new Parameter("imageUrl", LibrariesResources.ImageList_LoadImage_imageUrl) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, methods, properties, events));
+                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Math'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Abs", new Method(
-                    "Abs",
-                    LibrariesResources.Math_Abs,
-                    returnsValue: true,
-                    LibrariesResources.Math_Abs_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_Abs_number) },
-                    }));
-
-                methods.Add("ArcCos", new Method(
-                    "ArcCos",
-                    LibrariesResources.Math_ArcCos,
-                    returnsValue: true,
-                    LibrariesResources.Math_ArcCos_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "cosValue", new Parameter("cosValue", LibrariesResources.Math_ArcCos_cosValue) },
-                    }));
-
-                methods.Add("ArcSin", new Method(
-                    "ArcSin",
-                    LibrariesResources.Math_ArcSin,
-                    returnsValue: true,
-                    LibrariesResources.Math_ArcSin_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "sinValue", new Parameter("sinValue", LibrariesResources.Math_ArcSin_sinValue) },
-                    }));
-
-                methods.Add("ArcTan", new Method(
-                    "ArcTan",
-                    LibrariesResources.Math_ArcTan,
-                    returnsValue: true,
-                    LibrariesResources.Math_ArcTan_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "tanValue", new Parameter("tanValue", LibrariesResources.Math_ArcTan_tanValue) },
-                    }));
-
-                methods.Add("Ceiling", new Method(
-                    "Ceiling",
-                    LibrariesResources.Math_Ceiling,
-                    returnsValue: true,
-                    LibrariesResources.Math_Ceiling_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_Ceiling_number) },
-                    }));
-
-                methods.Add("Cos", new Method(
-                    "Cos",
-                    LibrariesResources.Math_Cos,
-                    returnsValue: true,
-                    LibrariesResources.Math_Cos_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_Cos_angle) },
-                    }));
-
-                methods.Add("Floor", new Method(
-                    "Floor",
-                    LibrariesResources.Math_Floor,
-                    returnsValue: true,
-                    LibrariesResources.Math_Floor_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_Floor_number) },
-                    }));
-
-                methods.Add("GetDegrees", new Method(
-                    "GetDegrees",
-                    LibrariesResources.Math_GetDegrees,
-                    returnsValue: true,
-                    LibrariesResources.Math_GetDegrees_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_GetDegrees_angle) },
-                    }));
-
-                methods.Add("GetRadians", new Method(
-                    "GetRadians",
-                    LibrariesResources.Math_GetRadians,
-                    returnsValue: true,
-                    LibrariesResources.Math_GetRadians_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_GetRadians_angle) },
-                    }));
-
-                methods.Add("GetRandomNumber", new Method(
-                    "GetRandomNumber",
-                    LibrariesResources.Math_GetRandomNumber,
-                    returnsValue: true,
-                    LibrariesResources.Math_GetRandomNumber_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "maxNumber", new Parameter("maxNumber", LibrariesResources.Math_GetRandomNumber_maxNumber) },
-                    }));
-
-                methods.Add("Log", new Method(
-                    "Log",
-                    LibrariesResources.Math_Log,
-                    returnsValue: true,
-                    LibrariesResources.Math_Log_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_Log_number) },
-                    }));
-
-                methods.Add("Max", new Method(
-                    "Max",
-                    LibrariesResources.Math_Max,
-                    returnsValue: true,
-                    LibrariesResources.Math_Max_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number1", new Parameter("number1", LibrariesResources.Math_Max_number1) },
-                        { "number2", new Parameter("number2", LibrariesResources.Math_Max_number2) },
-                    }));
-
-                methods.Add("Min", new Method(
-                    "Min",
-                    LibrariesResources.Math_Min,
-                    returnsValue: true,
-                    LibrariesResources.Math_Min_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number1", new Parameter("number1", LibrariesResources.Math_Min_number1) },
-                        { "number2", new Parameter("number2", LibrariesResources.Math_Min_number2) },
-                    }));
-
-                methods.Add("NaturalLog", new Method(
-                    "NaturalLog",
-                    LibrariesResources.Math_NaturalLog,
-                    returnsValue: true,
-                    LibrariesResources.Math_NaturalLog_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_NaturalLog_number) },
-                    }));
-
-                methods.Add("Power", new Method(
-                    "Power",
-                    LibrariesResources.Math_Power,
-                    returnsValue: true,
-                    LibrariesResources.Math_Power_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "baseNumber", new Parameter("baseNumber", LibrariesResources.Math_Power_baseNumber) },
-                        { "exponent", new Parameter("exponent", LibrariesResources.Math_Power_exponent) },
-                    }));
-
-                methods.Add("Remainder", new Method(
-                    "Remainder",
-                    LibrariesResources.Math_Remainder,
-                    returnsValue: true,
-                    LibrariesResources.Math_Remainder_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "dividend", new Parameter("dividend", LibrariesResources.Math_Remainder_dividend) },
-                        { "divisor", new Parameter("divisor", LibrariesResources.Math_Remainder_divisor) },
-                    }));
-
-                methods.Add("Round", new Method(
-                    "Round",
-                    LibrariesResources.Math_Round,
-                    returnsValue: true,
-                    LibrariesResources.Math_Round_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_Round_number) },
-                    }));
-
-                methods.Add("Sin", new Method(
-                    "Sin",
-                    LibrariesResources.Math_Sin,
-                    returnsValue: true,
-                    LibrariesResources.Math_Sin_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_Sin_angle) },
-                    }));
-
-                methods.Add("SquareRoot", new Method(
-                    "SquareRoot",
-                    LibrariesResources.Math_SquareRoot,
-                    returnsValue: true,
-                    LibrariesResources.Math_SquareRoot_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "number", new Parameter("number", LibrariesResources.Math_SquareRoot_number) },
-                    }));
-
-                methods.Add("Tan", new Method(
-                    "Tan",
-                    LibrariesResources.Math_Tan,
-                    returnsValue: true,
-                    LibrariesResources.Math_Tan_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "angle", new Parameter("angle", LibrariesResources.Math_Tan_angle) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Math.Abs:
                 {
-                    { "Pi", new Property("Pi", LibrariesResources.Math_Pi, hasGetter: true, hasSetter: false) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Abs(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Abs", new Method(
+                        "Abs",
+                        LibrariesResources.Math_Abs,
+                        returnsValue: true,
+                        LibrariesResources.Math_Abs_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_Abs_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.ArcCos:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal cosValue = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_ArcCos(cosValue: cosValue);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("ArcCos", new Method(
+                        "ArcCos",
+                        LibrariesResources.Math_ArcCos,
+                        returnsValue: true,
+                        LibrariesResources.Math_ArcCos_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "cosValue", new Parameter("cosValue", LibrariesResources.Math_ArcCos_cosValue) },
+                        }));
+                }
+
+                // Initialization code for method Math.ArcSin:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal sinValue = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_ArcSin(sinValue: sinValue);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("ArcSin", new Method(
+                        "ArcSin",
+                        LibrariesResources.Math_ArcSin,
+                        returnsValue: true,
+                        LibrariesResources.Math_ArcSin_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "sinValue", new Parameter("sinValue", LibrariesResources.Math_ArcSin_sinValue) },
+                        }));
+                }
+
+                // Initialization code for method Math.ArcTan:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal tanValue = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_ArcTan(tanValue: tanValue);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("ArcTan", new Method(
+                        "ArcTan",
+                        LibrariesResources.Math_ArcTan,
+                        returnsValue: true,
+                        LibrariesResources.Math_ArcTan_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "tanValue", new Parameter("tanValue", LibrariesResources.Math_ArcTan_tanValue) },
+                        }));
+                }
+
+                // Initialization code for method Math.Ceiling:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Ceiling(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Ceiling", new Method(
+                        "Ceiling",
+                        LibrariesResources.Math_Ceiling,
+                        returnsValue: true,
+                        LibrariesResources.Math_Ceiling_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_Ceiling_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.Cos:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Cos(angle: angle);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Cos", new Method(
+                        "Cos",
+                        LibrariesResources.Math_Cos,
+                        returnsValue: true,
+                        LibrariesResources.Math_Cos_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "angle", new Parameter("angle", LibrariesResources.Math_Cos_angle) },
+                        }));
+                }
+
+                // Initialization code for method Math.Floor:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Floor(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Floor", new Method(
+                        "Floor",
+                        LibrariesResources.Math_Floor,
+                        returnsValue: true,
+                        LibrariesResources.Math_Floor_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_Floor_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.GetDegrees:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_GetDegrees(angle: angle);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetDegrees", new Method(
+                        "GetDegrees",
+                        LibrariesResources.Math_GetDegrees,
+                        returnsValue: true,
+                        LibrariesResources.Math_GetDegrees_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "angle", new Parameter("angle", LibrariesResources.Math_GetDegrees_angle) },
+                        }));
+                }
+
+                // Initialization code for method Math.GetRadians:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_GetRadians(angle: angle);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetRadians", new Method(
+                        "GetRadians",
+                        LibrariesResources.Math_GetRadians,
+                        returnsValue: true,
+                        LibrariesResources.Math_GetRadians_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "angle", new Parameter("angle", LibrariesResources.Math_GetRadians_angle) },
+                        }));
+                }
+
+                // Initialization code for method Math.GetRandomNumber:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal maxNumber = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_GetRandomNumber(maxNumber: maxNumber);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetRandomNumber", new Method(
+                        "GetRandomNumber",
+                        LibrariesResources.Math_GetRandomNumber,
+                        returnsValue: true,
+                        LibrariesResources.Math_GetRandomNumber_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "maxNumber", new Parameter("maxNumber", LibrariesResources.Math_GetRandomNumber_maxNumber) },
+                        }));
+                }
+
+                // Initialization code for method Math.Log:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Log(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Log", new Method(
+                        "Log",
+                        LibrariesResources.Math_Log,
+                        returnsValue: true,
+                        LibrariesResources.Math_Log_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_Log_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.Max:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal number1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Max(number1: number1, number2: number2);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Max", new Method(
+                        "Max",
+                        LibrariesResources.Math_Max,
+                        returnsValue: true,
+                        LibrariesResources.Math_Max_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number1", new Parameter("number1", LibrariesResources.Math_Max_number1) },
+                            { "number2", new Parameter("number2", LibrariesResources.Math_Max_number2) },
+                        }));
+                }
+
+                // Initialization code for method Math.Min:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal number1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Min(number1: number1, number2: number2);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Min", new Method(
+                        "Min",
+                        LibrariesResources.Math_Min,
+                        returnsValue: true,
+                        LibrariesResources.Math_Min_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number1", new Parameter("number1", LibrariesResources.Math_Min_number1) },
+                            { "number2", new Parameter("number2", LibrariesResources.Math_Min_number2) },
+                        }));
+                }
+
+                // Initialization code for method Math.NaturalLog:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_NaturalLog(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("NaturalLog", new Method(
+                        "NaturalLog",
+                        LibrariesResources.Math_NaturalLog,
+                        returnsValue: true,
+                        LibrariesResources.Math_NaturalLog_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_NaturalLog_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.Power:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal exponent = engine.EvaluationStack.Pop().ToNumber();
+                        decimal baseNumber = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Power(baseNumber: baseNumber, exponent: exponent);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Power", new Method(
+                        "Power",
+                        LibrariesResources.Math_Power,
+                        returnsValue: true,
+                        LibrariesResources.Math_Power_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "baseNumber", new Parameter("baseNumber", LibrariesResources.Math_Power_baseNumber) },
+                            { "exponent", new Parameter("exponent", LibrariesResources.Math_Power_exponent) },
+                        }));
+                }
+
+                // Initialization code for method Math.Remainder:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal divisor = engine.EvaluationStack.Pop().ToNumber();
+                        decimal dividend = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Remainder(dividend: dividend, divisor: divisor);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Remainder", new Method(
+                        "Remainder",
+                        LibrariesResources.Math_Remainder,
+                        returnsValue: true,
+                        LibrariesResources.Math_Remainder_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "dividend", new Parameter("dividend", LibrariesResources.Math_Remainder_dividend) },
+                            { "divisor", new Parameter("divisor", LibrariesResources.Math_Remainder_divisor) },
+                        }));
+                }
+
+                // Initialization code for method Math.Round:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Round(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Round", new Method(
+                        "Round",
+                        LibrariesResources.Math_Round,
+                        returnsValue: true,
+                        LibrariesResources.Math_Round_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_Round_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.Sin:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Sin(angle: angle);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Sin", new Method(
+                        "Sin",
+                        LibrariesResources.Math_Sin,
+                        returnsValue: true,
+                        LibrariesResources.Math_Sin_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "angle", new Parameter("angle", LibrariesResources.Math_Sin_angle) },
+                        }));
+                }
+
+                // Initialization code for method Math.SquareRoot:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal number = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_SquareRoot(number: number);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("SquareRoot", new Method(
+                        "SquareRoot",
+                        LibrariesResources.Math_SquareRoot,
+                        returnsValue: true,
+                        LibrariesResources.Math_SquareRoot_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "number", new Parameter("number", LibrariesResources.Math_SquareRoot_number) },
+                        }));
+                }
+
+                // Initialization code for method Math.Tan:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        decimal returnValue = Execute_Math_Tan(angle: angle);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("Tan", new Method(
+                        "Tan",
+                        LibrariesResources.Math_Tan,
+                        returnsValue: true,
+                        LibrariesResources.Math_Tan_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "angle", new Parameter("angle", LibrariesResources.Math_Tan_angle) },
+                        }));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Math.Pi:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Math_Pi").ReturnType.ToString() == "System.Void", "Setter method 'Set_Math_Pi' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = Get_Math_Pi();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    properties.Add("Pi", new Property("Pi", LibrariesResources.Math_Pi, isDeprecated: false, getter: getter, setter: null));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Math", new Library("Math", LibrariesResources.Math, methods, properties, events));
+                types.Add("Math", new Library("Math", LibrariesResources.Math, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Mouse'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("HideCursor", new Method(
-                    "HideCursor",
-                    LibrariesResources.Mouse_HideCursor,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("ShowCursor", new Method(
-                    "ShowCursor",
-                    LibrariesResources.Mouse_ShowCursor,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Mouse.HideCursor:
                 {
-                    { "IsLeftButtonDown", new Property("IsLeftButtonDown", LibrariesResources.Mouse_IsLeftButtonDown, hasGetter: true, hasSetter: false) },
-                    { "IsRightButtonDown", new Property("IsRightButtonDown", LibrariesResources.Mouse_IsRightButtonDown, hasGetter: true, hasSetter: false) },
-                    { "MouseX", new Property("MouseX", LibrariesResources.Mouse_MouseX, hasGetter: true, hasSetter: true) },
-                    { "MouseY", new Property("MouseY", LibrariesResources.Mouse_MouseY, hasGetter: true, hasSetter: true) },
-                };
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Mouse_HideCursor").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Mouse_HideCursor' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    methods.Add("HideCursor", new Method(
+                        "HideCursor",
+                        LibrariesResources.Mouse_HideCursor,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Mouse.ShowCursor:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Mouse_ShowCursor").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Mouse_ShowCursor' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    methods.Add("ShowCursor", new Method(
+                        "ShowCursor",
+                        LibrariesResources.Mouse_ShowCursor,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Mouse.IsLeftButtonDown:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_IsLeftButtonDown").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_IsLeftButtonDown' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    properties.Add("IsLeftButtonDown", new Property("IsLeftButtonDown", LibrariesResources.Mouse_IsLeftButtonDown, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Mouse.IsRightButtonDown:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_IsRightButtonDown").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_IsRightButtonDown' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    properties.Add("IsRightButtonDown", new Property("IsRightButtonDown", LibrariesResources.Mouse_IsRightButtonDown, isDeprecated: false, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Mouse.MouseX:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_MouseX").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_MouseX' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    properties.Add("MouseX", new Property("MouseX", LibrariesResources.Mouse_MouseX, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property Mouse.MouseY:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_MouseY").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_MouseY' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                    }
+
+                    properties.Add("MouseY", new Property("MouseY", LibrariesResources.Mouse_MouseY, isDeprecated: false, getter: getter, setter: setter));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, methods, properties, events));
+                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'Network'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("DownloadFile", new Method(
-                    "DownloadFile",
-                    LibrariesResources.Network_DownloadFile,
-                    returnsValue: true,
-                    LibrariesResources.Network_DownloadFile_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Network.DownloadFile:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "url", new Parameter("url", LibrariesResources.Network_DownloadFile_url) },
-                    }));
+                        throw new InvalidOperationException("Library 'Network' is deprecated.");
+                    }
 
-                methods.Add("GetWebPageContents", new Method(
-                    "GetWebPageContents",
-                    LibrariesResources.Network_GetWebPageContents,
-                    returnsValue: true,
-                    LibrariesResources.Network_GetWebPageContents_ReturnValue,
-                    new Dictionary<string, Parameter>
+                    methods.Add("DownloadFile", new Method(
+                        "DownloadFile",
+                        LibrariesResources.Network_DownloadFile,
+                        returnsValue: true,
+                        LibrariesResources.Network_DownloadFile_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "url", new Parameter("url", LibrariesResources.Network_DownloadFile_url) },
+                        }));
+                }
+
+                // Initialization code for method Network.GetWebPageContents:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "url", new Parameter("url", LibrariesResources.Network_GetWebPageContents_url) },
-                    }));
+                        throw new InvalidOperationException("Library 'Network' is deprecated.");
+                    }
+
+                    methods.Add("GetWebPageContents", new Method(
+                        "GetWebPageContents",
+                        LibrariesResources.Network_GetWebPageContents,
+                        returnsValue: true,
+                        LibrariesResources.Network_GetWebPageContents_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "url", new Parameter("url", LibrariesResources.Network_GetWebPageContents_url) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Network", new Library("Network", LibrariesResources.Network, methods, properties, events));
+                types.Add("Network", new Library("Network", LibrariesResources.Network, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'Program'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Delay", new Method(
-                    "Delay",
-                    LibrariesResources.Program_Delay,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "milliSeconds", new Parameter("milliSeconds", LibrariesResources.Program_Delay_milliSeconds) },
-                    }));
-
-                methods.Add("End", new Method(
-                    "End",
-                    LibrariesResources.Program_End,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("GetArgument", new Method(
-                    "GetArgument",
-                    LibrariesResources.Program_GetArgument,
-                    returnsValue: true,
-                    LibrariesResources.Program_GetArgument_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "index", new Parameter("index", LibrariesResources.Program_GetArgument_index) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Program.Delay:
                 {
-                    { "ArgumentCount", new Property("ArgumentCount", LibrariesResources.Program_ArgumentCount, hasGetter: true, hasSetter: false) },
-                    { "Directory", new Property("Directory", LibrariesResources.Program_Directory, hasGetter: true, hasSetter: false) },
-                };
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Program_Delay").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Program_Delay' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal milliSeconds = engine.EvaluationStack.Pop().ToNumber();
+                        Execute_Program_Delay(milliSeconds: milliSeconds);
+                    }
+
+                    methods.Add("Delay", new Method(
+                        "Delay",
+                        LibrariesResources.Program_Delay,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "milliSeconds", new Parameter("milliSeconds", LibrariesResources.Program_Delay_milliSeconds) },
+                        }));
+                }
+
+                // Initialization code for method Program.End:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Program_End").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Program_End' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        Execute_Program_End();
+                    }
+
+                    methods.Add("End", new Method(
+                        "End",
+                        LibrariesResources.Program_End,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Program.GetArgument:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library method 'Program.GetArgument' is deprecated.");
+                    }
+
+                    methods.Add("GetArgument", new Method(
+                        "GetArgument",
+                        LibrariesResources.Program_GetArgument,
+                        returnsValue: true,
+                        LibrariesResources.Program_GetArgument_ReturnValue,
+                        isDeprecated: true,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "index", new Parameter("index", LibrariesResources.Program_GetArgument_index) },
+                        }));
+                }
+
+                // Initialization code for method Program.Pause:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Program_Pause").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Program_Pause' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        Execute_Program_Pause();
+                    }
+
+                    methods.Add("Pause", new Method(
+                        "Pause",
+                        LibrariesResources.Program_Pause,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Program.ArgumentCount:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Program_ArgumentCount").ReturnType.ToString() == "System.Void", "Setter method 'Set_Program_ArgumentCount' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'Program.ArgumentCount' is deprecated.");
+                    }
+
+                    properties.Add("ArgumentCount", new Property("ArgumentCount", LibrariesResources.Program_ArgumentCount, isDeprecated: true, getter: getter, setter: null));
+                }
+
+                // Initialization code for property Program.Directory:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Program_Directory").ReturnType.ToString() == "System.Void", "Setter method 'Set_Program_Directory' should have void return type.");
+
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'Program.Directory' is deprecated.");
+                    }
+
+                    properties.Add("Directory", new Property("Directory", LibrariesResources.Program_Directory, isDeprecated: true, getter: getter, setter: null));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Program", new Library("Program", LibrariesResources.Program, methods, properties, events));
+                types.Add("Program", new Library("Program", LibrariesResources.Program, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Shapes'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("AddEllipse", new Method(
-                    "AddEllipse",
-                    LibrariesResources.Shapes_AddEllipse,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_AddEllipse_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.AddEllipse:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "width", new Parameter("width", LibrariesResources.Shapes_AddEllipse_width) },
-                        { "height", new Parameter("height", LibrariesResources.Shapes_AddEllipse_height) },
-                    }));
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.Shapes.AddEllipse(width: width, height: height);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("AddImage", new Method(
-                    "AddImage",
-                    LibrariesResources.Shapes_AddImage,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_AddImage_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "imageName", new Parameter("imageName", LibrariesResources.Shapes_AddImage_imageName) },
-                    }));
+                    methods.Add("AddEllipse", new Method(
+                        "AddEllipse",
+                        LibrariesResources.Shapes_AddEllipse,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_AddEllipse_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "width", new Parameter("width", LibrariesResources.Shapes_AddEllipse_width) },
+                            { "height", new Parameter("height", LibrariesResources.Shapes_AddEllipse_height) },
+                        }));
+                }
 
-                methods.Add("AddLine", new Method(
-                    "AddLine",
-                    LibrariesResources.Shapes_AddLine,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_AddLine_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.AddImage:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "x1", new Parameter("x1", LibrariesResources.Shapes_AddLine_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.Shapes_AddLine_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.Shapes_AddLine_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.Shapes_AddLine_y2) },
-                    }));
+                        string imageName = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.Shapes.AddImage(imageName: imageName);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("AddRectangle", new Method(
-                    "AddRectangle",
-                    LibrariesResources.Shapes_AddRectangle,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_AddRectangle_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "width", new Parameter("width", LibrariesResources.Shapes_AddRectangle_width) },
-                        { "height", new Parameter("height", LibrariesResources.Shapes_AddRectangle_height) },
-                    }));
+                    methods.Add("AddImage", new Method(
+                        "AddImage",
+                        LibrariesResources.Shapes_AddImage,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_AddImage_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "imageName", new Parameter("imageName", LibrariesResources.Shapes_AddImage_imageName) },
+                        }));
+                }
 
-                methods.Add("AddText", new Method(
-                    "AddText",
-                    LibrariesResources.Shapes_AddText,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_AddText_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.AddLine:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text", new Parameter("text", LibrariesResources.Shapes_AddText_text) },
-                    }));
+                        decimal y2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x1 = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.Shapes.AddLine(x1: x1, y1: y1, x2: x2, y2: y2);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("AddTriangle", new Method(
-                    "AddTriangle",
-                    LibrariesResources.Shapes_AddTriangle,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_AddTriangle_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x1", new Parameter("x1", LibrariesResources.Shapes_AddTriangle_x1) },
-                        { "y1", new Parameter("y1", LibrariesResources.Shapes_AddTriangle_y1) },
-                        { "x2", new Parameter("x2", LibrariesResources.Shapes_AddTriangle_x2) },
-                        { "y2", new Parameter("y2", LibrariesResources.Shapes_AddTriangle_y2) },
-                        { "x3", new Parameter("x3", LibrariesResources.Shapes_AddTriangle_x3) },
-                        { "y3", new Parameter("y3", LibrariesResources.Shapes_AddTriangle_y3) },
-                    }));
+                    methods.Add("AddLine", new Method(
+                        "AddLine",
+                        LibrariesResources.Shapes_AddLine,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_AddLine_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x1", new Parameter("x1", LibrariesResources.Shapes_AddLine_x1) },
+                            { "y1", new Parameter("y1", LibrariesResources.Shapes_AddLine_y1) },
+                            { "x2", new Parameter("x2", LibrariesResources.Shapes_AddLine_x2) },
+                            { "y2", new Parameter("y2", LibrariesResources.Shapes_AddLine_y2) },
+                        }));
+                }
 
-                methods.Add("Animate", new Method(
-                    "Animate",
-                    LibrariesResources.Shapes_Animate,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.AddRectangle:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Animate_shapeName) },
-                        { "x", new Parameter("x", LibrariesResources.Shapes_Animate_x) },
-                        { "y", new Parameter("y", LibrariesResources.Shapes_Animate_y) },
-                        { "duration", new Parameter("duration", LibrariesResources.Shapes_Animate_duration) },
-                    }));
+                        decimal height = engine.EvaluationStack.Pop().ToNumber();
+                        decimal width = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.Shapes.AddRectangle(width: width, height: height);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("GetLeft", new Method(
-                    "GetLeft",
-                    LibrariesResources.Shapes_GetLeft,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_GetLeft_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetLeft_shapeName) },
-                    }));
+                    methods.Add("AddRectangle", new Method(
+                        "AddRectangle",
+                        LibrariesResources.Shapes_AddRectangle,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_AddRectangle_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "width", new Parameter("width", LibrariesResources.Shapes_AddRectangle_width) },
+                            { "height", new Parameter("height", LibrariesResources.Shapes_AddRectangle_height) },
+                        }));
+                }
 
-                methods.Add("GetOpacity", new Method(
-                    "GetOpacity",
-                    LibrariesResources.Shapes_GetOpacity,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_GetOpacity_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.AddText:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetOpacity_shapeName) },
-                    }));
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.Shapes.AddText(text: text);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("GetTop", new Method(
-                    "GetTop",
-                    LibrariesResources.Shapes_GetTop,
-                    returnsValue: true,
-                    LibrariesResources.Shapes_GetTop_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetTop_shapeName) },
-                    }));
+                    methods.Add("AddText", new Method(
+                        "AddText",
+                        LibrariesResources.Shapes_AddText,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_AddText_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Shapes_AddText_text) },
+                        }));
+                }
 
-                methods.Add("HideShape", new Method(
-                    "HideShape",
-                    LibrariesResources.Shapes_HideShape,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.AddTriangle:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_HideShape_shapeName) },
-                    }));
+                        decimal y3 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x3 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x2 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y1 = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x1 = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = engine.Plugins.Shapes.AddTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("Move", new Method(
-                    "Move",
-                    LibrariesResources.Shapes_Move,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Move_shapeName) },
-                        { "x", new Parameter("x", LibrariesResources.Shapes_Move_x) },
-                        { "y", new Parameter("y", LibrariesResources.Shapes_Move_y) },
-                    }));
+                    methods.Add("AddTriangle", new Method(
+                        "AddTriangle",
+                        LibrariesResources.Shapes_AddTriangle,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_AddTriangle_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x1", new Parameter("x1", LibrariesResources.Shapes_AddTriangle_x1) },
+                            { "y1", new Parameter("y1", LibrariesResources.Shapes_AddTriangle_y1) },
+                            { "x2", new Parameter("x2", LibrariesResources.Shapes_AddTriangle_x2) },
+                            { "y2", new Parameter("y2", LibrariesResources.Shapes_AddTriangle_y2) },
+                            { "x3", new Parameter("x3", LibrariesResources.Shapes_AddTriangle_x3) },
+                            { "y3", new Parameter("y3", LibrariesResources.Shapes_AddTriangle_y3) },
+                        }));
+                }
 
-                methods.Add("Remove", new Method(
-                    "Remove",
-                    LibrariesResources.Shapes_Remove,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.Animate:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Remove_shapeName) },
-                    }));
+                        decimal duration = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.Animate(shapeName: shapeName, x: x, y: y, duration: duration);
+                    }
 
-                methods.Add("Rotate", new Method(
-                    "Rotate",
-                    LibrariesResources.Shapes_Rotate,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Rotate_shapeName) },
-                        { "angle", new Parameter("angle", LibrariesResources.Shapes_Rotate_angle) },
-                    }));
+                    methods.Add("Animate", new Method(
+                        "Animate",
+                        LibrariesResources.Shapes_Animate,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Animate_shapeName) },
+                            { "x", new Parameter("x", LibrariesResources.Shapes_Animate_x) },
+                            { "y", new Parameter("y", LibrariesResources.Shapes_Animate_y) },
+                            { "duration", new Parameter("duration", LibrariesResources.Shapes_Animate_duration) },
+                        }));
+                }
 
-                methods.Add("SetOpacity", new Method(
-                    "SetOpacity",
-                    LibrariesResources.Shapes_SetOpacity,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.GetLeft:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetOpacity_shapeName) },
-                        { "level", new Parameter("level", LibrariesResources.Shapes_SetOpacity_level) },
-                    }));
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = engine.Plugins.Shapes.GetLeft(shapeName: shapeName);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
 
-                methods.Add("SetText", new Method(
-                    "SetText",
-                    LibrariesResources.Shapes_SetText,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetText_shapeName) },
-                        { "text", new Parameter("text", LibrariesResources.Shapes_SetText_text) },
-                    }));
+                    methods.Add("GetLeft", new Method(
+                        "GetLeft",
+                        LibrariesResources.Shapes_GetLeft,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_GetLeft_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetLeft_shapeName) },
+                        }));
+                }
 
-                methods.Add("ShowShape", new Method(
-                    "ShowShape",
-                    LibrariesResources.Shapes_ShowShape,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Shapes.GetOpacity:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_ShowShape_shapeName) },
-                    }));
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = engine.Plugins.Shapes.GetOpacity(shapeName: shapeName);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
 
-                methods.Add("Zoom", new Method(
-                    "Zoom",
-                    LibrariesResources.Shapes_Zoom,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                    methods.Add("GetOpacity", new Method(
+                        "GetOpacity",
+                        LibrariesResources.Shapes_GetOpacity,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_GetOpacity_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetOpacity_shapeName) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.GetTop:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Zoom_shapeName) },
-                        { "scaleX", new Parameter("scaleX", LibrariesResources.Shapes_Zoom_scaleX) },
-                        { "scaleY", new Parameter("scaleY", LibrariesResources.Shapes_Zoom_scaleY) },
-                    }));
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = engine.Plugins.Shapes.GetTop(shapeName: shapeName);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetTop", new Method(
+                        "GetTop",
+                        LibrariesResources.Shapes_GetTop,
+                        returnsValue: true,
+                        LibrariesResources.Shapes_GetTop_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetTop_shapeName) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.HideShape:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.HideShape(shapeName: shapeName);
+                    }
+
+                    methods.Add("HideShape", new Method(
+                        "HideShape",
+                        LibrariesResources.Shapes_HideShape,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_HideShape_shapeName) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.Move:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.Move(shapeName: shapeName, x: x, y: y);
+                    }
+
+                    methods.Add("Move", new Method(
+                        "Move",
+                        LibrariesResources.Shapes_Move,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Move_shapeName) },
+                            { "x", new Parameter("x", LibrariesResources.Shapes_Move_x) },
+                            { "y", new Parameter("y", LibrariesResources.Shapes_Move_y) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.Remove:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.Remove(shapeName: shapeName);
+                    }
+
+                    methods.Add("Remove", new Method(
+                        "Remove",
+                        LibrariesResources.Shapes_Remove,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Remove_shapeName) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.Rotate:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.Rotate(shapeName: shapeName, angle: angle);
+                    }
+
+                    methods.Add("Rotate", new Method(
+                        "Rotate",
+                        LibrariesResources.Shapes_Rotate,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Rotate_shapeName) },
+                            { "angle", new Parameter("angle", LibrariesResources.Shapes_Rotate_angle) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.SetOpacity:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal level = engine.EvaluationStack.Pop().ToNumber();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.SetOpacity(shapeName: shapeName, level: level);
+                    }
+
+                    methods.Add("SetOpacity", new Method(
+                        "SetOpacity",
+                        LibrariesResources.Shapes_SetOpacity,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetOpacity_shapeName) },
+                            { "level", new Parameter("level", LibrariesResources.Shapes_SetOpacity_level) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.SetText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.SetText(shapeName: shapeName, text: text);
+                    }
+
+                    methods.Add("SetText", new Method(
+                        "SetText",
+                        LibrariesResources.Shapes_SetText,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetText_shapeName) },
+                            { "text", new Parameter("text", LibrariesResources.Shapes_SetText_text) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.ShowShape:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.ShowShape(shapeName: shapeName);
+                    }
+
+                    methods.Add("ShowShape", new Method(
+                        "ShowShape",
+                        LibrariesResources.Shapes_ShowShape,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_ShowShape_shapeName) },
+                        }));
+                }
+
+                // Initialization code for method Shapes.Zoom:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal scaleY = engine.EvaluationStack.Pop().ToNumber();
+                        decimal scaleX = engine.EvaluationStack.Pop().ToNumber();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Shapes.Zoom(shapeName: shapeName, scaleX: scaleX, scaleY: scaleY);
+                    }
+
+                    methods.Add("Zoom", new Method(
+                        "Zoom",
+                        LibrariesResources.Shapes_Zoom,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Zoom_shapeName) },
+                            { "scaleX", new Parameter("scaleX", LibrariesResources.Shapes_Zoom_scaleX) },
+                            { "scaleY", new Parameter("scaleY", LibrariesResources.Shapes_Zoom_scaleY) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, methods, properties, events));
+                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Sound'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Pause", new Method(
-                    "Pause",
-                    LibrariesResources.Sound_Pause,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Sound.Pause:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_Pause").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_Pause' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Pause_filePath) },
-                    }));
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
 
-                methods.Add("Play", new Method(
-                    "Play",
-                    LibrariesResources.Sound_Play,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                    methods.Add("Pause", new Method(
+                        "Pause",
+                        LibrariesResources.Sound_Pause,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.Sound_Pause_filePath) },
+                        }));
+                }
+
+                // Initialization code for method Sound.Play:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_Play").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_Play' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Play_filePath) },
-                    }));
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
 
-                methods.Add("PlayAndWait", new Method(
-                    "PlayAndWait",
-                    LibrariesResources.Sound_PlayAndWait,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                    methods.Add("Play", new Method(
+                        "Play",
+                        LibrariesResources.Sound_Play,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.Sound_Play_filePath) },
+                        }));
+                }
+
+                // Initialization code for method Sound.PlayAndWait:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayAndWait' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_PlayAndWait_filePath) },
-                    }));
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
 
-                methods.Add("PlayBellRing", new Method(
-                    "PlayBellRing",
-                    LibrariesResources.Sound_PlayBellRing,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
+                    methods.Add("PlayAndWait", new Method(
+                        "PlayAndWait",
+                        LibrariesResources.Sound_PlayAndWait,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.Sound_PlayAndWait_filePath) },
+                        }));
+                }
 
-                methods.Add("PlayBellRingAndWait", new Method(
-                    "PlayBellRingAndWait",
-                    LibrariesResources.Sound_PlayBellRingAndWait,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
+                // Initialization code for method Sound.PlayBellRing:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayBellRing").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayBellRing' should have void return type.");
 
-                methods.Add("PlayChime", new Method(
-                    "PlayChime",
-                    LibrariesResources.Sound_PlayChime,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PlayChimeAndWait", new Method(
-                    "PlayChimeAndWait",
-                    LibrariesResources.Sound_PlayChimeAndWait,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PlayChimes", new Method(
-                    "PlayChimes",
-                    LibrariesResources.Sound_PlayChimes,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PlayChimesAndWait", new Method(
-                    "PlayChimesAndWait",
-                    LibrariesResources.Sound_PlayChimesAndWait,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PlayClick", new Method(
-                    "PlayClick",
-                    LibrariesResources.Sound_PlayClick,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PlayClickAndWait", new Method(
-                    "PlayClickAndWait",
-                    LibrariesResources.Sound_PlayClickAndWait,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PlayMusic", new Method(
-                    "PlayMusic",
-                    LibrariesResources.Sound_PlayMusic,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "notes", new Parameter("notes", LibrariesResources.Sound_PlayMusic_notes) },
-                    }));
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
 
-                methods.Add("Stop", new Method(
-                    "Stop",
-                    LibrariesResources.Sound_Stop,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                    methods.Add("PlayBellRing", new Method(
+                        "PlayBellRing",
+                        LibrariesResources.Sound_PlayBellRing,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayBellRingAndWait:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayBellRingAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayBellRingAndWait' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "filePath", new Parameter("filePath", LibrariesResources.Sound_Stop_filePath) },
-                    }));
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayBellRingAndWait", new Method(
+                        "PlayBellRingAndWait",
+                        LibrariesResources.Sound_PlayBellRingAndWait,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayChime:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChime").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChime' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayChime", new Method(
+                        "PlayChime",
+                        LibrariesResources.Sound_PlayChime,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayChimeAndWait:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChimeAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChimeAndWait' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayChimeAndWait", new Method(
+                        "PlayChimeAndWait",
+                        LibrariesResources.Sound_PlayChimeAndWait,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayChimes:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChimes").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChimes' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayChimes", new Method(
+                        "PlayChimes",
+                        LibrariesResources.Sound_PlayChimes,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayChimesAndWait:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChimesAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChimesAndWait' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayChimesAndWait", new Method(
+                        "PlayChimesAndWait",
+                        LibrariesResources.Sound_PlayChimesAndWait,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayClick:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayClick").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayClick' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayClick", new Method(
+                        "PlayClick",
+                        LibrariesResources.Sound_PlayClick,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayClickAndWait:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayClickAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayClickAndWait' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayClickAndWait", new Method(
+                        "PlayClickAndWait",
+                        LibrariesResources.Sound_PlayClickAndWait,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Sound.PlayMusic:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayMusic").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayMusic' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("PlayMusic", new Method(
+                        "PlayMusic",
+                        LibrariesResources.Sound_PlayMusic,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "notes", new Parameter("notes", LibrariesResources.Sound_PlayMusic_notes) },
+                        }));
+                }
+
+                // Initialization code for method Sound.Stop:
+                {
+                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_Stop").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_Stop' should have void return type.");
+
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                    }
+
+                    methods.Add("Stop", new Method(
+                        "Stop",
+                        LibrariesResources.Sound_Stop,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "filePath", new Parameter("filePath", LibrariesResources.Sound_Stop_filePath) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, methods, properties, events));
+                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, isDeprecated: true, methods, properties, events));
             }
 
             // Initialization code for library 'Stack'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("GetCount", new Method(
-                    "GetCount",
-                    LibrariesResources.Stack_GetCount,
-                    returnsValue: true,
-                    LibrariesResources.Stack_GetCount_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Stack.GetCount:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_GetCount_stackName) },
-                    }));
+                        string stackName = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = engine.Plugins.Stack.GetCount(stackName: stackName);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
 
-                methods.Add("PopValue", new Method(
-                    "PopValue",
-                    LibrariesResources.Stack_PopValue,
-                    returnsValue: true,
-                    LibrariesResources.Stack_PopValue_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_PopValue_stackName) },
-                    }));
+                    methods.Add("GetCount", new Method(
+                        "GetCount",
+                        LibrariesResources.Stack_GetCount,
+                        returnsValue: true,
+                        LibrariesResources.Stack_GetCount_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "stackName", new Parameter("stackName", LibrariesResources.Stack_GetCount_stackName) },
+                        }));
+                }
 
-                methods.Add("PushValue", new Method(
-                    "PushValue",
-                    LibrariesResources.Stack_PushValue,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Stack.PopValue:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "stackName", new Parameter("stackName", LibrariesResources.Stack_PushValue_stackName) },
-                        { "value", new Parameter("value", LibrariesResources.Stack_PushValue_value) },
-                    }));
+                        string stackName = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Plugins.Stack.PopValue(stackName: stackName);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("PopValue", new Method(
+                        "PopValue",
+                        LibrariesResources.Stack_PopValue,
+                        returnsValue: true,
+                        LibrariesResources.Stack_PopValue_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "stackName", new Parameter("stackName", LibrariesResources.Stack_PopValue_stackName) },
+                        }));
+                }
+
+                // Initialization code for method Stack.PushValue:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        string stackName = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.Stack.PushValue(stackName: stackName, value: value);
+                    }
+
+                    methods.Add("PushValue", new Method(
+                        "PushValue",
+                        LibrariesResources.Stack_PushValue,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "stackName", new Parameter("stackName", LibrariesResources.Stack_PushValue_stackName) },
+                            { "value", new Parameter("value", LibrariesResources.Stack_PushValue_value) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, methods, properties, events));
+                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Text'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Append", new Method(
-                    "Append",
-                    LibrariesResources.Text_Append,
-                    returnsValue: true,
-                    LibrariesResources.Text_Append_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Text.Append:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text1", new Parameter("text1", LibrariesResources.Text_Append_text1) },
-                        { "text2", new Parameter("text2", LibrariesResources.Text_Append_text2) },
-                    }));
+                        string text2 = engine.EvaluationStack.Pop().ToString();
+                        string text1 = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = Execute_Text_Append(text1: text1, text2: text2);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("ConvertToLowerCase", new Method(
-                    "ConvertToLowerCase",
-                    LibrariesResources.Text_ConvertToLowerCase,
-                    returnsValue: true,
-                    LibrariesResources.Text_ConvertToLowerCase_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "text", new Parameter("text", LibrariesResources.Text_ConvertToLowerCase_text) },
-                    }));
+                    methods.Add("Append", new Method(
+                        "Append",
+                        LibrariesResources.Text_Append,
+                        returnsValue: true,
+                        LibrariesResources.Text_Append_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text1", new Parameter("text1", LibrariesResources.Text_Append_text1) },
+                            { "text2", new Parameter("text2", LibrariesResources.Text_Append_text2) },
+                        }));
+                }
 
-                methods.Add("ConvertToUpperCase", new Method(
-                    "ConvertToUpperCase",
-                    LibrariesResources.Text_ConvertToUpperCase,
-                    returnsValue: true,
-                    LibrariesResources.Text_ConvertToUpperCase_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Text.ConvertToLowerCase:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_ConvertToUpperCase_text) },
-                    }));
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = Execute_Text_ConvertToLowerCase(text: text);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("EndsWith", new Method(
-                    "EndsWith",
-                    LibrariesResources.Text_EndsWith,
-                    returnsValue: true,
-                    LibrariesResources.Text_EndsWith_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "text", new Parameter("text", LibrariesResources.Text_EndsWith_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_EndsWith_subText) },
-                    }));
+                    methods.Add("ConvertToLowerCase", new Method(
+                        "ConvertToLowerCase",
+                        LibrariesResources.Text_ConvertToLowerCase,
+                        returnsValue: true,
+                        LibrariesResources.Text_ConvertToLowerCase_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_ConvertToLowerCase_text) },
+                        }));
+                }
 
-                methods.Add("GetCharacter", new Method(
-                    "GetCharacter",
-                    LibrariesResources.Text_GetCharacter,
-                    returnsValue: true,
-                    LibrariesResources.Text_GetCharacter_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Text.ConvertToUpperCase:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "characterCode", new Parameter("characterCode", LibrariesResources.Text_GetCharacter_characterCode) },
-                    }));
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = Execute_Text_ConvertToUpperCase(text: text);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("GetCharacterCode", new Method(
-                    "GetCharacterCode",
-                    LibrariesResources.Text_GetCharacterCode,
-                    returnsValue: true,
-                    LibrariesResources.Text_GetCharacterCode_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "character", new Parameter("character", LibrariesResources.Text_GetCharacterCode_character) },
-                    }));
+                    methods.Add("ConvertToUpperCase", new Method(
+                        "ConvertToUpperCase",
+                        LibrariesResources.Text_ConvertToUpperCase,
+                        returnsValue: true,
+                        LibrariesResources.Text_ConvertToUpperCase_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_ConvertToUpperCase_text) },
+                        }));
+                }
 
-                methods.Add("GetIndexOf", new Method(
-                    "GetIndexOf",
-                    LibrariesResources.Text_GetIndexOf,
-                    returnsValue: true,
-                    LibrariesResources.Text_GetIndexOf_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Text.EndsWith:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetIndexOf_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_GetIndexOf_subText) },
-                    }));
+                        string subText = engine.EvaluationStack.Pop().ToString();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        bool returnValue = Execute_Text_EndsWith(text: text, subText: subText);
+                        engine.EvaluationStack.Push(new BooleanValue(returnValue));
+                    }
 
-                methods.Add("GetLength", new Method(
-                    "GetLength",
-                    LibrariesResources.Text_GetLength,
-                    returnsValue: true,
-                    LibrariesResources.Text_GetLength_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetLength_text) },
-                    }));
+                    methods.Add("EndsWith", new Method(
+                        "EndsWith",
+                        LibrariesResources.Text_EndsWith,
+                        returnsValue: true,
+                        LibrariesResources.Text_EndsWith_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_EndsWith_text) },
+                            { "subText", new Parameter("subText", LibrariesResources.Text_EndsWith_subText) },
+                        }));
+                }
 
-                methods.Add("GetSubText", new Method(
-                    "GetSubText",
-                    LibrariesResources.Text_GetSubText,
-                    returnsValue: true,
-                    LibrariesResources.Text_GetSubText_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Text.GetCharacter:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetSubText_text) },
-                        { "start", new Parameter("start", LibrariesResources.Text_GetSubText_start) },
-                        { "length", new Parameter("length", LibrariesResources.Text_GetSubText_length) },
-                    }));
+                        decimal characterCode = engine.EvaluationStack.Pop().ToNumber();
+                        string returnValue = Execute_Text_GetCharacter(characterCode: characterCode);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
 
-                methods.Add("GetSubTextToEnd", new Method(
-                    "GetSubTextToEnd",
-                    LibrariesResources.Text_GetSubTextToEnd,
-                    returnsValue: true,
-                    LibrariesResources.Text_GetSubTextToEnd_ReturnValue,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "text", new Parameter("text", LibrariesResources.Text_GetSubTextToEnd_text) },
-                        { "start", new Parameter("start", LibrariesResources.Text_GetSubTextToEnd_start) },
-                    }));
+                    methods.Add("GetCharacter", new Method(
+                        "GetCharacter",
+                        LibrariesResources.Text_GetCharacter,
+                        returnsValue: true,
+                        LibrariesResources.Text_GetCharacter_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "characterCode", new Parameter("characterCode", LibrariesResources.Text_GetCharacter_characterCode) },
+                        }));
+                }
 
-                methods.Add("IsSubText", new Method(
-                    "IsSubText",
-                    LibrariesResources.Text_IsSubText,
-                    returnsValue: true,
-                    LibrariesResources.Text_IsSubText_ReturnValue,
-                    new Dictionary<string, Parameter>
+                // Initialization code for method Text.GetCharacterCode:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_IsSubText_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_IsSubText_subText) },
-                    }));
+                        string character = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = Execute_Text_GetCharacterCode(character: character);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
 
-                methods.Add("StartsWith", new Method(
-                    "StartsWith",
-                    LibrariesResources.Text_StartsWith,
-                    returnsValue: true,
-                    LibrariesResources.Text_StartsWith_ReturnValue,
-                    new Dictionary<string, Parameter>
+                    methods.Add("GetCharacterCode", new Method(
+                        "GetCharacterCode",
+                        LibrariesResources.Text_GetCharacterCode,
+                        returnsValue: true,
+                        LibrariesResources.Text_GetCharacterCode_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "character", new Parameter("character", LibrariesResources.Text_GetCharacterCode_character) },
+                        }));
+                }
+
+                // Initialization code for method Text.GetIndexOf:
+                {
+                    void execute(SuperBasicEngine engine)
                     {
-                        { "text", new Parameter("text", LibrariesResources.Text_StartsWith_text) },
-                        { "subText", new Parameter("subText", LibrariesResources.Text_StartsWith_subText) },
-                    }));
+                        string subText = engine.EvaluationStack.Pop().ToString();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = Execute_Text_GetIndexOf(text: text, subText: subText);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetIndexOf", new Method(
+                        "GetIndexOf",
+                        LibrariesResources.Text_GetIndexOf,
+                        returnsValue: true,
+                        LibrariesResources.Text_GetIndexOf_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_GetIndexOf_text) },
+                            { "subText", new Parameter("subText", LibrariesResources.Text_GetIndexOf_subText) },
+                        }));
+                }
+
+                // Initialization code for method Text.GetLength:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        decimal returnValue = Execute_Text_GetLength(text: text);
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("GetLength", new Method(
+                        "GetLength",
+                        LibrariesResources.Text_GetLength,
+                        returnsValue: true,
+                        LibrariesResources.Text_GetLength_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_GetLength_text) },
+                        }));
+                }
+
+                // Initialization code for method Text.GetSubText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal length = engine.EvaluationStack.Pop().ToNumber();
+                        decimal start = engine.EvaluationStack.Pop().ToNumber();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = Execute_Text_GetSubText(text: text, start: start, length: length);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetSubText", new Method(
+                        "GetSubText",
+                        LibrariesResources.Text_GetSubText,
+                        returnsValue: true,
+                        LibrariesResources.Text_GetSubText_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_GetSubText_text) },
+                            { "start", new Parameter("start", LibrariesResources.Text_GetSubText_start) },
+                            { "length", new Parameter("length", LibrariesResources.Text_GetSubText_length) },
+                        }));
+                }
+
+                // Initialization code for method Text.GetSubTextToEnd:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal start = engine.EvaluationStack.Pop().ToNumber();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = Execute_Text_GetSubTextToEnd(text: text, start: start);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("GetSubTextToEnd", new Method(
+                        "GetSubTextToEnd",
+                        LibrariesResources.Text_GetSubTextToEnd,
+                        returnsValue: true,
+                        LibrariesResources.Text_GetSubTextToEnd_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_GetSubTextToEnd_text) },
+                            { "start", new Parameter("start", LibrariesResources.Text_GetSubTextToEnd_start) },
+                        }));
+                }
+
+                // Initialization code for method Text.IsSubText:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string subText = engine.EvaluationStack.Pop().ToString();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        bool returnValue = Execute_Text_IsSubText(text: text, subText: subText);
+                        engine.EvaluationStack.Push(new BooleanValue(returnValue));
+                    }
+
+                    methods.Add("IsSubText", new Method(
+                        "IsSubText",
+                        LibrariesResources.Text_IsSubText,
+                        returnsValue: true,
+                        LibrariesResources.Text_IsSubText_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_IsSubText_text) },
+                            { "subText", new Parameter("subText", LibrariesResources.Text_IsSubText_subText) },
+                        }));
+                }
+
+                // Initialization code for method Text.StartsWith:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string subText = engine.EvaluationStack.Pop().ToString();
+                        string text = engine.EvaluationStack.Pop().ToString();
+                        bool returnValue = Execute_Text_StartsWith(text: text, subText: subText);
+                        engine.EvaluationStack.Push(new BooleanValue(returnValue));
+                    }
+
+                    methods.Add("StartsWith", new Method(
+                        "StartsWith",
+                        LibrariesResources.Text_StartsWith,
+                        returnsValue: true,
+                        LibrariesResources.Text_StartsWith_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "text", new Parameter("text", LibrariesResources.Text_StartsWith_text) },
+                            { "subText", new Parameter("subText", LibrariesResources.Text_StartsWith_subText) },
+                        }));
+                }
 
                 var properties = new Dictionary<string, Property>();
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Text", new Library("Text", LibrariesResources.Text, methods, properties, events));
+                types.Add("Text", new Library("Text", LibrariesResources.Text, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'TextWindow'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Clear", new Method(
-                    "Clear",
-                    LibrariesResources.TextWindow_Clear,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Hide", new Method(
-                    "Hide",
-                    LibrariesResources.TextWindow_Hide,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Pause", new Method(
-                    "Pause",
-                    LibrariesResources.TextWindow_Pause,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PauseIfVisible", new Method(
-                    "PauseIfVisible",
-                    LibrariesResources.TextWindow_PauseIfVisible,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PauseWithoutMessage", new Method(
-                    "PauseWithoutMessage",
-                    LibrariesResources.TextWindow_PauseWithoutMessage,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Read", new Method(
-                    "Read",
-                    LibrariesResources.TextWindow_Read,
-                    returnsValue: true,
-                    LibrariesResources.TextWindow_Read_ReturnValue,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("ReadNumber", new Method(
-                    "ReadNumber",
-                    LibrariesResources.TextWindow_ReadNumber,
-                    returnsValue: true,
-                    LibrariesResources.TextWindow_ReadNumber_ReturnValue,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Show", new Method(
-                    "Show",
-                    LibrariesResources.TextWindow_Show,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Write", new Method(
-                    "Write",
-                    LibrariesResources.TextWindow_Write,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "data", new Parameter("data", LibrariesResources.TextWindow_Write_data) },
-                    }));
-
-                methods.Add("WriteLine", new Method(
-                    "WriteLine",
-                    LibrariesResources.TextWindow_WriteLine,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "data", new Parameter("data", LibrariesResources.TextWindow_WriteLine_data) },
-                    }));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method TextWindow.Clear:
                 {
-                    { "BackgroundColor", new Property("BackgroundColor", LibrariesResources.TextWindow_BackgroundColor, hasGetter: true, hasSetter: true) },
-                    { "CursorLeft", new Property("CursorLeft", LibrariesResources.TextWindow_CursorLeft, hasGetter: true, hasSetter: true) },
-                    { "CursorTop", new Property("CursorTop", LibrariesResources.TextWindow_CursorTop, hasGetter: true, hasSetter: true) },
-                    { "ForegroundColor", new Property("ForegroundColor", LibrariesResources.TextWindow_ForegroundColor, hasGetter: true, hasSetter: true) },
-                    { "Left", new Property("Left", LibrariesResources.TextWindow_Left, hasGetter: true, hasSetter: true) },
-                    { "Title", new Property("Title", LibrariesResources.TextWindow_Title, hasGetter: true, hasSetter: true) },
-                    { "Top", new Property("Top", LibrariesResources.TextWindow_Top, hasGetter: true, hasSetter: true) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.TextWindow.Clear();
+                    }
+
+                    methods.Add("Clear", new Method(
+                        "Clear",
+                        LibrariesResources.TextWindow_Clear,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.Hide:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library method 'TextWindow.Hide' is deprecated.");
+                    }
+
+                    methods.Add("Hide", new Method(
+                        "Hide",
+                        LibrariesResources.TextWindow_Hide,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: true,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.Pause:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library method 'TextWindow.Pause' is deprecated.");
+                    }
+
+                    methods.Add("Pause", new Method(
+                        "Pause",
+                        LibrariesResources.TextWindow_Pause,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: true,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.PauseIfVisible:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library method 'TextWindow.PauseIfVisible' is deprecated.");
+                    }
+
+                    methods.Add("PauseIfVisible", new Method(
+                        "PauseIfVisible",
+                        LibrariesResources.TextWindow_PauseIfVisible,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: true,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.PauseWithoutMessage:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library method 'TextWindow.PauseWithoutMessage' is deprecated.");
+                    }
+
+                    methods.Add("PauseWithoutMessage", new Method(
+                        "PauseWithoutMessage",
+                        LibrariesResources.TextWindow_PauseWithoutMessage,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: true,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.Read:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string returnValue = engine.Plugins.TextWindow.Read();
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                    }
+
+                    methods.Add("Read", new Method(
+                        "Read",
+                        LibrariesResources.TextWindow_Read,
+                        returnsValue: true,
+                        LibrariesResources.TextWindow_Read_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.ReadNumber:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal returnValue = engine.Plugins.TextWindow.ReadNumber();
+                        engine.EvaluationStack.Push(new NumberValue(returnValue));
+                    }
+
+                    methods.Add("ReadNumber", new Method(
+                        "ReadNumber",
+                        LibrariesResources.TextWindow_ReadNumber,
+                        returnsValue: true,
+                        LibrariesResources.TextWindow_ReadNumber_ReturnValue,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.Show:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library method 'TextWindow.Show' is deprecated.");
+                    }
+
+                    methods.Add("Show", new Method(
+                        "Show",
+                        LibrariesResources.TextWindow_Show,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: true,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method TextWindow.Write:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string data = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.TextWindow.Write(data: data);
+                    }
+
+                    methods.Add("Write", new Method(
+                        "Write",
+                        LibrariesResources.TextWindow_Write,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "data", new Parameter("data", LibrariesResources.TextWindow_Write_data) },
+                        }));
+                }
+
+                // Initialization code for method TextWindow.WriteLine:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        string data = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.TextWindow.WriteLine(data: data);
+                    }
+
+                    methods.Add("WriteLine", new Method(
+                        "WriteLine",
+                        LibrariesResources.TextWindow_WriteLine,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "data", new Parameter("data", LibrariesResources.TextWindow_WriteLine_data) },
+                        }));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property TextWindow.BackgroundColor:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.TextWindow.BackgroundColor;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.TextWindow.BackgroundColor = value;
+                    }
+
+                    properties.Add("BackgroundColor", new Property("BackgroundColor", LibrariesResources.TextWindow_BackgroundColor, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property TextWindow.CursorLeft:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.CursorLeft' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.CursorLeft' is deprecated.");
+                    }
+
+                    properties.Add("CursorLeft", new Property("CursorLeft", LibrariesResources.TextWindow_CursorLeft, isDeprecated: true, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property TextWindow.CursorTop:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.CursorTop' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.CursorTop' is deprecated.");
+                    }
+
+                    properties.Add("CursorTop", new Property("CursorTop", LibrariesResources.TextWindow_CursorTop, isDeprecated: true, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property TextWindow.ForegroundColor:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        string value = engine.Plugins.TextWindow.ForegroundColor;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Plugins.TextWindow.ForegroundColor = value;
+                    }
+
+                    properties.Add("ForegroundColor", new Property("ForegroundColor", LibrariesResources.TextWindow_ForegroundColor, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property TextWindow.Left:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.Left' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.Left' is deprecated.");
+                    }
+
+                    properties.Add("Left", new Property("Left", LibrariesResources.TextWindow_Left, isDeprecated: true, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property TextWindow.Title:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.Title' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.Title' is deprecated.");
+                    }
+
+                    properties.Add("Title", new Property("Title", LibrariesResources.TextWindow_Title, isDeprecated: true, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property TextWindow.Top:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.Top' is deprecated.");
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        throw new InvalidOperationException("Library property 'TextWindow.Top' is deprecated.");
+                    }
+
+                    properties.Add("Top", new Property("Top", LibrariesResources.TextWindow_Top, isDeprecated: true, getter: getter, setter: setter));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, methods, properties, events));
+                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Timer'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Pause", new Method(
-                    "Pause",
-                    LibrariesResources.Timer_Pause,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Resume", new Method(
-                    "Resume",
-                    LibrariesResources.Timer_Resume,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Timer.Pause:
                 {
-                    { "Interval", new Property("Interval", LibrariesResources.Timer_Interval, hasGetter: true, hasSetter: true) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Timer.Pause();
+                    }
+
+                    methods.Add("Pause", new Method(
+                        "Pause",
+                        LibrariesResources.Timer_Pause,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Timer.Resume:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Timer.Resume();
+                    }
+
+                    methods.Add("Resume", new Method(
+                        "Resume",
+                        LibrariesResources.Timer_Resume,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Timer.Interval:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.Timer.Interval;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Timer.Interval = value;
+                    }
+
+                    properties.Add("Interval", new Property("Interval", LibrariesResources.Timer_Interval, isDeprecated: false, getter: getter, setter: setter));
+                }
 
                 var events = new Dictionary<string, Event>
                 {
                     { "Tick", new Event("Tick", LibrariesResources.Timer_Tick) },
                 };
 
-                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, methods, properties, events));
+                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, isDeprecated: false, methods, properties, events));
             }
 
             // Initialization code for library 'Turtle'
             {
                 var methods = new Dictionary<string, Method>();
 
-                methods.Add("Hide", new Method(
-                    "Hide",
-                    LibrariesResources.Turtle_Hide,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Move", new Method(
-                    "Move",
-                    LibrariesResources.Turtle_Move,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "distance", new Parameter("distance", LibrariesResources.Turtle_Move_distance) },
-                    }));
-
-                methods.Add("MoveTo", new Method(
-                    "MoveTo",
-                    LibrariesResources.Turtle_MoveTo,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "x", new Parameter("x", LibrariesResources.Turtle_MoveTo_x) },
-                        { "y", new Parameter("y", LibrariesResources.Turtle_MoveTo_y) },
-                    }));
-
-                methods.Add("PenDown", new Method(
-                    "PenDown",
-                    LibrariesResources.Turtle_PenDown,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("PenUp", new Method(
-                    "PenUp",
-                    LibrariesResources.Turtle_PenUp,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Show", new Method(
-                    "Show",
-                    LibrariesResources.Turtle_Show,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("Turn", new Method(
-                    "Turn",
-                    LibrariesResources.Turtle_Turn,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>
-                    {
-                        { "angle", new Parameter("angle", LibrariesResources.Turtle_Turn_angle) },
-                    }));
-
-                methods.Add("TurnLeft", new Method(
-                    "TurnLeft",
-                    LibrariesResources.Turtle_TurnLeft,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                methods.Add("TurnRight", new Method(
-                    "TurnRight",
-                    LibrariesResources.Turtle_TurnRight,
-                    returnsValue: false,
-                    returnValueDescription: null,
-                    new Dictionary<string, Parameter>()));
-
-                var properties = new Dictionary<string, Property>
+                // Initialization code for method Turtle.Hide:
                 {
-                    { "Angle", new Property("Angle", LibrariesResources.Turtle_Angle, hasGetter: true, hasSetter: true) },
-                    { "Speed", new Property("Speed", LibrariesResources.Turtle_Speed, hasGetter: true, hasSetter: true) },
-                    { "X", new Property("X", LibrariesResources.Turtle_X, hasGetter: true, hasSetter: true) },
-                    { "Y", new Property("Y", LibrariesResources.Turtle_Y, hasGetter: true, hasSetter: true) },
-                };
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Turtle.Hide();
+                    }
+
+                    methods.Add("Hide", new Method(
+                        "Hide",
+                        LibrariesResources.Turtle_Hide,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Turtle.Move:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal distance = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.Move(distance: distance);
+                    }
+
+                    methods.Add("Move", new Method(
+                        "Move",
+                        LibrariesResources.Turtle_Move,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "distance", new Parameter("distance", LibrariesResources.Turtle_Move_distance) },
+                        }));
+                }
+
+                // Initialization code for method Turtle.MoveTo:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.MoveTo(x: x, y: y);
+                    }
+
+                    methods.Add("MoveTo", new Method(
+                        "MoveTo",
+                        LibrariesResources.Turtle_MoveTo,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "x", new Parameter("x", LibrariesResources.Turtle_MoveTo_x) },
+                            { "y", new Parameter("y", LibrariesResources.Turtle_MoveTo_y) },
+                        }));
+                }
+
+                // Initialization code for method Turtle.PenDown:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Turtle.PenDown();
+                    }
+
+                    methods.Add("PenDown", new Method(
+                        "PenDown",
+                        LibrariesResources.Turtle_PenDown,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Turtle.PenUp:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Turtle.PenUp();
+                    }
+
+                    methods.Add("PenUp", new Method(
+                        "PenUp",
+                        LibrariesResources.Turtle_PenUp,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Turtle.Show:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Turtle.Show();
+                    }
+
+                    methods.Add("Show", new Method(
+                        "Show",
+                        LibrariesResources.Turtle_Show,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Turtle.Turn:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        decimal angle = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.Turn(angle: angle);
+                    }
+
+                    methods.Add("Turn", new Method(
+                        "Turn",
+                        LibrariesResources.Turtle_Turn,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>
+                        {
+                            { "angle", new Parameter("angle", LibrariesResources.Turtle_Turn_angle) },
+                        }));
+                }
+
+                // Initialization code for method Turtle.TurnLeft:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Turtle.TurnLeft();
+                    }
+
+                    methods.Add("TurnLeft", new Method(
+                        "TurnLeft",
+                        LibrariesResources.Turtle_TurnLeft,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                // Initialization code for method Turtle.TurnRight:
+                {
+                    void execute(SuperBasicEngine engine)
+                    {
+                        engine.Plugins.Turtle.TurnRight();
+                    }
+
+                    methods.Add("TurnRight", new Method(
+                        "TurnRight",
+                        LibrariesResources.Turtle_TurnRight,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        isDeprecated: false,
+                        execute: execute,
+                        new Dictionary<string, Parameter>()));
+                }
+
+                var properties = new Dictionary<string, Property>();
+
+                // Initialization code for property Turtle.Angle:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.Turtle.Angle;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.Angle = value;
+                    }
+
+                    properties.Add("Angle", new Property("Angle", LibrariesResources.Turtle_Angle, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property Turtle.Speed:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.Turtle.Speed;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.Speed = value;
+                    }
+
+                    properties.Add("Speed", new Property("Speed", LibrariesResources.Turtle_Speed, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property Turtle.X:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.Turtle.X;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.X = value;
+                    }
+
+                    properties.Add("X", new Property("X", LibrariesResources.Turtle_X, isDeprecated: false, getter: getter, setter: setter));
+                }
+
+                // Initialization code for property Turtle.Y:
+                {
+                    void getter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.Plugins.Turtle.Y;
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                    void setter(SuperBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Plugins.Turtle.Y = value;
+                    }
+
+                    properties.Add("Y", new Property("Y", LibrariesResources.Turtle_Y, isDeprecated: false, getter: getter, setter: setter));
+                }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, methods, properties, events));
+                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, isDeprecated: false, methods, properties, events));
             }
 
             Types = types;

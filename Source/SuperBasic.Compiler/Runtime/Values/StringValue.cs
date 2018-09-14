@@ -18,14 +18,12 @@ namespace SuperBasic.Compiler.Runtime
 
         public string Value { get; private set; }
 
-        public static BaseValue Empty => new StringValue(string.Empty);
-
-        public static BaseValue True => new StringValue("True");
-
-        public static BaseValue False => new StringValue("False");
+        public static StringValue Empty => new StringValue(string.Empty);
 
         public static BaseValue Create(string value)
         {
+            Debug.Assert(!string.IsNullOrEmpty(value), "Call StringValue.Empty instead.");
+
             switch (value.Trim().ToLower(CultureInfo.CurrentCulture))
             {
                 case "true":
@@ -44,5 +42,7 @@ namespace SuperBasic.Compiler.Runtime
         public override decimal ToNumber() => 0;
 
         public override string ToString() => this.Value;
+
+        public override ArrayValue ToArray() => new ArrayValue();
     }
 }

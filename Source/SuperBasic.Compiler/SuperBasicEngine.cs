@@ -4,19 +4,13 @@
 
 namespace SuperBasic.Compiler
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
-
-    public enum ExecutionMode
-    {
-        RunToEnd,
-        Debug,
-        NextStatement,
-    }
 
     public enum ExecutionState
     {
@@ -29,15 +23,22 @@ namespace SuperBasic.Compiler
 
     public sealed class SuperBasicEngine
     {
-        private ExecutionMode mode = ExecutionMode.RunToEnd;
-        private int currentSourceLine = 0;
+        private bool isDebugging;
+        private int currentSourceLine;
+        private PluginsCollection plugins;
 
-        public SuperBasicEngine(SuperBasicCompilation compilation)
+        public SuperBasicEngine(
+            SuperBasicCompilation compilation,
+            bool isDebugging = false,
+            PluginsCollection plugins = null)
         {
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
 
-            this.State = ExecutionState.Running;
+            this.isDebugging = isDebugging;
+            this.currentSourceLine = 0;
+            this.plugins = plugins;
 
+            this.State = ExecutionState.Running;
             this.ExecutionStack = new Stack<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
             this.Memory = new ArrayValue();
@@ -63,19 +64,27 @@ namespace SuperBasic.Compiler
 
         internal Dictionary<string, RuntimeModule> Modules { get; private set; }
 
+        internal PluginsCollection Plugins
+        {
+            get
+            {
+                if (this.plugins.IsDefault())
+                {
+                    throw new InvalidOperationException("No plugins were provided to the engine.");
+                }
+
+                return this.plugins;
+            }
+        }
+
         public DebuggerSnapshot GetSnapshot()
         {
             return new DebuggerSnapshot(this.currentSourceLine, this.ExecutionStack, this.Memory);
         }
 
-        public void SetExecutionMode(ExecutionMode mode)
+        public void Execute(bool pauseAtNextStatement = false)
         {
-            Debug.Assert(this.State != ExecutionState.Terminated, "Engine is already terminated.");
-            this.mode = mode;
-        }
-
-        public void Execute()
-        {
+            Debug.Assert(this.isDebugging || !pauseAtNextStatement, $"Cannot {nameof(pauseAtNextStatement)} if not debugging.");
             Debug.Assert(this.State == ExecutionState.Running || this.State == ExecutionState.Paused, "Engine is not in a executable state.");
 
             if (this.State == ExecutionState.Paused)
@@ -100,24 +109,35 @@ namespace SuperBasic.Compiler
 
                 BaseInstruction instruction = frame.Module.Instructions[frame.InstructionIndex];
                 int instructionLine = instruction.Range.Start.Line;
-                if (instructionLine != this.currentSourceLine && this.mode == ExecutionMode.NextStatement)
+
+                bool shouldPause = pauseAtNextStatement && this.State == ExecutionState.Running && this.currentSourceLine != instructionLine;
+                this.currentSourceLine = instructionLine;
+
+                if (shouldPause)
                 {
-                    this.currentSourceLine = instructionLine;
-                    this.State = ExecutionState.Paused;
+                    this.Pause();
                     return;
                 }
-
-                instruction.Execute(this, frame);
+                else
+                {
+                    instruction.Execute(this, frame);
+                }
             }
         }
 
         internal void Pause()
         {
             Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be paused.");
-            if (this.mode != ExecutionMode.RunToEnd)
+            if (this.isDebugging)
             {
                 this.State = ExecutionState.Paused;
             }
+        }
+
+        internal void Terminate()
+        {
+            Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be terminated.");
+            this.ExecutionStack.Clear();
         }
 
         internal void BlockOnStringInput()

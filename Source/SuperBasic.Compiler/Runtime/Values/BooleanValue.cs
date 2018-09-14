@@ -18,5 +18,7 @@ namespace SuperBasic.Compiler.Runtime
         public override decimal ToNumber() => 0;
 
         public override string ToString() => this.Value ? "True" : "False";
+
+        public override ArrayValue ToArray() => new ArrayValue();
     }
 }

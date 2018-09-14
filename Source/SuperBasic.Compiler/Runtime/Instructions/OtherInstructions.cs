@@ -38,7 +38,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            // TODO call method
+            Libraries.Types[this.library].Methods[this.method].Execute(engine);
         }
     }
 
@@ -56,8 +56,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            BaseValue value = engine.EvaluationStack.Pop();
-            // TODO call setter
+            Libraries.Types[this.library].Properties[this.property].Setter(engine);
         }
     }
 
@@ -75,9 +74,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            BaseValue value = null;
-            // TODO call getter
-            engine.EvaluationStack.Push(value);
+            Libraries.Types[this.library].Properties[this.property].Getter(engine);
         }
     }
 

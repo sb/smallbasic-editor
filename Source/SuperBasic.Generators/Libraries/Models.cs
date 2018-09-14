@@ -6,11 +6,57 @@ namespace SuperBasic.Generators.Scanning
 {
     using System.Collections.Generic;
     using System.Xml.Serialization;
+    using SuperBasic.Utilities;
+
+    public static class LibraryTypeExtensions
+    {
+        public static string ToNativeType(this string type)
+        {
+            switch (type)
+            {
+                case "BaseValue": return "BaseValue";
+                case "NumberValue": return "decimal";
+                case "StringValue": return "string";
+                case "BooleanValue": return "bool";
+                case "ArrayValue": return "ArrayValue";
+                default: throw ExceptionUtilities.UnexpectedValue(type);
+            }
+        }
+
+        public static string ToNativeTypeConverter(this string type)
+        {
+            switch (type)
+            {
+                case "BaseValue": return string.Empty;
+                case "NumberValue": return ".ToNumber()";
+                case "StringValue": return ".ToString()";
+                case "BooleanValue": return ".ToBoolean()";
+                case "ArrayValue": return ".ToArray()";
+                default: throw ExceptionUtilities.UnexpectedValue(type);
+            }
+        }
+
+        public static string ToValueConstructor(this string value, string type)
+        {
+            switch (type)
+            {
+                case "BaseValue": return value;
+                case "NumberValue": return $"new NumberValue({value})";
+                case "StringValue": return $"StringValue.Create({value})";
+                case "BooleanValue": return $"new BooleanValue({value})";
+                case "ArrayValue": return value;
+                default: throw ExceptionUtilities.UnexpectedValue(type);
+            }
+        }
+    }
 
     public sealed class Parameter
     {
         [XmlAttribute]
         public string Name { get; set; }
+
+        [XmlAttribute]
+        public string Type { get; set; }
     }
 
     public sealed class Method
@@ -19,7 +65,10 @@ namespace SuperBasic.Generators.Scanning
         public string Name { get; set; }
 
         [XmlAttribute]
-        public bool ReturnsValue { get; set; }
+        public bool IsDeprecated { get; set; }
+
+        [XmlAttribute]
+        public string ReturnType { get; set; }
 
         [XmlArray(nameof(Parameters))]
         [XmlArrayItem(typeof(Parameter))]
@@ -30,6 +79,12 @@ namespace SuperBasic.Generators.Scanning
     {
         [XmlAttribute]
         public string Name { get; set; }
+
+        [XmlAttribute]
+        public bool IsDeprecated { get; set; }
+
+        [XmlAttribute]
+        public string Type { get; set; }
 
         [XmlAttribute]
         public bool HasGetter { get; set; }
@@ -48,6 +103,12 @@ namespace SuperBasic.Generators.Scanning
     {
         [XmlAttribute]
         public string Name { get; set; }
+
+        [XmlAttribute]
+        public bool IsDeprecated { get; set; }
+
+        [XmlAttribute]
+        public bool NeedsPlugin { get; set; }
 
         [XmlArray(nameof(Methods))]
         [XmlArrayItem(typeof(Method))]
