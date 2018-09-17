@@ -85,43 +85,56 @@ namespace SuperBasic.Generators.Scanning
                 this.Unbrace();
             }
 
+            this.Line("internal void SetEventsCallback(SuperBasicEngine engine)");
+            this.Brace();
+
+            foreach (Library library in libraries.Where(library => library.Events.Any()))
+            {
+                this.Line($"if (!this.{library.Name.ToLowerFirstChar()}.IsDefault())");
+                this.Brace();
+
+                foreach (Event @event in library.Events)
+                {
+                    this.Line($@"this.{library.Name.ToLowerFirstChar()}.{@event.Name} += () => engine.RaiseEvent(""{library.Name}"", ""{@event.Name}"");");
+                }
+
+                this.Unbrace();
+            }
+
+            this.Unbrace();
             this.Unbrace();
         }
 
         private void GeneratePluginInterface(Library library)
         {
-            List<Property> properties = library.Properties.Where(p => !p.IsDeprecated).ToList();
-            List<Method> methods = library.Methods.Where(m => !m.IsDeprecated).ToList();
-
             this.Line($"public interface I{library.Name}Plugin");
             this.Brace();
 
-            for (int i = 0; i < properties.Count; i++)
+            List<string> members = new List<string>();
+
+            foreach (Event @event in library.Events)
+            {
+                members.Add($"event Action {@event.Name};");
+            }
+
+            foreach (Property property in library.Properties.Where(p => !p.IsDeprecated))
+            {
+                members.Add($"{property.Type.ToNativeType()} {property.Name} {{{(property.HasGetter ? " get;" : string.Empty)}{(property.HasSetter ? " set;" : string.Empty)} }}");
+            }
+
+            foreach (Method method in library.Methods.Where(m => !m.IsDeprecated))
+            {
+                members.Add($"{method.ReturnType?.ToNativeType() ?? "void"} {method.Name}({method.Parameters.Select(p => $"{p.Type.ToNativeType()} {p.Name.ToLowerFirstChar()}").Join(", ")});");
+            }
+
+            for (int i = 0; i < members.Count; i++)
             {
                 if (i > 0)
                 {
                     this.Blank();
                 }
 
-                Property property = properties[i];
-                this.Line($"{property.Type.ToNativeType()} {property.Name} {{{(property.HasGetter ? " get;" : string.Empty)}{(property.HasSetter ? " set;" : string.Empty)} }}");
-            }
-
-            if (properties.Any() && methods.Any())
-            {
-                this.Blank();
-            }
-
-            for (int i = 0; i < methods.Count; i++)
-            {
-                if (i > 0)
-                {
-                    this.Blank();
-                }
-
-                Method method = methods[i];
-
-                this.Line($"{method.ReturnType?.ToNativeType() ?? "void"} {method.Name}({method.Parameters.Select(p => $"{p.Type.ToNativeType()} {p.Name.ToLowerFirstChar()}").Join(", ")});");
+                this.Line(members[i]);
             }
 
             this.Unbrace();

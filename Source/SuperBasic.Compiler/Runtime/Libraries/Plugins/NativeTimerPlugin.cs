@@ -11,14 +11,14 @@ namespace SuperBasic.Compiler.Runtime
     {
         private Timer timer;
         private int interval;
-        private SuperBasicEngine engine;
 
-        public NativeTimerPlugin(SuperBasicEngine engine)
+        public NativeTimerPlugin()
         {
-            this.timer = new Timer(this.RaiseTickEvent);
+            this.timer = new Timer((object state) => this.Tick());
             this.interval = 100000000;
-            this.engine = engine;
         }
+
+        public event Action Tick;
 
         public decimal Interval
         {
@@ -44,11 +44,6 @@ namespace SuperBasic.Compiler.Runtime
         public void Dispose()
         {
             this.timer.Dispose();
-        }
-
-        private void RaiseTickEvent(object state)
-        {
-            // TODO: implement events
         }
     }
 }

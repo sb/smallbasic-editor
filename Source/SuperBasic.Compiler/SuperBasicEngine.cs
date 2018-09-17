@@ -26,6 +26,7 @@ namespace SuperBasic.Compiler
         private bool isDebugging;
         private int currentSourceLine;
         private PluginsCollection plugins;
+        private Dictionary<(string library, string eventName), string> eventCallbacks;
 
         public SuperBasicEngine(
             SuperBasicCompilation compilation,
@@ -37,12 +38,18 @@ namespace SuperBasic.Compiler
             this.isDebugging = isDebugging;
             this.currentSourceLine = 0;
             this.plugins = plugins;
+            this.eventCallbacks = new Dictionary<(string library, string eventName), string>();
 
             this.State = ExecutionState.Running;
             this.ExecutionStack = new Stack<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
             this.Memory = new ArrayValue();
             this.Modules = new Dictionary<string, RuntimeModule>();
+
+            if (!this.plugins.IsDefault())
+            {
+                this.plugins.SetEventsCallback(this);
+            }
 
             RuntimeModule mainModule = this.EmitAndSaveModule("Program", compilation.MainModule);
 
@@ -122,6 +129,19 @@ namespace SuperBasic.Compiler
                 {
                     instruction.Execute(this, frame);
                 }
+            }
+        }
+
+        internal void SetEventCallback(string library, string eventName, string subModule)
+        {
+            this.eventCallbacks[(library, eventName)] = subModule;
+        }
+
+        internal void RaiseEvent(string library, string eventName)
+        {
+            if (this.eventCallbacks.TryGetValue((library, eventName), out string subModule))
+            {
+                this.ExecutionStack.Push(new Frame(this.Modules[subModule]));
             }
         }
 

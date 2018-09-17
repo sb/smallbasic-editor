@@ -373,6 +373,11 @@ namespace SuperBasic.Generators.Scanning
 
                 foreach (var @event in library.Events)
                 {
+                    if (!library.NeedsPlugin)
+                    {
+                        this.Log.LogError($"Event '{library.Name}.{@event.Name}' has to be in a plugin.");
+                    }
+
                     this.Line($@"{{ ""{@event.Name}"", new Event(""{@event.Name}"", LibrariesResources.{library.Name}_{@event.Name}) }},");
                 }
 
