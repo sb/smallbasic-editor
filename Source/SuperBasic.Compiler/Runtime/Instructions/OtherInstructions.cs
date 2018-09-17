@@ -94,7 +94,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            // TODO: implement events
+            engine.SetEventCallback(this.library, this.eventName, this.subModule);
         }
     }
 }

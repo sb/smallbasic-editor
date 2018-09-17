@@ -12,6 +12,10 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IControlsPlugin
     {
+        event Action ButtonClicked;
+
+        event Action TextTyped;
+
         string LastClickedButton { get; }
 
         string LastTypedTextBox { get; }
@@ -43,6 +47,18 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IGraphicsWindowPlugin
     {
+        event Action KeyDown;
+
+        event Action KeyUp;
+
+        event Action MouseDown;
+
+        event Action MouseMove;
+
+        event Action MouseUp;
+
+        event Action TextInput;
+
         string BackgroundColor { get; set; }
 
         string BrushColor { get; set; }
@@ -194,6 +210,8 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface ITimerPlugin
     {
+        event Action Tick;
+
         decimal Interval { get; set; }
 
         void Pause();
@@ -362,6 +380,30 @@ namespace SuperBasic.Compiler.Runtime
                 }
 
                 return this.turtle;
+            }
+        }
+
+        internal void SetEventsCallback(SuperBasicEngine engine)
+        {
+            if (!this.controls.IsDefault())
+            {
+                this.controls.ButtonClicked += () => engine.RaiseEvent("Controls", "ButtonClicked");
+                this.controls.TextTyped += () => engine.RaiseEvent("Controls", "TextTyped");
+            }
+
+            if (!this.graphicsWindow.IsDefault())
+            {
+                this.graphicsWindow.KeyDown += () => engine.RaiseEvent("GraphicsWindow", "KeyDown");
+                this.graphicsWindow.KeyUp += () => engine.RaiseEvent("GraphicsWindow", "KeyUp");
+                this.graphicsWindow.MouseDown += () => engine.RaiseEvent("GraphicsWindow", "MouseDown");
+                this.graphicsWindow.MouseMove += () => engine.RaiseEvent("GraphicsWindow", "MouseMove");
+                this.graphicsWindow.MouseUp += () => engine.RaiseEvent("GraphicsWindow", "MouseUp");
+                this.graphicsWindow.TextInput += () => engine.RaiseEvent("GraphicsWindow", "TextInput");
+            }
+
+            if (!this.timer.IsDefault())
+            {
+                this.timer.Tick += () => engine.RaiseEvent("Timer", "Tick");
             }
         }
     }
