@@ -1,15 +1,16 @@
-﻿// <copyright file="NativeStackPlugin.cs" company="2018 Omar Tawfik">
+﻿// <copyright file="StackLibrary.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Compiler.Runtime
+namespace SuperBasic.Editor.Libraries
 {
     using System.Collections.Generic;
     using System.Linq;
+    using SuperBasic.Compiler.Runtime;
 
-    public sealed class NativeStackPlugin : IStackPlugin
+    public sealed class StackLibrary : IStackLibrary
     {
-        private Dictionary<string, Stack<string>> stacks = new Dictionary<string, Stack<string>>();
+        private readonly Dictionary<string, Stack<string>> stacks = new Dictionary<string, Stack<string>>();
 
         public decimal GetCount(string stackName)
         {

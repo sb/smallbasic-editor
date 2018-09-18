@@ -46,7 +46,7 @@
       <Property Name="Year" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Controls" NeedsPlugin="true">
+  <Library Name="Controls" ProgramKind="Graphics">
     <Methods>
       <Method Name="AddButton" ReturnType="StringValue">
         <Parameters>
@@ -322,7 +322,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="GraphicsWindow" NeedsPlugin="true">
+  <Library Name="GraphicsWindow" ProgramKind="Graphics">
     <Methods>
       <Method Name="Clear" />
       <Method Name="DrawBoundText">
@@ -475,7 +475,7 @@
       <Event Name="TextInput" />
     </Events>
   </Library>
-  <Library Name="ImageList" NeedsPlugin="true">
+  <Library Name="ImageList" ProgramKind="Graphics">
     <Methods>
       <Method Name="GetHeightOfImage" ReturnType="NumberValue">
         <Parameters>
@@ -651,7 +651,7 @@
       <Property Name="Directory" HasGetter="true" HasSetter="false" Type="StringValue" IsDeprecated="true" />
     </Properties>
   </Library>
-  <Library Name="Shapes" NeedsPlugin="true">
+  <Library Name="Shapes" ProgramKind="Graphics">
     <Methods>
       <Method Name="AddEllipse" ReturnType="StringValue">
         <Parameters>
@@ -802,7 +802,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Stack" NeedsPlugin="true">
+  <Library Name="Stack">
     <Methods>
       <Method Name="GetCount" ReturnType="NumberValue">
         <Parameters>
@@ -894,7 +894,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="TextWindow" NeedsPlugin="true">
+  <Library Name="TextWindow" ProgramKind="Text">
     <Methods>
       <Method Name="Clear" />
       <Method Name="Hide" IsDeprecated="true" />
@@ -925,7 +925,7 @@
       <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
     </Properties>
   </Library>
-  <Library Name="Timer" NeedsPlugin="true">
+  <Library Name="Timer">
     <Methods>
       <Method Name="Pause" />
       <Method Name="Resume" />
@@ -937,7 +937,7 @@
       <Event Name="Tick" />
     </Events>
   </Library>
-  <Library Name="Turtle" NeedsPlugin="true">
+  <Library Name="Turtle" ProgramKind="Graphics">
     <Methods>
       <Method Name="Hide" />
       <Method Name="Move">

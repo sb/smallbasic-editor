@@ -4,25 +4,49 @@
 
 namespace SuperBasic.Compiler.Runtime
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using SuperBasic.Utilities;
 
-    internal sealed class ArrayValue : BaseValue
+    public sealed class ArrayValue : BaseValue, IReadOnlyDictionary<string, BaseValue>
     {
+        private readonly Dictionary<string, BaseValue> contents;
+
         public ArrayValue()
         {
-            this.Contents = new Dictionary<string, BaseValue>();
+            this.contents = new Dictionary<string, BaseValue>();
         }
 
-        public Dictionary<string, BaseValue> Contents { get; private set; }
+        public ArrayValue(IReadOnlyDictionary<string, BaseValue> contents)
+        {
+            this.contents = contents.ToDictionary(p => p.Key, p => p.Value);
+        }
 
-        public override bool ToBoolean() => false;
+        public IEnumerable<string> Keys => this.contents.Keys;
 
-        public override decimal ToNumber() => 0;
+        public IEnumerable<BaseValue> Values => this.contents.Values;
 
-        public override string ToString() => $"[{this.Contents.Select(pair => $"{pair.Key}={pair.Value.ToString()}").Join(", ")}]";
+        public int Count => this.contents.Count;
 
-        public override ArrayValue ToArray() => this;
+        public BaseValue this[string key] => this.contents[key];
+
+        public Dictionary<string, BaseValue> ToDictionary() => new Dictionary<string, BaseValue>(this.contents);
+
+        public bool ContainsKey(string key) => this.contents.ContainsKey(key);
+
+        public IEnumerator<KeyValuePair<string, BaseValue>> GetEnumerator() => this.contents.GetEnumerator();
+
+        public bool TryGetValue(string key, out BaseValue value) => this.contents.TryGetValue(key, out value);
+
+        IEnumerator IEnumerable.GetEnumerator() => this.contents.GetEnumerator();
+
+        internal override bool ToBoolean() => false;
+
+        internal override decimal ToNumber() => 0;
+
+        internal override string ToString() => $"[{this.contents.Select(pair => $"{pair.Key}={pair.Value.ToString()}").Join(", ")}]";
+
+        internal override ArrayValue ToArray() => this;
     }
 }

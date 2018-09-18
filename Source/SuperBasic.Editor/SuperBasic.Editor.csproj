@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectType>Product</ProjectType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj" />
+  </ItemGroup>
+
+</Project>

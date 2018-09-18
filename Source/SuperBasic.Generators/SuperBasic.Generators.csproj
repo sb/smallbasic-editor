@@ -28,7 +28,7 @@
   <UsingTask TaskName="GenerateSyntaxNodes" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateBoundNodes" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateLibraries" AssemblyFile="$(_TempBinaryPath)" />
-  <UsingTask TaskName="GeneratePlugins" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateLibraryInterfaces" AssemblyFile="$(_TempBinaryPath)" />
 
   <Target Name="RunGenerators" AfterTargets="Build">
     <ItemGroup>
@@ -44,7 +44,7 @@
     <GenerateSyntaxNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.Generated.cs" />
     <GenerateBoundNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.Generated.cs" />
     <GenerateLibraries Input="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Generated.cs" />
-    <GeneratePlugins Input="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Plugins.Generated.cs" />
+    <GenerateLibraryInterfaces Input="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs" />
   </Target>
 
 </Project>

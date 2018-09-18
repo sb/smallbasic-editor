@@ -4,14 +4,14 @@
 
 namespace SuperBasic.Compiler.Runtime
 {
-    internal abstract class BaseValue
+    public abstract class BaseValue
     {
-        public abstract bool ToBoolean();
+        internal abstract bool ToBoolean();
 
-        public abstract decimal ToNumber();
+        internal abstract decimal ToNumber();
 
-        public new abstract string ToString();
+        internal new abstract string ToString();
 
-        public abstract ArrayValue ToArray();
+        internal abstract ArrayValue ToArray();
     }
 }

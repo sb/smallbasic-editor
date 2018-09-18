@@ -5,24 +5,20 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
 
     public sealed class DebuggerSnapshot
     {
-        internal DebuggerSnapshot(int currentSourceLine, Stack<Frame> executionStack, ArrayValue memory)
+        internal DebuggerSnapshot(int currentSourceLine, IReadOnlyCollection<Frame> executionStack, IReadOnlyDictionary<string, BaseValue> memory)
         {
-            Debug.Assert(executionStack.Peek().Module.Instructions[executionStack.Peek().InstructionIndex].Range.Start.Line == currentSourceLine, $"Invalid '{nameof(currentSourceLine)}'.");
-
             this.CurrentSourceLine = currentSourceLine;
             this.ExecutionStack = executionStack;
-            this.Memory = memory.Contents.ToDictionary(pair => pair.Key, pair => pair.Value.ToString());
+            this.Memory = memory;
         }
 
         public int CurrentSourceLine { get; set; }
 
         public IReadOnlyCollection<Frame> ExecutionStack { get; private set; }
 
-        public IReadOnlyDictionary<string, string> Memory { get; private set; }
+        public IReadOnlyDictionary<string, BaseValue> Memory { get; private set; }
     }
 }

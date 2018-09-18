@@ -1,4 +1,4 @@
-// <copyright file="Plugins.Generated.cs" company="2018 Omar Tawfik">
+// <copyright file="Libraries.Interfaces.Generated.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
@@ -8,9 +8,46 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System;
-    using SuperBasic.Utilities;
 
-    public interface IControlsPlugin
+    public interface IArrayLibrary
+    {
+        bool ContainsIndex(ArrayValue array, string index);
+
+        bool ContainsValue(ArrayValue array, string value);
+
+        ArrayValue GetAllIndices(ArrayValue array);
+
+        decimal GetItemCount(ArrayValue array);
+
+        bool IsArray(BaseValue array);
+    }
+
+    public interface IClockLibrary
+    {
+        string Date { get; }
+
+        decimal Day { get; }
+
+        decimal ElapsedMilliseconds { get; }
+
+        decimal Hour { get; }
+
+        decimal Millisecond { get; }
+
+        decimal Minute { get; }
+
+        decimal Month { get; }
+
+        decimal Second { get; }
+
+        string Time { get; }
+
+        string WeekDay { get; }
+
+        decimal Year { get; }
+    }
+
+    public interface IControlsLibrary
     {
         event Action ButtonClicked;
 
@@ -45,7 +82,7 @@ namespace SuperBasic.Compiler.Runtime
         void ShowControl(string controlName);
     }
 
-    public interface IGraphicsWindowPlugin
+    public interface IGraphicsWindowLibrary
     {
         event Action KeyDown;
 
@@ -134,7 +171,7 @@ namespace SuperBasic.Compiler.Runtime
         void ShowMessage(string text, string title);
     }
 
-    public interface IImageListPlugin
+    public interface IImageListLibrary
     {
         decimal GetHeightOfImage(string imageName);
 
@@ -143,7 +180,61 @@ namespace SuperBasic.Compiler.Runtime
         string LoadImage(string imageUrl);
     }
 
-    public interface IShapesPlugin
+    public interface IMathLibrary
+    {
+        decimal Pi { get; }
+
+        decimal Abs(decimal number);
+
+        decimal ArcCos(decimal cosValue);
+
+        decimal ArcSin(decimal sinValue);
+
+        decimal ArcTan(decimal tanValue);
+
+        decimal Ceiling(decimal number);
+
+        decimal Cos(decimal angle);
+
+        decimal Floor(decimal number);
+
+        decimal GetDegrees(decimal angle);
+
+        decimal GetRadians(decimal angle);
+
+        decimal GetRandomNumber(decimal maxNumber);
+
+        decimal Log(decimal number);
+
+        decimal Max(decimal number1, decimal number2);
+
+        decimal Min(decimal number1, decimal number2);
+
+        decimal NaturalLog(decimal number);
+
+        decimal Power(decimal baseNumber, decimal exponent);
+
+        decimal Remainder(decimal dividend, decimal divisor);
+
+        decimal Round(decimal number);
+
+        decimal Sin(decimal angle);
+
+        decimal SquareRoot(decimal number);
+
+        decimal Tan(decimal angle);
+    }
+
+    public interface IProgramLibrary
+    {
+        void Delay(decimal milliSeconds);
+
+        void End();
+
+        void Pause();
+    }
+
+    public interface IShapesLibrary
     {
         string AddEllipse(decimal width, decimal height);
 
@@ -182,7 +273,7 @@ namespace SuperBasic.Compiler.Runtime
         void Zoom(string shapeName, decimal scaleX, decimal scaleY);
     }
 
-    public interface IStackPlugin
+    public interface IStackLibrary
     {
         decimal GetCount(string stackName);
 
@@ -191,7 +282,34 @@ namespace SuperBasic.Compiler.Runtime
         void PushValue(string stackName, string value);
     }
 
-    public interface ITextWindowPlugin
+    public interface ITextLibrary
+    {
+        string Append(string text1, string text2);
+
+        string ConvertToLowerCase(string text);
+
+        string ConvertToUpperCase(string text);
+
+        bool EndsWith(string text, string subText);
+
+        string GetCharacter(decimal characterCode);
+
+        decimal GetCharacterCode(string character);
+
+        decimal GetIndexOf(string text, string subText);
+
+        decimal GetLength(string text);
+
+        string GetSubText(string text, decimal start, decimal length);
+
+        string GetSubTextToEnd(string text, decimal start);
+
+        bool IsSubText(string text, string subText);
+
+        bool StartsWith(string text, string subText);
+    }
+
+    public interface ITextWindowLibrary
     {
         string BackgroundColor { get; set; }
 
@@ -208,7 +326,7 @@ namespace SuperBasic.Compiler.Runtime
         void WriteLine(string data);
     }
 
-    public interface ITimerPlugin
+    public interface ITimerLibrary
     {
         event Action Tick;
 
@@ -219,7 +337,7 @@ namespace SuperBasic.Compiler.Runtime
         void Resume();
     }
 
-    public interface ITurtlePlugin
+    public interface ITurtleLibrary
     {
         decimal Angle { get; set; }
 
@@ -248,163 +366,50 @@ namespace SuperBasic.Compiler.Runtime
         void TurnRight();
     }
 
-    public sealed class PluginsCollection
+    public interface IEngineLibraries
     {
-        private IControlsPlugin controls;
-        private IGraphicsWindowPlugin graphicsWindow;
-        private IImageListPlugin imageList;
-        private IShapesPlugin shapes;
-        private IStackPlugin stack;
-        private ITextWindowPlugin textWindow;
-        private ITimerPlugin timer;
-        private ITurtlePlugin turtle;
+        IArrayLibrary Array { get; }
 
-        public PluginsCollection(
-            IControlsPlugin controls,
-            IGraphicsWindowPlugin graphicsWindow,
-            IImageListPlugin imageList,
-            IShapesPlugin shapes,
-            IStackPlugin stack,
-            ITextWindowPlugin textWindow,
-            ITimerPlugin timer,
-            ITurtlePlugin turtle)
+        IClockLibrary Clock { get; }
+
+        IControlsLibrary Controls { get; }
+
+        IGraphicsWindowLibrary GraphicsWindow { get; }
+
+        IImageListLibrary ImageList { get; }
+
+        IMathLibrary Math { get; }
+
+        IProgramLibrary Program { get; }
+
+        IShapesLibrary Shapes { get; }
+
+        IStackLibrary Stack { get; }
+
+        ITextLibrary Text { get; }
+
+        ITextWindowLibrary TextWindow { get; }
+
+        ITimerLibrary Timer { get; }
+
+        ITurtleLibrary Turtle { get; }
+    }
+
+    internal static class IEngineLibrariesExtensions
+    {
+        public static void SetEventCallbacks(this IEngineLibraries libraries, SuperBasicEngine engine)
         {
-            this.controls = controls;
-            this.graphicsWindow = graphicsWindow;
-            this.imageList = imageList;
-            this.shapes = shapes;
-            this.stack = stack;
-            this.textWindow = textWindow;
-            this.timer = timer;
-            this.turtle = turtle;
-        }
+            libraries.Controls.ButtonClicked += () => engine.RaiseEvent("Controls", "ButtonClicked");
+            libraries.Controls.TextTyped += () => engine.RaiseEvent("Controls", "TextTyped");
 
-        public IControlsPlugin Controls
-        {
-            get
-            {
-                if (this.controls.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
+            libraries.GraphicsWindow.KeyDown += () => engine.RaiseEvent("GraphicsWindow", "KeyDown");
+            libraries.GraphicsWindow.KeyUp += () => engine.RaiseEvent("GraphicsWindow", "KeyUp");
+            libraries.GraphicsWindow.MouseDown += () => engine.RaiseEvent("GraphicsWindow", "MouseDown");
+            libraries.GraphicsWindow.MouseMove += () => engine.RaiseEvent("GraphicsWindow", "MouseMove");
+            libraries.GraphicsWindow.MouseUp += () => engine.RaiseEvent("GraphicsWindow", "MouseUp");
+            libraries.GraphicsWindow.TextInput += () => engine.RaiseEvent("GraphicsWindow", "TextInput");
 
-                return this.controls;
-            }
-        }
-
-        public IGraphicsWindowPlugin GraphicsWindow
-        {
-            get
-            {
-                if (this.graphicsWindow.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.graphicsWindow;
-            }
-        }
-
-        public IImageListPlugin ImageList
-        {
-            get
-            {
-                if (this.imageList.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.imageList;
-            }
-        }
-
-        public IShapesPlugin Shapes
-        {
-            get
-            {
-                if (this.shapes.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.shapes;
-            }
-        }
-
-        public IStackPlugin Stack
-        {
-            get
-            {
-                if (this.stack.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.stack;
-            }
-        }
-
-        public ITextWindowPlugin TextWindow
-        {
-            get
-            {
-                if (this.textWindow.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.textWindow;
-            }
-        }
-
-        public ITimerPlugin Timer
-        {
-            get
-            {
-                if (this.timer.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.timer;
-            }
-        }
-
-        public ITurtlePlugin Turtle
-        {
-            get
-            {
-                if (this.turtle.IsDefault())
-                {
-                    throw new InvalidOperationException("This plugin was not provided to the engine.");
-                }
-
-                return this.turtle;
-            }
-        }
-
-        internal void SetEventsCallback(SuperBasicEngine engine)
-        {
-            if (!this.controls.IsDefault())
-            {
-                this.controls.ButtonClicked += () => engine.RaiseEvent("Controls", "ButtonClicked");
-                this.controls.TextTyped += () => engine.RaiseEvent("Controls", "TextTyped");
-            }
-
-            if (!this.graphicsWindow.IsDefault())
-            {
-                this.graphicsWindow.KeyDown += () => engine.RaiseEvent("GraphicsWindow", "KeyDown");
-                this.graphicsWindow.KeyUp += () => engine.RaiseEvent("GraphicsWindow", "KeyUp");
-                this.graphicsWindow.MouseDown += () => engine.RaiseEvent("GraphicsWindow", "MouseDown");
-                this.graphicsWindow.MouseMove += () => engine.RaiseEvent("GraphicsWindow", "MouseMove");
-                this.graphicsWindow.MouseUp += () => engine.RaiseEvent("GraphicsWindow", "MouseUp");
-                this.graphicsWindow.TextInput += () => engine.RaiseEvent("GraphicsWindow", "TextInput");
-            }
-
-            if (!this.timer.IsDefault())
-            {
-                this.timer.Tick += () => engine.RaiseEvent("Timer", "Tick");
-            }
+            libraries.Timer.Tick += () => engine.RaiseEvent("Timer", "Tick");
         }
     }
 }

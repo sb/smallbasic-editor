@@ -8,7 +8,7 @@ namespace SuperBasic.Compiler.Runtime
     using System.Globalization;
     using SuperBasic.Utilities;
 
-    internal sealed class StringValue : BaseValue
+    public sealed class StringValue : BaseValue
     {
         private StringValue(string value)
         {
@@ -18,12 +18,10 @@ namespace SuperBasic.Compiler.Runtime
 
         public string Value { get; private set; }
 
-        public static StringValue Empty => new StringValue(string.Empty);
+        internal static StringValue Empty => new StringValue(string.Empty);
 
         public static BaseValue Create(string value)
         {
-            Debug.Assert(!string.IsNullOrEmpty(value), "Call StringValue.Empty instead.");
-
             switch (value.Trim().ToLower(CultureInfo.CurrentCulture))
             {
                 case "true":
@@ -37,12 +35,12 @@ namespace SuperBasic.Compiler.Runtime
             }
         }
 
-        public override bool ToBoolean() => false;
+        internal override bool ToBoolean() => false;
 
-        public override decimal ToNumber() => 0;
+        internal override decimal ToNumber() => 0;
 
-        public override string ToString() => this.Value;
+        internal override string ToString() => this.Value;
 
-        public override ArrayValue ToArray() => new ArrayValue();
+        internal override ArrayValue ToArray() => new ArrayValue();
     }
 }

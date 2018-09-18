@@ -10,6 +10,12 @@ namespace SuperBasic.Compiler
     using SuperBasic.Compiler.Parsing;
     using SuperBasic.Compiler.Scanning;
 
+    public enum ProgramKind
+    {
+        Text,
+        Graphics,
+    }
+
     public sealed class SuperBasicCompilation
     {
         private readonly DiagnosticBag diagnostics = new DiagnosticBag();
@@ -21,6 +27,7 @@ namespace SuperBasic.Compiler
             var parser = new Parser(scanner.Tokens, this.diagnostics);
             var binder = new Binder(parser.SyntaxTree, this.diagnostics);
 
+            this.Kind = binder.ProgramKind;
             this.MainModule = binder.MainModule;
             this.SubModules = binder.SubModules;
         }
@@ -28,6 +35,8 @@ namespace SuperBasic.Compiler
         public string Text { get; private set; }
 
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
+
+        public ProgramKind Kind { get; private set; }
 
         internal BoundStatementBlock MainModule { get; private set; }
 

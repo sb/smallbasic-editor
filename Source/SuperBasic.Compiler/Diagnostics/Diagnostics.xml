@@ -84,4 +84,10 @@
       <Parameter Name="member" Type="string" />
     </Parameters>
   </Diagnostic>
+  <Diagnostic Name="MultipleProgramKindsUsed">
+    <Parameters>
+      <Parameter Name="conflictingLibrary" Type="string" />
+      <Parameter Name="earlierLibrary" Type="string" />
+    </Parameters>
+  </Diagnostic>
 </root>

@@ -1,18 +1,19 @@
-﻿// <copyright file="NativeTimerPlugin.cs" company="2018 Omar Tawfik">
+﻿// <copyright file="TimerLibrary.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Compiler.Runtime
+namespace SuperBasic.Editor.Libraries
 {
     using System;
     using System.Threading;
+    using SuperBasic.Compiler.Runtime;
 
-    public sealed class NativeTimerPlugin : ITimerPlugin, System.IDisposable
+    public sealed class TimerLibrary : ITimerLibrary, IDisposable
     {
         private Timer timer;
         private int interval;
 
-        public NativeTimerPlugin()
+        public TimerLibrary()
         {
             this.timer = new Timer((object state) => this.Tick());
             this.interval = 100000000;

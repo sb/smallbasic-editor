@@ -138,6 +138,9 @@
   <data name="LibraryTypeDeprecatedFromDesktop" xml:space="preserve">
     <value>The library '{0}' was available in older versions only, and has not been made available to SuperBasic yet.</value>
   </data>
+  <data name="MultipleProgramKindsUsed" xml:space="preserve">
+    <value>You cannot use the library '{0}' here since you used the library '{1}' in the same program. Are you writing a text-based or a graphics program?</value>
+  </data>
   <data name="PropertyHasNoSetter" xml:space="preserve">
     <value>Property '{0}.{1}' cannot be assigned to. It is ready only.</value>
   </data>
