@@ -21,10 +21,7 @@ namespace SuperBasic.Compiler.Binding
         public Binder(StatementBlockSyntax syntaxTree, DiagnosticBag diagnostics)
         {
             this.diagnostics = diagnostics;
-
-            var namesCollector = new SubModuleNamesCollector(this.diagnostics);
-            namesCollector.Visit(syntaxTree);
-            this.definedSubModules = namesCollector.Names;
+            this.definedSubModules = this.CollectSubModuleNames(syntaxTree);
 
             var mainModule = new List<BaseBoundStatement>();
             var subModules = new Dictionary<string, BoundSubModule>();
@@ -50,9 +47,9 @@ namespace SuperBasic.Compiler.Binding
                             break;
                         }
 
-                    case BaseStatementSyntax child:
+                    default:
                         {
-                            var statement = this.BindStatementOpt(child);
+                            var statement = this.BindStatementOpt(syntax);
                             if (!statement.IsDefault())
                             {
                                 mainModule.Add(statement);
@@ -64,19 +61,22 @@ namespace SuperBasic.Compiler.Binding
             }
 
             this.MainModule = new BoundStatementBlock(syntaxTree, mainModule);
-            this.SubModules = subModules;
-
             this.CheckForLabelErrors(this.MainModule);
 
-            foreach (var subModule in subModules.Values)
+            this.SubModules = subModules;
+            foreach (var subModule in this.SubModules.Values)
             {
                 this.CheckForLabelErrors(subModule.Body);
             }
+
+            this.ProgramKind = this.CheckForConflictingLibraries();
         }
 
         public BoundStatementBlock MainModule { get; private set; }
 
         public IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
+
+        public ProgramKind ProgramKind { get; private set; }
 
         private void CheckForLabelErrors(BoundStatementBlock block)
         {
@@ -85,6 +85,26 @@ namespace SuperBasic.Compiler.Binding
 
             var gotoChecker = new GoToUndefinedLabelChecker(this.diagnostics, labelsCollector.Labels);
             gotoChecker.Visit(block);
+        }
+
+        private IReadOnlyCollection<string> CollectSubModuleNames(StatementBlockSyntax syntaxTree)
+        {
+            var namesCollector = new SubModuleNamesCollector(this.diagnostics);
+            namesCollector.Visit(syntaxTree);
+            return namesCollector.Names;
+        }
+
+        private ProgramKind CheckForConflictingLibraries()
+        {
+            ConflictingLibrariesChecker checker = new ConflictingLibrariesChecker(this.diagnostics);
+
+            checker.Visit(this.MainModule);
+            foreach (var subModule in this.SubModules.Values)
+            {
+                checker.Visit(subModule);
+            }
+
+            return checker.ProgramKind;
         }
 
         private BaseBoundStatement BindStatementOpt(BaseStatementSyntax syntax)
@@ -192,12 +212,12 @@ namespace SuperBasic.Compiler.Binding
 
                 case BoundLibraryMethodInvocationExpression methodInvocation:
                     {
-                        return new BoundLibraryMethodInvocationStatement(syntax, methodInvocation.Library, methodInvocation.Method, methodInvocation.Arguments);
+                        return new BoundLibraryMethodInvocationStatement(syntax, methodInvocation);
                     }
 
                 case BoundSubModuleInvocationExpression subModuleInvocation:
                     {
-                        return new BoundSubModuleInvocationStatement(syntax, subModuleInvocation.SubModule);
+                        return new BoundSubModuleInvocationStatement(syntax, subModuleInvocation);
                     }
             }
 
@@ -219,29 +239,29 @@ namespace SuperBasic.Compiler.Binding
             {
                 case BoundVariableExpression variable:
                     {
-                        return new BoundVariableAssignmentStatement(syntax, variable.Variable, assignment.Right);
+                        return new BoundVariableAssignmentStatement(syntax, variable, assignment.Right);
                     }
 
                 case BoundArrayAccessExpression arrayAccess:
                     {
-                        return new BoundArrayAssignmentStatement(syntax, arrayAccess.Array, arrayAccess.Indices, assignment.Right);
+                        return new BoundArrayAssignmentStatement(syntax, arrayAccess, assignment.Right);
                     }
 
                 case BoundLibraryPropertyExpression property:
                     {
-                        if (Libraries.Types[property.Library].Properties[property.Property].Setter.IsDefault())
+                        if (Libraries.Types[property.Library.Name].Properties[property.Name].Setter.IsDefault())
                         {
-                            this.diagnostics.ReportPropertyHasNoSetter(property.Syntax.Range, property.Library, property.Property);
+                            this.diagnostics.ReportPropertyHasNoSetter(property.Syntax.Range, property.Library.Name, property.Name);
                         }
 
-                        return new BoundPropertyAssignmentStatement(syntax, property.Library, property.Property, assignment.Right);
+                        return new BoundPropertyAssignmentStatement(syntax, property, assignment.Right);
                     }
 
                 case BoundLibraryEventExpression @event:
                     {
                         if (assignment.Right is BoundSubModuleExpression subModule)
                         {
-                            return new BoundEventAssignmentStatement(syntax, @event.Library, @event.EventName, subModule.Name);
+                            return new BoundEventAssignmentStatement(syntax, @event, subModule.Name);
                         }
                         else
                         {
@@ -330,7 +350,7 @@ namespace SuperBasic.Compiler.Binding
             {
                 case BoundArrayAccessExpression arrayAccess:
                     {
-                        arrayName = arrayAccess.Array;
+                        arrayName = arrayAccess.Name;
                         indices.AddRange(arrayAccess.Indices);
                         indices.Add(indexExpression);
                         break;
@@ -338,7 +358,7 @@ namespace SuperBasic.Compiler.Binding
 
                 case BoundVariableExpression variable:
                     {
-                        arrayName = variable.Variable;
+                        arrayName = variable.Name;
                         indices.Add(indexExpression);
                         break;
                     }
@@ -402,7 +422,7 @@ namespace SuperBasic.Compiler.Binding
 
             if (baseExpression is BoundLibraryTypeExpression libraryTypeExpression)
             {
-                Library library = Libraries.Types[libraryTypeExpression.Library];
+                Library library = Libraries.Types[libraryTypeExpression.Name];
 
                 if (library.Properties.TryGetValue(identifier, out Property property))
                 {
@@ -419,11 +439,10 @@ namespace SuperBasic.Compiler.Binding
                         {
                             hasErrors = true;
                             this.diagnostics.ReportLibraryMemberDeprecatedFromDesktop(syntax.Range, library.Name, property.Name);
-                            // TODO: add test for this error
                         }
                     }
 
-                    return new BoundLibraryPropertyExpression(syntax, hasValue: !noGetter, hasErrors, library.Name, identifier);
+                    return new BoundLibraryPropertyExpression(syntax, hasValue: !noGetter, hasErrors, libraryTypeExpression, identifier);
                 }
 
                 if (library.Methods.TryGetValue(identifier, out Method method))
@@ -439,16 +458,15 @@ namespace SuperBasic.Compiler.Binding
                         {
                             hasErrors = true;
                             this.diagnostics.ReportLibraryMemberDeprecatedFromDesktop(syntax.Range, library.Name, method.Name);
-                            // TODO: add test for this error
                         }
                     }
 
-                    return new BoundLibraryMethodExpression(syntax, hasValue: false, hasErrors, library.Name, identifier);
+                    return new BoundLibraryMethodExpression(syntax, hasValue: false, hasErrors, libraryTypeExpression, identifier);
                 }
 
                 if (library.Events.ContainsKey(identifier))
                 {
-                    return new BoundLibraryEventExpression(syntax, hasValue: false, hasErrors, library.Name, identifier);
+                    return new BoundLibraryEventExpression(syntax, hasValue: false, hasErrors, libraryTypeExpression, identifier);
                 }
 
                 this.diagnostics.ReportLibraryMemberNotFound(syntax.Range, library.Name, identifier);
@@ -478,7 +496,7 @@ namespace SuperBasic.Compiler.Binding
             {
                 case BoundLibraryMethodExpression libraryMethod:
                     {
-                        Method method = Libraries.Types[libraryMethod.Library].Methods[libraryMethod.Method];
+                        Method method = Libraries.Types[libraryMethod.Library.Name].Methods[libraryMethod.Name];
 
                         if (!hasErrors)
                         {
@@ -494,7 +512,7 @@ namespace SuperBasic.Compiler.Binding
                             }
                         }
 
-                        return new BoundLibraryMethodInvocationExpression(syntax, method.ReturnsValue, hasErrors, libraryMethod.Library, libraryMethod.Method, arguments);
+                        return new BoundLibraryMethodInvocationExpression(syntax, method.ReturnsValue, hasErrors, libraryMethod, arguments);
                     }
 
                 case BoundSubModuleExpression subModule:
@@ -540,7 +558,6 @@ namespace SuperBasic.Compiler.Binding
                 {
                     hasErrors = true;
                     this.diagnostics.ReportLibraryTypeDeprecatedFromDesktop(syntax.Range, name);
-                    // TODO: add test for this error
                 }
 
                 return new BoundLibraryTypeExpression(syntax, hasValue: false, hasErrors, name);

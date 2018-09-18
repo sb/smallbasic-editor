@@ -17,7 +17,6 @@ namespace SuperBasic.Generators.Scanning
 
             this.Line("using System;");
             this.Line("using System.Collections.Generic;");
-            this.Line("using System.Diagnostics;");
             this.Line("using SuperBasic.Utilities.Resources;");
             this.Blank();
 
@@ -37,6 +36,7 @@ namespace SuperBasic.Generators.Scanning
                 ("string", "Name"),
                 ("string", "Description"),
                 ("bool", "IsDeprecated"),
+                ("ProgramKind?", "ProgramKind"),
                 ("IReadOnlyDictionary<string, Method>", "Methods"),
                 ("IReadOnlyDictionary<string, Property>", "Properties"),
                 ("IReadOnlyDictionary<string, Event>", "Events"));
@@ -109,6 +109,9 @@ namespace SuperBasic.Generators.Scanning
             this.Line("internal static partial class Libraries");
             this.Brace();
 
+            this.Line("public static readonly IReadOnlyDictionary<string, Library> Types;");
+            this.Blank();
+
             this.Line("static Libraries()");
             this.Brace();
 
@@ -123,10 +126,6 @@ namespace SuperBasic.Generators.Scanning
 
             this.Line("Types = types;");
             this.Unbrace();
-
-            this.Blank();
-            this.Line("public static IReadOnlyDictionary<string, Library> Types { get; private set; }");
-
             this.Unbrace();
         }
 
@@ -149,6 +148,7 @@ namespace SuperBasic.Generators.Scanning
                 $@"""{library.Name}""",
                 $"LibrariesResources.{library.Name}",
                 $"isDeprecated: {(library.IsDeprecated ? "true" : "false")}",
+                $"programKind: {(library.ProgramKind.IsDefault() ? "default" : $"ProgramKind.{library.ProgramKind}")}",
                 "methods",
                 "properties",
                 "events"
@@ -168,14 +168,6 @@ namespace SuperBasic.Generators.Scanning
 
                 this.Line($"// Initialization code for method {library.Name}.{method.Name}:");
                 this.Brace();
-
-                string executionMethodName = $"Execute_{library.Name}_{method.Name}";
-
-                if (!library.NeedsPlugin && method.ReturnType.IsDefault())
-                {
-                    this.Line($@"Debug.Assert(Type.GetType(""SuperBasic.Compiler.Runtime.Libraries"").GetMethod(""{executionMethodName}"").ReturnType.ToString() == ""System.Void"", ""Exeuction method '{executionMethodName}' should have void return type."");");
-                    this.Blank();
-                }
 
                 this.Line("void execute(SuperBasicEngine engine)");
                 this.Brace();
@@ -197,29 +189,14 @@ namespace SuperBasic.Generators.Scanning
 
                     string arguments = method.Parameters.Select(p => p.Name.ToLowerFirstChar()).Select(p => $"{p}: {p}").Join(", ");
 
-                    if (library.NeedsPlugin)
+                    if (method.ReturnType.IsDefault())
                     {
-                        if (method.ReturnType.IsDefault())
-                        {
-                            this.Line($"engine.Plugins.{library.Name}.{method.Name}({arguments});");
-                        }
-                        else
-                        {
-                            this.Line($"{method.ReturnType.ToNativeType()} returnValue = engine.Plugins.{library.Name}.{method.Name}({arguments});");
-                            this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
-                        }
+                        this.Line($"engine.Libraries.{library.Name}.{method.Name}({arguments});");
                     }
                     else
                     {
-                        if (method.ReturnType.IsDefault())
-                        {
-                            this.Line($"{executionMethodName}({arguments});");
-                        }
-                        else
-                        {
-                            this.Line($"{method.ReturnType.ToNativeType()} returnValue = {executionMethodName}({arguments});");
-                            this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
-                        }
+                        this.Line($"{method.ReturnType.ToNativeType()} returnValue = engine.Libraries.{library.Name}.{method.Name}({arguments});");
+                        this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
                     }
                 }
 
@@ -280,15 +257,6 @@ namespace SuperBasic.Generators.Scanning
                 this.Line($"// Initialization code for property {library.Name}.{property.Name}:");
                 this.Brace();
 
-                string getterMethodName = $"Get_{library.Name}_{property.Name}";
-                string setterMethodName = $"Set_{library.Name}_{property.Name}";
-
-                if (!library.NeedsPlugin)
-                {
-                    this.Line($@"Debug.Assert(Type.GetType(""SuperBasic.Compiler.Runtime.Libraries"").GetMethod(""{setterMethodName}"").ReturnType.ToString() == ""System.Void"", ""Setter method '{setterMethodName}' should have void return type."");");
-                    this.Blank();
-                }
-
                 if (property.HasGetter)
                 {
                     this.Line("void getter(SuperBasicEngine engine)");
@@ -304,15 +272,7 @@ namespace SuperBasic.Generators.Scanning
                     }
                     else
                     {
-                        if (library.NeedsPlugin)
-                        {
-                            this.Line($"{property.Type.ToNativeType()} value = engine.Plugins.{library.Name}.{property.Name};");
-                        }
-                        else
-                        {
-                            this.Line($"{property.Type.ToNativeType()} value = {getterMethodName}();");
-                        }
-
+                        this.Line($"{property.Type.ToNativeType()} value = engine.Libraries.{library.Name}.{property.Name};");
                         this.Line($"engine.EvaluationStack.Push({"value".ToValueConstructor(property.Type)});");
                     }
 
@@ -335,15 +295,7 @@ namespace SuperBasic.Generators.Scanning
                     else
                     {
                         this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()};");
-
-                        if (library.NeedsPlugin)
-                        {
-                            this.Line($"engine.Plugins.{library.Name}.{property.Name} = value;");
-                        }
-                        else
-                        {
-                            this.Line($"{setterMethodName}(value: value);");
-                        }
+                        this.Line($"engine.Libraries.{library.Name}.{property.Name} = value;");
                     }
 
                     this.Unbrace();
@@ -373,11 +325,6 @@ namespace SuperBasic.Generators.Scanning
 
                 foreach (var @event in library.Events)
                 {
-                    if (!library.NeedsPlugin)
-                    {
-                        this.Log.LogError($"Event '{library.Name}.{@event.Name}' has to be in a plugin.");
-                    }
-
                     this.Line($@"{{ ""{@event.Name}"", new Event(""{@event.Name}"", LibrariesResources.{library.Name}_{@event.Name}) }},");
                 }
 

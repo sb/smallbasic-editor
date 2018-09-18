@@ -4,13 +4,11 @@
 
 namespace SuperBasic.Compiler
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Runtime;
-    using SuperBasic.Utilities;
 
     public enum ExecutionState
     {
@@ -25,31 +23,24 @@ namespace SuperBasic.Compiler
     {
         private bool isDebugging;
         private int currentSourceLine;
-        private PluginsCollection plugins;
         private Dictionary<(string library, string eventName), string> eventCallbacks;
 
-        public SuperBasicEngine(
-            SuperBasicCompilation compilation,
-            bool isDebugging = false,
-            PluginsCollection plugins = null)
+        public SuperBasicEngine(SuperBasicCompilation compilation, IEngineLibraries libraries, bool isDebugging = false)
         {
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
 
             this.isDebugging = isDebugging;
             this.currentSourceLine = 0;
-            this.plugins = plugins;
             this.eventCallbacks = new Dictionary<(string library, string eventName), string>();
 
             this.State = ExecutionState.Running;
             this.ExecutionStack = new Stack<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
-            this.Memory = new ArrayValue();
+            this.Memory = new Dictionary<string, BaseValue>();
             this.Modules = new Dictionary<string, RuntimeModule>();
+            this.Libraries = libraries;
 
-            if (!this.plugins.IsDefault())
-            {
-                this.plugins.SetEventsCallback(this);
-            }
+            this.Libraries.SetEventCallbacks(this);
 
             RuntimeModule mainModule = this.EmitAndSaveModule("Program", compilation.MainModule);
 
@@ -67,22 +58,11 @@ namespace SuperBasic.Compiler
 
         internal Stack<BaseValue> EvaluationStack { get; private set; }
 
-        internal ArrayValue Memory { get; private set; }
+        internal Dictionary<string, BaseValue> Memory { get; private set; }
 
         internal Dictionary<string, RuntimeModule> Modules { get; private set; }
 
-        internal PluginsCollection Plugins
-        {
-            get
-            {
-                if (this.plugins.IsDefault())
-                {
-                    throw new InvalidOperationException("No plugins were provided to the engine.");
-                }
-
-                return this.plugins;
-            }
-        }
+        internal IEngineLibraries Libraries { get; private set; }
 
         public DebuggerSnapshot GetSnapshot()
         {

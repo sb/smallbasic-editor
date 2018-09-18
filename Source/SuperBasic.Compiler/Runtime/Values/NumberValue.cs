@@ -6,7 +6,7 @@ namespace SuperBasic.Compiler.Runtime
 {
     using System.Globalization;
 
-    internal sealed class NumberValue : BaseValue
+    public sealed class NumberValue : BaseValue
     {
         public NumberValue(decimal value)
         {
@@ -15,12 +15,12 @@ namespace SuperBasic.Compiler.Runtime
 
         public decimal Value { get; private set; }
 
-        public override bool ToBoolean() => false;
+        internal override bool ToBoolean() => false;
 
-        public override decimal ToNumber() => this.Value;
+        internal override decimal ToNumber() => this.Value;
 
-        public override string ToString() => this.Value.ToString(CultureInfo.CurrentCulture);
+        internal override string ToString() => this.Value.ToString(CultureInfo.CurrentCulture);
 
-        public override ArrayValue ToArray() => new ArrayValue();
+        internal override ArrayValue ToArray() => new ArrayValue();
     }
 }

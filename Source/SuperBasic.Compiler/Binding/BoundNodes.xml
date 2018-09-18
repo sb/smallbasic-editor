@@ -70,40 +70,35 @@
 
   <BoundNode Name="BoundSubModuleInvocationStatement" Inherits="BaseBoundStatement" Syntax="ExpressionStatementSyntax">
     <Members>
-      <Member Name="SubModule" Type="string" />
+      <Member Name="Expression" Type="BoundSubModuleInvocationExpression" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundLibraryMethodInvocationStatement" Inherits="BaseBoundStatement" Syntax="ExpressionStatementSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="Method" Type="string" />
-      <Member Name="Arguments" Type="BaseBoundExpression" IsList="true" />
+      <Member Name="Expression" Type="BoundLibraryMethodInvocationExpression" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundVariableAssignmentStatement" Inherits="BaseBoundStatement" Syntax="ExpressionStatementSyntax">
     <Members>
-      <Member Name="Variable" Type="string" />
+      <Member Name="Variable" Type="BoundVariableExpression" />
       <Member Name="Expression" Type="BaseBoundExpression" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundPropertyAssignmentStatement" Inherits="BaseBoundStatement" Syntax="ExpressionStatementSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="Property" Type="string" />
+      <Member Name="Property" Type="BoundLibraryPropertyExpression" />
       <Member Name="Expression" Type="BaseBoundExpression" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundEventAssignmentStatement" Inherits="BaseBoundStatement" Syntax="ExpressionStatementSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="EventName" Type="string" />
+      <Member Name="UsedEvent" Type="BoundLibraryEventExpression" />
       <Member Name="SubModule" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundArrayAssignmentStatement" Inherits="BaseBoundStatement" Syntax="ExpressionStatementSyntax">
     <Members>
-      <Member Name="Array" Type="string" />
-      <Member Name="Indices" Type="BaseBoundExpression" IsList="true" />
+      <Member Name="Array" Type="BoundArrayAccessExpression" />
       <Member Name="Expression" Type="BaseBoundExpression" />
     </Members>
   </BoundNode>
@@ -135,37 +130,36 @@
   </BoundNode>
   <BoundNode Name="BoundArrayAccessExpression" Inherits="BaseBoundExpression" Syntax="ArrayAccessExpressionSyntax">
     <Members>
-      <Member Name="Array" Type="string" />
+      <Member Name="Name" Type="string" />
       <Member Name="Indices" Type="BaseBoundExpression" IsList="true" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundLibraryTypeExpression" Inherits="BaseBoundExpression" Syntax="IdentifierExpressionSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
+      <Member Name="Name" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundLibraryMethodExpression" Inherits="BaseBoundExpression" Syntax="ObjectAccessExpressionSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="Method" Type="string" />
+      <Member Name="Library" Type="BoundLibraryTypeExpression" />
+      <Member Name="Name" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundLibraryPropertyExpression" Inherits="BaseBoundExpression" Syntax="ObjectAccessExpressionSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="Property" Type="string" />
+      <Member Name="Library" Type="BoundLibraryTypeExpression" />
+      <Member Name="Name" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundLibraryEventExpression" Inherits="BaseBoundExpression" Syntax="ObjectAccessExpressionSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="EventName" Type="string" />
+      <Member Name="Library" Type="BoundLibraryTypeExpression" />
+      <Member Name="Name" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundLibraryMethodInvocationExpression" Inherits="BaseBoundExpression" Syntax="InvocationExpressionSyntax">
     <Members>
-      <Member Name="Library" Type="string" />
-      <Member Name="Method" Type="string" />
+      <Member Name="Method" Type="BoundLibraryMethodExpression" />
       <Member Name="Arguments" Type="BaseBoundExpression" IsList="true" />
     </Members>
   </BoundNode>
@@ -176,12 +170,12 @@
   </BoundNode>
   <BoundNode Name="BoundSubModuleInvocationExpression" Inherits="BaseBoundExpression" Syntax="InvocationExpressionSyntax">
     <Members>
-      <Member Name="SubModule" Type="string" />
+      <Member Name="Name" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundVariableExpression" Inherits="BaseBoundExpression" Syntax="IdentifierExpressionSyntax">
     <Members>
-      <Member Name="Variable" Type="string" />
+      <Member Name="Name" Type="string" />
     </Members>
   </BoundNode>
   <BoundNode Name="BoundStringLiteralExpression" Inherits="BaseBoundExpression" Syntax="StringLiteralExpressionSyntax">

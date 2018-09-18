@@ -173,22 +173,24 @@ namespace SuperBasic.Compiler.Runtime
 
         private void EmitSubModuleInvocationStatement(BoundSubModuleInvocationStatement statement)
         {
-            this.instructions.Add(new InvokeSubModuleInstruction(statement.SubModule, statement.Syntax.Range));
+            this.instructions.Add(new InvokeSubModuleInstruction(statement.Expression.Name, statement.Syntax.Range));
         }
 
         private void EmitLibraryMethodInvocationStatement(BoundLibraryMethodInvocationStatement statement)
         {
-            switch (statement.Library)
+            switch (statement.Expression.Method.Library.Name)
             {
                 case "Program":
                     {
-                        switch (statement.Method)
+                        switch (statement.Expression.Method.Name)
                         {
                             case "Pause":
+                                Debug.Assert(statement.Expression.Arguments.Count == 0, "This statement should have no arguments.");
                                 this.instructions.Add(new PauseInstruction(statement.Syntax.Range));
                                 return;
 
                             case "End":
+                                Debug.Assert(statement.Expression.Arguments.Count == 0, "This statement should have no arguments.");
                                 this.instructions.Add(new TerminateInstruction(statement.Syntax.Range));
                                 return;
                         }
@@ -197,39 +199,39 @@ namespace SuperBasic.Compiler.Runtime
                     }
             }
 
-            foreach (BaseBoundExpression argument in statement.Arguments)
+            foreach (BaseBoundExpression argument in statement.Expression.Arguments)
             {
                 this.EmitExpression(argument);
             }
 
-            this.instructions.Add(new MethodInvocationInstruction(statement.Library, statement.Method, statement.Syntax.Range));
+            this.instructions.Add(new MethodInvocationInstruction(statement.Expression.Method.Library.Name, statement.Expression.Method.Name, statement.Syntax.Range));
         }
 
         private void EmitEventAssignmentStatement(BoundEventAssignmentStatement statement)
         {
-            this.instructions.Add(new SetEventCallBackInstruction(statement.Library, statement.EventName, statement.SubModule, statement.Syntax.Range));
+            this.instructions.Add(new SetEventCallBackInstruction(statement.UsedEvent.Library.Name, statement.UsedEvent.Name, statement.SubModule, statement.Syntax.Range));
         }
 
         private void EmitVariableAssignmentStatement(BoundVariableAssignmentStatement statement)
         {
             this.EmitExpression(statement.Expression);
-            this.instructions.Add(new StoreVariableInstruction(statement.Variable, statement.Syntax.Range));
+            this.instructions.Add(new StoreVariableInstruction(statement.Variable.Name, statement.Syntax.Range));
         }
 
         private void EmitPropertyAssignmentStatement(BoundPropertyAssignmentStatement statement)
         {
             this.EmitExpression(statement.Expression);
-            this.instructions.Add(new StorePropertyInstruction(statement.Library, statement.Property, statement.Syntax.Range));
+            this.instructions.Add(new StorePropertyInstruction(statement.Property.Library.Name, statement.Property.Name, statement.Syntax.Range));
         }
 
         private void EmitArrayAssignmentStatement(BoundArrayAssignmentStatement statement)
         {
-            foreach (BaseBoundExpression index in statement.Indices.Reverse())
+            foreach (BaseBoundExpression index in statement.Array.Indices.Reverse())
             {
                 this.EmitExpression(index);
             }
 
-            this.instructions.Add(new StoreArrayElementInstruction(statement.Array, statement.Indices.Count, statement.Syntax.Range));
+            this.instructions.Add(new StoreArrayElementInstruction(statement.Array.Name, statement.Array.Indices.Count, statement.Syntax.Range));
         }
 
         private void EmitExpression(BaseBoundExpression expression)
@@ -355,26 +357,32 @@ namespace SuperBasic.Compiler.Runtime
                 this.EmitExpression(index);
             }
 
-            this.instructions.Add(new LoadArrayElementInstruction(expression.Array, expression.Indices.Count, expression.Syntax.Range));
+            this.instructions.Add(new LoadArrayElementInstruction(expression.Name, expression.Indices.Count, expression.Syntax.Range));
         }
 
         private void EmitLibraryPropertyExpression(BoundLibraryPropertyExpression expression)
         {
-            this.instructions.Add(new LoadPropertyInstruction(expression.Library, expression.Property, expression.Syntax.Range));
+            this.instructions.Add(new LoadPropertyInstruction(expression.Library.Name, expression.Name, expression.Syntax.Range));
         }
 
         private void EmitLibraryMethodInvocationExpression(BoundLibraryMethodInvocationExpression expression)
         {
-            if (expression.Library == "TextWindow")
+            switch (expression.Method.Library.Name)
             {
-                if (expression.Method == "Read")
-                {
-                    this.instructions.Add(new BlockOnStringInputInstruction(expression.Syntax.Range));
-                }
-                else if (expression.Method == "ReadNumber")
-                {
-                    this.instructions.Add(new BlockOnNumberInputInstruction(expression.Syntax.Range));
-                }
+                case "TextWindow":
+                    {
+                        switch (expression.Method.Name)
+                        {
+                            case "Read":
+                                this.instructions.Add(new BlockOnStringInputInstruction(expression.Syntax.Range));
+                                break;
+                            case "ReadNumber":
+                                this.instructions.Add(new BlockOnNumberInputInstruction(expression.Syntax.Range));
+                                break;
+                        }
+
+                        break;
+                    }
             }
 
             foreach (BaseBoundExpression index in expression.Arguments)
@@ -382,12 +390,12 @@ namespace SuperBasic.Compiler.Runtime
                 this.EmitExpression(index);
             }
 
-            this.instructions.Add(new MethodInvocationInstruction(expression.Library, expression.Method, expression.Syntax.Range));
+            this.instructions.Add(new MethodInvocationInstruction(expression.Method.Library.Name, expression.Method.Name, expression.Syntax.Range));
         }
 
         private void EmitVariableExpression(BoundVariableExpression expression)
         {
-            this.instructions.Add(new LoadVariableInstruction(expression.Variable, expression.Syntax.Range));
+            this.instructions.Add(new LoadVariableInstruction(expression.Name, expression.Syntax.Range));
         }
 
         private void EmitStringLiteralExpression(BoundStringLiteralExpression expression)

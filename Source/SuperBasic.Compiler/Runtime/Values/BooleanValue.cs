@@ -4,7 +4,7 @@
 
 namespace SuperBasic.Compiler.Runtime
 {
-    internal sealed class BooleanValue : BaseValue
+    public sealed class BooleanValue : BaseValue
     {
         public BooleanValue(bool value)
         {
@@ -13,12 +13,12 @@ namespace SuperBasic.Compiler.Runtime
 
         public bool Value { get; private set; }
 
-        public override bool ToBoolean() => this.Value;
+        internal override bool ToBoolean() => this.Value;
 
-        public override decimal ToNumber() => 0;
+        internal override decimal ToNumber() => 0;
 
-        public override string ToString() => this.Value ? "True" : "False";
+        internal override string ToString() => this.Value ? "True" : "False";
 
-        public override ArrayValue ToArray() => new ArrayValue();
+        internal override ArrayValue ToArray() => new ArrayValue();
     }
 }

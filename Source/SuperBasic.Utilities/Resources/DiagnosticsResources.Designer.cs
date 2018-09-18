@@ -124,6 +124,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot use the library &apos;{0}&apos; here since you used the library &apos;{1}&apos; in the same program. Are you writing a text-based or a graphics program?.
+        /// </summary>
+        public static string MultipleProgramKindsUsed {
+            get {
+                return ResourceManager.GetString("MultipleProgramKindsUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property &apos;{0}.{1}&apos; cannot be assigned to. It is ready only..
         /// </summary>
         public static string PropertyHasNoSetter {

@@ -9,7 +9,6 @@ namespace SuperBasic.Compiler.Runtime
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using SuperBasic.Utilities.Resources;
 
     internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);
@@ -20,6 +19,7 @@ namespace SuperBasic.Compiler.Runtime
             string name,
             string description,
             bool isDeprecated,
+            ProgramKind? programKind,
             IReadOnlyDictionary<string, Method> methods,
             IReadOnlyDictionary<string, Property> properties,
             IReadOnlyDictionary<string, Event> events)
@@ -27,6 +27,7 @@ namespace SuperBasic.Compiler.Runtime
             this.Name = name;
             this.Description = description;
             this.IsDeprecated = isDeprecated;
+            this.ProgramKind = programKind;
             this.Methods = methods;
             this.Properties = properties;
             this.Events = events;
@@ -37,6 +38,8 @@ namespace SuperBasic.Compiler.Runtime
         public string Description { get; private set; }
 
         public bool IsDeprecated { get; private set; }
+
+        public ProgramKind? ProgramKind { get; private set; }
 
         public IReadOnlyDictionary<string, Method> Methods { get; private set; }
 
@@ -139,6 +142,8 @@ namespace SuperBasic.Compiler.Runtime
 
     internal static partial class Libraries
     {
+        public static readonly IReadOnlyDictionary<string, Library> Types;
+
         static Libraries()
         {
             var types = new Dictionary<string, Library>();
@@ -153,7 +158,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string index = engine.EvaluationStack.Pop().ToString();
                         ArrayValue array = engine.EvaluationStack.Pop().ToArray();
-                        bool returnValue = Execute_Array_ContainsIndex(array: array, index: index);
+                        bool returnValue = engine.Libraries.Array.ContainsIndex(array: array, index: index);
                         engine.EvaluationStack.Push(new BooleanValue(returnValue));
                     }
 
@@ -177,7 +182,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
                         ArrayValue array = engine.EvaluationStack.Pop().ToArray();
-                        bool returnValue = Execute_Array_ContainsValue(array: array, value: value);
+                        bool returnValue = engine.Libraries.Array.ContainsValue(array: array, value: value);
                         engine.EvaluationStack.Push(new BooleanValue(returnValue));
                     }
 
@@ -200,7 +205,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         ArrayValue array = engine.EvaluationStack.Pop().ToArray();
-                        ArrayValue returnValue = Execute_Array_GetAllIndices(array: array);
+                        ArrayValue returnValue = engine.Libraries.Array.GetAllIndices(array: array);
                         engine.EvaluationStack.Push(returnValue);
                     }
 
@@ -222,7 +227,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         ArrayValue array = engine.EvaluationStack.Pop().ToArray();
-                        decimal returnValue = Execute_Array_GetItemCount(array: array);
+                        decimal returnValue = engine.Libraries.Array.GetItemCount(array: array);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -244,7 +249,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         BaseValue array = engine.EvaluationStack.Pop();
-                        bool returnValue = Execute_Array_IsArray(array: array);
+                        bool returnValue = engine.Libraries.Array.IsArray(array: array);
                         engine.EvaluationStack.Push(new BooleanValue(returnValue));
                     }
 
@@ -265,7 +270,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Array", new Library("Array", LibrariesResources.Array, isDeprecated: false, methods, properties, events));
+                types.Add("Array", new Library("Array", LibrariesResources.Array, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Clock'
@@ -276,11 +281,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Date:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Date").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Date' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = Get_Clock_Date();
+                        string value = engine.Libraries.Clock.Date;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -289,11 +292,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Day:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Day").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Day' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Day();
+                        decimal value = engine.Libraries.Clock.Day;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -302,11 +303,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.ElapsedMilliseconds:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_ElapsedMilliseconds").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_ElapsedMilliseconds' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_ElapsedMilliseconds();
+                        decimal value = engine.Libraries.Clock.ElapsedMilliseconds;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -315,11 +314,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Hour:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Hour").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Hour' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Hour();
+                        decimal value = engine.Libraries.Clock.Hour;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -328,11 +325,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Millisecond:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Millisecond").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Millisecond' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Millisecond();
+                        decimal value = engine.Libraries.Clock.Millisecond;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -341,11 +336,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Minute:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Minute").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Minute' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Minute();
+                        decimal value = engine.Libraries.Clock.Minute;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -354,11 +347,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Month:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Month").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Month' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Month();
+                        decimal value = engine.Libraries.Clock.Month;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -367,11 +358,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Second:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Second").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Second' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Second();
+                        decimal value = engine.Libraries.Clock.Second;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -380,11 +369,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Time:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Time").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Time' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = Get_Clock_Time();
+                        string value = engine.Libraries.Clock.Time;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -393,11 +380,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.WeekDay:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_WeekDay").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_WeekDay' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = Get_Clock_WeekDay();
+                        string value = engine.Libraries.Clock.WeekDay;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -406,11 +391,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Clock.Year:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Clock_Year").ReturnType.ToString() == "System.Void", "Setter method 'Set_Clock_Year' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Clock_Year();
+                        decimal value = engine.Libraries.Clock.Year;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -419,7 +402,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, isDeprecated: false, methods, properties, events));
+                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Controls'
@@ -433,7 +416,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
                         string caption = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.Controls.AddButton(caption: caption, left: left, top: top);
+                        string returnValue = engine.Libraries.Controls.AddButton(caption: caption, left: left, top: top);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -458,7 +441,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.Controls.AddMultiLineTextBox(left: left, top: top);
+                        string returnValue = engine.Libraries.Controls.AddMultiLineTextBox(left: left, top: top);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -482,7 +465,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.Controls.AddTextBox(left: left, top: top);
+                        string returnValue = engine.Libraries.Controls.AddTextBox(left: left, top: top);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -505,7 +488,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string buttonName = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.Controls.GetButtonCaption(buttonName: buttonName);
+                        string returnValue = engine.Libraries.Controls.GetButtonCaption(buttonName: buttonName);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -527,7 +510,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string textBoxName = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.Controls.GetTextBoxText(textBoxName: textBoxName);
+                        string returnValue = engine.Libraries.Controls.GetTextBoxText(textBoxName: textBoxName);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -549,7 +532,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.HideControl(controlName: controlName);
+                        engine.Libraries.Controls.HideControl(controlName: controlName);
                     }
 
                     methods.Add("HideControl", new Method(
@@ -572,7 +555,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string control = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.Move(control: control, x: x, y: y);
+                        engine.Libraries.Controls.Move(control: control, x: x, y: y);
                     }
 
                     methods.Add("Move", new Method(
@@ -595,7 +578,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.Remove(controlName: controlName);
+                        engine.Libraries.Controls.Remove(controlName: controlName);
                     }
 
                     methods.Add("Remove", new Method(
@@ -617,7 +600,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string caption = engine.EvaluationStack.Pop().ToString();
                         string buttonName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
+                        engine.Libraries.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
                     }
 
                     methods.Add("SetButtonCaption", new Method(
@@ -641,7 +624,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal height = engine.EvaluationStack.Pop().ToNumber();
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         string control = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.SetSize(control: control, width: width, height: height);
+                        engine.Libraries.Controls.SetSize(control: control, width: width, height: height);
                     }
 
                     methods.Add("SetSize", new Method(
@@ -665,7 +648,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
                         string textBoxName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
+                        engine.Libraries.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
                     }
 
                     methods.Add("SetTextBoxText", new Method(
@@ -687,7 +670,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Controls.ShowControl(controlName: controlName);
+                        engine.Libraries.Controls.ShowControl(controlName: controlName);
                     }
 
                     methods.Add("ShowControl", new Method(
@@ -709,7 +692,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.Controls.LastClickedButton;
+                        string value = engine.Libraries.Controls.LastClickedButton;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -720,7 +703,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.Controls.LastTypedTextBox;
+                        string value = engine.Libraries.Controls.LastTypedTextBox;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -733,7 +716,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextTyped", new Event("TextTyped", LibrariesResources.Controls_TextTyped) },
                 };
 
-                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, isDeprecated: false, methods, properties, events));
+                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'Desktop'
@@ -742,8 +725,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Desktop.SetWallPaper:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Desktop_SetWallPaper").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Desktop_SetWallPaper' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Desktop' is deprecated.");
@@ -766,8 +747,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Desktop.Height:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Desktop_Height").ReturnType.ToString() == "System.Void", "Setter method 'Set_Desktop_Height' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Desktop' is deprecated.");
@@ -778,8 +757,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Desktop.Width:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Desktop_Width").ReturnType.ToString() == "System.Void", "Setter method 'Set_Desktop_Width' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Desktop' is deprecated.");
@@ -790,7 +767,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, isDeprecated: true, methods, properties, events));
+                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Dictionary'
@@ -1161,7 +1138,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, isDeprecated: true, methods, properties, events));
+                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'File'
@@ -1454,8 +1431,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property File.LastError:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_File_LastError").ReturnType.ToString() == "System.Void", "Setter method 'Set_File_LastError' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'File' is deprecated.");
@@ -1471,7 +1446,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("File", new Library("File", LibrariesResources.File, isDeprecated: true, methods, properties, events));
+                types.Add("File", new Library("File", LibrariesResources.File, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Flickr'
@@ -1519,7 +1494,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, isDeprecated: true, methods, properties, events));
+                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'GraphicsWindow'
@@ -1530,7 +1505,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.GraphicsWindow.Clear();
+                        engine.Libraries.GraphicsWindow.Clear();
                     }
 
                     methods.Add("Clear", new Method(
@@ -1551,7 +1526,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.DrawBoundText(x: x, y: y, width: width, text: text);
+                        engine.Libraries.GraphicsWindow.DrawBoundText(x: x, y: y, width: width, text: text);
                     }
 
                     methods.Add("DrawBoundText", new Method(
@@ -1578,7 +1553,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.DrawEllipse(x: x, y: y, width: width, height: height);
+                        engine.Libraries.GraphicsWindow.DrawEllipse(x: x, y: y, width: width, height: height);
                     }
 
                     methods.Add("DrawEllipse", new Method(
@@ -1604,7 +1579,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string imageName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.DrawImage(imageName: imageName, x: x, y: y);
+                        engine.Libraries.GraphicsWindow.DrawImage(imageName: imageName, x: x, y: y);
                     }
 
                     methods.Add("DrawImage", new Method(
@@ -1630,7 +1605,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal x2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal y1 = engine.EvaluationStack.Pop().ToNumber();
                         decimal x1 = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.DrawLine(x1: x1, y1: y1, x2: x2, y2: y2);
+                        engine.Libraries.GraphicsWindow.DrawLine(x1: x1, y1: y1, x2: x2, y2: y2);
                     }
 
                     methods.Add("DrawLine", new Method(
@@ -1657,7 +1632,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.DrawRectangle(x: x, y: y, width: width, height: height);
+                        engine.Libraries.GraphicsWindow.DrawRectangle(x: x, y: y, width: width, height: height);
                     }
 
                     methods.Add("DrawRectangle", new Method(
@@ -1685,7 +1660,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string imageName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.DrawResizedImage(imageName: imageName, x: x, y: y, width: width, height: height);
+                        engine.Libraries.GraphicsWindow.DrawResizedImage(imageName: imageName, x: x, y: y, width: width, height: height);
                     }
 
                     methods.Add("DrawResizedImage", new Method(
@@ -1712,7 +1687,7 @@ namespace SuperBasic.Compiler.Runtime
                         string text = engine.EvaluationStack.Pop().ToString();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.DrawText(x: x, y: y, text: text);
+                        engine.Libraries.GraphicsWindow.DrawText(x: x, y: y, text: text);
                     }
 
                     methods.Add("DrawText", new Method(
@@ -1740,7 +1715,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal x2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal y1 = engine.EvaluationStack.Pop().ToNumber();
                         decimal x1 = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.DrawTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
+                        engine.Libraries.GraphicsWindow.DrawTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
                     }
 
                     methods.Add("DrawTriangle", new Method(
@@ -1769,7 +1744,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.FillEllipse(x: x, y: y, width: width, height: height);
+                        engine.Libraries.GraphicsWindow.FillEllipse(x: x, y: y, width: width, height: height);
                     }
 
                     methods.Add("FillEllipse", new Method(
@@ -1796,7 +1771,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.FillRectangle(x: x, y: y, width: width, height: height);
+                        engine.Libraries.GraphicsWindow.FillRectangle(x: x, y: y, width: width, height: height);
                     }
 
                     methods.Add("FillRectangle", new Method(
@@ -1825,7 +1800,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal x2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal y1 = engine.EvaluationStack.Pop().ToNumber();
                         decimal x1 = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.FillTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
+                        engine.Libraries.GraphicsWindow.FillTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
                     }
 
                     methods.Add("FillTriangle", new Method(
@@ -1853,7 +1828,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal blue = engine.EvaluationStack.Pop().ToNumber();
                         decimal green = engine.EvaluationStack.Pop().ToNumber();
                         decimal red = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.GraphicsWindow.GetColorFromRGB(red: red, green: green, blue: blue);
+                        string returnValue = engine.Libraries.GraphicsWindow.GetColorFromRGB(red: red, green: green, blue: blue);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -1878,7 +1853,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.GraphicsWindow.GetPixel(x: x, y: y);
+                        string returnValue = engine.Libraries.GraphicsWindow.GetPixel(x: x, y: y);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -1900,7 +1875,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        string returnValue = engine.Plugins.GraphicsWindow.GetRandomColor();
+                        string returnValue = engine.Libraries.GraphicsWindow.GetRandomColor();
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -1918,7 +1893,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.GraphicsWindow.Hide();
+                        engine.Libraries.GraphicsWindow.Hide();
                     }
 
                     methods.Add("Hide", new Method(
@@ -1938,7 +1913,7 @@ namespace SuperBasic.Compiler.Runtime
                         string color = engine.EvaluationStack.Pop().ToString();
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.SetPixel(x: x, y: y, color: color);
+                        engine.Libraries.GraphicsWindow.SetPixel(x: x, y: y, color: color);
                     }
 
                     methods.Add("SetPixel", new Method(
@@ -1960,7 +1935,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.GraphicsWindow.Show();
+                        engine.Libraries.GraphicsWindow.Show();
                     }
 
                     methods.Add("Show", new Method(
@@ -1979,7 +1954,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string title = engine.EvaluationStack.Pop().ToString();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.ShowMessage(text: text, title: title);
+                        engine.Libraries.GraphicsWindow.ShowMessage(text: text, title: title);
                     }
 
                     methods.Add("ShowMessage", new Method(
@@ -2002,14 +1977,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.BackgroundColor;
+                        string value = engine.Libraries.GraphicsWindow.BackgroundColor;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.BackgroundColor = value;
+                        engine.Libraries.GraphicsWindow.BackgroundColor = value;
                     }
 
                     properties.Add("BackgroundColor", new Property("BackgroundColor", LibrariesResources.GraphicsWindow_BackgroundColor, isDeprecated: false, getter: getter, setter: setter));
@@ -2019,14 +1994,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.BrushColor;
+                        string value = engine.Libraries.GraphicsWindow.BrushColor;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.BrushColor = value;
+                        engine.Libraries.GraphicsWindow.BrushColor = value;
                     }
 
                     properties.Add("BrushColor", new Property("BrushColor", LibrariesResources.GraphicsWindow_BrushColor, isDeprecated: false, getter: getter, setter: setter));
@@ -2036,14 +2011,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        bool value = engine.Plugins.GraphicsWindow.CanResize;
+                        bool value = engine.Libraries.GraphicsWindow.CanResize;
                         engine.EvaluationStack.Push(new BooleanValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         bool value = engine.EvaluationStack.Pop().ToBoolean();
-                        engine.Plugins.GraphicsWindow.CanResize = value;
+                        engine.Libraries.GraphicsWindow.CanResize = value;
                     }
 
                     properties.Add("CanResize", new Property("CanResize", LibrariesResources.GraphicsWindow_CanResize, isDeprecated: false, getter: getter, setter: setter));
@@ -2053,14 +2028,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        bool value = engine.Plugins.GraphicsWindow.FontBold;
+                        bool value = engine.Libraries.GraphicsWindow.FontBold;
                         engine.EvaluationStack.Push(new BooleanValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         bool value = engine.EvaluationStack.Pop().ToBoolean();
-                        engine.Plugins.GraphicsWindow.FontBold = value;
+                        engine.Libraries.GraphicsWindow.FontBold = value;
                     }
 
                     properties.Add("FontBold", new Property("FontBold", LibrariesResources.GraphicsWindow_FontBold, isDeprecated: false, getter: getter, setter: setter));
@@ -2070,14 +2045,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        bool value = engine.Plugins.GraphicsWindow.FontItalic;
+                        bool value = engine.Libraries.GraphicsWindow.FontItalic;
                         engine.EvaluationStack.Push(new BooleanValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         bool value = engine.EvaluationStack.Pop().ToBoolean();
-                        engine.Plugins.GraphicsWindow.FontItalic = value;
+                        engine.Libraries.GraphicsWindow.FontItalic = value;
                     }
 
                     properties.Add("FontItalic", new Property("FontItalic", LibrariesResources.GraphicsWindow_FontItalic, isDeprecated: false, getter: getter, setter: setter));
@@ -2087,14 +2062,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.FontName;
+                        string value = engine.Libraries.GraphicsWindow.FontName;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.FontName = value;
+                        engine.Libraries.GraphicsWindow.FontName = value;
                     }
 
                     properties.Add("FontName", new Property("FontName", LibrariesResources.GraphicsWindow_FontName, isDeprecated: false, getter: getter, setter: setter));
@@ -2104,14 +2079,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.FontSize;
+                        decimal value = engine.Libraries.GraphicsWindow.FontSize;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.FontSize = value;
+                        engine.Libraries.GraphicsWindow.FontSize = value;
                     }
 
                     properties.Add("FontSize", new Property("FontSize", LibrariesResources.GraphicsWindow_FontSize, isDeprecated: false, getter: getter, setter: setter));
@@ -2121,14 +2096,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.Height;
+                        decimal value = engine.Libraries.GraphicsWindow.Height;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.Height = value;
+                        engine.Libraries.GraphicsWindow.Height = value;
                     }
 
                     properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, getter: getter, setter: setter));
@@ -2138,7 +2113,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.LastKey;
+                        string value = engine.Libraries.GraphicsWindow.LastKey;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -2149,7 +2124,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.LastText;
+                        string value = engine.Libraries.GraphicsWindow.LastText;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
@@ -2160,14 +2135,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.Left;
+                        decimal value = engine.Libraries.GraphicsWindow.Left;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.Left = value;
+                        engine.Libraries.GraphicsWindow.Left = value;
                     }
 
                     properties.Add("Left", new Property("Left", LibrariesResources.GraphicsWindow_Left, isDeprecated: false, getter: getter, setter: setter));
@@ -2177,7 +2152,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.MouseX;
+                        decimal value = engine.Libraries.GraphicsWindow.MouseX;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -2188,7 +2163,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.MouseY;
+                        decimal value = engine.Libraries.GraphicsWindow.MouseY;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -2199,14 +2174,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.PenColor;
+                        string value = engine.Libraries.GraphicsWindow.PenColor;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.PenColor = value;
+                        engine.Libraries.GraphicsWindow.PenColor = value;
                     }
 
                     properties.Add("PenColor", new Property("PenColor", LibrariesResources.GraphicsWindow_PenColor, isDeprecated: false, getter: getter, setter: setter));
@@ -2216,14 +2191,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.PenWidth;
+                        decimal value = engine.Libraries.GraphicsWindow.PenWidth;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.PenWidth = value;
+                        engine.Libraries.GraphicsWindow.PenWidth = value;
                     }
 
                     properties.Add("PenWidth", new Property("PenWidth", LibrariesResources.GraphicsWindow_PenWidth, isDeprecated: false, getter: getter, setter: setter));
@@ -2233,14 +2208,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.GraphicsWindow.Title;
+                        string value = engine.Libraries.GraphicsWindow.Title;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.GraphicsWindow.Title = value;
+                        engine.Libraries.GraphicsWindow.Title = value;
                     }
 
                     properties.Add("Title", new Property("Title", LibrariesResources.GraphicsWindow_Title, isDeprecated: false, getter: getter, setter: setter));
@@ -2250,14 +2225,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.Top;
+                        decimal value = engine.Libraries.GraphicsWindow.Top;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.Top = value;
+                        engine.Libraries.GraphicsWindow.Top = value;
                     }
 
                     properties.Add("Top", new Property("Top", LibrariesResources.GraphicsWindow_Top, isDeprecated: false, getter: getter, setter: setter));
@@ -2267,14 +2242,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.GraphicsWindow.Width;
+                        decimal value = engine.Libraries.GraphicsWindow.Width;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.GraphicsWindow.Width = value;
+                        engine.Libraries.GraphicsWindow.Width = value;
                     }
 
                     properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, getter: getter, setter: setter));
@@ -2290,7 +2265,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextInput", new Event("TextInput", LibrariesResources.GraphicsWindow_TextInput) },
                 };
 
-                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, isDeprecated: false, methods, properties, events));
+                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'ImageList'
@@ -2302,7 +2277,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string imageName = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = engine.Plugins.ImageList.GetHeightOfImage(imageName: imageName);
+                        decimal returnValue = engine.Libraries.ImageList.GetHeightOfImage(imageName: imageName);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2324,7 +2299,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string imageName = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = engine.Plugins.ImageList.GetWidthOfImage(imageName: imageName);
+                        decimal returnValue = engine.Libraries.ImageList.GetWidthOfImage(imageName: imageName);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2346,7 +2321,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string imageUrl = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.ImageList.LoadImage(imageUrl: imageUrl);
+                        string returnValue = engine.Libraries.ImageList.LoadImage(imageUrl: imageUrl);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -2367,7 +2342,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, isDeprecated: false, methods, properties, events));
+                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'Math'
@@ -2379,7 +2354,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Abs(number: number);
+                        decimal returnValue = engine.Libraries.Math.Abs(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2401,7 +2376,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal cosValue = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_ArcCos(cosValue: cosValue);
+                        decimal returnValue = engine.Libraries.Math.ArcCos(cosValue: cosValue);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2423,7 +2398,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal sinValue = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_ArcSin(sinValue: sinValue);
+                        decimal returnValue = engine.Libraries.Math.ArcSin(sinValue: sinValue);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2445,7 +2420,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal tanValue = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_ArcTan(tanValue: tanValue);
+                        decimal returnValue = engine.Libraries.Math.ArcTan(tanValue: tanValue);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2467,7 +2442,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Ceiling(number: number);
+                        decimal returnValue = engine.Libraries.Math.Ceiling(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2489,7 +2464,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Cos(angle: angle);
+                        decimal returnValue = engine.Libraries.Math.Cos(angle: angle);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2511,7 +2486,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Floor(number: number);
+                        decimal returnValue = engine.Libraries.Math.Floor(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2533,7 +2508,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_GetDegrees(angle: angle);
+                        decimal returnValue = engine.Libraries.Math.GetDegrees(angle: angle);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2555,7 +2530,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_GetRadians(angle: angle);
+                        decimal returnValue = engine.Libraries.Math.GetRadians(angle: angle);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2577,7 +2552,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal maxNumber = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_GetRandomNumber(maxNumber: maxNumber);
+                        decimal returnValue = engine.Libraries.Math.GetRandomNumber(maxNumber: maxNumber);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2599,7 +2574,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Log(number: number);
+                        decimal returnValue = engine.Libraries.Math.Log(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2622,7 +2597,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal number2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal number1 = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Max(number1: number1, number2: number2);
+                        decimal returnValue = engine.Libraries.Math.Max(number1: number1, number2: number2);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2646,7 +2621,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal number2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal number1 = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Min(number1: number1, number2: number2);
+                        decimal returnValue = engine.Libraries.Math.Min(number1: number1, number2: number2);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2669,7 +2644,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_NaturalLog(number: number);
+                        decimal returnValue = engine.Libraries.Math.NaturalLog(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2692,7 +2667,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal exponent = engine.EvaluationStack.Pop().ToNumber();
                         decimal baseNumber = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Power(baseNumber: baseNumber, exponent: exponent);
+                        decimal returnValue = engine.Libraries.Math.Power(baseNumber: baseNumber, exponent: exponent);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2716,7 +2691,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal divisor = engine.EvaluationStack.Pop().ToNumber();
                         decimal dividend = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Remainder(dividend: dividend, divisor: divisor);
+                        decimal returnValue = engine.Libraries.Math.Remainder(dividend: dividend, divisor: divisor);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2739,7 +2714,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Round(number: number);
+                        decimal returnValue = engine.Libraries.Math.Round(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2761,7 +2736,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Sin(angle: angle);
+                        decimal returnValue = engine.Libraries.Math.Sin(angle: angle);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2783,7 +2758,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal number = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_SquareRoot(number: number);
+                        decimal returnValue = engine.Libraries.Math.SquareRoot(number: number);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2805,7 +2780,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        decimal returnValue = Execute_Math_Tan(angle: angle);
+                        decimal returnValue = engine.Libraries.Math.Tan(angle: angle);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -2826,11 +2801,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Math.Pi:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Math_Pi").ReturnType.ToString() == "System.Void", "Setter method 'Set_Math_Pi' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = Get_Math_Pi();
+                        decimal value = engine.Libraries.Math.Pi;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
@@ -2839,7 +2812,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Math", new Library("Math", LibrariesResources.Math, isDeprecated: false, methods, properties, events));
+                types.Add("Math", new Library("Math", LibrariesResources.Math, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Mouse'
@@ -2848,8 +2821,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Mouse.HideCursor:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Mouse_HideCursor").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Mouse_HideCursor' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Mouse' is deprecated.");
@@ -2867,8 +2838,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Mouse.ShowCursor:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Mouse_ShowCursor").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Mouse_ShowCursor' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Mouse' is deprecated.");
@@ -2888,8 +2857,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Mouse.IsLeftButtonDown:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_IsLeftButtonDown").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_IsLeftButtonDown' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Mouse' is deprecated.");
@@ -2900,8 +2867,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Mouse.IsRightButtonDown:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_IsRightButtonDown").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_IsRightButtonDown' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Mouse' is deprecated.");
@@ -2912,8 +2877,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Mouse.MouseX:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_MouseX").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_MouseX' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Mouse' is deprecated.");
@@ -2929,8 +2892,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Mouse.MouseY:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Mouse_MouseY").ReturnType.ToString() == "System.Void", "Setter method 'Set_Mouse_MouseY' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Mouse' is deprecated.");
@@ -2946,7 +2907,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, isDeprecated: true, methods, properties, events));
+                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Network'
@@ -2997,7 +2958,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Network", new Library("Network", LibrariesResources.Network, isDeprecated: true, methods, properties, events));
+                types.Add("Network", new Library("Network", LibrariesResources.Network, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Program'
@@ -3006,12 +2967,10 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Program.Delay:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Program_Delay").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Program_Delay' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         decimal milliSeconds = engine.EvaluationStack.Pop().ToNumber();
-                        Execute_Program_Delay(milliSeconds: milliSeconds);
+                        engine.Libraries.Program.Delay(milliSeconds: milliSeconds);
                     }
 
                     methods.Add("Delay", new Method(
@@ -3029,11 +2988,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Program.End:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Program_End").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Program_End' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
-                        Execute_Program_End();
+                        engine.Libraries.Program.End();
                     }
 
                     methods.Add("End", new Method(
@@ -3068,11 +3025,9 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Program.Pause:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Program_Pause").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Program_Pause' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
-                        Execute_Program_Pause();
+                        engine.Libraries.Program.Pause();
                     }
 
                     methods.Add("Pause", new Method(
@@ -3089,8 +3044,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Program.ArgumentCount:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Program_ArgumentCount").ReturnType.ToString() == "System.Void", "Setter method 'Set_Program_ArgumentCount' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library property 'Program.ArgumentCount' is deprecated.");
@@ -3101,8 +3054,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Program.Directory:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Set_Program_Directory").ReturnType.ToString() == "System.Void", "Setter method 'Set_Program_Directory' should have void return type.");
-
                     void getter(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library property 'Program.Directory' is deprecated.");
@@ -3113,7 +3064,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Program", new Library("Program", LibrariesResources.Program, isDeprecated: false, methods, properties, events));
+                types.Add("Program", new Library("Program", LibrariesResources.Program, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Shapes'
@@ -3126,7 +3077,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal height = engine.EvaluationStack.Pop().ToNumber();
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.Shapes.AddEllipse(width: width, height: height);
+                        string returnValue = engine.Libraries.Shapes.AddEllipse(width: width, height: height);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3149,7 +3100,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string imageName = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.Shapes.AddImage(imageName: imageName);
+                        string returnValue = engine.Libraries.Shapes.AddImage(imageName: imageName);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3174,7 +3125,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal x2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal y1 = engine.EvaluationStack.Pop().ToNumber();
                         decimal x1 = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.Shapes.AddLine(x1: x1, y1: y1, x2: x2, y2: y2);
+                        string returnValue = engine.Libraries.Shapes.AddLine(x1: x1, y1: y1, x2: x2, y2: y2);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3200,7 +3151,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal height = engine.EvaluationStack.Pop().ToNumber();
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.Shapes.AddRectangle(width: width, height: height);
+                        string returnValue = engine.Libraries.Shapes.AddRectangle(width: width, height: height);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3223,7 +3174,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.Shapes.AddText(text: text);
+                        string returnValue = engine.Libraries.Shapes.AddText(text: text);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3250,7 +3201,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal x2 = engine.EvaluationStack.Pop().ToNumber();
                         decimal y1 = engine.EvaluationStack.Pop().ToNumber();
                         decimal x1 = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Plugins.Shapes.AddTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
+                        string returnValue = engine.Libraries.Shapes.AddTriangle(x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3280,7 +3231,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.Animate(shapeName: shapeName, x: x, y: y, duration: duration);
+                        engine.Libraries.Shapes.Animate(shapeName: shapeName, x: x, y: y, duration: duration);
                     }
 
                     methods.Add("Animate", new Method(
@@ -3304,7 +3255,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = engine.Plugins.Shapes.GetLeft(shapeName: shapeName);
+                        decimal returnValue = engine.Libraries.Shapes.GetLeft(shapeName: shapeName);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -3326,7 +3277,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = engine.Plugins.Shapes.GetOpacity(shapeName: shapeName);
+                        decimal returnValue = engine.Libraries.Shapes.GetOpacity(shapeName: shapeName);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -3348,7 +3299,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = engine.Plugins.Shapes.GetTop(shapeName: shapeName);
+                        decimal returnValue = engine.Libraries.Shapes.GetTop(shapeName: shapeName);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -3370,7 +3321,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.HideShape(shapeName: shapeName);
+                        engine.Libraries.Shapes.HideShape(shapeName: shapeName);
                     }
 
                     methods.Add("HideShape", new Method(
@@ -3393,7 +3344,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.Move(shapeName: shapeName, x: x, y: y);
+                        engine.Libraries.Shapes.Move(shapeName: shapeName, x: x, y: y);
                     }
 
                     methods.Add("Move", new Method(
@@ -3416,7 +3367,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.Remove(shapeName: shapeName);
+                        engine.Libraries.Shapes.Remove(shapeName: shapeName);
                     }
 
                     methods.Add("Remove", new Method(
@@ -3438,7 +3389,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.Rotate(shapeName: shapeName, angle: angle);
+                        engine.Libraries.Shapes.Rotate(shapeName: shapeName, angle: angle);
                     }
 
                     methods.Add("Rotate", new Method(
@@ -3461,7 +3412,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal level = engine.EvaluationStack.Pop().ToNumber();
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.SetOpacity(shapeName: shapeName, level: level);
+                        engine.Libraries.Shapes.SetOpacity(shapeName: shapeName, level: level);
                     }
 
                     methods.Add("SetOpacity", new Method(
@@ -3484,7 +3435,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.SetText(shapeName: shapeName, text: text);
+                        engine.Libraries.Shapes.SetText(shapeName: shapeName, text: text);
                     }
 
                     methods.Add("SetText", new Method(
@@ -3506,7 +3457,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.ShowShape(shapeName: shapeName);
+                        engine.Libraries.Shapes.ShowShape(shapeName: shapeName);
                     }
 
                     methods.Add("ShowShape", new Method(
@@ -3529,7 +3480,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal scaleY = engine.EvaluationStack.Pop().ToNumber();
                         decimal scaleX = engine.EvaluationStack.Pop().ToNumber();
                         string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Shapes.Zoom(shapeName: shapeName, scaleX: scaleX, scaleY: scaleY);
+                        engine.Libraries.Shapes.Zoom(shapeName: shapeName, scaleX: scaleX, scaleY: scaleY);
                     }
 
                     methods.Add("Zoom", new Method(
@@ -3551,7 +3502,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, isDeprecated: false, methods, properties, events));
+                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'Sound'
@@ -3560,8 +3511,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.Pause:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_Pause").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_Pause' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3582,8 +3531,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.Play:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_Play").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_Play' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3604,8 +3551,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayAndWait:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayAndWait' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3626,8 +3571,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayBellRing:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayBellRing").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayBellRing' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3645,8 +3588,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayBellRingAndWait:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayBellRingAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayBellRingAndWait' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3664,8 +3605,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayChime:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChime").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChime' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3683,8 +3622,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayChimeAndWait:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChimeAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChimeAndWait' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3702,8 +3639,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayChimes:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChimes").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChimes' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3721,8 +3656,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayChimesAndWait:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayChimesAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayChimesAndWait' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3740,8 +3673,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayClick:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayClick").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayClick' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3759,8 +3690,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayClickAndWait:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayClickAndWait").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayClickAndWait' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3778,8 +3707,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.PlayMusic:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_PlayMusic").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_PlayMusic' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3800,8 +3727,6 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Sound.Stop:
                 {
-                    Debug.Assert(Type.GetType("SuperBasic.Compiler.Runtime.Libraries").GetMethod("Execute_Sound_Stop").ReturnType.ToString() == "System.Void", "Exeuction method 'Execute_Sound_Stop' should have void return type.");
-
                     void execute(SuperBasicEngine engine)
                     {
                         throw new InvalidOperationException("Library 'Sound' is deprecated.");
@@ -3824,7 +3749,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, isDeprecated: true, methods, properties, events));
+                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, isDeprecated: true, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Stack'
@@ -3836,7 +3761,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string stackName = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = engine.Plugins.Stack.GetCount(stackName: stackName);
+                        decimal returnValue = engine.Libraries.Stack.GetCount(stackName: stackName);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -3858,7 +3783,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string stackName = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Plugins.Stack.PopValue(stackName: stackName);
+                        string returnValue = engine.Libraries.Stack.PopValue(stackName: stackName);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3881,7 +3806,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
                         string stackName = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.Stack.PushValue(stackName: stackName, value: value);
+                        engine.Libraries.Stack.PushValue(stackName: stackName, value: value);
                     }
 
                     methods.Add("PushValue", new Method(
@@ -3902,7 +3827,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, isDeprecated: false, methods, properties, events));
+                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Text'
@@ -3915,7 +3840,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string text2 = engine.EvaluationStack.Pop().ToString();
                         string text1 = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = Execute_Text_Append(text1: text1, text2: text2);
+                        string returnValue = engine.Libraries.Text.Append(text1: text1, text2: text2);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3938,7 +3863,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = Execute_Text_ConvertToLowerCase(text: text);
+                        string returnValue = engine.Libraries.Text.ConvertToLowerCase(text: text);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3960,7 +3885,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = Execute_Text_ConvertToUpperCase(text: text);
+                        string returnValue = engine.Libraries.Text.ConvertToUpperCase(text: text);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -3983,7 +3908,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string subText = engine.EvaluationStack.Pop().ToString();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        bool returnValue = Execute_Text_EndsWith(text: text, subText: subText);
+                        bool returnValue = engine.Libraries.Text.EndsWith(text: text, subText: subText);
                         engine.EvaluationStack.Push(new BooleanValue(returnValue));
                     }
 
@@ -4006,7 +3931,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal characterCode = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = Execute_Text_GetCharacter(characterCode: characterCode);
+                        string returnValue = engine.Libraries.Text.GetCharacter(characterCode: characterCode);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -4028,7 +3953,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string character = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = Execute_Text_GetCharacterCode(character: character);
+                        decimal returnValue = engine.Libraries.Text.GetCharacterCode(character: character);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -4051,7 +3976,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string subText = engine.EvaluationStack.Pop().ToString();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = Execute_Text_GetIndexOf(text: text, subText: subText);
+                        decimal returnValue = engine.Libraries.Text.GetIndexOf(text: text, subText: subText);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -4074,7 +3999,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
-                        decimal returnValue = Execute_Text_GetLength(text: text);
+                        decimal returnValue = engine.Libraries.Text.GetLength(text: text);
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -4098,7 +4023,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal length = engine.EvaluationStack.Pop().ToNumber();
                         decimal start = engine.EvaluationStack.Pop().ToNumber();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = Execute_Text_GetSubText(text: text, start: start, length: length);
+                        string returnValue = engine.Libraries.Text.GetSubText(text: text, start: start, length: length);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -4123,7 +4048,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal start = engine.EvaluationStack.Pop().ToNumber();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = Execute_Text_GetSubTextToEnd(text: text, start: start);
+                        string returnValue = engine.Libraries.Text.GetSubTextToEnd(text: text, start: start);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -4147,7 +4072,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string subText = engine.EvaluationStack.Pop().ToString();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        bool returnValue = Execute_Text_IsSubText(text: text, subText: subText);
+                        bool returnValue = engine.Libraries.Text.IsSubText(text: text, subText: subText);
                         engine.EvaluationStack.Push(new BooleanValue(returnValue));
                     }
 
@@ -4171,7 +4096,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string subText = engine.EvaluationStack.Pop().ToString();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        bool returnValue = Execute_Text_StartsWith(text: text, subText: subText);
+                        bool returnValue = engine.Libraries.Text.StartsWith(text: text, subText: subText);
                         engine.EvaluationStack.Push(new BooleanValue(returnValue));
                     }
 
@@ -4193,7 +4118,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Text", new Library("Text", LibrariesResources.Text, isDeprecated: false, methods, properties, events));
+                types.Add("Text", new Library("Text", LibrariesResources.Text, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'TextWindow'
@@ -4204,7 +4129,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.TextWindow.Clear();
+                        engine.Libraries.TextWindow.Clear();
                     }
 
                     methods.Add("Clear", new Method(
@@ -4289,7 +4214,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        string returnValue = engine.Plugins.TextWindow.Read();
+                        string returnValue = engine.Libraries.TextWindow.Read();
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -4307,7 +4232,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        decimal returnValue = engine.Plugins.TextWindow.ReadNumber();
+                        decimal returnValue = engine.Libraries.TextWindow.ReadNumber();
                         engine.EvaluationStack.Push(new NumberValue(returnValue));
                     }
 
@@ -4343,7 +4268,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string data = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.TextWindow.Write(data: data);
+                        engine.Libraries.TextWindow.Write(data: data);
                     }
 
                     methods.Add("Write", new Method(
@@ -4364,7 +4289,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         string data = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.TextWindow.WriteLine(data: data);
+                        engine.Libraries.TextWindow.WriteLine(data: data);
                     }
 
                     methods.Add("WriteLine", new Method(
@@ -4386,14 +4311,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.TextWindow.BackgroundColor;
+                        string value = engine.Libraries.TextWindow.BackgroundColor;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.TextWindow.BackgroundColor = value;
+                        engine.Libraries.TextWindow.BackgroundColor = value;
                     }
 
                     properties.Add("BackgroundColor", new Property("BackgroundColor", LibrariesResources.TextWindow_BackgroundColor, isDeprecated: false, getter: getter, setter: setter));
@@ -4433,14 +4358,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Plugins.TextWindow.ForegroundColor;
+                        string value = engine.Libraries.TextWindow.ForegroundColor;
                         engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Plugins.TextWindow.ForegroundColor = value;
+                        engine.Libraries.TextWindow.ForegroundColor = value;
                     }
 
                     properties.Add("ForegroundColor", new Property("ForegroundColor", LibrariesResources.TextWindow_ForegroundColor, isDeprecated: false, getter: getter, setter: setter));
@@ -4493,7 +4418,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, isDeprecated: false, methods, properties, events));
+                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, isDeprecated: false, programKind: ProgramKind.Text, methods, properties, events));
             }
 
             // Initialization code for library 'Timer'
@@ -4504,7 +4429,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Timer.Pause();
+                        engine.Libraries.Timer.Pause();
                     }
 
                     methods.Add("Pause", new Method(
@@ -4521,7 +4446,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Timer.Resume();
+                        engine.Libraries.Timer.Resume();
                     }
 
                     methods.Add("Resume", new Method(
@@ -4540,14 +4465,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.Timer.Interval;
+                        decimal value = engine.Libraries.Timer.Interval;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Timer.Interval = value;
+                        engine.Libraries.Timer.Interval = value;
                     }
 
                     properties.Add("Interval", new Property("Interval", LibrariesResources.Timer_Interval, isDeprecated: false, getter: getter, setter: setter));
@@ -4558,7 +4483,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "Tick", new Event("Tick", LibrariesResources.Timer_Tick) },
                 };
 
-                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, isDeprecated: false, methods, properties, events));
+                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, isDeprecated: false, programKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Turtle'
@@ -4569,7 +4494,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Turtle.Hide();
+                        engine.Libraries.Turtle.Hide();
                     }
 
                     methods.Add("Hide", new Method(
@@ -4587,7 +4512,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal distance = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.Move(distance: distance);
+                        engine.Libraries.Turtle.Move(distance: distance);
                     }
 
                     methods.Add("Move", new Method(
@@ -4609,7 +4534,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.MoveTo(x: x, y: y);
+                        engine.Libraries.Turtle.MoveTo(x: x, y: y);
                     }
 
                     methods.Add("MoveTo", new Method(
@@ -4630,7 +4555,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Turtle.PenDown();
+                        engine.Libraries.Turtle.PenDown();
                     }
 
                     methods.Add("PenDown", new Method(
@@ -4647,7 +4572,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Turtle.PenUp();
+                        engine.Libraries.Turtle.PenUp();
                     }
 
                     methods.Add("PenUp", new Method(
@@ -4664,7 +4589,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Turtle.Show();
+                        engine.Libraries.Turtle.Show();
                     }
 
                     methods.Add("Show", new Method(
@@ -4682,7 +4607,7 @@ namespace SuperBasic.Compiler.Runtime
                     void execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.Turn(angle: angle);
+                        engine.Libraries.Turtle.Turn(angle: angle);
                     }
 
                     methods.Add("Turn", new Method(
@@ -4702,7 +4627,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Turtle.TurnLeft();
+                        engine.Libraries.Turtle.TurnLeft();
                     }
 
                     methods.Add("TurnLeft", new Method(
@@ -4719,7 +4644,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        engine.Plugins.Turtle.TurnRight();
+                        engine.Libraries.Turtle.TurnRight();
                     }
 
                     methods.Add("TurnRight", new Method(
@@ -4738,14 +4663,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.Turtle.Angle;
+                        decimal value = engine.Libraries.Turtle.Angle;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.Angle = value;
+                        engine.Libraries.Turtle.Angle = value;
                     }
 
                     properties.Add("Angle", new Property("Angle", LibrariesResources.Turtle_Angle, isDeprecated: false, getter: getter, setter: setter));
@@ -4755,14 +4680,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.Turtle.Speed;
+                        decimal value = engine.Libraries.Turtle.Speed;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.Speed = value;
+                        engine.Libraries.Turtle.Speed = value;
                     }
 
                     properties.Add("Speed", new Property("Speed", LibrariesResources.Turtle_Speed, isDeprecated: false, getter: getter, setter: setter));
@@ -4772,14 +4697,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.Turtle.X;
+                        decimal value = engine.Libraries.Turtle.X;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.X = value;
+                        engine.Libraries.Turtle.X = value;
                     }
 
                     properties.Add("X", new Property("X", LibrariesResources.Turtle_X, isDeprecated: false, getter: getter, setter: setter));
@@ -4789,14 +4714,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Plugins.Turtle.Y;
+                        decimal value = engine.Libraries.Turtle.Y;
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
                         decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Plugins.Turtle.Y = value;
+                        engine.Libraries.Turtle.Y = value;
                     }
 
                     properties.Add("Y", new Property("Y", LibrariesResources.Turtle_Y, isDeprecated: false, getter: getter, setter: setter));
@@ -4804,12 +4729,10 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, isDeprecated: false, methods, properties, events));
+                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
             }
 
             Types = types;
         }
-
-        public static IReadOnlyDictionary<string, Library> Types { get; private set; }
     }
 }

@@ -5,7 +5,9 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using SuperBasic.Compiler.Scanning;
 
     internal sealed class StoreVariableInstruction : BaseNonJumpInstruction
@@ -20,7 +22,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            engine.Memory.Contents[this.variable] = engine.EvaluationStack.Pop();
+            engine.Memory[this.variable] = engine.EvaluationStack.Pop();
         }
     }
 
@@ -36,7 +38,7 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            if (engine.Memory.Contents.TryGetValue(this.variable, out BaseValue value))
+            if (engine.Memory.TryGetValue(this.variable, out BaseValue value))
             {
                 engine.EvaluationStack.Push(value);
             }
@@ -62,23 +64,28 @@ namespace SuperBasic.Compiler.Runtime
         protected override void Execute(SuperBasicEngine engine)
         {
             BaseValue value = engine.EvaluationStack.Pop();
+            executeAux(engine.Memory, this.array, this.indicesCount);
 
-            string index = this.array;
-            ArrayValue memory = engine.Memory;
-            int remainingIndices = this.indicesCount;
-
-            while (remainingIndices-- > 0)
+            BaseValue executeAux(Dictionary<string, BaseValue> memory, string index, int remainingIndices)
             {
-                if (!memory.Contents.ContainsKey(index) || !(memory.Contents[index] is ArrayValue))
+                if (remainingIndices == 0)
                 {
-                    memory.Contents[index] = new ArrayValue();
+                    memory[index] = value;
+                }
+                else
+                {
+                    Dictionary<string, BaseValue> nextMemory =
+                        memory.TryGetValue(index, out BaseValue elementValue) && elementValue is ArrayValue elementArrayValue
+                        ? elementArrayValue.ToDictionary()
+                        : new Dictionary<string, BaseValue>();
+
+                    string nextIndex = engine.EvaluationStack.Pop().ToString();
+
+                    memory[index] = executeAux(nextMemory, nextIndex, remainingIndices - 1);
                 }
 
-                memory = (ArrayValue)memory.Contents[index];
-                index = engine.EvaluationStack.Pop().ToString();
+                return new ArrayValue(memory);
             }
-
-            memory.Contents[index] = value;
         }
     }
 
@@ -96,28 +103,24 @@ namespace SuperBasic.Compiler.Runtime
 
         protected override void Execute(SuperBasicEngine engine)
         {
-            string index = this.array;
-            ArrayValue memory = engine.Memory;
+            IReadOnlyDictionary<string, BaseValue> memory = engine.Memory;
             int remainingIndices = this.indicesCount;
+            string index = this.array;
 
-            while (remainingIndices-- > 0)
+            while (remainingIndices > 0 && memory.TryGetValue(index, out BaseValue elementValue) && elementValue is ArrayValue elementArrayValue)
             {
-                if (!memory.Contents.ContainsKey(index) || !(memory.Contents[index] is ArrayValue))
-                {
-                    memory.Contents[index] = new ArrayValue();
-                }
-
-                memory = (ArrayValue)memory.Contents[index];
                 index = engine.EvaluationStack.Pop().ToString();
+                memory = elementArrayValue;
+                remainingIndices--;
             }
 
-            if (memory.Contents.TryGetValue(index, out BaseValue value))
+            if (remainingIndices > 0 || !memory.TryGetValue(index, out BaseValue value))
             {
-                engine.EvaluationStack.Push(value);
+                engine.EvaluationStack.Push(StringValue.Empty);
             }
             else
             {
-                engine.EvaluationStack.Push(StringValue.Empty);
+                engine.EvaluationStack.Push(value);
             }
         }
     }

@@ -126,5 +126,10 @@ namespace SuperBasic.Compiler.Diagnostics
         {
             this.builder.Add(new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromDesktop, range, library.ToDisplayString(), member.ToDisplayString()));
         }
+
+        public void ReportMultipleProgramKindsUsed(TextRange range, string conflictingLibrary, string earlierLibrary)
+        {
+            this.builder.Add(new Diagnostic(DiagnosticCode.MultipleProgramKindsUsed, range, conflictingLibrary.ToDisplayString(), earlierLibrary.ToDisplayString()));
+        }
     }
 }
