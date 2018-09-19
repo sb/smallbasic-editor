@@ -2,11 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <ProjectType>Build</ProjectType>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- MSBuild Tasks -->
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
   </ItemGroup>
 
   <PropertyGroup>

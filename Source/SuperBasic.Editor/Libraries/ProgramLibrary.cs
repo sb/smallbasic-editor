@@ -8,7 +8,7 @@ namespace SuperBasic.Editor.Libraries
     using System.Threading;
     using SuperBasic.Compiler.Runtime;
 
-    internal sealed class ProgramLibrary : IProgramLibrary
+    public sealed class ProgramLibrary : IProgramLibrary
     {
         public void Delay(decimal milliSeconds) => Thread.Sleep((int)milliSeconds);
 

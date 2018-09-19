@@ -7,7 +7,7 @@ namespace SuperBasic.Editor.Libraries
     using System;
     using SuperBasic.Compiler.Runtime;
 
-    internal sealed class MathLibrary : IMathLibrary
+    public sealed class MathLibrary : IMathLibrary
     {
         private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
 
