@@ -2,12 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <ProjectType>Test</ProjectType>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj" />
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- xunit -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
   </ItemGroup>
 
 </Project>

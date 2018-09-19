@@ -8,7 +8,7 @@ namespace SuperBasic.Editor.Libraries
     using System.Globalization;
     using SuperBasic.Compiler.Runtime;
 
-    internal sealed class ClockLibrary : IClockLibrary
+    public sealed class ClockLibrary : IClockLibrary
     {
         public string Date => DateTime.Now.ToString(DateTimeFormatInfo.GetInstance(CultureInfo.CurrentCulture).ShortDatePattern, CultureInfo.CurrentCulture);
 

@@ -140,7 +140,7 @@ namespace SuperBasic.Compiler.Runtime
         public string Description { get; private set; }
     }
 
-    internal static partial class Libraries
+    internal static class Libraries
     {
         public static readonly IReadOnlyDictionary<string, Library> Types;
 

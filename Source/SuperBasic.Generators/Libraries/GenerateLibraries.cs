@@ -106,7 +106,7 @@ namespace SuperBasic.Generators.Scanning
 
         private void GenerateLibrariesType(LibraryCollection model)
         {
-            this.Line("internal static partial class Libraries");
+            this.Line("internal static class Libraries");
             this.Brace();
 
             this.Line("public static readonly IReadOnlyDictionary<string, Library> Types;");

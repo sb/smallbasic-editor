@@ -5,6 +5,7 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System;
+    using System.Linq;
     using SuperBasic.Compiler.Scanning;
 
     internal sealed class TransientLabelInstruction : BaseJumpInstruction
@@ -78,11 +79,11 @@ namespace SuperBasic.Compiler.Runtime
         {
             if (engine.EvaluationStack.Pop().ToBoolean())
             {
-                return this.trueTargetOpt ?? engine.ExecutionStack.Peek().InstructionIndex + 1;
+                return this.trueTargetOpt ?? engine.ExecutionStack.Last().InstructionIndex + 1;
             }
             else
             {
-                return this.falseTargetOpt ?? engine.ExecutionStack.Peek().InstructionIndex + 1;
+                return this.falseTargetOpt ?? engine.ExecutionStack.Last().InstructionIndex + 1;
             }
         }
     }

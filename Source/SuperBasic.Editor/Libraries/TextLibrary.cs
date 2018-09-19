@@ -9,7 +9,7 @@ namespace SuperBasic.Editor.Libraries
     using System.Linq;
     using SuperBasic.Compiler.Runtime;
 
-    internal sealed class TextLibrary : ITextLibrary
+    public sealed class TextLibrary : ITextLibrary
     {
         public string Append(string text1, string text2) => text1 + text2;
 

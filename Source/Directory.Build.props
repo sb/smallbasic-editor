@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <IsPackable>false</IsPackable>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <RootDirectory>$(MSBuildThisFileDirectory)..</RootDirectory>
   </PropertyGroup>
 
   <ItemGroup>
+    <DisabledWarnings Include="CA1016" Comment="Mark assemblies with assembly version (blazor complains for some reason, even though the assembly is stamped correctly)." />
     <DisabledWarnings Include="CA1710" Comment="Rename '{0}' to end in '{1}' (for IReadOnly collections)." />
     <DisabledWarnings Include="CA1716" Comment="Rename type '{0}' so that it no longer conflicts with the reserved language keyword '{0}'. Using a reserved keyword as the name of a type makes it harder for consumers in other languages to use the type." />
     <DisabledWarnings Include="CA2225" Comment="Operator overloads have named alternates." />
@@ -30,21 +32,19 @@
     <NoWarn>@(DisabledWarnings, ',')</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <RootDirectory>$(MSBuildThisFileDirectory)..</RootDirectory>
-    <!-- Where binaries are placed -->
-    <BinariesDirectory>$(RootDirectory)\Binaries\$(Configuration)</BinariesDirectory>
-    <OutDir>$(BinariesDirectory)\$(MSBuildProjectName)</OutDir>
-    <!-- Where obj files are placed (TargetFramework is appended during the build) -->
-    <IntermediateOutputPath>$(RootDirectory)\Binaries\Obj\$(Configuration)\$(MSBuildProjectName)</IntermediateOutputPath>
-    <!-- Where nuget cache files are placed (unrelated to IntermediateOutputPath) -->
-    <BaseIntermediateOutputPath>$(IntermediateOutputPath)</BaseIntermediateOutputPath>
-  </PropertyGroup>
-
   <ItemGroup>
+    <!-- Additional Files -->
     <AdditionalFiles Include="$(RootDirectory)\Source\stylecop.json">
       <Visible>false</Visible>
     </AdditionalFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Localization -->
+    <AssemblyAttribute Include="System.Resources.NeutralResourcesLanguage">
+      <_Parameter1>en-US</_Parameter1>
+    </AssemblyAttribute>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,39 +56,10 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(ProjectType)' != 'Analyzer'">
+  <ItemGroup Condition="'$(ProjectName)' != 'SuperBasic.Analyzers'">
     <!-- Custom Analyzers -->
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj" />
-    <Analyzer Include="$(BinariesDirectory)\SuperBasic.Analyzers\SuperBasic.Analyzers.dll" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(ProjectType)' == 'Analyzer'">
-    <!-- Roslyn dependencies -->
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.4.0" PrivateAssets="all" />
-    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(ProjectType)' == 'Build'">
-    <!-- MSBuild Tasks -->
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(ProjectType)' == 'Product'">
-    <!-- Localization -->
-    <AssemblyAttribute Include="System.Resources.NeutralResourcesLanguage">
-      <_Parameter1>en-US</_Parameter1>
-    </AssemblyAttribute>
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(ProjectType)' == 'Test'">
-    <!-- xunit -->
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-    <PackageReference Include="FluentAssertions" Version="5.4.1" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
+    <Analyzer Include="$(RootDirectory)\Source\SuperBasic.Analyzers\bin\$(Configuration)\netstandard2.0\SuperBasic.Analyzers.dll" />
   </ItemGroup>
 
 </Project>

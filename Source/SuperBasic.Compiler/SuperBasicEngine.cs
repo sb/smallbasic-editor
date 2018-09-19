@@ -9,6 +9,7 @@ namespace SuperBasic.Compiler
     using System.Linq;
     using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Utilities;
 
     public enum ExecutionState
     {
@@ -21,20 +22,25 @@ namespace SuperBasic.Compiler
 
     public sealed class SuperBasicEngine
     {
-        private bool isDebugging;
+        private readonly bool isDebugging;
+        private readonly ProgramKind programKind;
+        private readonly Dictionary<(string library, string eventName), string> eventCallbacks;
+
         private int currentSourceLine;
-        private Dictionary<(string library, string eventName), string> eventCallbacks;
 
         public SuperBasicEngine(SuperBasicCompilation compilation, IEngineLibraries libraries, bool isDebugging = false)
         {
+            // TODO: move warnings to editorconfig
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
 
             this.isDebugging = isDebugging;
-            this.currentSourceLine = 0;
+            this.programKind = compilation.Kind;
             this.eventCallbacks = new Dictionary<(string library, string eventName), string>();
 
+            this.currentSourceLine = 0;
+
             this.State = ExecutionState.Running;
-            this.ExecutionStack = new Stack<Frame>();
+            this.ExecutionStack = new LinkedList<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
             this.Memory = new Dictionary<string, BaseValue>();
             this.Modules = new Dictionary<string, RuntimeModule>();
@@ -43,18 +49,17 @@ namespace SuperBasic.Compiler
             this.Libraries.SetEventCallbacks(this);
 
             RuntimeModule mainModule = this.EmitAndSaveModule("Program", compilation.MainModule);
-
             foreach (BoundSubModule subModule in compilation.SubModules.Values)
             {
                 this.EmitAndSaveModule(subModule.Name, subModule.Body);
             }
 
-            this.ExecutionStack.Push(new Frame(mainModule));
+            this.ExecutionStack.AddLast(new Frame(mainModule));
         }
 
         public ExecutionState State { get; private set; }
 
-        internal Stack<Frame> ExecutionStack { get; private set; }
+        internal LinkedList<Frame> ExecutionStack { get; private set; }
 
         internal Stack<BaseValue> EvaluationStack { get; private set; }
 
@@ -83,14 +88,22 @@ namespace SuperBasic.Compiler
             {
                 if (this.ExecutionStack.Count == 0)
                 {
-                    this.State = ExecutionState.Terminated;
-                    return;
+                    switch (this.programKind)
+                    {
+                        case ProgramKind.Text:
+                            this.State = ExecutionState.Terminated;
+                            return;
+                        case ProgramKind.Graphics:
+                            return;
+                        default:
+                            throw ExceptionUtilities.UnexpectedValue(this.programKind);
+                    }
                 }
 
-                Frame frame = this.ExecutionStack.Peek();
+                Frame frame = this.ExecutionStack.Last();
                 if (frame.InstructionIndex == frame.Module.Instructions.Count)
                 {
-                    this.ExecutionStack.Pop();
+                    this.ExecutionStack.RemoveLast();
                     continue;
                 }
 
@@ -121,7 +134,7 @@ namespace SuperBasic.Compiler
         {
             if (this.eventCallbacks.TryGetValue((library, eventName), out string subModule))
             {
-                this.ExecutionStack.Push(new Frame(this.Modules[subModule]));
+                this.ExecutionStack.AddFirst(new Frame(this.Modules[subModule]));
             }
         }
 
@@ -137,6 +150,7 @@ namespace SuperBasic.Compiler
         internal void Terminate()
         {
             Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be terminated.");
+            this.State = ExecutionState.Terminated;
             this.ExecutionStack.Clear();
         }
 

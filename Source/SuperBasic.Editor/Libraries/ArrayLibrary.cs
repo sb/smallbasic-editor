@@ -8,7 +8,7 @@ namespace SuperBasic.Editor.Libraries
     using System.Linq;
     using SuperBasic.Compiler.Runtime;
 
-    internal sealed class ArrayLibrary : IArrayLibrary
+    public sealed class ArrayLibrary : IArrayLibrary
     {
         public bool ContainsIndex(ArrayValue array, string index) => array.ContainsKey(index);
 

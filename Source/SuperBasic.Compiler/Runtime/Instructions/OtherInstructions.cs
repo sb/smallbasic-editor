@@ -20,7 +20,7 @@ namespace SuperBasic.Compiler.Runtime
         protected override void Execute(SuperBasicEngine engine)
         {
             Frame frame = new Frame(engine.Modules[this.subModuleName]);
-            engine.ExecutionStack.Push(frame);
+            engine.ExecutionStack.AddLast(frame);
         }
     }
 
