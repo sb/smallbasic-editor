@@ -1,0 +1,47 @@
+{
+  "rules": {
+    "no-consecutive-blank-lines": true,
+    "eofline": true,
+    "no-var-keyword": true,
+    "triple-equals": true,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "property-declaration",
+      "member-variable-declaration",
+      "object-destructuring",
+      "array-destructuring"
+    ],
+    "member-access": [
+      true,
+      "check-constructor",
+      "check-accessor"
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "quotemark": [
+      true,
+      "double"
+    ],
+    "indent": [
+      true,
+      "spaces",
+      4
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
+    "file-header": [
+      true,
+      "Copyright \\(c\\) 2018 Omar Tawfik\\. All rights reserved\\. Licensed under the MIT License\\. See LICENSE file in the project root for license information\\.",
+      "Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information."
+    ]
+  }
+}

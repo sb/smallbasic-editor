@@ -3,19 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Generators", "Source\SuperBasic.Generators\SuperBasic.Generators.csproj", "{19CF94F2-8B24-44FC-987D-B635FEBE4374}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Generators", "Source\Generators\SuperBasic.Generators.csproj", "{19CF94F2-8B24-44FC-987D-B635FEBE4374}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Utilities", "Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj", "{26FCFA88-297E-493B-9AE1-86F283005250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Utilities", "Source\Utilities\SuperBasic.Utilities.csproj", "{26FCFA88-297E-493B-9AE1-86F283005250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Compiler", "Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj", "{3393CEA2-C5E4-4A42-95BA-E3F89159D944}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Compiler", "Source\Compiler\SuperBasic.Compiler.csproj", "{3393CEA2-C5E4-4A42-95BA-E3F89159D944}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Tests", "Source\SuperBasic.Tests\SuperBasic.Tests.csproj", "{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Tests", "Source\Tests\SuperBasic.Tests.csproj", "{FD08B332-F16D-4C9D-9B2F-FF07115A53D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Analyzers", "Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj", "{26DB4C77-E15E-46A5-A81C-B2FB0C7AF621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Analyzers", "Source\Analyzers\SuperBasic.Analyzers.csproj", "{26DB4C77-E15E-46A5-A81C-B2FB0C7AF621}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Editor", "Source\SuperBasic.Editor\SuperBasic.Editor.csproj", "{7A6A3AC1-1682-41C1-A114-ED6E05CA61AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Editor", "Source\Editor\SuperBasic.Editor.csproj", "{7A6A3AC1-1682-41C1-A114-ED6E05CA61AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperBasic.Client", "Source\SuperBasic.Client\SuperBasic.Client.csproj", "{5B2C62FD-9EAC-473B-ADEE-0171160AF2FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Client", "Source\Client\SuperBasic.Client.csproj", "{5B2C62FD-9EAC-473B-ADEE-0171160AF2FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{7B249B56-6901-4C9A-A99E-8020022E5C03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{EF279137-4B32-422C-91D3-4717B48EB715}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F0AC4928-EF3A-49A9-B556-51D4CA480A6E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{CB4D2F22-AF47-4EFA-A9AD-F1E3E13931C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +62,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19CF94F2-8B24-44FC-987D-B635FEBE4374} = {7B249B56-6901-4C9A-A99E-8020022E5C03}
+		{26FCFA88-297E-493B-9AE1-86F283005250} = {CB4D2F22-AF47-4EFA-A9AD-F1E3E13931C0}
+		{3393CEA2-C5E4-4A42-95BA-E3F89159D944} = {CB4D2F22-AF47-4EFA-A9AD-F1E3E13931C0}
+		{FD08B332-F16D-4C9D-9B2F-FF07115A53D3} = {F0AC4928-EF3A-49A9-B556-51D4CA480A6E}
+		{26DB4C77-E15E-46A5-A81C-B2FB0C7AF621} = {7B249B56-6901-4C9A-A99E-8020022E5C03}
+		{7A6A3AC1-1682-41C1-A114-ED6E05CA61AB} = {EF279137-4B32-422C-91D3-4717B48EB715}
+		{5B2C62FD-9EAC-473B-ADEE-0171160AF2FD} = {EF279137-4B32-422C-91D3-4717B48EB715}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C8999BE-26B6-422F-99A5-4630F97D8133}

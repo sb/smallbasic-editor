@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AssigningNonSubModuleToEvent" xml:space="preserve">
+    <value>You can only assign submodules to events.</value>
+  </data>
+  <data name="ExpectedExpressionWithAValue" xml:space="preserve">
+    <value>This expression must have a value to be used here.</value>
+  </data>
+  <data name="GoToUndefinedLabel" xml:space="preserve">
+    <value>The label '{0}' is not defined in the same module.</value>
+  </data>
+  <data name="InvalidExpressionStatement" xml:space="preserve">
+    <value>This expression is not a valid statement.</value>
+  </data>
+  <data name="LibraryMemberDeprecatedFromOlderVersion" xml:space="preserve">
+    <value>The library member '{0}.{1}' was available in older versions only, and has not been made available to this version yet.</value>
+  </data>
+  <data name="LibraryAndCompilationKindMismatch" xml:space="preserve">
+    <value>You cannot use the library '{0}' here since this is a '{1}' program. Did you want to change it?</value>
+  </data>
+  <data name="LibraryMemberNotFound" xml:space="preserve">
+    <value>The library '{0}' has no member named '{1}'.</value>
+  </data>
+  <data name="PropertyHasNoSetter" xml:space="preserve">
+    <value>Property '{0}.{1}' cannot be assigned to. It is ready only.</value>
+  </data>
+  <data name="TwoLabelsWithTheSameName" xml:space="preserve">
+    <value>A label with the same name '{0}' is already defined.</value>
+  </data>
+  <data name="TwoSubModulesWithTheSameName" xml:space="preserve">
+    <value>A submodule with the same name '{0}' is already defined in the same program.</value>
+  </data>
+  <data name="UnassignedExpressionStatement" xml:space="preserve">
+    <value>This expression returns a result. Did you mean to assign it to a variable?</value>
+  </data>
+  <data name="UnexpectedArgumentsCount" xml:space="preserve">
+    <value>You are passing '{0}' arguments to this method, while it expects '{1}' arguments.</value>
+  </data>
+  <data name="UnexpectedEndOfStream" xml:space="preserve">
+    <value>I was expecting to see '{0}' after this.</value>
+  </data>
+  <data name="UnexpectedStatementInsteadOfNewLine" xml:space="preserve">
+    <value>This statement should go on a new line.</value>
+  </data>
+  <data name="UnexpectedTokenFound" xml:space="preserve">
+    <value>I didn't expect to see '{0}' here. I was expecting '{1}' instead.</value>
+  </data>
+  <data name="UnexpectedTokenInsteadOfStatement" xml:space="preserve">
+    <value>I didn't expect to see '{0}' here. I was expecting the start of a new statement.</value>
+  </data>
+  <data name="UnrecognizedCharacter" xml:space="preserve">
+    <value>I don't understand this character '{0}'.</value>
+  </data>
+  <data name="UnsupportedArrayBaseExpression" xml:space="preserve">
+    <value>This expression is not a valid array.</value>
+  </data>
+  <data name="UnsupportedDotBaseExpression" xml:space="preserve">
+    <value>You can only use dot access with a library. Did you mean to use an existing library instead?</value>
+  </data>
+  <data name="UnsupportedInvocationBaseExpression" xml:space="preserve">
+    <value>This expression is not a valid submodule or method to be called.</value>
+  </data>
+  <data name="UnterminatedStringLiteral" xml:space="preserve">
+    <value>This string is missing its right double quotes.</value>
+  </data>
+  <data name="ValueIsNotANumber" xml:space="preserve">
+    <value>The value '{0}' is not a valid number.</value>
+  </data>
+  <data name="LibraryMemberNeedsDesktop" xml:space="preserve">
+    <value>The library member '{0}.{1}' cannot be used in the online editor. Please download the desktop editor to use it.</value>
+  </data>
+</root>

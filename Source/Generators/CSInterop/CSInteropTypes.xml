@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <InteropType Name="Graphics">
+    <Methods>
+      <Method Name="NotifyButtonClicked" ReturnType="void">
+        <Parameters>
+          <Parameter Name="buttonName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyTextBoxControlEntry" ReturnType="void">
+        <Parameters>
+          <Parameter Name="textBoxName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyGraphicsWindowTextEntry" ReturnType="void">
+        <Parameters>
+          <Parameter Name="keyCode" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyKeyDown" ReturnType="void">
+        <Parameters>
+          <Parameter Name="keyCode" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyKeyUp" ReturnType="void">
+        <Parameters>
+          <Parameter Name="keyCode" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyMouseDown" ReturnType="void">
+        <Parameters>
+          <Parameter Name="x" Type="number" />
+          <Parameter Name="y" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyMouseMove" ReturnType="void">
+        <Parameters>
+          <Parameter Name="x" Type="number" />
+          <Parameter Name="y" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyMouseUp" ReturnType="void">
+        <Parameters>
+          <Parameter Name="x" Type="number" />
+          <Parameter Name="y" Type="number" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+  <InteropType Name="File">
+    <Methods>
+      <Method Name="ReportFileError" ReturnType="void">
+        <Parameters>
+          <Parameter Name="error" Type="string" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+</root>
