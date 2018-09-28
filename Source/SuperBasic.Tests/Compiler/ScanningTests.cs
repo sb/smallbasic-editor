@@ -13,7 +13,7 @@ namespace SuperBasic.Tests.Compiler
         [Fact]
         public void ItReportsUnterminatedStringLiterals()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = ""name").VerifyDiagnostics(
                 // x = "name
                 //     ^^^^^
@@ -24,7 +24,7 @@ x = ""name").VerifyDiagnostics(
         [Fact]
         public void ItReportsMultipleUnterminatedStringLiterals()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = ""name
 y = ""another").VerifyDiagnostics(
                 // x = "name
@@ -40,7 +40,7 @@ y = ""another").VerifyDiagnostics(
         [Fact]
         public void ItReportsUnrecognizedCharactersOnStartOfLine()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 $").VerifyDiagnostics(
                 // $
                 // ^
@@ -51,7 +51,7 @@ $").VerifyDiagnostics(
         [Fact]
         public void ItReportsMultipleUnrecognizedCharacters()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = ____^
 ok = ""value $ value""
 not_ok = 6 $

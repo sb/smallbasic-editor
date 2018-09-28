@@ -4,6 +4,7 @@
 
 namespace SuperBasic.Generators.Scanning
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using SuperBasic.Utilities;
@@ -20,23 +21,36 @@ namespace SuperBasic.Generators.Scanning
             this.Line("using SuperBasic.Utilities.Resources;");
             this.Blank();
 
+            this.Line("internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);");
+            this.Blank();
+
+            this.GenerateCompilationKind(model);
             this.GenerateModelTypes();
             this.GenerateLibrariesType(model);
 
             this.Unbrace();
         }
 
+        private void GenerateCompilationKind(LibraryCollection model)
+        {
+            this.Line("internal enum CompilationKind");
+            this.Brace();
+
+            foreach (string kind in model.Select(library => library.CompilationKind).Where(kind => !kind.IsDefault()).Distinct())
+            {
+                this.Line($"{kind},");
+            }
+
+            this.Unbrace();
+        }
+
         private void GenerateModelTypes()
         {
-            this.Line("internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);");
-            this.Blank();
-
             generateType(
                 "Library",
                 ("string", "Name"),
                 ("string", "Description"),
-                ("bool", "IsDeprecated"),
-                ("ProgramKind?", "ProgramKind"),
+                ("CompilationKind?", "CompilationKind"),
                 ("IReadOnlyDictionary<string, Method>", "Methods"),
                 ("IReadOnlyDictionary<string, Property>", "Properties"),
                 ("IReadOnlyDictionary<string, Event>", "Events"));
@@ -147,8 +161,7 @@ namespace SuperBasic.Generators.Scanning
             {
                 $@"""{library.Name}""",
                 $"LibrariesResources.{library.Name}",
-                $"isDeprecated: {(library.IsDeprecated ? "true" : "false")}",
-                $"programKind: {(library.ProgramKind.IsDefault() ? "default" : $"ProgramKind.{library.ProgramKind}")}",
+                $"compilationKind: {(library.CompilationKind.IsDefault() ? "default" : $"CompilationKind.{library.CompilationKind}")}",
                 "methods",
                 "properties",
                 "events"
@@ -172,11 +185,7 @@ namespace SuperBasic.Generators.Scanning
                 this.Line("void execute(SuperBasicEngine engine)");
                 this.Brace();
 
-                if (library.IsDeprecated)
-                {
-                    this.Line($@"throw new InvalidOperationException(""Library '{library.Name}' is deprecated."");");
-                }
-                else if (method.IsDeprecated)
+                if (method.IsDeprecated)
                 {
                     this.Line($@"throw new InvalidOperationException(""Library method '{library.Name}.{method.Name}' is deprecated."");");
                 }
@@ -262,11 +271,7 @@ namespace SuperBasic.Generators.Scanning
                     this.Line("void getter(SuperBasicEngine engine)");
                     this.Brace();
 
-                    if (library.IsDeprecated)
-                    {
-                        this.Line($@"throw new InvalidOperationException(""Library '{library.Name}' is deprecated."");");
-                    }
-                    else if (property.IsDeprecated)
+                    if (property.IsDeprecated)
                     {
                         this.Line($@"throw new InvalidOperationException(""Library property '{library.Name}.{property.Name}' is deprecated."");");
                     }
@@ -284,11 +289,7 @@ namespace SuperBasic.Generators.Scanning
                     this.Line("void setter(SuperBasicEngine engine)");
                     this.Brace();
 
-                    if (library.IsDeprecated)
-                    {
-                        this.Line($@"throw new InvalidOperationException(""Library '{library.Name}' is deprecated."");");
-                    }
-                    else if (property.IsDeprecated)
+                    if (property.IsDeprecated)
                     {
                         this.Line($@"throw new InvalidOperationException(""Library property '{library.Name}.{property.Name}' is deprecated."");");
                     }

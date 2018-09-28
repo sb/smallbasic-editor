@@ -105,10 +105,7 @@ namespace SuperBasic.Generators.Scanning
         public string Name { get; set; }
 
         [XmlAttribute]
-        public string ProgramKind { get; set; }
-
-        [XmlAttribute]
-        public bool IsDeprecated { get; set; }
+        public string CompilationKind { get; set; }
 
         [XmlArray(nameof(Methods))]
         [XmlArrayItem(typeof(Method))]

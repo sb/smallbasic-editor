@@ -14,7 +14,7 @@ namespace SuperBasic.Tests.Compiler
         [Fact]
         public void ItReportsInForLoopFromExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 For x = TextWindow.WriteLine("""") To 5
 EndFor").VerifyDiagnostics(
                 // For x = TextWindow.WriteLine("") To 5
@@ -26,7 +26,7 @@ EndFor").VerifyDiagnostics(
         [Fact]
         public void ItReportsInForLoopToExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 For x = 1 To TextWindow.WriteLine("""")
 EndFor").VerifyDiagnostics(
                 // For x = 1 To TextWindow.WriteLine("")
@@ -38,7 +38,7 @@ EndFor").VerifyDiagnostics(
         [Fact]
         public void ItReportsInForLoopStepExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 For x = 1 To 5 Step TextWindow.WriteLine("""")
 EndFor").VerifyDiagnostics(
                 // For x = 1 To 5 Step TextWindow.WriteLine("")
@@ -50,7 +50,7 @@ EndFor").VerifyDiagnostics(
         [Fact]
         public void ItReportsNonValueInIfStatementExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If TextWindow.WriteLine("""") Then
 EndIf").VerifyDiagnostics(
                 // If TextWindow.WriteLine("") Then
@@ -62,7 +62,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsNonValueInIfElseStatementExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If ""True"" Then
 ElseIf TextWindow.WriteLine("""") Then
 EndIf").VerifyDiagnostics(
@@ -75,7 +75,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsNonValueInWhileStatementExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 While TextWindow.WriteLine("""")
 EndWhile").VerifyDiagnostics(
                 // While TextWindow.WriteLine("")
@@ -87,7 +87,7 @@ EndWhile").VerifyDiagnostics(
         [Fact]
         public void ItReportsMultipleSubModulesWithTheSameName()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
 EndSub
 Sub y
@@ -103,7 +103,7 @@ EndSub").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningNonSubModuleToEvent()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateGraphicsProgram(@"
 Sub x
 EndSub
 
@@ -118,7 +118,7 @@ Controls.ButtonClicked = y").VerifyDiagnostics(
         [Fact]
         public void ItReportsPassingArgumentsToModules()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
 EndSub
 
@@ -132,7 +132,7 @@ x(0)").VerifyDiagnostics(
         [Fact]
         public void ItReportsGoToNonExistentLabel()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 label1:
 GoTo label1
 GoTo label2").VerifyDiagnostics(
@@ -145,7 +145,7 @@ GoTo label2").VerifyDiagnostics(
         [Fact]
         public void ItReportsGoToLabelInMainModuleToLabelInSubModule()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
     label1:
 EndSub
@@ -159,7 +159,7 @@ GoTo label1").VerifyDiagnostics(
         [Fact]
         public void ItReportsGoToLabelInSubModuleToLabelInMainModule()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
     GoTo label1
 EndSub
@@ -173,7 +173,7 @@ label1:").VerifyDiagnostics(
         [Fact]
         public void ItReportsDuplicateLabelsInMainModule()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 label1:
 label1:
 Sub x
@@ -188,7 +188,7 @@ EndSub").VerifyDiagnostics(
         [Fact]
         public void ItReportsDuplicateLabelsInSubModule()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 label1:
 Sub x
     label1:
@@ -203,14 +203,14 @@ EndSub").VerifyDiagnostics(
         [Fact]
         public void ItReportsOnlyOneErrorOnExpressionsThatHaveMultipleErrors()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine() = 5").VerifyDiagnostics(
                 // TextWindow.WriteLine() = 5
                 // ^^^^^^^^^^^^^^^^^^^^^^
                 // You are passing '0' arguments to this method, while it expects '1' arguments.
                 new Diagnostic(DiagnosticCode.UnexpectedArgumentsCount, ((1, 0), (1, 21)), "0", "1"));
 
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine(4) = 5").VerifyDiagnostics(
                 // TextWindow.WriteLine(4) = 5
                 // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -221,7 +221,7 @@ TextWindow.WriteLine(4) = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsStandAloneVariables()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x").VerifyDiagnostics(
                 // x
                 // ^
@@ -232,7 +232,7 @@ x").VerifyDiagnostics(
         [Fact]
         public void ItReportsStandAloneExpressions()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x and y").VerifyDiagnostics(
                 // x and y
                 // ^^^^^^^
@@ -243,7 +243,7 @@ x and y").VerifyDiagnostics(
         [Fact]
         public void ItReportsStandAloneLibrary()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow").VerifyDiagnostics(
                 // TextWindow
                 // ^^^^^^^^^^
@@ -254,7 +254,7 @@ TextWindow").VerifyDiagnostics(
         [Fact]
         public void ItReportsStandAloneLibraryMethod()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine").VerifyDiagnostics(
                 // TextWindow.WriteLine
                 // ^^^^^^^^^^^^^^^^^^^^
@@ -265,7 +265,7 @@ TextWindow.WriteLine").VerifyDiagnostics(
         [Fact]
         public void ItReportsStandAloneSubModule()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
 EndSub
 x").VerifyDiagnostics(
@@ -278,7 +278,7 @@ x").VerifyDiagnostics(
         [Fact]
         public void ItReportsArrayAccessIntoLibraryType()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = TextWindow[0]").VerifyDiagnostics(
                 // x = TextWindow[0]
                 //     ^^^^^^^^^^
@@ -289,7 +289,7 @@ x = TextWindow[0]").VerifyDiagnostics(
         [Fact]
         public void ItReportsArrayAccessIntoLibraryMethod()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = TextWindow.WriteLine[0]").VerifyDiagnostics(
                 // x = TextWindow.WriteLine[0]
                 //     ^^^^^^^^^^^^^^^^^^^^
@@ -300,7 +300,7 @@ x = TextWindow.WriteLine[0]").VerifyDiagnostics(
         [Fact]
         public void ItReportsArrayAccessIntoLibraryProperty()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = Clock.Time[0]").VerifyDiagnostics(
                 // x = Clock.Time[0]
                 //     ^^^^^^^^^^
@@ -311,7 +311,7 @@ x = Clock.Time[0]").VerifyDiagnostics(
         [Fact]
         public void ItReportsArrayAccessIntoLibraryEvent()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateGraphicsProgram(@"
 x = Controls.ButtonClicked[0]").VerifyDiagnostics(
                 // x = Controls.ButtonClicked[0]
                 //     ^^^^^^^^^^^^^^^^^^^^^^
@@ -322,7 +322,7 @@ x = Controls.ButtonClicked[0]").VerifyDiagnostics(
         [Fact]
         public void ItReportsIndexerExpressionWithoutValue()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = y[TextWindow]").VerifyDiagnostics(
                 // x = y[TextWindow]
                 //       ^^^^^^^^^^
@@ -333,7 +333,7 @@ x = y[TextWindow]").VerifyDiagnostics(
         [Fact]
         public void ItReportsArgumentExpressionWithoutValue()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine(TextWindow)").VerifyDiagnostics(
                 // TextWindow.WriteLine(TextWindow)
                 //                      ^^^^^^^^^^
@@ -344,7 +344,7 @@ TextWindow.WriteLine(TextWindow)").VerifyDiagnostics(
         [Fact]
         public void ItReportsInvalidArgumentCountForMethodInvocations()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine(1, 2)").VerifyDiagnostics(
                 // TextWindow.WriteLine(1, 2)
                 // ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -355,7 +355,7 @@ TextWindow.WriteLine(1, 2)").VerifyDiagnostics(
         [Fact]
         public void ItReportsInvokingNonMethods()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine(1)()").VerifyDiagnostics(
                 // TextWindow.WriteLine(1)()
                 // ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -366,7 +366,7 @@ TextWindow.WriteLine(1)()").VerifyDiagnostics(
         [Fact]
         public void ItReportsMemberAccessToNonLibraries()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = y.z").VerifyDiagnostics(
                 // x = y.z
                 //     ^
@@ -377,7 +377,7 @@ x = y.z").VerifyDiagnostics(
         [Fact]
         public void ItReportsNonExistentLibraryMembers()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = TextWindow.Anything").VerifyDiagnostics(
                 // x = TextWindow.Anything
                 //     ^^^^^^^^^^^^^^^^^^^
@@ -388,7 +388,7 @@ x = TextWindow.Anything").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToLibraryMethodInvocation()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine(0) = 5").VerifyDiagnostics(
                 // TextWindow.WriteLine(0) = 5
                 // ^^^^^^^^^^^^^^^^^^^^^^^
@@ -399,7 +399,7 @@ TextWindow.WriteLine(0) = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToPropertyWithoutASetter()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Clock.Time = 5").VerifyDiagnostics(
                 // Clock.Time = 5
                 // ^^^^^^^^^^
@@ -410,7 +410,7 @@ Clock.Time = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToBinaryExpression()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x and y = 5").VerifyDiagnostics(
                 // x and y = 5
                 // ^^^^^^^^^^^
@@ -421,7 +421,7 @@ x and y = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToLibraryType()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow = 5").VerifyDiagnostics(
                 // TextWindow = 5
                 // ^^^^^^^^^^
@@ -432,7 +432,7 @@ TextWindow = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToLibraryMethod()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine = 5").VerifyDiagnostics(
                 // TextWindow.WriteLine = 5
                 // ^^^^^^^^^^^^^^^^^^^^
@@ -443,7 +443,7 @@ TextWindow.WriteLine = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToSubModule()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
 EndSub
 x = 5").VerifyDiagnostics(
@@ -456,7 +456,7 @@ x = 5").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssigningToSubModuleInvocation()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub x
 EndSub
 x() = 5").VerifyDiagnostics(
@@ -467,56 +467,38 @@ x() = 5").VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItReportsUsingDeprecatedLibraries()
+        public void ItReportsConflictingLibrariesUsed()
         {
-            new SuperBasicCompilation(@"
-Sound.Pause(""1.wav"")").VerifyDiagnostics(
-                // Sound.Pause("1.wav")
-                // ^^^^^
-                // The library 'Sound' was available in older versions only, and has not been made available to SuperBasic yet.
-                new Diagnostic(DiagnosticCode.LibraryTypeDeprecatedFromDesktop, ((1, 0), (1, 4)), "Sound"));
+            SuperBasicCompilation.CreateTextProgram(@"
+TextWindow.WriteLine(5)
+Turtle.Show()
+").VerifyDiagnostics(
+                // Turtle.Show()
+                // ^^^^^^
+                // You cannot use the library 'Turtle' here since this is a 'Text' program. Did you want to change it?
+                new Diagnostic(DiagnosticCode.LibraryAndCompilationKindMismatch, ((2, 0), (2, 5)), "Turtle", "Text"));
         }
 
         [Fact]
-        public void ItReportsUsingDeprecatedMethods()
+        public void ItReportsDeprecatedMethods()
         {
-            new SuperBasicCompilation(@"
-x = Program.GetArgument(1)").VerifyDiagnostics(
-                // x = Program.GetArgument(1)
+            SuperBasicCompilation.CreateTextProgram(@"
+x = Program.GetArgument(0)").VerifyDiagnostics(
+                // x = Program.GetArgument(0)
                 //     ^^^^^^^^^^^^^^^^^^^
                 // The library member 'Program.GetArgument' was available in older versions only, and has not been made available to SuperBasic yet.
                 new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromDesktop, ((1, 4), (1, 22)), "Program", "GetArgument"));
         }
 
         [Fact]
-        public void ItReportsUsingDeprecatedProperties()
+        public void ItReportsDeprecatedProperties()
         {
-            new SuperBasicCompilation(@"
-x = Program.Directory
-").VerifyDiagnostics(
-                // x = Program.Directory
-                //     ^^^^^^^^^^^^^^^^^
-                // The library member 'Program.Directory' was available in older versions only, and has not been made available to SuperBasic yet.
-                new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromDesktop, ((1, 4), (1, 20)), "Program", "Directory"));
-        }
-
-        [Fact]
-        public void ItReportsDefaultProgramKindCorrectly()
-        {
-            new SuperBasicCompilation(string.Empty).Kind.Should().Be(ProgramKind.Text, "Default program kind should be 'Text'.");
-        }
-
-        [Fact]
-        public void ItReportsConflictingLibrariesUsed()
-        {
-            new SuperBasicCompilation(@"
-TextWindow.WriteLine(5)
-Turtle.Show()
-").VerifyDiagnostics(
-                // Turtle.Show()
-                // ^^^^^^
-                // You cannot use the library 'Turtle' here since you used the library 'TextWindow' in the same program. Are you writing a text-based or a graphics program?
-                new Diagnostic(DiagnosticCode.MultipleProgramKindsUsed, ((2, 0), (2, 5)), "Turtle", "TextWindow"));
+            SuperBasicCompilation.CreateTextProgram(@"
+x = Program.ArgumentCount").VerifyDiagnostics(
+                // x = Program.ArgumentCount
+                //     ^^^^^^^^^^^^^^^^^^^^^
+                // The library member 'Program.ArgumentCount' was available in older versions only, and has not been made available to SuperBasic yet.
+                new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromDesktop, ((1, 4), (1, 24)), "Program", "ArgumentCount"));
         }
     }
 }

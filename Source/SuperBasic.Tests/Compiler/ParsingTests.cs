@@ -13,7 +13,7 @@ namespace SuperBasic.Tests.Compiler
         [Fact]
         public void ItReportsUnterminatedSubModules()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub a").VerifyDiagnostics(
                 // Sub a
                 //     ^
@@ -24,7 +24,7 @@ Sub a").VerifyDiagnostics(
         [Fact]
         public void ItReportsNestedSubModules()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If x < 1 Then
 Sub b
 EndSub
@@ -42,7 +42,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsIncompleteNestedSubModules()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 Sub a
 Sub b
 EndSub").VerifyDiagnostics(
@@ -55,7 +55,7 @@ EndSub").VerifyDiagnostics(
         [Fact]
         public void ItReportsEndSubWithoutSub()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 EndSub").VerifyDiagnostics(
                 // EndSub
@@ -67,7 +67,7 @@ EndSub").VerifyDiagnostics(
         [Fact]
         public void ItReportsElseIfWithoutIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 ElseIf x < 1 Then
 EndIf").VerifyDiagnostics(
@@ -84,7 +84,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsElseWithoutIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 Else
 EndIf").VerifyDiagnostics(
@@ -101,7 +101,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsEndIfWithoutIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 EndIf").VerifyDiagnostics(
                 // EndIf
@@ -113,7 +113,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsElseIfAfterElse()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 If x > 1 Then
 Else
@@ -136,7 +136,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsEndWhileWithoutWhile()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 EndWhile").VerifyDiagnostics(
                 // EndWhile
@@ -148,7 +148,7 @@ EndWhile").VerifyDiagnostics(
         [Fact]
         public void ItReportsInvalidStartOfStatements()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = 1
 Then").VerifyDiagnostics(
                 // Then
@@ -160,7 +160,7 @@ Then").VerifyDiagnostics(
         [Fact]
         public void ItReportsTokensAfterACompleteStatement()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If x = 1 Then y
 EndIf").VerifyDiagnostics(
                 // If x = 1 Then y
@@ -172,7 +172,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssignmentWithNonExpressions()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = .").VerifyDiagnostics(
                 // x = .
                 //     ^
@@ -183,7 +183,7 @@ x = .").VerifyDiagnostics(
         [Fact]
         public void ItReportsAssignmentWithNothing()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x =").VerifyDiagnostics(
                 // x =
                 //   ^
@@ -194,7 +194,7 @@ x =").VerifyDiagnostics(
         [Fact]
         public void ItReportsNonExpressionsInWhileLoop()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 While .
 EndWhile").VerifyDiagnostics(
                 // While .
@@ -206,7 +206,7 @@ EndWhile").VerifyDiagnostics(
         [Fact]
         public void ItReportsMissingThenAfterIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If x < 1
 EndIf").VerifyDiagnostics(
                 // EndIf
@@ -218,7 +218,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsMissingThenAfterElseIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If x < 1 Then
 ElseIf x > 1
 EndIf").VerifyDiagnostics(
@@ -231,7 +231,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsStepAfterIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If x < 1 Step
 EndIf").VerifyDiagnostics(
                 // If x < 1 Step
@@ -247,7 +247,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsStepAfterElseIf()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 If x > 1 Then
 ElseIf x < 1 Step
 EndIf").VerifyDiagnostics(
@@ -264,7 +264,7 @@ EndIf").VerifyDiagnostics(
         [Fact]
         public void ItReportsExtraTokensAfterIfStatement()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 For x  = 1 To 2 Step 1 :
 EndFor").VerifyDiagnostics(
                 // For x  = 1 To 2 Step 1 :
@@ -276,7 +276,7 @@ EndFor").VerifyDiagnostics(
         [Fact]
         public void ItReportsUnevenParenthesis()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 TextWindow.WriteLine(5").VerifyDiagnostics(
                 // TextWindow.WriteLine(5
                 //                      ^
@@ -287,7 +287,7 @@ TextWindow.WriteLine(5").VerifyDiagnostics(
         [Fact]
         public void ItReportsUnevenBrackets()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = a[1").VerifyDiagnostics(
                 // x = a[1
                 //       ^
@@ -298,7 +298,7 @@ x = a[1").VerifyDiagnostics(
         [Fact]
         public void ItReportsArgumentsWithoutCommasInInvocation()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = Math.Power(1 4)").VerifyDiagnostics(
                 // x = Math.Power(1 4)
                 //                  ^
@@ -309,7 +309,7 @@ x = Math.Power(1 4)").VerifyDiagnostics(
         [Fact]
         public void ItReportsCommasWithoutArgumentsInInvocation()
         {
-            new SuperBasicCompilation(@"
+            SuperBasicCompilation.CreateTextProgram(@"
 x = Math.Sin(, )").VerifyDiagnostics(
                 // x = Math.Sin(, )
                 //              ^

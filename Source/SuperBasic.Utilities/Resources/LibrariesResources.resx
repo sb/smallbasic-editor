@@ -1021,10 +1021,10 @@
     <value>The width of the specified image.</value>
   </data>
   <data name="ImageList_LoadImage" xml:space="preserve">
-    <value>Loads an image from the Internet into memory.</value>
+    <value>Loads an image from a file or the Internet into memory.</value>
   </data>
-  <data name="ImageList_LoadImage_imageUrl" xml:space="preserve">
-    <value>The URL to load the image from.</value>
+  <data name="ImageList_LoadImage_fileNameOrUrl" xml:space="preserve">
+    <value>The file name to load the image from. This could be a local file or a URL to the Internet location.</value>
   </data>
   <data name="ImageList_LoadImage_ReturnValue" xml:space="preserve">
     <value>Returns the name of the image that was loaded.</value>

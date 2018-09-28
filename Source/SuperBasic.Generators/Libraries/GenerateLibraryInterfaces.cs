@@ -18,7 +18,7 @@ namespace SuperBasic.Generators.Scanning
             this.Line("using System;");
             this.Blank();
 
-            foreach (Library library in model.Where(library => !library.IsDeprecated))
+            foreach (Library library in model)
             {
                 this.GenerateLibraryInterface(library);
             }
@@ -70,7 +70,7 @@ namespace SuperBasic.Generators.Scanning
             this.Brace();
 
             int i = 0;
-            foreach (var library in model.Where(library => !library.IsDeprecated))
+            foreach (var library in model)
             {
                 if (i++ > 0)
                 {
@@ -92,7 +92,7 @@ namespace SuperBasic.Generators.Scanning
             this.Brace();
 
             int i = 0;
-            foreach (Library library in model.Where(library => !library.IsDeprecated && library.Events.Any()))
+            foreach (Library library in model.Where(library => library.Events.Any()))
             {
                 if (i++ > 0)
                 {

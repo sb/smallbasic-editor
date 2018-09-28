@@ -29,7 +29,7 @@ namespace SuperBasic.Editor
 
         public void Configure(IBlazorApplicationBuilder app)
         {
-            app.AddComponent<App>("app");
+            app.AddComponent<Pages.App>("app");
         }
     }
 #pragma warning restore CA1801, CA1822

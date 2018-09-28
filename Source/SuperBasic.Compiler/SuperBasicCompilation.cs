@@ -5,29 +5,25 @@
 namespace SuperBasic.Compiler
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Compiler.Parsing;
+    using SuperBasic.Compiler.Runtime;
     using SuperBasic.Compiler.Scanning;
-
-    public enum ProgramKind
-    {
-        Text,
-        Graphics,
-    }
 
     public sealed class SuperBasicCompilation
     {
         private readonly DiagnosticBag diagnostics = new DiagnosticBag();
 
-        public SuperBasicCompilation(string text)
+        private SuperBasicCompilation(string text, CompilationKind kind)
         {
             this.Text = text;
+            this.Kind = kind;
             var scanner = new Scanner(this.Text, this.diagnostics);
             var parser = new Parser(scanner.Tokens, this.diagnostics);
-            var binder = new Binder(parser.SyntaxTree, this.diagnostics);
+            var binder = new Binder(parser.SyntaxTree, this.diagnostics, this.Kind);
 
-            this.Kind = binder.ProgramKind;
             this.MainModule = binder.MainModule;
             this.SubModules = binder.SubModules;
         }
@@ -36,10 +32,16 @@ namespace SuperBasic.Compiler
 
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
 
-        public ProgramKind Kind { get; private set; }
+        internal CompilationKind Kind { get; private set; }
 
         internal BoundStatementBlock MainModule { get; private set; }
 
         internal IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
+
+        public static SuperBasicCompilation CreateTextProgram(string text)
+            => new SuperBasicCompilation(text, CompilationKind.Text);
+
+        public static SuperBasicCompilation CreateGraphicsProgram(string text)
+            => new SuperBasicCompilation(text, CompilationKind.Graphics);
     }
 }

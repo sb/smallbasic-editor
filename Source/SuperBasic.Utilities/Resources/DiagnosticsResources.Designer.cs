@@ -97,6 +97,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot use the library &apos;{0}&apos; here since this is a &apos;{1}&apos; program. Did you want to change it?.
+        /// </summary>
+        public static string LibraryAndCompilationKindMismatch {
+            get {
+                return ResourceManager.GetString("LibraryAndCompilationKindMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The library member &apos;{0}.{1}&apos; was available in older versions only, and has not been made available to SuperBasic yet..
         /// </summary>
         public static string LibraryMemberDeprecatedFromDesktop {
@@ -111,24 +120,6 @@ namespace SuperBasic.Utilities.Resources {
         public static string LibraryMemberNotFound {
             get {
                 return ResourceManager.GetString("LibraryMemberNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The library &apos;{0}&apos; was available in older versions only, and has not been made available to SuperBasic yet..
-        /// </summary>
-        public static string LibraryTypeDeprecatedFromDesktop {
-            get {
-                return ResourceManager.GetString("LibraryTypeDeprecatedFromDesktop", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You cannot use the library &apos;{0}&apos; here since you used the library &apos;{1}&apos; in the same program. Are you writing a text-based or a graphics program?.
-        /// </summary>
-        public static string MultipleProgramKindsUsed {
-            get {
-                return ResourceManager.GetString("MultipleProgramKindsUsed", resourceCulture);
             }
         }
         

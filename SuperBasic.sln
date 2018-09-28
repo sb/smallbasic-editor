@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Tests", "Source\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Analyzers", "Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj", "{26DB4C77-E15E-46A5-A81C-B2FB0C7AF621}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperBasic.Editor", "Source\SuperBasic.Editor\SuperBasic.Editor.csproj", "{7A6A3AC1-1682-41C1-A114-ED6E05CA61AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperBasic.Editor", "Source\SuperBasic.Editor\SuperBasic.Editor.csproj", "{7A6A3AC1-1682-41C1-A114-ED6E05CA61AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

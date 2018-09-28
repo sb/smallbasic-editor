@@ -32,9 +32,8 @@ namespace SuperBasic.Compiler.Diagnostics
         LibraryMemberNotFound,
         UnexpectedArgumentsCount,
         UnsupportedInvocationBaseExpression,
-        LibraryTypeDeprecatedFromDesktop,
         LibraryMemberDeprecatedFromDesktop,
-        MultipleProgramKindsUsed,
+        LibraryAndCompilationKindMismatch,
     }
 
     internal static partial class DiagnosticCodeExtensions
@@ -63,9 +62,8 @@ namespace SuperBasic.Compiler.Diagnostics
                 case DiagnosticCode.LibraryMemberNotFound: return DiagnosticsResources.LibraryMemberNotFound;
                 case DiagnosticCode.UnexpectedArgumentsCount: return DiagnosticsResources.UnexpectedArgumentsCount;
                 case DiagnosticCode.UnsupportedInvocationBaseExpression: return DiagnosticsResources.UnsupportedInvocationBaseExpression;
-                case DiagnosticCode.LibraryTypeDeprecatedFromDesktop: return DiagnosticsResources.LibraryTypeDeprecatedFromDesktop;
                 case DiagnosticCode.LibraryMemberDeprecatedFromDesktop: return DiagnosticsResources.LibraryMemberDeprecatedFromDesktop;
-                case DiagnosticCode.MultipleProgramKindsUsed: return DiagnosticsResources.MultipleProgramKindsUsed;
+                case DiagnosticCode.LibraryAndCompilationKindMismatch: return DiagnosticsResources.LibraryAndCompilationKindMismatch;
                 default: throw ExceptionUtilities.UnexpectedValue(kind);
             }
         }

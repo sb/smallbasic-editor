@@ -117,19 +117,14 @@ namespace SuperBasic.Compiler.Diagnostics
             this.builder.Add(new Diagnostic(DiagnosticCode.UnsupportedInvocationBaseExpression, range));
         }
 
-        public void ReportLibraryTypeDeprecatedFromDesktop(TextRange range, string library)
-        {
-            this.builder.Add(new Diagnostic(DiagnosticCode.LibraryTypeDeprecatedFromDesktop, range, library.ToDisplayString()));
-        }
-
         public void ReportLibraryMemberDeprecatedFromDesktop(TextRange range, string library, string member)
         {
             this.builder.Add(new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromDesktop, range, library.ToDisplayString(), member.ToDisplayString()));
         }
 
-        public void ReportMultipleProgramKindsUsed(TextRange range, string conflictingLibrary, string earlierLibrary)
+        public void ReportLibraryAndCompilationKindMismatch(TextRange range, string libraryName, string compilationKind)
         {
-            this.builder.Add(new Diagnostic(DiagnosticCode.MultipleProgramKindsUsed, range, conflictingLibrary.ToDisplayString(), earlierLibrary.ToDisplayString()));
+            this.builder.Add(new Diagnostic(DiagnosticCode.LibraryAndCompilationKindMismatch, range, libraryName.ToDisplayString(), compilationKind.ToDisplayString()));
         }
     }
 }

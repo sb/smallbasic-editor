@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <InteropType Name="Shapes">
+    <Methods>
+      <Method Name="NotifyButtonClicked" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ButtonName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="NotifyTextTyped" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="TextBoxName" Type="string" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+</root>
