@@ -82,6 +82,94 @@ namespace SuperBasic.Compiler.Runtime
         void ShowControl(string controlName);
     }
 
+    public interface IDesktopLibrary
+    {
+        decimal Height { get; }
+
+        decimal Width { get; }
+
+        void SetWallPaper(string fileOrUrl);
+    }
+
+    public interface IDictionaryLibrary
+    {
+        string GetDefinition(string word);
+
+        string GetDefinitionEnglishToEnglish(string word);
+
+        string GetDefinitionEnglishToFrench(string word);
+
+        string GetDefinitionEnglishToGerman(string word);
+
+        string GetDefinitionEnglishToItalian(string word);
+
+        string GetDefinitionEnglishToJapanese(string word);
+
+        string GetDefinitionEnglishToKorean(string word);
+
+        string GetDefinitionEnglishToSimplifiedChinese(string word);
+
+        string GetDefinitionEnglishToSpanish(string word);
+
+        string GetDefinitionEnglishToTraditionalChinese(string word);
+
+        string GetDefinitionFrenchToEnglish(string word);
+
+        string GetDefinitionGermanToEnglish(string word);
+
+        string GetDefinitionItalianToEnglish(string word);
+
+        string GetDefinitionJapaneseToEnglish(string word);
+
+        string GetDefinitionKoreanToEnglish(string word);
+
+        string GetDefinitionSimplifiedChineseToEnglish(string word);
+
+        string GetDefinitionSpanishToEnglish(string word);
+
+        string GetDefinitionTraditionalChineseToEnglish(string word);
+    }
+
+    public interface IFileLibrary
+    {
+        string LastError { get; set; }
+
+        string AppendContents(string filePath, string contents);
+
+        string CopyFile(string sourceFilePath, string destinationFilePath);
+
+        string CreateDirectory(string directoryPath);
+
+        string DeleteDirectory(string directoryPath);
+
+        string DeleteFile(string filePath);
+
+        BaseValue GetDirectories(string directoryPath);
+
+        BaseValue GetFiles(string directoryPath);
+
+        string GetSettingsFilePath();
+
+        string GetTemporaryFilePath();
+
+        string InsertLine(string filePath, decimal lineNumber, string contents);
+
+        string ReadContents(string filePath);
+
+        string ReadLine(string filePath, decimal lineNumber);
+
+        string WriteContents(string filePath, string contents);
+
+        string WriteLine(string filePath, decimal lineNumber, string contents);
+    }
+
+    public interface IFlickrLibrary
+    {
+        string GetPictureOfMoment();
+
+        string GetRandomPicture(string tag);
+    }
+
     public interface IGraphicsWindowLibrary
     {
         event Action KeyDown;
@@ -177,7 +265,7 @@ namespace SuperBasic.Compiler.Runtime
 
         decimal GetWidthOfImage(string imageName);
 
-        string LoadImage(string imageUrl);
+        string LoadImage(string fileNameOrUrl);
     }
 
     public interface IMathLibrary
@@ -223,6 +311,28 @@ namespace SuperBasic.Compiler.Runtime
         decimal SquareRoot(decimal number);
 
         decimal Tan(decimal angle);
+    }
+
+    public interface IMouseLibrary
+    {
+        bool IsLeftButtonDown { get; }
+
+        bool IsRightButtonDown { get; }
+
+        decimal MouseX { get; set; }
+
+        decimal MouseY { get; set; }
+
+        void HideCursor();
+
+        void ShowCursor();
+    }
+
+    public interface INetworkLibrary
+    {
+        string DownloadFile(string url);
+
+        string GetWebPageContents(string url);
     }
 
     public interface IProgramLibrary
@@ -273,6 +383,35 @@ namespace SuperBasic.Compiler.Runtime
         void Zoom(string shapeName, decimal scaleX, decimal scaleY);
     }
 
+    public interface ISoundLibrary
+    {
+        void Pause(string filePath);
+
+        void Play(string filePath);
+
+        void PlayAndWait(string filePath);
+
+        void PlayBellRing();
+
+        void PlayBellRingAndWait();
+
+        void PlayChime();
+
+        void PlayChimeAndWait();
+
+        void PlayChimes();
+
+        void PlayChimesAndWait();
+
+        void PlayClick();
+
+        void PlayClickAndWait();
+
+        void PlayMusic(string notes);
+
+        void Stop(string filePath);
+    }
+
     public interface IStackLibrary
     {
         decimal GetCount(string stackName);
@@ -313,13 +452,33 @@ namespace SuperBasic.Compiler.Runtime
     {
         string BackgroundColor { get; set; }
 
+        decimal CursorLeft { get; set; }
+
+        decimal CursorTop { get; set; }
+
         string ForegroundColor { get; set; }
 
+        decimal Left { get; set; }
+
+        string Title { get; set; }
+
+        decimal Top { get; set; }
+
         void Clear();
+
+        void Hide();
+
+        void Pause();
+
+        void PauseIfVisible();
+
+        void PauseWithoutMessage();
 
         string Read();
 
         decimal ReadNumber();
+
+        void Show();
 
         void Write(string data);
 
@@ -374,15 +533,29 @@ namespace SuperBasic.Compiler.Runtime
 
         IControlsLibrary Controls { get; }
 
+        IDesktopLibrary Desktop { get; }
+
+        IDictionaryLibrary Dictionary { get; }
+
+        IFileLibrary File { get; }
+
+        IFlickrLibrary Flickr { get; }
+
         IGraphicsWindowLibrary GraphicsWindow { get; }
 
         IImageListLibrary ImageList { get; }
 
         IMathLibrary Math { get; }
 
+        IMouseLibrary Mouse { get; }
+
+        INetworkLibrary Network { get; }
+
         IProgramLibrary Program { get; }
 
         IShapesLibrary Shapes { get; }
+
+        ISoundLibrary Sound { get; }
 
         IStackLibrary Stack { get; }
 

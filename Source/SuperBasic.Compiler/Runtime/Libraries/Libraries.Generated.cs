@@ -13,21 +13,25 @@ namespace SuperBasic.Compiler.Runtime
 
     internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);
 
+    internal enum CompilationKind
+    {
+        Graphics,
+        Text,
+    }
+
     internal sealed class Library
     {
         public Library(
             string name,
             string description,
-            bool isDeprecated,
-            ProgramKind? programKind,
+            CompilationKind? compilationKind,
             IReadOnlyDictionary<string, Method> methods,
             IReadOnlyDictionary<string, Property> properties,
             IReadOnlyDictionary<string, Event> events)
         {
             this.Name = name;
             this.Description = description;
-            this.IsDeprecated = isDeprecated;
-            this.ProgramKind = programKind;
+            this.CompilationKind = compilationKind;
             this.Methods = methods;
             this.Properties = properties;
             this.Events = events;
@@ -37,9 +41,7 @@ namespace SuperBasic.Compiler.Runtime
 
         public string Description { get; private set; }
 
-        public bool IsDeprecated { get; private set; }
-
-        public ProgramKind? ProgramKind { get; private set; }
+        public CompilationKind? CompilationKind { get; private set; }
 
         public IReadOnlyDictionary<string, Method> Methods { get; private set; }
 
@@ -270,7 +272,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Array", new Library("Array", LibrariesResources.Array, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Array", new Library("Array", LibrariesResources.Array, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Clock'
@@ -402,7 +404,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Controls'
@@ -716,7 +718,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextTyped", new Event("TextTyped", LibrariesResources.Controls_TextTyped) },
                 };
 
-                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
+                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, compilationKind: CompilationKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'Desktop'
@@ -727,7 +729,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Desktop' is deprecated.");
+                        string fileOrUrl = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Desktop.SetWallPaper(fileOrUrl: fileOrUrl);
                     }
 
                     methods.Add("SetWallPaper", new Method(
@@ -749,7 +752,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Desktop' is deprecated.");
+                        decimal value = engine.Libraries.Desktop.Height;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     properties.Add("Height", new Property("Height", LibrariesResources.Desktop_Height, isDeprecated: false, getter: getter, setter: null));
@@ -759,7 +763,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Desktop' is deprecated.");
+                        decimal value = engine.Libraries.Desktop.Width;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     properties.Add("Width", new Property("Width", LibrariesResources.Desktop_Width, isDeprecated: false, getter: getter, setter: null));
@@ -767,7 +772,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Dictionary'
@@ -778,7 +783,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinition(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinition", new Method(
@@ -798,7 +805,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToEnglish", new Method(
@@ -818,7 +827,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToFrench(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToFrench", new Method(
@@ -838,7 +849,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToGerman(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToGerman", new Method(
@@ -858,7 +871,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToItalian(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToItalian", new Method(
@@ -878,7 +893,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToJapanese(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToJapanese", new Method(
@@ -898,7 +915,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToKorean(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToKorean", new Method(
@@ -918,7 +937,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToSimplifiedChinese(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToSimplifiedChinese", new Method(
@@ -938,7 +959,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToSpanish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToSpanish", new Method(
@@ -958,7 +981,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionEnglishToTraditionalChinese(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionEnglishToTraditionalChinese", new Method(
@@ -978,7 +1003,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionFrenchToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionFrenchToEnglish", new Method(
@@ -998,7 +1025,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionGermanToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionGermanToEnglish", new Method(
@@ -1018,7 +1047,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionItalianToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionItalianToEnglish", new Method(
@@ -1038,7 +1069,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionJapaneseToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionJapaneseToEnglish", new Method(
@@ -1058,7 +1091,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionKoreanToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionKoreanToEnglish", new Method(
@@ -1078,7 +1113,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionSimplifiedChineseToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionSimplifiedChineseToEnglish", new Method(
@@ -1098,7 +1135,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionSpanishToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionSpanishToEnglish", new Method(
@@ -1118,7 +1157,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Dictionary' is deprecated.");
+                        string word = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Dictionary.GetDefinitionTraditionalChineseToEnglish(word: word);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetDefinitionTraditionalChineseToEnglish", new Method(
@@ -1138,7 +1179,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'File'
@@ -1149,7 +1190,10 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string contents = engine.EvaluationStack.Pop().ToString();
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.AppendContents(filePath: filePath, contents: contents);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("AppendContents", new Method(
@@ -1170,7 +1214,10 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string destinationFilePath = engine.EvaluationStack.Pop().ToString();
+                        string sourceFilePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.CopyFile(sourceFilePath: sourceFilePath, destinationFilePath: destinationFilePath);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("CopyFile", new Method(
@@ -1191,7 +1238,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string directoryPath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.CreateDirectory(directoryPath: directoryPath);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("CreateDirectory", new Method(
@@ -1211,7 +1260,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string directoryPath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.DeleteDirectory(directoryPath: directoryPath);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("DeleteDirectory", new Method(
@@ -1231,7 +1282,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.DeleteFile(filePath: filePath);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("DeleteFile", new Method(
@@ -1251,7 +1304,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string directoryPath = engine.EvaluationStack.Pop().ToString();
+                        BaseValue returnValue = engine.Libraries.File.GetDirectories(directoryPath: directoryPath);
+                        engine.EvaluationStack.Push(returnValue);
                     }
 
                     methods.Add("GetDirectories", new Method(
@@ -1271,7 +1326,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string directoryPath = engine.EvaluationStack.Pop().ToString();
+                        BaseValue returnValue = engine.Libraries.File.GetFiles(directoryPath: directoryPath);
+                        engine.EvaluationStack.Push(returnValue);
                     }
 
                     methods.Add("GetFiles", new Method(
@@ -1291,7 +1348,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string returnValue = engine.Libraries.File.GetSettingsFilePath();
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetSettingsFilePath", new Method(
@@ -1308,7 +1366,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string returnValue = engine.Libraries.File.GetTemporaryFilePath();
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetTemporaryFilePath", new Method(
@@ -1325,7 +1384,11 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string contents = engine.EvaluationStack.Pop().ToString();
+                        decimal lineNumber = engine.EvaluationStack.Pop().ToNumber();
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.InsertLine(filePath: filePath, lineNumber: lineNumber, contents: contents);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("InsertLine", new Method(
@@ -1347,7 +1410,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.ReadContents(filePath: filePath);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("ReadContents", new Method(
@@ -1367,7 +1432,10 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        decimal lineNumber = engine.EvaluationStack.Pop().ToNumber();
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.ReadLine(filePath: filePath, lineNumber: lineNumber);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("ReadLine", new Method(
@@ -1388,7 +1456,10 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string contents = engine.EvaluationStack.Pop().ToString();
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.WriteContents(filePath: filePath, contents: contents);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("WriteContents", new Method(
@@ -1409,7 +1480,11 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string contents = engine.EvaluationStack.Pop().ToString();
+                        decimal lineNumber = engine.EvaluationStack.Pop().ToNumber();
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.File.WriteLine(filePath: filePath, lineNumber: lineNumber, contents: contents);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("WriteLine", new Method(
@@ -1433,12 +1508,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string value = engine.Libraries.File.LastError;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'File' is deprecated.");
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.File.LastError = value;
                     }
 
                     properties.Add("LastError", new Property("LastError", LibrariesResources.File_LastError, isDeprecated: false, getter: getter, setter: setter));
@@ -1446,7 +1523,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("File", new Library("File", LibrariesResources.File, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("File", new Library("File", LibrariesResources.File, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Flickr'
@@ -1457,7 +1534,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Flickr' is deprecated.");
+                        string returnValue = engine.Libraries.Flickr.GetPictureOfMoment();
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetPictureOfMoment", new Method(
@@ -1474,7 +1552,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Flickr' is deprecated.");
+                        string tag = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Flickr.GetRandomPicture(tag: tag);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetRandomPicture", new Method(
@@ -1494,7 +1574,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'GraphicsWindow'
@@ -2265,7 +2345,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextInput", new Event("TextInput", LibrariesResources.GraphicsWindow_TextInput) },
                 };
 
-                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
+                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, compilationKind: CompilationKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'ImageList'
@@ -2320,8 +2400,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        string imageUrl = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.ImageList.LoadImage(imageUrl: imageUrl);
+                        string fileNameOrUrl = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.ImageList.LoadImage(fileNameOrUrl: fileNameOrUrl);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
@@ -2334,7 +2414,7 @@ namespace SuperBasic.Compiler.Runtime
                         execute: execute,
                         new Dictionary<string, Parameter>
                         {
-                            { "imageUrl", new Parameter("imageUrl", LibrariesResources.ImageList_LoadImage_imageUrl) },
+                            { "fileNameOrUrl", new Parameter("fileNameOrUrl", LibrariesResources.ImageList_LoadImage_fileNameOrUrl) },
                         }));
                 }
 
@@ -2342,7 +2422,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
+                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, compilationKind: CompilationKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'Math'
@@ -2812,7 +2892,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Math", new Library("Math", LibrariesResources.Math, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Math", new Library("Math", LibrariesResources.Math, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Mouse'
@@ -2823,7 +2903,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        engine.Libraries.Mouse.HideCursor();
                     }
 
                     methods.Add("HideCursor", new Method(
@@ -2840,7 +2920,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        engine.Libraries.Mouse.ShowCursor();
                     }
 
                     methods.Add("ShowCursor", new Method(
@@ -2859,7 +2939,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        bool value = engine.Libraries.Mouse.IsLeftButtonDown;
+                        engine.EvaluationStack.Push(new BooleanValue(value));
                     }
 
                     properties.Add("IsLeftButtonDown", new Property("IsLeftButtonDown", LibrariesResources.Mouse_IsLeftButtonDown, isDeprecated: false, getter: getter, setter: null));
@@ -2869,7 +2950,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        bool value = engine.Libraries.Mouse.IsRightButtonDown;
+                        engine.EvaluationStack.Push(new BooleanValue(value));
                     }
 
                     properties.Add("IsRightButtonDown", new Property("IsRightButtonDown", LibrariesResources.Mouse_IsRightButtonDown, isDeprecated: false, getter: getter, setter: null));
@@ -2879,12 +2961,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        decimal value = engine.Libraries.Mouse.MouseX;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.Mouse.MouseX = value;
                     }
 
                     properties.Add("MouseX", new Property("MouseX", LibrariesResources.Mouse_MouseX, isDeprecated: false, getter: getter, setter: setter));
@@ -2894,12 +2978,14 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        decimal value = engine.Libraries.Mouse.MouseY;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Mouse' is deprecated.");
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.Mouse.MouseY = value;
                     }
 
                     properties.Add("MouseY", new Property("MouseY", LibrariesResources.Mouse_MouseY, isDeprecated: false, getter: getter, setter: setter));
@@ -2907,7 +2993,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Network'
@@ -2918,7 +3004,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Network' is deprecated.");
+                        string url = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Network.DownloadFile(url: url);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("DownloadFile", new Method(
@@ -2938,7 +3026,9 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Network' is deprecated.");
+                        string url = engine.EvaluationStack.Pop().ToString();
+                        string returnValue = engine.Libraries.Network.GetWebPageContents(url: url);
+                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
                     }
 
                     methods.Add("GetWebPageContents", new Method(
@@ -2958,7 +3048,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Network", new Library("Network", LibrariesResources.Network, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("Network", new Library("Network", LibrariesResources.Network, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Program'
@@ -3064,7 +3154,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Program", new Library("Program", LibrariesResources.Program, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Program", new Library("Program", LibrariesResources.Program, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Shapes'
@@ -3502,7 +3592,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
+                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, compilationKind: CompilationKind.Graphics, methods, properties, events));
             }
 
             // Initialization code for library 'Sound'
@@ -3513,7 +3603,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Sound.Pause(filePath: filePath);
                     }
 
                     methods.Add("Pause", new Method(
@@ -3533,7 +3624,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Sound.Play(filePath: filePath);
                     }
 
                     methods.Add("Play", new Method(
@@ -3553,7 +3645,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Sound.PlayAndWait(filePath: filePath);
                     }
 
                     methods.Add("PlayAndWait", new Method(
@@ -3573,7 +3666,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayBellRing();
                     }
 
                     methods.Add("PlayBellRing", new Method(
@@ -3590,7 +3683,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayBellRingAndWait();
                     }
 
                     methods.Add("PlayBellRingAndWait", new Method(
@@ -3607,7 +3700,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayChime();
                     }
 
                     methods.Add("PlayChime", new Method(
@@ -3624,7 +3717,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayChimeAndWait();
                     }
 
                     methods.Add("PlayChimeAndWait", new Method(
@@ -3641,7 +3734,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayChimes();
                     }
 
                     methods.Add("PlayChimes", new Method(
@@ -3658,7 +3751,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayChimesAndWait();
                     }
 
                     methods.Add("PlayChimesAndWait", new Method(
@@ -3675,7 +3768,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayClick();
                     }
 
                     methods.Add("PlayClick", new Method(
@@ -3692,7 +3785,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        engine.Libraries.Sound.PlayClickAndWait();
                     }
 
                     methods.Add("PlayClickAndWait", new Method(
@@ -3709,7 +3802,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        string notes = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Sound.PlayMusic(notes: notes);
                     }
 
                     methods.Add("PlayMusic", new Method(
@@ -3729,7 +3823,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library 'Sound' is deprecated.");
+                        string filePath = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Sound.Stop(filePath: filePath);
                     }
 
                     methods.Add("Stop", new Method(
@@ -3749,7 +3844,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, isDeprecated: true, programKind: default, methods, properties, events));
+                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Stack'
@@ -3827,7 +3922,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Text'
@@ -4118,7 +4213,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Text", new Library("Text", LibrariesResources.Text, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Text", new Library("Text", LibrariesResources.Text, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'TextWindow'
@@ -4146,7 +4241,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'TextWindow.Hide' is deprecated.");
+                        engine.Libraries.TextWindow.Hide();
                     }
 
                     methods.Add("Hide", new Method(
@@ -4154,7 +4249,7 @@ namespace SuperBasic.Compiler.Runtime
                         LibrariesResources.TextWindow_Hide,
                         returnsValue: false,
                         returnValueDescription: null,
-                        isDeprecated: true,
+                        isDeprecated: false,
                         execute: execute,
                         new Dictionary<string, Parameter>()));
                 }
@@ -4163,7 +4258,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'TextWindow.Pause' is deprecated.");
+                        engine.Libraries.TextWindow.Pause();
                     }
 
                     methods.Add("Pause", new Method(
@@ -4171,7 +4266,7 @@ namespace SuperBasic.Compiler.Runtime
                         LibrariesResources.TextWindow_Pause,
                         returnsValue: false,
                         returnValueDescription: null,
-                        isDeprecated: true,
+                        isDeprecated: false,
                         execute: execute,
                         new Dictionary<string, Parameter>()));
                 }
@@ -4180,7 +4275,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'TextWindow.PauseIfVisible' is deprecated.");
+                        engine.Libraries.TextWindow.PauseIfVisible();
                     }
 
                     methods.Add("PauseIfVisible", new Method(
@@ -4188,7 +4283,7 @@ namespace SuperBasic.Compiler.Runtime
                         LibrariesResources.TextWindow_PauseIfVisible,
                         returnsValue: false,
                         returnValueDescription: null,
-                        isDeprecated: true,
+                        isDeprecated: false,
                         execute: execute,
                         new Dictionary<string, Parameter>()));
                 }
@@ -4197,7 +4292,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'TextWindow.PauseWithoutMessage' is deprecated.");
+                        engine.Libraries.TextWindow.PauseWithoutMessage();
                     }
 
                     methods.Add("PauseWithoutMessage", new Method(
@@ -4205,7 +4300,7 @@ namespace SuperBasic.Compiler.Runtime
                         LibrariesResources.TextWindow_PauseWithoutMessage,
                         returnsValue: false,
                         returnValueDescription: null,
-                        isDeprecated: true,
+                        isDeprecated: false,
                         execute: execute,
                         new Dictionary<string, Parameter>()));
                 }
@@ -4250,7 +4345,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'TextWindow.Show' is deprecated.");
+                        engine.Libraries.TextWindow.Show();
                     }
 
                     methods.Add("Show", new Method(
@@ -4258,7 +4353,7 @@ namespace SuperBasic.Compiler.Runtime
                         LibrariesResources.TextWindow_Show,
                         returnsValue: false,
                         returnValueDescription: null,
-                        isDeprecated: true,
+                        isDeprecated: false,
                         execute: execute,
                         new Dictionary<string, Parameter>()));
                 }
@@ -4328,30 +4423,34 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.CursorLeft' is deprecated.");
+                        decimal value = engine.Libraries.TextWindow.CursorLeft;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.CursorLeft' is deprecated.");
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.TextWindow.CursorLeft = value;
                     }
 
-                    properties.Add("CursorLeft", new Property("CursorLeft", LibrariesResources.TextWindow_CursorLeft, isDeprecated: true, getter: getter, setter: setter));
+                    properties.Add("CursorLeft", new Property("CursorLeft", LibrariesResources.TextWindow_CursorLeft, isDeprecated: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property TextWindow.CursorTop:
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.CursorTop' is deprecated.");
+                        decimal value = engine.Libraries.TextWindow.CursorTop;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.CursorTop' is deprecated.");
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.TextWindow.CursorTop = value;
                     }
 
-                    properties.Add("CursorTop", new Property("CursorTop", LibrariesResources.TextWindow_CursorTop, isDeprecated: true, getter: getter, setter: setter));
+                    properties.Add("CursorTop", new Property("CursorTop", LibrariesResources.TextWindow_CursorTop, isDeprecated: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property TextWindow.ForegroundColor:
@@ -4375,50 +4474,56 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Left' is deprecated.");
+                        decimal value = engine.Libraries.TextWindow.Left;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Left' is deprecated.");
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.TextWindow.Left = value;
                     }
 
-                    properties.Add("Left", new Property("Left", LibrariesResources.TextWindow_Left, isDeprecated: true, getter: getter, setter: setter));
+                    properties.Add("Left", new Property("Left", LibrariesResources.TextWindow_Left, isDeprecated: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property TextWindow.Title:
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Title' is deprecated.");
+                        string value = engine.Libraries.TextWindow.Title;
+                        engine.EvaluationStack.Push(StringValue.Create(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Title' is deprecated.");
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.TextWindow.Title = value;
                     }
 
-                    properties.Add("Title", new Property("Title", LibrariesResources.TextWindow_Title, isDeprecated: true, getter: getter, setter: setter));
+                    properties.Add("Title", new Property("Title", LibrariesResources.TextWindow_Title, isDeprecated: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property TextWindow.Top:
                 {
                     void getter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Top' is deprecated.");
+                        decimal value = engine.Libraries.TextWindow.Top;
+                        engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
                     void setter(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Top' is deprecated.");
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.TextWindow.Top = value;
                     }
 
-                    properties.Add("Top", new Property("Top", LibrariesResources.TextWindow_Top, isDeprecated: true, getter: getter, setter: setter));
+                    properties.Add("Top", new Property("Top", LibrariesResources.TextWindow_Top, isDeprecated: false, getter: getter, setter: setter));
                 }
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, isDeprecated: false, programKind: ProgramKind.Text, methods, properties, events));
+                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, compilationKind: CompilationKind.Text, methods, properties, events));
             }
 
             // Initialization code for library 'Timer'
@@ -4483,7 +4588,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "Tick", new Event("Tick", LibrariesResources.Timer_Tick) },
                 };
 
-                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, isDeprecated: false, programKind: default, methods, properties, events));
+                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, compilationKind: default, methods, properties, events));
             }
 
             // Initialization code for library 'Turtle'
@@ -4729,7 +4834,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, isDeprecated: false, programKind: ProgramKind.Graphics, methods, properties, events));
+                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, compilationKind: CompilationKind.Graphics, methods, properties, events));
             }
 
             Types = types;

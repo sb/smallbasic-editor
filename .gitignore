@@ -1,5 +1,13 @@
+# VS files
 .vs/
 .vscode/
+*.csproj.user
+
+# Binary files
 bin
 obj
-*.csproj.user
+node_modules
+
+# Output from webpack
+SmallBasic.Interop.js
+SmallBasic.Interop.js.map

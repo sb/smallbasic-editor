@@ -73,21 +73,16 @@
     </Parameters>
   </Diagnostic>
   <Diagnostic Name="UnsupportedInvocationBaseExpression" />
-  <Diagnostic Name="LibraryTypeDeprecatedFromDesktop">
-    <Parameters>
-      <Parameter Name="library" Type="string" />
-    </Parameters>
-  </Diagnostic>
   <Diagnostic Name="LibraryMemberDeprecatedFromDesktop">
     <Parameters>
       <Parameter Name="library" Type="string" />
       <Parameter Name="member" Type="string" />
     </Parameters>
   </Diagnostic>
-  <Diagnostic Name="MultipleProgramKindsUsed">
+  <Diagnostic Name="LibraryAndCompilationKindMismatch">
     <Parameters>
-      <Parameter Name="conflictingLibrary" Type="string" />
-      <Parameter Name="earlierLibrary" Type="string" />
+      <Parameter Name="libraryName" Type="string" />
+      <Parameter Name="compilationKind" Type="string" />
     </Parameters>
   </Diagnostic>
 </root>

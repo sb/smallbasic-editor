@@ -16,11 +16,13 @@ namespace SuperBasic.Compiler.Binding
     internal sealed class Binder
     {
         private readonly DiagnosticBag diagnostics;
+        private readonly CompilationKind compilationKind;
         private readonly IReadOnlyCollection<string> definedSubModules;
 
-        public Binder(StatementBlockSyntax syntaxTree, DiagnosticBag diagnostics)
+        public Binder(StatementBlockSyntax syntaxTree, DiagnosticBag diagnostics, CompilationKind compilationKind)
         {
             this.diagnostics = diagnostics;
+            this.compilationKind = compilationKind;
             this.definedSubModules = this.CollectSubModuleNames(syntaxTree);
 
             var mainModule = new List<BaseBoundStatement>();
@@ -68,15 +70,11 @@ namespace SuperBasic.Compiler.Binding
             {
                 this.CheckForLabelErrors(subModule.Body);
             }
-
-            this.ProgramKind = this.CheckForConflictingLibraries();
         }
 
         public BoundStatementBlock MainModule { get; private set; }
 
         public IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
-
-        public ProgramKind ProgramKind { get; private set; }
 
         private void CheckForLabelErrors(BoundStatementBlock block)
         {
@@ -92,19 +90,6 @@ namespace SuperBasic.Compiler.Binding
             var namesCollector = new SubModuleNamesCollector(this.diagnostics);
             namesCollector.Visit(syntaxTree);
             return namesCollector.Names;
-        }
-
-        private ProgramKind CheckForConflictingLibraries()
-        {
-            ConflictingLibrariesChecker checker = new ConflictingLibrariesChecker(this.diagnostics);
-
-            checker.Visit(this.MainModule);
-            foreach (var subModule in this.SubModules.Values)
-            {
-                checker.Visit(subModule);
-            }
-
-            return checker.ProgramKind;
         }
 
         private BaseBoundStatement BindStatementOpt(BaseStatementSyntax syntax)
@@ -554,10 +539,10 @@ namespace SuperBasic.Compiler.Binding
                     hasErrors = true;
                     this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
                 }
-                else if (library.IsDeprecated)
+                else if (library.CompilationKind.HasValue && library.CompilationKind.Value != this.compilationKind)
                 {
                     hasErrors = true;
-                    this.diagnostics.ReportLibraryTypeDeprecatedFromDesktop(syntax.Range, name);
+                    this.diagnostics.ReportLibraryAndCompilationKindMismatch(syntax.Range, library.Name, this.compilationKind.ToString());
                 }
 
                 return new BoundLibraryTypeExpression(syntax, hasValue: false, hasErrors, name);

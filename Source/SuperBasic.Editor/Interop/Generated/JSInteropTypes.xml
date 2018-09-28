@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <InteropType Name="Shapes">
+    <Methods>
+      <Method Name="Initialize" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="containerId" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="AddButton" ReturnType="string">
+        <Parameters>
+          <Parameter Name="Caption" Type="string" />
+          <Parameter Name="Left" Type="number" />
+          <Parameter Name="Top" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="AddTextBox" ReturnType="string">
+        <Parameters>
+          <Parameter Name="IsMultiLine" Type="boolean" />
+          <Parameter Name="Left" Type="number" />
+          <Parameter Name="Top" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="GetText" ReturnType="string">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="HideControl" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="MoveControl" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+          <Parameter Name="X" Type="number" />
+          <Parameter Name="Y" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="RemoveControl" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="SetControlText" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+          <Parameter Name="Text" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="SetControlSize" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+          <Parameter Name="Width" Type="number" />
+          <Parameter Name="Height" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="ShowControl" ReturnType="boolean">
+        <Parameters>
+          <Parameter Name="ControlName" Type="string" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+</root>

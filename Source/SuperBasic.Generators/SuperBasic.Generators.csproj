@@ -24,6 +24,8 @@
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.xml" Link="Parsing\SyntaxNodes.xml" />
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Link="Binding\BoundNodes.xml" />
     <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Link="Libraries\Libraries.xml" />
+    <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\CSInteropTypes.xml" Link="Interop\CSInteropTypes.xml" />
+    <EmbeddedResource Include="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\JSInteropTypes.xml" Link="Interop\JSInteropTypes.xml" />
   </ItemGroup>
 
   <UsingTask TaskName="GenerateTokenKinds" AssemblyFile="$(_TempBinaryPath)" />
@@ -33,6 +35,11 @@
   <UsingTask TaskName="GenerateBoundNodes" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateLibraries" AssemblyFile="$(_TempBinaryPath)" />
   <UsingTask TaskName="GenerateLibraryInterfaces" AssemblyFile="$(_TempBinaryPath)" />
+  
+  <UsingTask TaskName="GenerateCSInteropCallee" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateCSInteropCaller" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateJSInteropCallee" AssemblyFile="$(_TempBinaryPath)" />
+  <UsingTask TaskName="GenerateJSInteropCaller" AssemblyFile="$(_TempBinaryPath)" />
 
   <Target Name="RunGenerators" AfterTargets="Build">
     <ItemGroup>
@@ -49,6 +56,11 @@
     <GenerateBoundNodes Input="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.Generated.cs" />
     <GenerateLibraries Input="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Generated.cs" />
     <GenerateLibraryInterfaces Input="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.xml" Output="$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs" />
+    
+    <GenerateCSInteropCallee Input="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\CSInteropTypes.xml" Output="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\CSInteropTypes.Generated.cs" />
+    <GenerateCSInteropCaller Input="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\CSInteropTypes.xml" Output="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\CSInteropTypes.Generated.ts" />
+    <GenerateJSInteropCallee Input="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\JSInteropTypes.xml" Output="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\JSInteropTypes.Generated.ts" />
+    <GenerateJSInteropCaller Input="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\JSInteropTypes.xml" Output="$(RootDirectory)\Source\SuperBasic.Editor\Interop\Generated\JSInteropTypes.Generated.cs" />
   </Target>
 
 </Project>

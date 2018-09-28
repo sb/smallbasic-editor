@@ -2770,7 +2770,7 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loads an image from the Internet into memory..
+        ///   Looks up a localized string similar to Loads an image from a file or the Internet into memory..
         /// </summary>
         public static string ImageList_LoadImage {
             get {
@@ -2779,11 +2779,11 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The URL to load the image from..
+        ///   Looks up a localized string similar to The file name to load the image from. This could be a local file or a URL to the Internet location..
         /// </summary>
-        public static string ImageList_LoadImage_imageUrl {
+        public static string ImageList_LoadImage_fileNameOrUrl {
             get {
-                return ResourceManager.GetString("ImageList_LoadImage_imageUrl", resourceCulture);
+                return ResourceManager.GetString("ImageList_LoadImage_fileNameOrUrl", resourceCulture);
             }
         }
         

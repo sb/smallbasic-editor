@@ -23,18 +23,17 @@ namespace SuperBasic.Compiler
     public sealed class SuperBasicEngine
     {
         private readonly bool isDebugging;
-        private readonly ProgramKind programKind;
+        private readonly SuperBasicCompilation compilation;
         private readonly Dictionary<(string library, string eventName), string> eventCallbacks;
 
         private int currentSourceLine;
 
         public SuperBasicEngine(SuperBasicCompilation compilation, IEngineLibraries libraries, bool isDebugging = false)
         {
-            // TODO: move warnings to editorconfig
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
 
             this.isDebugging = isDebugging;
-            this.programKind = compilation.Kind;
+            this.compilation = compilation;
             this.eventCallbacks = new Dictionary<(string library, string eventName), string>();
 
             this.currentSourceLine = 0;
@@ -88,15 +87,15 @@ namespace SuperBasic.Compiler
             {
                 if (this.ExecutionStack.Count == 0)
                 {
-                    switch (this.programKind)
+                    switch (this.compilation.Kind)
                     {
-                        case ProgramKind.Text:
+                        case CompilationKind.Text:
                             this.State = ExecutionState.Terminated;
                             return;
-                        case ProgramKind.Graphics:
+                        case CompilationKind.Graphics:
                             return;
                         default:
-                            throw ExceptionUtilities.UnexpectedValue(this.programKind);
+                            throw ExceptionUtilities.UnexpectedValue(this.compilation.Kind);
                     }
                 }
 

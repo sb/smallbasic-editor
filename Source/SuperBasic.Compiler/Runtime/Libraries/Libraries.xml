@@ -46,7 +46,7 @@
       <Property Name="Year" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Controls" ProgramKind="Graphics">
+  <Library Name="Controls" CompilationKind="Graphics">
     <Methods>
       <Method Name="AddButton" ReturnType="StringValue">
         <Parameters>
@@ -128,7 +128,7 @@
       <Event Name="TextTyped" />
     </Events>
   </Library>
-  <Library Name="Desktop" IsDeprecated="true">
+  <Library Name="Desktop">
     <Methods>
       <Method Name="SetWallPaper" ReturnsValue="false">
         <Parameters>
@@ -141,7 +141,7 @@
       <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Dictionary" IsDeprecated="true">
+  <Library Name="Dictionary">
     <Methods>
       <Method Name="GetDefinition" ReturnType="StringValue">
         <Parameters>
@@ -235,7 +235,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="File" IsDeprecated="true">
+  <Library Name="File">
     <Methods>
       <Method Name="AppendContents" ReturnType="StringValue">
         <Parameters>
@@ -312,7 +312,7 @@
       <Property Name="LastError" HasGetter="true" HasSetter="true" Type="StringValue" />
     </Properties>
   </Library>
-  <Library Name="Flickr" IsDeprecated="true">
+  <Library Name="Flickr">
     <Methods>
       <Method Name="GetPictureOfMoment" ReturnType="StringValue" />
       <Method Name="GetRandomPicture" ReturnType="StringValue">
@@ -322,7 +322,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="GraphicsWindow" ProgramKind="Graphics">
+  <Library Name="GraphicsWindow" CompilationKind="Graphics">
     <Methods>
       <Method Name="Clear" />
       <Method Name="DrawBoundText">
@@ -475,7 +475,7 @@
       <Event Name="TextInput" />
     </Events>
   </Library>
-  <Library Name="ImageList" ProgramKind="Graphics">
+  <Library Name="ImageList" CompilationKind="Graphics">
     <Methods>
       <Method Name="GetHeightOfImage" ReturnType="NumberValue">
         <Parameters>
@@ -489,7 +489,7 @@
       </Method>
       <Method Name="LoadImage" ReturnType="StringValue">
         <Parameters>
-          <Parameter Name="imageUrl" Type="StringValue" />
+          <Parameter Name="fileNameOrUrl" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
@@ -605,7 +605,7 @@
       <Property Name="Pi" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Mouse" IsDeprecated="true">
+  <Library Name="Mouse">
     <Methods>
       <Method Name="HideCursor" />
       <Method Name="ShowCursor" />
@@ -617,7 +617,7 @@
       <Property Name="MouseY" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Network" IsDeprecated="true">
+  <Library Name="Network">
     <Methods>
       <Method Name="DownloadFile" ReturnType="StringValue">
         <Parameters>
@@ -651,7 +651,7 @@
       <Property Name="Directory" HasGetter="true" HasSetter="false" Type="StringValue" IsDeprecated="true" />
     </Properties>
   </Library>
-  <Library Name="Shapes" ProgramKind="Graphics">
+  <Library Name="Shapes" CompilationKind="Graphics">
     <Methods>
       <Method Name="AddEllipse" ReturnType="StringValue">
         <Parameters>
@@ -765,7 +765,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Sound" IsDeprecated="true">
+  <Library Name="Sound">
     <Methods>
       <Method Name="Pause">
         <Parameters>
@@ -894,16 +894,16 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="TextWindow" ProgramKind="Text">
+  <Library Name="TextWindow" CompilationKind="Text">
     <Methods>
       <Method Name="Clear" />
-      <Method Name="Hide" IsDeprecated="true" />
-      <Method Name="Pause" IsDeprecated="true" />
-      <Method Name="PauseIfVisible" IsDeprecated="true" />
-      <Method Name="PauseWithoutMessage" IsDeprecated="true" />
+      <Method Name="Hide" />
+      <Method Name="Pause" />
+      <Method Name="PauseIfVisible" />
+      <Method Name="PauseWithoutMessage" />
       <Method Name="Read" ReturnType="StringValue" />
       <Method Name="ReadNumber" ReturnType="NumberValue" />
-      <Method Name="Show" IsDeprecated="true" />
+      <Method Name="Show" />
       <Method Name="Write">
         <Parameters>
           <Parameter Name="data" Type="StringValue" />
@@ -917,12 +917,12 @@
     </Methods>
     <Properties>
       <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
-      <Property Name="CursorLeft" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
-      <Property Name="CursorTop" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
+      <Property Name="CursorLeft" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="CursorTop" HasGetter="true" HasSetter="true" Type="NumberValue" />
       <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
-      <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
-      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" IsDeprecated="true" />
-      <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
+      <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
   </Library>
   <Library Name="Timer">
@@ -937,7 +937,7 @@
       <Event Name="Tick" />
     </Events>
   </Library>
-  <Library Name="Turtle" ProgramKind="Graphics">
+  <Library Name="Turtle" CompilationKind="Graphics">
     <Methods>
       <Method Name="Hide" />
       <Method Name="Move">
