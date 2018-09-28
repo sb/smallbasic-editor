@@ -32,6 +32,7 @@
       <WebPackArgs Include="env.configuration" Value="$(Configuration)" />
       <WebPackArgs Include="env.inputFile" Value="$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\entry.ts'))" />
       <WebPackArgs Include="env.outputFile" Value="$(WebpackOutputPath)" />
+      <WebPackArgs Include="env.isBuildingForDesktop" Value="$(IsBuildingForDesktop)" />
       <WebPackArgs Include="display-error-details" />
     </ItemGroup>
 

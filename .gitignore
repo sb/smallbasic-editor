@@ -1,6 +1,5 @@
 # VS files
 .vs/
-.vscode/
 *.csproj.user
 
 # Binary files
