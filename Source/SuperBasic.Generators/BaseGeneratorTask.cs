@@ -9,6 +9,7 @@ namespace SuperBasic.Generators
     using System.Xml;
     using System.Xml.Schema;
     using System.Xml.Serialization;
+    using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
     using SuperBasic.Utilities;
 
@@ -18,8 +19,10 @@ namespace SuperBasic.Generators
         private int indentationLevel = 0;
         private StringBuilder builder = new StringBuilder();
 
+        [Required]
         public string Input { get; set; }
 
+        [Required]
         public string Output { get; set; }
 
         public sealed override bool Execute()

@@ -9,5 +9,5 @@ obj
 node_modules
 
 # Output from webpack
-SmallBasic.Interop.js
-SmallBasic.Interop.js.map
+*.js
+*.js.map

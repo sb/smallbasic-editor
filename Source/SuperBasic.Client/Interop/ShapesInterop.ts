@@ -3,10 +3,10 @@
 // </copyright>
 
 import * as Konva from "konva";
-import { IShapesInterop } from "../Generated/JSInteropTypes.Generated";
-import { BaseShape } from "./Shapes/BaseShape";
-import { ButtonShape } from "./Shapes/ButtonShape";
-import { TextBoxShape } from "./Shapes/TextBoxShape";
+import { IShapesInterop } from "./JSInteropTypes.Generated";
+import { BaseShape } from "../Shapes/BaseShape";
+import { ButtonShape } from "../Shapes/ButtonShape";
+import { TextBoxShape } from "../Shapes/TextBoxShape";
 
 export class ShapesInterop implements IShapesInterop {
     private stage: Konva.Stage | undefined;

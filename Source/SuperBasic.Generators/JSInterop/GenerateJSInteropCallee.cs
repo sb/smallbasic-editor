@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Generators.Interop
+namespace SuperBasic.Generators.JSInterop
 {
     using System.Linq;
     using SuperBasic.Utilities;
@@ -13,7 +13,7 @@ namespace SuperBasic.Generators.Interop
         {
             foreach (InteropType type in model)
             {
-                this.Line($@"import {{ {type.Name}Interop }} from ""../JS/{type.Name}Interop"";");
+                this.Line($@"import {{ {type.Name}Interop }} from ""./{type.Name}Interop"";");
             }
 
             this.Blank();

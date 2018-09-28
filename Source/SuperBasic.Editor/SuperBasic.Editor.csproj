@@ -2,12 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IsBuildingForWebsite Condition="'$(IsBuildingForWebsite)' == ''">True</IsBuildingForWebsite>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <RunCommand>dotnet</RunCommand>
     <RunArguments>blazor serve</RunArguments>
     <!-- Disable for now, we get linking errors: https://github.com/aspnet/Blazor/issues/356 -->
@@ -15,16 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Update="Interop/**">
-      <CopyToOutputDirectory>false</CopyToOutputDirectory>
-      <CopyToPublishDirectory>false</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
-    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj" />
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Generators\SuperBasic.Generators.csproj" />
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Compiler\SuperBasic.Compiler.csproj" />
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Client\SuperBasic.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,18 +23,5 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.5.1" />
     <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.5.1" />
   </ItemGroup>
-
-  <Target Name="RunWebPack" BeforeTargets="BeforeBuild">
-    <ItemGroup>
-      <WebPackArgs Include="config" Value="$(MSBuildThisFileDirectory)Interop\webpack.config.ts" />
-      <WebPackArgs Include="env.configuration" Value="$(Configuration)" />
-      <WebPackArgs Include="env.inputFile" Value="$([System.IO.Path]::GetFullPath('Interop\entry.ts'))" />
-      <WebPackArgs Include="env.outputFile" Value="$([System.IO.Path]::GetFullPath('wwwroot\SmallBasic.Interop.js'))" />
-      <WebPackArgs Include="display-error-details" />
-    </ItemGroup>
-
-    <Exec Command="npm update --silent" WorkingDirectory="Interop" />
-    <Exec Command="node node_modules\webpack\bin\webpack.js @(WebPackArgs->'--%(Identity) %(Value)', ' ')" WorkingDirectory="Interop" />
-  </Target>
 
 </Project>

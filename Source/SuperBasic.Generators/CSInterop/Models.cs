@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Generators.Interop
+namespace SuperBasic.Generators.CSInterop
 {
     using System.Collections.Generic;
     using System.Xml.Serialization;

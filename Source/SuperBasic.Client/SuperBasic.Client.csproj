@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="Build">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <WebpackOutputPath>$(RootDirectory)\Source\SuperBasic.Editor\wwwroot\SmallBasic.Interop.js</WebpackOutputPath>
+  </PropertyGroup>
+
+  <Import Project="$(RootDirectory)\Source\Webpack.Project.targets" />
+
+</Project>
