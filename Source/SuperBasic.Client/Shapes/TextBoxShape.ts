@@ -4,7 +4,7 @@
 
 import * as Konva from "konva";
 import { BaseShape, ShapeStyles } from "./BaseShape";
-import { CSIntrop } from "../../Generated/CSInteropTypes.Generated";
+import { CSIntrop } from "../Interop/CSInteropTypes.Generated";
 
 export class TextBoxShape extends BaseShape<Konva.Text> {
     public constructor(isMultiLine: boolean, left: number, top: number) {

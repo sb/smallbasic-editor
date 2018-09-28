@@ -22,38 +22,38 @@ namespace SuperBasic.Editor.Libraries
 
         public IControlsLibrary Controls { get; private set; }
 
-        public IDesktopLibrary Desktop => throw new System.NotImplementedException();
+        public IDesktopLibrary Desktop => throw new System.InvalidOperationException();
 
-        public IDictionaryLibrary Dictionary => throw new System.NotImplementedException();
+        public IDictionaryLibrary Dictionary => throw new System.InvalidOperationException();
 
-        public IFileLibrary File => throw new System.NotImplementedException();
+        public IFileLibrary File => throw new System.InvalidOperationException();
 
-        public IFlickrLibrary Flickr => throw new System.NotImplementedException();
+        public IFlickrLibrary Flickr => throw new System.InvalidOperationException();
 
-        public IGraphicsWindowLibrary GraphicsWindow => throw new System.NotImplementedException();
+        public IGraphicsWindowLibrary GraphicsWindow => throw new System.InvalidOperationException();
 
-        public IImageListLibrary ImageList => throw new System.NotImplementedException();
+        public IImageListLibrary ImageList => throw new System.InvalidOperationException();
 
-        public IMathLibrary Math => throw new System.NotImplementedException();
+        public IMathLibrary Math => throw new System.InvalidOperationException();
 
-        public IMouseLibrary Mouse => throw new System.NotImplementedException();
+        public IMouseLibrary Mouse => throw new System.InvalidOperationException();
 
-        public INetworkLibrary Network => throw new System.NotImplementedException();
+        public INetworkLibrary Network => throw new System.InvalidOperationException();
 
-        public IProgramLibrary Program => throw new System.NotImplementedException();
+        public IProgramLibrary Program => throw new System.InvalidOperationException();
 
-        public IShapesLibrary Shapes => throw new System.NotImplementedException();
+        public IShapesLibrary Shapes => throw new System.InvalidOperationException();
 
-        public ISoundLibrary Sound => throw new System.NotImplementedException();
+        public ISoundLibrary Sound => throw new System.InvalidOperationException();
 
-        public IStackLibrary Stack => throw new System.NotImplementedException();
+        public IStackLibrary Stack => throw new System.InvalidOperationException();
 
-        public ITextLibrary Text => throw new System.NotImplementedException();
+        public ITextLibrary Text => throw new System.InvalidOperationException();
 
-        public ITextWindowLibrary TextWindow => throw new System.NotImplementedException();
+        public ITextWindowLibrary TextWindow => throw new System.InvalidOperationException();
 
-        public ITimerLibrary Timer => throw new System.NotImplementedException();
+        public ITimerLibrary Timer => throw new System.InvalidOperationException();
 
-        public ITurtleLibrary Turtle => throw new System.NotImplementedException();
+        public ITurtleLibrary Turtle => throw new System.InvalidOperationException();
     }
 }

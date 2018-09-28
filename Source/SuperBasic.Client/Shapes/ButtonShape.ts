@@ -4,7 +4,7 @@
 
 import * as Konva from "konva";
 import { BaseShape, ShapeStyles } from "./BaseShape";
-import { CSIntrop } from "../../Generated/CSInteropTypes.Generated";
+import { CSIntrop } from "../Interop/CSInteropTypes.Generated";
 
 export class ButtonShape extends BaseShape<Konva.Label> {
     public constructor(caption: string, left: number, top: number) {
