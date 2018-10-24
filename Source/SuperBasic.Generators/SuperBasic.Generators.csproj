@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Command line parser -->
+    <PackageReference Include="CommandLineParser" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_Commands Include="generate-token-kinds">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Scanning\TokenKinds.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Scanning\TokenKind.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-diagnostic-code">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Diagnostics\Diagnostics.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticCode.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-diagnostic-bag">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Diagnostics\Diagnostics.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticBag.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-syntax-nodes">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Parsing\SyntaxNodes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-bound-nodes">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Binding\BoundNodes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-libraries">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-library-interfaces">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-library-interfaces">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-logging-test-libraries">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Tests\LoggingTestLibraries.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-editor-bridge">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Editor\Bridge\Bridge.Generated.cs</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-client-bridge">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Client\Bridge\Bridge.Generated.ts</OutputFile>
+    </_Commands>
+    <_Commands Include="generate-bridge-execution">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Bridge\BridgeExecution.cs</OutputFile>
+    </_Commands>
+  </ItemGroup>
+
+  <Target Name="RunGenerators" AfterTargets="Build" Outputs="%(_Commands.Identity)">
+    <Exec ConsoleToMsBuild="true" Command="dotnet $(OutputPath)$(ProjectName).dll --task %(_Commands.Identity) --input %(_Commands.InputFile) --output %(_Commands.OutputFile)" />
+  </Target>
+
+</Project>

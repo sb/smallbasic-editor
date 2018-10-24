@@ -4,7 +4,8 @@
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <RootDirectory>$(MSBuildThisFileDirectory)..</RootDirectory>
-    <IsBuildingForDesktop Condition="'$(IsBuildingForDesktop)' == ''">false</IsBuildingForDesktop>
+    <IsBuildingForDesktop Condition="'$(IsBuildingForDesktop)' == ''">False</IsBuildingForDesktop>
+    <DefineConstants Condition="'$(IsBuildingForDesktop)' == 'True'">$(DefineConstants);IsBuildingForDesktop</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -62,8 +63,8 @@
 
   <ItemGroup Condition="'$(ProjectName)' != 'SuperBasic.Analyzers'">
     <!-- Custom Analyzers -->
-    <ProjectReference Include="$(RootDirectory)\Source\Analyzers\SuperBasic.Analyzers.csproj" />
-    <Analyzer Include="$(RootDirectory)\Source\Analyzers\bin\$(Configuration)\netstandard2.0\SuperBasic.Analyzers.dll" />
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj" />
+    <Analyzer Include="$(RootDirectory)\Source\SuperBasic.Analyzers\bin\$(Configuration)\netstandard2.0\SuperBasic.Analyzers.dll" />
   </ItemGroup>
 
 </Project>
