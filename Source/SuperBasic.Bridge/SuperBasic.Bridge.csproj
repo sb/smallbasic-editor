@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <Target Name="BuildDependentProjects" BeforeTargets="Build">
+    <MSBuild Projects="$(RootDirectory)\Source\SuperBasic.Generators\SuperBasic.Generators.csproj" />
+  </Target>
+
+</Project>

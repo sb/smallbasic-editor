@@ -1,0 +1,23 @@
+﻿@page "/"
+@page "/index.html"
+@using System;
+@using SuperBasic.Editor.Bridge
+@using SuperBasic.Utilities.Bridge
+welcome to your new app.
+
+<a href="/sub">Go to sub</a>
+
+<button type="button" onclick=@bridge>Bridge</button>
+
+@functions {
+        async void bridge()
+        {
+#if IsBuildingForDesktop
+        Console.WriteLine("desktop only");
+        await Bridge.Test.TestMethod1("ay 7aga fe m1");
+        Console.WriteLine("rege3et etnen: " + (await Bridge.Test.TestMethod2()).X);
+        Console.WriteLine("reg3et talata: " + (await Bridge.Test.TestMethod3()));
+        Console.WriteLine("reg3et arba3a: " + (await Bridge.Test.TestMethod4(new Bean1 { X = "value4" })));
+#endif
+    }
+}
