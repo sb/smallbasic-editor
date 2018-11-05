@@ -10,7 +10,7 @@ namespace SuperBasic.Editor.Libraries
 
     internal sealed class TimerLibrary : ITimerLibrary, IDisposable
     {
-        private Timer timer;
+        private readonly Timer timer;
         private int interval;
 
         public TimerLibrary()
@@ -21,15 +21,12 @@ namespace SuperBasic.Editor.Libraries
 
         public event Action Tick;
 
-        public decimal Interval
-        {
-            get => this.interval;
+        public decimal Get_Interval() => this.interval;
 
-            set
-            {
-                this.interval = Math.Max(Math.Min(this.interval, 1), 100000000);
-                this.timer.Change(this.interval, this.interval);
-            }
+        public void Set_Interval(decimal value)
+        {
+            this.interval = Math.Max(Math.Min((int)value, 1), 100000000);
+            this.timer.Change(this.interval, this.interval);
         }
 
         public void Pause()

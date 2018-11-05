@@ -1,0 +1,50 @@
+﻿/*!
+ * Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
+ */
+
+main-layout {
+    display: flex;
+    flex-direction: column;
+    color: #232528;
+    font-family: Roboto, sans-serif;
+    height: 100%;
+
+    $header-row-height: 87px;
+    $actions-row-height: 98px;
+
+    header-row {
+        display: flex;
+        flex-shrink: 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: $header-row-height;
+        background: #F3F3F3;
+
+        logo-area {
+            display: flex;
+            align-items: center;
+
+            logo {
+                @include set-background-image("Logo.png", 220px, 66px);
+                margin-left: 40px;
+            }
+        }
+
+        header-links {
+            header-link {
+                font-size: 20px;
+                margin-right: 40px;
+            }
+        }
+    }
+
+    actions-row {
+        height: $actions-row-height;
+        flex-shrink: 0;
+    }
+
+    page-contents {
+        height: calc(100% - #{$header-row-height} - #{$actions-row-height});
+    }
+}

@@ -1,0 +1,13 @@
+﻿editor-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    flex-grow: 1;
+    // absolute position is required to layout the editor correctly.
+    // This container needs to not be attached to it's parent width,
+    // So that its width can shrink/grow accourding to the page.
+    position: absolute;
+
+    editor {
+    }
+}

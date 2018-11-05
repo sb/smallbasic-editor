@@ -12,7 +12,7 @@ namespace SuperBasic.Tests.Runtime
         [Fact]
         public void ItEvaluatesSingleIfTrueExpression()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 If ""True"" Then
     TextWindow.WriteLine(""first"")
 EndIf").VerifyRuntime(expectedLog: @"
@@ -23,7 +23,7 @@ TextWindow.WriteLine(data: 'first')
         [Fact]
         public void ItEvaluatesSingleIfFalseExpression()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 If ""False"" Then
     TextWindow.WriteLine(""first"")
 EndIf").VerifyRuntime(expectedLog: @"
@@ -33,7 +33,7 @@ EndIf").VerifyRuntime(expectedLog: @"
         [Fact]
         public void ItEvaluatesIfElseTrueExpression()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 If ""True"" Then
     TextWindow.WriteLine(""first"")
 Else
@@ -46,7 +46,7 @@ TextWindow.WriteLine(data: 'first')
         [Fact]
         public void ItEvaluatesIfElseFalseExpression()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 If ""False"" Then
     TextWindow.WriteLine(""first"")
 Else
@@ -59,7 +59,7 @@ TextWindow.WriteLine(data: 'second')
         [Fact]
         public void ItEvaluatesDifferentElseIfBranches()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 4
     If x = 1 Then
         TextWindow.WriteLine(""first"")
@@ -81,7 +81,7 @@ TextWindow.WriteLine(data: 'fourth')
         [Fact]
         public void ItEvalutesForLoopWithNoStep()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 4
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -95,7 +95,7 @@ TextWindow.WriteLine(data: '4')
         [Fact]
         public void ItEvalutesForLoopWithStepOne()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 4 Step 1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -109,7 +109,7 @@ TextWindow.WriteLine(data: '4')
         [Fact]
         public void ItEvalutesForLoopWithStepTwo()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 8 Step 2
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -123,7 +123,7 @@ TextWindow.WriteLine(data: '7')
         [Fact]
         public void ItEvalutesForLoopWithInverseStepOne()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 4 To 1 Step -1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -137,7 +137,7 @@ TextWindow.WriteLine(data: '1')
         [Fact]
         public void ItEvalutesForLoopWithInverseStepTwo()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 8 To 1 Step -2
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -151,7 +151,7 @@ TextWindow.WriteLine(data: '2')
         [Fact]
         public void ItEvalutesForLoopWithEqualRangeAndNoStep()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -162,7 +162,7 @@ TextWindow.WriteLine(data: '1')
         [Fact]
         public void ItEvalutesForLoopWithEqualRangeAndPositiveStep()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 1 Step 1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -173,7 +173,7 @@ TextWindow.WriteLine(data: '1')
         [Fact]
         public void ItEvalutesForLoopWithEqualRangeAndNegativeStep()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 For x = 1 To 1 Step -1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -184,7 +184,7 @@ TextWindow.WriteLine(data: '1')
         [Fact]
         public void ItEvalutesGoToLabels()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 GoTo two
 one:
 TextWindow.WriteLine(1)
@@ -203,7 +203,7 @@ TextWindow.WriteLine(data: '3')
         [Fact]
         public void ItEvalutesWhileLoop()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 x = 5
 result = 1
 While x > 0
@@ -219,7 +219,7 @@ TextWindow.WriteLine(data: '32')
         [Fact]
         public void ItDoesNotEvaluteWhileLoopWithNegativeCondition()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 result = 1
 While ""False""
     result = 2
@@ -233,7 +233,7 @@ TextWindow.WriteLine(data: '1')
         [Fact]
         public void ItExitsFromAnInfitinteWhileLoop()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 result = 1
 While ""True""
     TextWindow.WriteLine(result)

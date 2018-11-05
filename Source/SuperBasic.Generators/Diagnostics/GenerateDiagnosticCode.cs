@@ -4,7 +4,7 @@
 
 namespace SuperBasic.Generators.Diagnostics
 {
-    public sealed class GenerateDiagnosticCode : BaseGeneratorTask<DiagnosticsCollection>
+    public sealed class GenerateDiagnosticCode : BaseConverterTask<DiagnosticsCollection>
     {
         protected override void Generate(DiagnosticsCollection model)
         {

@@ -14,24 +14,11 @@ const filePath = path.join(os.tmpdir(), `bridge-comm-${Math.random().toString().
 const bridgeBinaryPath = path.resolve(__dirname, "_bridge", "SuperBasic.Bridge.dll");
 
 (<any>global).Bridge = {
-    Test: {
-        TestMethod1: (val1: object): boolean => {
-            fs.writeFileSync(filePath, JSON.stringify(val1));
-            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Test", "TestMethod1", filePath]);
+    Process: {
+        OpenExternalLink: (url: object): boolean => {
+            fs.writeFileSync(filePath, JSON.stringify(url));
+            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Process", "OpenExternalLink", filePath]);
             return true;
-        },
-        TestMethod2: (): object => {
-            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Test", "TestMethod2", filePath]);
-            return JSON.parse(fs.readFileSync(filePath, "utf8"));
-        },
-        TestMethod3: (): object => {
-            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Test", "TestMethod3", filePath]);
-            return JSON.parse(fs.readFileSync(filePath, "utf8"));
-        },
-        TestMethod4: (val4: object): object => {
-            fs.writeFileSync(filePath, JSON.stringify(val4));
-            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Test", "TestMethod4", filePath]);
-            return JSON.parse(fs.readFileSync(filePath, "utf8"));
         }
     }
 };

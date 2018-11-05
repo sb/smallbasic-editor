@@ -16,21 +16,18 @@ namespace SuperBasic.Compiler.Binding
     internal sealed class Binder
     {
         private readonly DiagnosticBag diagnostics;
-        private readonly CompilationKind compilationKind;
         private readonly bool isRunningOnDesktop;
         private readonly IReadOnlyCollection<string> definedSubModules;
 
-        public Binder(StatementBlockSyntax syntaxTree, DiagnosticBag diagnostics, CompilationKind compilationKind, bool isRunningOnDesktop)
+        public Binder(StatementBlockSyntax syntaxTree, DiagnosticBag diagnostics, bool isRunningOnDesktop)
         {
             this.diagnostics = diagnostics;
-            this.compilationKind = compilationKind;
             this.isRunningOnDesktop = isRunningOnDesktop;
             this.definedSubModules = this.CollectSubModuleNames(syntaxTree);
 
             var mainModule = new List<BaseBoundStatement>();
             var subModules = new Dictionary<string, BoundSubModule>();
 
-            // TODO: library, member,event, prop not found should approximate to nearest name and give an error
             foreach (var syntax in syntaxTree.Body)
             {
                 switch (syntax)
@@ -78,6 +75,8 @@ namespace SuperBasic.Compiler.Binding
         public BoundStatementBlock MainModule { get; private set; }
 
         public IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
+
+        public bool UsesGraphicsWindow { get; private set; }
 
         private void CheckForLabelErrors(BoundStatementBlock block)
         {
@@ -547,15 +546,12 @@ namespace SuperBasic.Compiler.Binding
 
             if (Libraries.Types.TryGetValue(name, out Library library))
             {
+                this.UsesGraphicsWindow |= library.UsesGraphicsWindow;
+
                 if (expectsValue)
                 {
                     hasErrors = true;
                     this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
-                }
-                else if (library.CompilationKind.HasValue && library.CompilationKind.Value != this.compilationKind)
-                {
-                    hasErrors = true;
-                    this.diagnostics.ReportLibraryAndCompilationKindMismatch(syntax.Range, library.Name, this.compilationKind.ToString());
                 }
 
                 return new BoundLibraryTypeExpression(syntax, hasValue: false, hasErrors, name);

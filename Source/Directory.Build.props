@@ -18,6 +18,7 @@
     <DisabledWarnings Include="CA2227" Comment="Collection properties should be read only (required for XML deserialization)." />
 
     <DisabledWarnings Include="IDE1001" Comment="The analyzer assembly '{0}' has changed. Diagnostics may be incorrect until Visual Studio is restarted." />
+    <DisabledWarnings Include="IDE1003" Comment="Analyzer assembly '{0}' depends on '{1}' but it was not found. Analyzers may not run correctly unless the missing assembly is added as an analyzer reference as well (bug in analyzers where netstandard is not excluded from this warning)." />
     <DisabledWarnings Include="IDE0041" Comment="Use 'is null' check (replaced by custom analyzer)." />
 
     <DisabledWarnings Include="SA1005" Comment="Single line comment must begin with a space (tests assertions)." />
@@ -25,6 +26,7 @@
     <DisabledWarnings Include="SA1114" Comment="Parameter list must follow declaration (tests assertions)." />
     <DisabledWarnings Include="SA1115" Comment="The parameter must begin on the line after the previous parameter (tests assertions)." />
     <DisabledWarnings Include="SA1116" Comment="Split parameters must start on line after declaration (tests assertions)." />
+    <DisabledWarnings Include="SA1117" Comment="The parameters must all be placed on the same line or each parameter must be placed on its own line (tests assertions)." />
     <DisabledWarnings Include="SA1118" Comment="The parameter spans multiple lines (generated libraries)." />
     <DisabledWarnings Include="SA1204" Comment="Static members must appear before non-static members." />
     <DisabledWarnings Include="SA1402" Comment="File may only contain a single class." />

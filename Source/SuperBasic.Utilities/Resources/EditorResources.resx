@@ -117,4 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Actions_Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Actions_Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="Actions_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Actions_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Actions_Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Actions_Publish" xml:space="preserve">
+    <value>Publish</value>
+  </data>
+  <data name="Actions_Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Actions_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Actions_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Actions_Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>SuperBasic</value>
+  </data>
+  <data name="Header_DocumentationLink" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="Header_TutorialsLink" xml:space="preserve">
+    <value>Tutorials</value>
+  </data>
+  <data name="LibraryExplorer_Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="LibraryExplorer_Methods" xml:space="preserve">
+    <value>Methods</value>
+  </data>
+  <data name="LibraryExplorer_Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="LibraryExplorer_ReturnsNothing" xml:space="preserve">
+    <value>Returns nothing.</value>
+  </data>
+  <data name="SideBar_Libraries" xml:space="preserve">
+    <value>Libraries</value>
+  </data>
 </root>

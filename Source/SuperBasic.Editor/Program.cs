@@ -4,17 +4,19 @@
 
 namespace SuperBasic.Editor
 {
+    using System.Globalization;
     using Microsoft.AspNetCore.Blazor.Builder;
     using Microsoft.AspNetCore.Blazor.Hosting;
     using Microsoft.Extensions.DependencyInjection;
-    using SuperBasic.Editor.Bridge;
-    using SuperBasic.Editor.Pages;
-    using SuperBasic.Utilities;
+    using SuperBasic.Editor.Components.Layout;
 
     public static class Program
     {
+        // TODO: in all components overrides, call base: https://github.com/aspnet/Blazor/pull/1619
         public static void Main()
         {
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+
             BlazorWebAssemblyHost
                 .CreateDefaultBuilder()
                 .UseBlazorStartup<Startup>()
@@ -23,9 +25,9 @@ namespace SuperBasic.Editor
         }
     }
 
-#pragma warning disable CA1801, CA1822
     public class Startup
     {
+#pragma warning disable CA1801, CA1822
         public void ConfigureServices(IServiceCollection services)
         {
         }
@@ -34,6 +36,6 @@ namespace SuperBasic.Editor
         {
             app.AddComponent<App>("app");
         }
-    }
 #pragma warning restore CA1801, CA1822
+    }
 }

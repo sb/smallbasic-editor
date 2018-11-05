@@ -40,15 +40,19 @@ namespace SuperBasic.Editor.Libraries
 
     internal sealed class FileLibrary : IFileLibrary
     {
-        private IFilePlugin plugin;
+        private readonly IFilePlugin plugin;
+
+        private string lastError;
 
         public FileLibrary(IFilePlugin plugin)
         {
             this.plugin = plugin;
-            this.LastError = string.Empty;
+            this.lastError = string.Empty;
         }
 
-        public string LastError { get; set; }
+        public string Get_LastError() => this.lastError;
+
+        public void Set_LastError(string value) => this.lastError = value;
 
         public string AppendContents(string filePath, string contents)
         {
@@ -133,7 +137,7 @@ namespace SuperBasic.Editor.Libraries
 
         private string ProcessOperation(Action operation)
         {
-            this.LastError = string.Empty;
+            this.lastError = string.Empty;
 
             try
             {
@@ -142,14 +146,14 @@ namespace SuperBasic.Editor.Libraries
             }
             catch (Exception ex)
             {
-                this.LastError = ex.Message;
+                this.lastError = ex.Message;
                 return "FAILED";
             }
         }
 
         private TResult ProcessOperation<TResult>(Func<TResult> operation)
         {
-            this.LastError = string.Empty;
+            this.lastError = string.Empty;
 
             try
             {
@@ -157,7 +161,7 @@ namespace SuperBasic.Editor.Libraries
             }
             catch (Exception ex)
             {
-                this.LastError = ex.Message;
+                this.lastError = ex.Message;
                 return default;
             }
         }

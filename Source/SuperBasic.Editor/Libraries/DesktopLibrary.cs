@@ -26,9 +26,9 @@ namespace SuperBasic.Editor.Libraries
             this.plugin = plugin;
         }
 
-        public decimal Height => this.plugin.Height;
+        public decimal Get_Height() => this.plugin.Height;
 
-        public decimal Width => this.plugin.Width;
+        public decimal Get_Width() => this.plugin.Width;
 
         public void SetWallPaper(string fileOrUrl) => this.plugin.SetWallPaper(fileOrUrl);
     }

@@ -31,27 +31,23 @@ namespace SuperBasic.Editor.Libraries
             this.settings = settings;
         }
 
-        public string BackgroundColor
+        public string Get_BackgroundColor() => this.settings.BackgroundColor;
+
+        public void Set_BackgroundColor(string value)
         {
-            get => this.settings.BackgroundColor;
-            set
+            if (TryGetColorFromNumber(value, out string result))
             {
-                if (TryGetColorFromNumber(value, out string result))
-                {
-                    this.settings.BackgroundColor = result;
-                }
+                this.settings.BackgroundColor = result;
             }
         }
 
-        public string ForegroundColor
+        public string Get_ForegroundColor() => this.settings.PenColor;
+
+        public void Set_ForegroundColor(string value)
         {
-            get => this.settings.PenColor;
-            set
+            if (TryGetColorFromNumber(value, out string result))
             {
-                if (TryGetColorFromNumber(value, out string result))
-                {
-                    this.settings.PenColor = result;
-                }
+                this.settings.PenColor = result;
             }
         }
 

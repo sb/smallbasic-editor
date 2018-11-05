@@ -9,7 +9,7 @@ namespace SuperBasic.Generators.Parsing
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateSyntaxNodes : BaseGeneratorTask<SyntaxNodeCollection>
+    public sealed class GenerateSyntaxNodes : BaseConverterTask<SyntaxNodeCollection>
     {
         protected override void Generate(SyntaxNodeCollection model)
         {

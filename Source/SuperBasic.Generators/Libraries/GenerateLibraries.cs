@@ -9,7 +9,7 @@ namespace SuperBasic.Generators.Scanning
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateLibraries : BaseGeneratorTask<LibraryCollection>
+    public sealed class GenerateLibraries : BaseConverterTask<LibraryCollection>
     {
         protected override void Generate(LibraryCollection model)
         {
@@ -18,28 +18,15 @@ namespace SuperBasic.Generators.Scanning
 
             this.Line("using System;");
             this.Line("using System.Collections.Generic;");
+            this.Line("using System.Threading.Tasks;");
             this.Line("using SuperBasic.Utilities.Resources;");
             this.Blank();
 
-            this.Line("internal delegate void DExecuteLibraryMember(SuperBasicEngine engine);");
+            this.Line("internal delegate Task DExecuteLibraryMember(SuperBasicEngine engine);");
             this.Blank();
 
-            this.GenerateCompilationKind(model);
             this.GenerateModelTypes();
             this.GenerateLibrariesType(model);
-
-            this.Unbrace();
-        }
-
-        private void GenerateCompilationKind(LibraryCollection model)
-        {
-            this.Line("internal enum CompilationKind");
-            this.Brace();
-
-            foreach (string kind in model.Select(library => library.CompilationKind).Where(kind => !kind.IsDefault()).Distinct())
-            {
-                this.Line($"{kind},");
-            }
 
             this.Unbrace();
         }
@@ -48,72 +35,73 @@ namespace SuperBasic.Generators.Scanning
         {
             generateType(
                 "Library",
-                ("string", "Name"),
-                ("string", "Description"),
-                ("CompilationKind?", "CompilationKind"),
-                ("IReadOnlyDictionary<string, Method>", "Methods"),
-                ("IReadOnlyDictionary<string, Property>", "Properties"),
-                ("IReadOnlyDictionary<string, Event>", "Events"));
+                ("public", "string", "Name"),
+                ("public", "string", "Description"),
+                ("public", "string", "ExplorerIcon"),
+                ("public", "bool", "UsesGraphicsWindow"),
+                ("public", "IReadOnlyDictionary<string, Method>", "Methods"),
+                ("public", "IReadOnlyDictionary<string, Property>", "Properties"),
+                ("public", "IReadOnlyDictionary<string, Event>", "Events"));
 
             generateType(
                 "Parameter",
-                ("string", "Name"),
-                ("string", "Description"));
+                ("public", "string", "Name"),
+                ("public", "string", "Description"));
 
             generateType(
                 "Method",
-                ("string", "Name"),
-                ("string", "Description"),
-                ("bool", "ReturnsValue"),
-                ("string", "ReturnValueDescription"),
-                ("bool", "IsDeprecated"),
-                ("bool", "NeedsDesktop"),
-                ("DExecuteLibraryMember", "Execute"),
-                ("IReadOnlyDictionary<string, Parameter>", "Parameters"));
+                ("public", "string", "Name"),
+                ("public", "string", "Description"),
+                ("public", "bool", "ReturnsValue"),
+                ("public", "string", "ReturnValueDescription"),
+                ("public", "IReadOnlyDictionary<string, Parameter>", "Parameters"),
+                ("internal", "bool", "IsDeprecated"),
+                ("internal", "bool", "NeedsDesktop"),
+                ("internal", "DExecuteLibraryMember", "Execute"));
 
             generateType(
                 "Property",
-                ("string", "Name"),
-                ("string", "Description"),
-                ("bool", "IsDeprecated"),
-                ("bool", "NeedsDesktop"),
-                ("DExecuteLibraryMember", "Getter"),
-                ("DExecuteLibraryMember", "Setter"));
+                ("public", "string", "Name"),
+                ("public", "string", "Description"),
+                ("internal", "bool", "IsDeprecated"),
+                ("internal", "bool", "NeedsDesktop"),
+                ("internal", "DExecuteLibraryMember", "Getter"),
+                ("internal", "DExecuteLibraryMember", "Setter"));
 
             generateType(
                 "Event",
-                ("string", "Name"),
-                ("string", "Description"));
+                ("public", "string", "Name"),
+                ("public", "string", "Description"));
 
-            void generateType(string name, params (string Type, string Name)[] members)
+            void generateType(string name, params (string Visibility, string Type, string Name)[] members)
             {
-                this.Line($"internal sealed class {name}");
+                this.Line($"public sealed class {name}");
                 this.Brace();
 
-                this.Line($"public {name}(");
+                this.Line($"internal {name}(");
                 this.Indent();
 
                 for (var i = 0; i < members.Length; i++)
                 {
-                    var (Type, Name) = members[i];
-                    this.Line($"{Type} {Name.ToLowerFirstChar()}{(i + 1 < members.Length ? "," : ")")}");
+                    var member = members[i];
+                    this.Line($"{member.Type} {member.Name.ToLowerFirstChar()}{(i + 1 < members.Length ? "," : ")")}");
                 }
 
                 this.Unindent();
 
                 this.Brace();
 
-                foreach (var (Type, Name) in members)
+                foreach (var member in members)
                 {
-                    this.Line($"this.{Name} = {Name.ToLowerFirstChar()};");
+                    this.Line($"this.{member.Name} = {member.Name.ToLowerFirstChar()};");
                 }
 
                 this.Unbrace();
 
-                foreach (var (Type, Name) in members)
+                foreach (var member in members)
                 {
                     this.Blank();
-                    this.Line($"public {Type} {Name} {{ get; private set; }}");
+                    this.Line($"{member.Visibility} {member.Type} {member.Name} {{ get; private set; }}");
                 }
 
                 this.Unbrace();
@@ -122,7 +110,7 @@ namespace SuperBasic.Generators.Scanning
 
         private void GenerateLibrariesType(LibraryCollection model)
         {
-            this.Line("internal static class Libraries");
+            this.Line("public static class Libraries");
             this.Brace();
 
             this.Line("public static readonly IReadOnlyDictionary<string, Library> Types;");
@@ -163,7 +151,8 @@ namespace SuperBasic.Generators.Scanning
             {
                 $@"""{library.Name}""",
                 $"LibrariesResources.{library.Name}",
-                $"compilationKind: {(library.CompilationKind.IsDefault() ? "default" : $"CompilationKind.{library.CompilationKind}")}",
+                $@"""{library.ExplorerIcon}""",
+                $"usesGraphicsWindow: {(library.UsesGraphicsWindow ? "true" : "false")}",
                 "methods",
                 "properties",
                 "events"
@@ -184,7 +173,7 @@ namespace SuperBasic.Generators.Scanning
                 this.Line($"// Initialization code for method {library.Name}.{method.Name}:");
                 this.Brace();
 
-                this.Line("void execute(SuperBasicEngine engine)");
+                this.Line($"{(method.IsAsync ? "async " : string.Empty)}Task execute(SuperBasicEngine engine)");
                 this.Brace();
 
                 if (method.IsDeprecated)
@@ -202,12 +191,29 @@ namespace SuperBasic.Generators.Scanning
 
                     if (method.ReturnType.IsDefault())
                     {
-                        this.Line($"engine.Libraries.{library.Name}.{method.Name}({arguments});");
+                        if (method.IsAsync)
+                        {
+                            this.Line($"await engine.Libraries.{library.Name}.{method.Name}({arguments}).ConfigureAwait(false);");
+                        }
+                        else
+                        {
+                            this.Line($"engine.Libraries.{library.Name}.{method.Name}({arguments});");
+                            this.Line("return Task.CompletedTask;");
+                        }
                     }
                     else
                     {
-                        this.Line($"{method.ReturnType.ToNativeType()} returnValue = engine.Libraries.{library.Name}.{method.Name}({arguments});");
-                        this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
+                        if (method.IsAsync)
+                        {
+                            this.Line($"{method.ReturnType.ToNativeType()} returnValue = await engine.Libraries.{library.Name}.{method.Name}({arguments}).ConfigureAwait(false);");
+                            this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
+                        }
+                        else
+                        {
+                            this.Line($"{method.ReturnType.ToNativeType()} returnValue = engine.Libraries.{library.Name}.{method.Name}({arguments});");
+                            this.Line($@"engine.EvaluationStack.Push({"returnValue".ToValueConstructor(method.ReturnType)});");
+                            this.Line("return Task.CompletedTask;");
+                        }
                     }
                 }
 
@@ -216,8 +222,8 @@ namespace SuperBasic.Generators.Scanning
                 this.Line($@"methods.Add(""{method.Name}"", new Method(");
                 this.Indent();
 
-                this.Line($@"""{method.Name}"",");
-                this.Line($"LibrariesResources.{library.Name}_{method.Name},");
+                this.Line($@"name: ""{method.Name}"",");
+                this.Line($"description: LibrariesResources.{library.Name}_{method.Name},");
 
                 if (method.ReturnType.IsDefault())
                 {
@@ -227,16 +233,12 @@ namespace SuperBasic.Generators.Scanning
                 else
                 {
                     this.Line("returnsValue: true,");
-                    this.Line($"LibrariesResources.{library.Name}_{method.Name}_ReturnValue,");
+                    this.Line($"returnValueDescription: LibrariesResources.{library.Name}_{method.Name}_ReturnValue,");
                 }
-
-                this.Line($"isDeprecated: {(method.IsDeprecated ? "true" : "false")},");
-                this.Line($"needsDesktop: {(method.NeedsDesktop ? "true" : "false")},");
-                this.Line("execute: execute,");
 
                 if (method.Parameters.Any())
                 {
-                    this.Line("new Dictionary<string, Parameter>");
+                    this.Line("parameters: new Dictionary<string, Parameter>");
                     this.Line("{");
                     this.Indent();
 
@@ -246,12 +248,16 @@ namespace SuperBasic.Generators.Scanning
                     }
 
                     this.Unindent();
-                    this.Line("}));");
+                    this.Line("},");
                 }
                 else
                 {
-                    this.Line("new Dictionary<string, Parameter>()));");
+                    this.Line("parameters: new Dictionary<string, Parameter>(),");
                 }
+
+                this.Line($"isDeprecated: {(method.IsDeprecated ? "true" : "false")},");
+                this.Line($"needsDesktop: {(method.NeedsDesktop ? "true" : "false")},");
+                this.Line("execute: execute));");
 
                 this.Unindent();
                 this.Unbrace();
@@ -271,7 +277,7 @@ namespace SuperBasic.Generators.Scanning
 
                 if (property.HasGetter)
                 {
-                    this.Line("void getter(SuperBasicEngine engine)");
+                    this.Line($"{(property.IsAsync ? "async " : string.Empty)}Task getter(SuperBasicEngine engine)");
                     this.Brace();
 
                     if (property.IsDeprecated)
@@ -280,8 +286,17 @@ namespace SuperBasic.Generators.Scanning
                     }
                     else
                     {
-                        this.Line($"{property.Type.ToNativeType()} value = engine.Libraries.{library.Name}.{property.Name};");
-                        this.Line($"engine.EvaluationStack.Push({"value".ToValueConstructor(property.Type)});");
+                        if (property.IsAsync)
+                        {
+                            this.Line($"{property.Type.ToNativeType()} value = await engine.Libraries.{library.Name}.Get_{property.Name}().ConfigureAwait(false);");
+                            this.Line($"engine.EvaluationStack.Push({"value".ToValueConstructor(property.Type)});");
+                        }
+                        else
+                        {
+                            this.Line($"{property.Type.ToNativeType()} value = engine.Libraries.{library.Name}.Get_{property.Name}();");
+                            this.Line($"engine.EvaluationStack.Push({"value".ToValueConstructor(property.Type)});");
+                            this.Line("return Task.CompletedTask;");
+                        }
                     }
 
                     this.Unbrace();
@@ -289,7 +304,7 @@ namespace SuperBasic.Generators.Scanning
 
                 if (property.HasSetter)
                 {
-                    this.Line("void setter(SuperBasicEngine engine)");
+                    this.Line($"{(property.IsAsync ? "async " : string.Empty)}Task setter(SuperBasicEngine engine)");
                     this.Brace();
 
                     if (property.IsDeprecated)
@@ -298,8 +313,17 @@ namespace SuperBasic.Generators.Scanning
                     }
                     else
                     {
-                        this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()};");
-                        this.Line($"engine.Libraries.{library.Name}.{property.Name} = value;");
+                        if (property.IsAsync)
+                        {
+                            this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()}");
+                            this.Line($"await engine.Libraries.{library.Name}.Set_{property.Name}(value).ConfigureAwait(false);");
+                        }
+                        else
+                        {
+                            this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()};");
+                            this.Line($"engine.Libraries.{library.Name}.Set_{property.Name}(value);");
+                            this.Line("return Task.CompletedTask;");
+                        }
                     }
 
                     this.Unbrace();

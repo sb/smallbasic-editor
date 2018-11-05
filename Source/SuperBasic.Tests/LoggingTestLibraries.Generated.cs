@@ -10,6 +10,7 @@ namespace SuperBasic.Tests
     #pragma warning disable CS0067 // The event '{0}' is never used
     using System;
     using System.Text;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
 
     internal sealed class LoggingArrayLibrary : IArrayLibrary
@@ -61,103 +62,70 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public string Date
+        public string Get_Date()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Date.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"Clock.Get_Date()");
+            return string.Empty;
         }
 
-        public decimal Day
+        public decimal Get_Day()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Day.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Day()");
+            return 0;
         }
 
-        public decimal ElapsedMilliseconds
+        public decimal Get_ElapsedMilliseconds()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.ElapsedMilliseconds.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_ElapsedMilliseconds()");
+            return 0;
         }
 
-        public decimal Hour
+        public decimal Get_Hour()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Hour.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Hour()");
+            return 0;
         }
 
-        public decimal Millisecond
+        public decimal Get_Millisecond()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Millisecond.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Millisecond()");
+            return 0;
         }
 
-        public decimal Minute
+        public decimal Get_Minute()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Minute.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Minute()");
+            return 0;
         }
 
-        public decimal Month
+        public decimal Get_Month()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Month.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Month()");
+            return 0;
         }
 
-        public decimal Second
+        public decimal Get_Second()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Second.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Second()");
+            return 0;
         }
 
-        public string Time
+        public string Get_Time()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Time.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"Clock.Get_Time()");
+            return string.Empty;
         }
 
-        public string WeekDay
+        public string Get_WeekDay()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.WeekDay.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"Clock.Get_WeekDay()");
+            return string.Empty;
         }
 
-        public decimal Year
+        public decimal Get_Year()
         {
-            get
-            {
-                this.log.AppendLine($"Clock.Year.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Clock.Get_Year()");
+            return 0;
         }
     }
 
@@ -174,28 +142,22 @@ namespace SuperBasic.Tests
 
         public event Action TextTyped;
 
-        public string LastClickedButton
+        public Task<string> Get_LastClickedButton()
         {
-            get
-            {
-                this.log.AppendLine($"Controls.LastClickedButton.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"Controls.Get_LastClickedButton()");
+            return Task.FromResult(string.Empty);
         }
 
-        public string LastTypedTextBox
+        public Task<string> Get_LastTypedTextBox()
         {
-            get
-            {
-                this.log.AppendLine($"Controls.LastTypedTextBox.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"Controls.Get_LastTypedTextBox()");
+            return Task.FromResult(string.Empty);
         }
 
-        public string AddButton(string caption, decimal left, decimal top)
+        public Task<string> AddButton(string caption, decimal left, decimal top)
         {
             this.log.AppendLine($"Controls.AddButton(caption: '{caption}', left: '{left}', top: '{top}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
         public string AddMultiLineTextBox(decimal left, decimal top)
@@ -267,22 +229,16 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public decimal Height
+        public decimal Get_Height()
         {
-            get
-            {
-                this.log.AppendLine($"Desktop.Height.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Desktop.Get_Height()");
+            return 0;
         }
 
-        public decimal Width
+        public decimal Get_Width()
         {
-            get
-            {
-                this.log.AppendLine($"Desktop.Width.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Desktop.Get_Width()");
+            return 0;
         }
 
         public void SetWallPaper(string fileOrUrl)
@@ -310,18 +266,15 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public string LastError
+        public string Get_LastError()
         {
-            get
-            {
-                this.log.AppendLine($"File.LastError.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"File.Get_LastError()");
+            return string.Empty;
+        }
 
-            set
-            {
-                this.log.AppendLine($"File.LastError.Set()");
-            }
+        public void Set_LastError(string value)
+        {
+            this.log.AppendLine($"File.Set_LastError('{value}')");
         }
 
         public string AppendContents(string filePath, string contents)
@@ -434,170 +387,128 @@ namespace SuperBasic.Tests
 
         public event Action TextInput;
 
-        public string BackgroundColor
+        public string Get_BackgroundColor()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.BackgroundColor.Get()");
-                return string.Empty;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.BackgroundColor.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_BackgroundColor()");
+            return string.Empty;
         }
 
-        public string BrushColor
+        public void Set_BackgroundColor(string value)
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.BrushColor.Get()");
-                return string.Empty;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.BrushColor.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Set_BackgroundColor('{value}')");
         }
 
-        public bool FontBold
+        public string Get_BrushColor()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.FontBold.Get()");
-                return false;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.FontBold.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_BrushColor()");
+            return string.Empty;
         }
 
-        public bool FontItalic
+        public void Set_BrushColor(string value)
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.FontItalic.Get()");
-                return false;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.FontItalic.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Set_BrushColor('{value}')");
         }
 
-        public string FontName
+        public bool Get_FontBold()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.FontName.Get()");
-                return string.Empty;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.FontName.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_FontBold()");
+            return false;
         }
 
-        public decimal FontSize
+        public void Set_FontBold(bool value)
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.FontSize.Get()");
-                return 0;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.FontSize.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Set_FontBold('{value}')");
         }
 
-        public decimal Height
+        public bool Get_FontItalic()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.Height.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_FontItalic()");
+            return false;
         }
 
-        public string LastKey
+        public void Set_FontItalic(bool value)
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.LastKey.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"GraphicsWindow.Set_FontItalic('{value}')");
         }
 
-        public string LastText
+        public string Get_FontName()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.LastText.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_FontName()");
+            return string.Empty;
         }
 
-        public decimal MouseX
+        public void Set_FontName(string value)
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.MouseX.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"GraphicsWindow.Set_FontName('{value}')");
         }
 
-        public decimal MouseY
+        public decimal Get_FontSize()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.MouseY.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_FontSize()");
+            return 0;
         }
 
-        public string PenColor
+        public void Set_FontSize(decimal value)
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.PenColor.Get()");
-                return string.Empty;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.PenColor.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Set_FontSize('{value}')");
         }
 
-        public decimal PenWidth
+        public decimal Get_Height()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.PenWidth.Get()");
-                return 0;
-            }
-
-            set
-            {
-                this.log.AppendLine($"GraphicsWindow.PenWidth.Set()");
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_Height()");
+            return 0;
         }
 
-        public decimal Width
+        public string Get_LastKey()
         {
-            get
-            {
-                this.log.AppendLine($"GraphicsWindow.Width.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"GraphicsWindow.Get_LastKey()");
+            return string.Empty;
+        }
+
+        public string Get_LastText()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_LastText()");
+            return string.Empty;
+        }
+
+        public decimal Get_MouseX()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_MouseX()");
+            return 0;
+        }
+
+        public decimal Get_MouseY()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_MouseY()");
+            return 0;
+        }
+
+        public string Get_PenColor()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_PenColor()");
+            return string.Empty;
+        }
+
+        public void Set_PenColor(string value)
+        {
+            this.log.AppendLine($"GraphicsWindow.Set_PenColor('{value}')");
+        }
+
+        public decimal Get_PenWidth()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_PenWidth()");
+            return 0;
+        }
+
+        public void Set_PenWidth(decimal value)
+        {
+            this.log.AppendLine($"GraphicsWindow.Set_PenWidth('{value}')");
+        }
+
+        public decimal Get_Width()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_Width()");
+            return 0;
         }
 
         public void Clear()
@@ -726,13 +637,10 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public decimal Pi
+        public decimal Get_Pi()
         {
-            get
-            {
-                this.log.AppendLine($"Math.Pi.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Math.Get_Pi()");
+            return 0;
         }
 
         public decimal Abs(decimal number)
@@ -865,50 +773,38 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public bool IsLeftButtonDown
+        public bool Get_IsLeftButtonDown()
         {
-            get
-            {
-                this.log.AppendLine($"Mouse.IsLeftButtonDown.Get()");
-                return false;
-            }
+            this.log.AppendLine($"Mouse.Get_IsLeftButtonDown()");
+            return false;
         }
 
-        public bool IsRightButtonDown
+        public bool Get_IsRightButtonDown()
         {
-            get
-            {
-                this.log.AppendLine($"Mouse.IsRightButtonDown.Get()");
-                return false;
-            }
+            this.log.AppendLine($"Mouse.Get_IsRightButtonDown()");
+            return false;
         }
 
-        public decimal MouseX
+        public decimal Get_MouseX()
         {
-            get
-            {
-                this.log.AppendLine($"Mouse.MouseX.Get()");
-                return 0;
-            }
-
-            set
-            {
-                this.log.AppendLine($"Mouse.MouseX.Set()");
-            }
+            this.log.AppendLine($"Mouse.Get_MouseX()");
+            return 0;
         }
 
-        public decimal MouseY
+        public void Set_MouseX(decimal value)
         {
-            get
-            {
-                this.log.AppendLine($"Mouse.MouseY.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Mouse.Set_MouseX('{value}')");
+        }
 
-            set
-            {
-                this.log.AppendLine($"Mouse.MouseY.Set()");
-            }
+        public decimal Get_MouseY()
+        {
+            this.log.AppendLine($"Mouse.Get_MouseY()");
+            return 0;
+        }
+
+        public void Set_MouseY(decimal value)
+        {
+            this.log.AppendLine($"Mouse.Set_MouseY('{value}')");
         }
 
         public void HideCursor()
@@ -1206,32 +1102,26 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public string BackgroundColor
+        public string Get_BackgroundColor()
         {
-            get
-            {
-                this.log.AppendLine($"TextWindow.BackgroundColor.Get()");
-                return string.Empty;
-            }
-
-            set
-            {
-                this.log.AppendLine($"TextWindow.BackgroundColor.Set()");
-            }
+            this.log.AppendLine($"TextWindow.Get_BackgroundColor()");
+            return string.Empty;
         }
 
-        public string ForegroundColor
+        public void Set_BackgroundColor(string value)
         {
-            get
-            {
-                this.log.AppendLine($"TextWindow.ForegroundColor.Get()");
-                return string.Empty;
-            }
+            this.log.AppendLine($"TextWindow.Set_BackgroundColor('{value}')");
+        }
 
-            set
-            {
-                this.log.AppendLine($"TextWindow.ForegroundColor.Set()");
-            }
+        public string Get_ForegroundColor()
+        {
+            this.log.AppendLine($"TextWindow.Get_ForegroundColor()");
+            return string.Empty;
+        }
+
+        public void Set_ForegroundColor(string value)
+        {
+            this.log.AppendLine($"TextWindow.Set_ForegroundColor('{value}')");
         }
 
         public void Clear()
@@ -1273,18 +1163,15 @@ namespace SuperBasic.Tests
 
         public event Action Tick;
 
-        public decimal Interval
+        public decimal Get_Interval()
         {
-            get
-            {
-                this.log.AppendLine($"Timer.Interval.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Timer.Get_Interval()");
+            return 0;
+        }
 
-            set
-            {
-                this.log.AppendLine($"Timer.Interval.Set()");
-            }
+        public void Set_Interval(decimal value)
+        {
+            this.log.AppendLine($"Timer.Set_Interval('{value}')");
         }
 
         public void Pause()
@@ -1307,60 +1194,48 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public decimal Angle
+        public decimal Get_Angle()
         {
-            get
-            {
-                this.log.AppendLine($"Turtle.Angle.Get()");
-                return 0;
-            }
-
-            set
-            {
-                this.log.AppendLine($"Turtle.Angle.Set()");
-            }
+            this.log.AppendLine($"Turtle.Get_Angle()");
+            return 0;
         }
 
-        public decimal Speed
+        public void Set_Angle(decimal value)
         {
-            get
-            {
-                this.log.AppendLine($"Turtle.Speed.Get()");
-                return 0;
-            }
-
-            set
-            {
-                this.log.AppendLine($"Turtle.Speed.Set()");
-            }
+            this.log.AppendLine($"Turtle.Set_Angle('{value}')");
         }
 
-        public decimal X
+        public decimal Get_Speed()
         {
-            get
-            {
-                this.log.AppendLine($"Turtle.X.Get()");
-                return 0;
-            }
-
-            set
-            {
-                this.log.AppendLine($"Turtle.X.Set()");
-            }
+            this.log.AppendLine($"Turtle.Get_Speed()");
+            return 0;
         }
 
-        public decimal Y
+        public void Set_Speed(decimal value)
         {
-            get
-            {
-                this.log.AppendLine($"Turtle.Y.Get()");
-                return 0;
-            }
+            this.log.AppendLine($"Turtle.Set_Speed('{value}')");
+        }
 
-            set
-            {
-                this.log.AppendLine($"Turtle.Y.Set()");
-            }
+        public decimal Get_X()
+        {
+            this.log.AppendLine($"Turtle.Get_X()");
+            return 0;
+        }
+
+        public void Set_X(decimal value)
+        {
+            this.log.AppendLine($"Turtle.Set_X('{value}')");
+        }
+
+        public decimal Get_Y()
+        {
+            this.log.AppendLine($"Turtle.Get_Y()");
+            return 0;
+        }
+
+        public void Set_Y(decimal value)
+        {
+            this.log.AppendLine($"Turtle.Set_Y('{value}')");
         }
 
         public void Hide()

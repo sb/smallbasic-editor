@@ -6,7 +6,7 @@ namespace SuperBasic.Generators.Bridge
 {
     using SuperBasic.Utilities;
 
-    public sealed class GenerateBridgeExecution : BaseGeneratorTask<BridgeTypeCollection>
+    public sealed class GenerateBridgeExecution : BaseConverterTask<BridgeTypeCollection>
     {
         protected override void Generate(BridgeTypeCollection model)
         {
@@ -28,7 +28,6 @@ namespace SuperBasic.Generators.Bridge
             this.Line("using System.IO;");
             this.Line("using Newtonsoft.Json;");
             this.Line("using SuperBasic.Utilities;");
-            this.Line("using SuperBasic.Utilities.Bridge;");
             this.Blank();
 
             this.GenerateBridgeInterfaces(model);

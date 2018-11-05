@@ -11,7 +11,7 @@ namespace SuperBasic.Editor.Libraries
     {
         private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
 
-        public decimal Pi => (decimal)Math.PI;
+        public decimal Get_Pi() => (decimal)Math.PI;
 
         public decimal Abs(decimal number) => Math.Abs(number);
 

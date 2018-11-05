@@ -59,5 +59,176 @@ namespace SuperBasic.Utilities.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string Actions_Copy {
+            get {
+                return ResourceManager.GetString("Actions_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        public static string Actions_Cut {
+            get {
+                return ResourceManager.GetString("Actions_Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug.
+        /// </summary>
+        public static string Actions_Debug {
+            get {
+                return ResourceManager.GetString("Actions_Debug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        public static string Actions_Import {
+            get {
+                return ResourceManager.GetString("Actions_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string Actions_New {
+            get {
+                return ResourceManager.GetString("Actions_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string Actions_Paste {
+            get {
+                return ResourceManager.GetString("Actions_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publish.
+        /// </summary>
+        public static string Actions_Publish {
+            get {
+                return ResourceManager.GetString("Actions_Publish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Redo.
+        /// </summary>
+        public static string Actions_Redo {
+            get {
+                return ResourceManager.GetString("Actions_Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run.
+        /// </summary>
+        public static string Actions_Run {
+            get {
+                return ResourceManager.GetString("Actions_Run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Actions_Save {
+            get {
+                return ResourceManager.GetString("Actions_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        public static string Actions_Undo {
+            get {
+                return ResourceManager.GetString("Actions_Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SuperBasic.
+        /// </summary>
+        public static string ApplicationTitle {
+            get {
+                return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        public static string Header_DocumentationLink {
+            get {
+                return ResourceManager.GetString("Header_DocumentationLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tutorials.
+        /// </summary>
+        public static string Header_TutorialsLink {
+            get {
+                return ResourceManager.GetString("Header_TutorialsLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events.
+        /// </summary>
+        public static string LibraryExplorer_Events {
+            get {
+                return ResourceManager.GetString("LibraryExplorer_Events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Methods.
+        /// </summary>
+        public static string LibraryExplorer_Methods {
+            get {
+                return ResourceManager.GetString("LibraryExplorer_Methods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        public static string LibraryExplorer_Properties {
+            get {
+                return ResourceManager.GetString("LibraryExplorer_Properties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns nothing..
+        /// </summary>
+        public static string LibraryExplorer_ReturnsNothing {
+            get {
+                return ResourceManager.GetString("LibraryExplorer_ReturnsNothing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Libraries.
+        /// </summary>
+        public static string SideBar_Libraries {
+            get {
+                return ResourceManager.GetString("SideBar_Libraries", resourceCulture);
+            }
+        }
     }
 }

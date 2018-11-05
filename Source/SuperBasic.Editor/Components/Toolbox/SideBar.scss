@@ -1,0 +1,173 @@
+﻿/*!
+ * Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
+ */
+
+side-bar {
+    $header-area-height: 75px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    background-color: #656A72;
+    border-right: 1px solid #656A72;
+    box-sizing: border-box;
+
+    navigation-area {
+        $navigation-area-width: 75px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: $navigation-area-width;
+        height: 100%;
+
+        logo-area {
+            display: flex;
+            flex-shrink: 0;
+            height: $header-area-height;
+            width: $navigation-area-width;
+
+            logo {
+                margin: 12.5px;
+            }
+        }
+
+        scroll-button {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            height: 40px;
+            background-color: #0E9DDF;
+            width: $navigation-area-width;
+            cursor: pointer;
+
+            scroll-up {
+                @include set-background-image("SideBars/Caret.svg", 18px, 28px);
+                transform: rotate(90deg);
+            }
+
+            scroll-down {
+                @include set-background-image("SideBars/Caret.svg", 18px, 28px);
+                transform: rotate(270deg);
+            }
+        }
+
+        scroll-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100%;
+            background-color: #BABEC4;
+            overflow: hidden;
+            width: $navigation-area-width;
+
+            scroll-area-contents {
+                transition: margin-top 750ms;
+
+                side-bar-item-base {
+                    display: flex;
+                    flex-shrink: 0;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: center;
+                    height: 75px;
+                    font-size: 16px;
+                    text-align: center;
+                    width: $navigation-area-width;
+
+                    icon {
+                        width: 25px;
+                        height: 25px;
+                        margin-top: 19px;
+                    }
+
+                    base-name {
+                        margin-bottom: 11px;
+                    }
+
+                    short-name {
+                        @extend base-name;
+                        font-size: 14px;
+                    }
+
+                    long-name {
+                        @extend base-name;
+                        font-size: 9.5px;
+                    }
+                }
+
+                side-bar-item {
+                    @extend side-bar-item-base;
+                    color: #656A72;
+                    background-color: #BABEC4;
+                }
+
+                side-bar-item:hover {
+                    color: #232528;
+                    background-color: #0E9DDF;
+                }
+
+                side-bar-item-selected {
+                    @extend side-bar-item-base;
+                    color: #232528;
+                    background-color: #E7E8EA;
+                }
+            }
+        }
+    }
+
+    content-area {
+        $content-area-width: 340px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: $content-area-width;
+        height: 100%;
+        border-left: 1px solid #656A72;
+        box-sizing: border-box;
+
+        header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-shrink: 0;
+            align-items: center;
+            font-size: 32px;
+            color: #E7E8EA;
+            height: $header-area-height;
+            width: $content-area-width;
+
+            content-title {
+                margin-left: 15px;
+            }
+
+            minimize-button {
+                margin-right: 20px;
+                width: 18px;
+                height: $header-area-height;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                angle-left {
+                    @include set-background-image("SideBars/Caret.svg", 18px, 28px);
+                }
+            }
+        }
+
+        content {
+            width: $content-area-width;
+            height: calc(100% - #{$header-area-height});
+            color: #232528;
+            background-color: #E7E8EA;
+        }
+    }
+}

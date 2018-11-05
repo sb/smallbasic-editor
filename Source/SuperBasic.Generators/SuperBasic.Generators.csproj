@@ -19,58 +19,66 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_Commands Include="generate-token-kinds">
+    <_ConvertCommands Include="generate-token-kinds">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Scanning\TokenKinds.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Scanning\TokenKind.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-diagnostic-code">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-diagnostic-code">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Diagnostics\Diagnostics.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticCode.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-diagnostic-bag">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-diagnostic-bag">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Diagnostics\Diagnostics.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Diagnostics\DiagnosticBag.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-syntax-nodes">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-syntax-nodes">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Parsing\SyntaxNodes.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Parsing\SyntaxNodes.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-bound-nodes">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-bound-nodes">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Binding\BoundNodes.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Binding\BoundNodes.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-libraries">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-libraries">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-library-interfaces">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-library-interfaces">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-library-interfaces">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-library-interfaces">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-logging-test-libraries">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-logging-test-libraries">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Libraries\Libraries.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Tests\LoggingTestLibraries.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-editor-bridge">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-editor-bridge">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Editor\Bridge\Bridge.Generated.cs</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-client-bridge">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-client-bridge">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Client\Bridge\Bridge.Generated.ts</OutputFile>
-    </_Commands>
-    <_Commands Include="generate-bridge-execution">
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-bridge-execution">
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
-      <OutputFile>$(RootDirectory)\Source\SuperBasic.Bridge\BridgeExecution.cs</OutputFile>
-    </_Commands>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Bridge\Bridge.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-editor-interop">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\InteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Editor\Interop\Interop.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-client-interop">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\InteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Client\Interop\Interop.Generated.ts</OutputFile>
+    </_ConvertCommands>
   </ItemGroup>
 
-  <Target Name="RunGenerators" AfterTargets="Build" Outputs="%(_Commands.Identity)">
-    <Exec ConsoleToMsBuild="true" Command="dotnet $(OutputPath)$(ProjectName).dll --task %(_Commands.Identity) --input %(_Commands.InputFile) --output %(_Commands.OutputFile)" />
+  <Target Name="RunConvertCommands" AfterTargets="Build" Outputs="%(_ConvertCommands.Identity)">
+    <Exec ConsoleToMsBuild="true" Command="dotnet $(OutputPath)$(ProjectName).dll convert --task %(_ConvertCommands.Identity) --input %(_ConvertCommands.InputFile) --output %(_ConvertCommands.OutputFile)" />
   </Target>
 
 </Project>

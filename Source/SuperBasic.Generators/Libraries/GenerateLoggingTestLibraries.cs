@@ -7,7 +7,7 @@ namespace SuperBasic.Generators.Scanning
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateLoggingTestLibraries : BaseGeneratorTask<LibraryCollection>
+    public sealed class GenerateLoggingTestLibraries : BaseConverterTask<LibraryCollection>
     {
         protected override void Generate(LibraryCollection model)
         {
@@ -17,6 +17,7 @@ namespace SuperBasic.Generators.Scanning
 
             this.Line("using System;");
             this.Line("using System.Text;");
+            this.Line("using System.Threading.Tasks;");
             this.Line("using SuperBasic.Compiler.Runtime;");
             this.Blank();
 
@@ -46,46 +47,79 @@ namespace SuperBasic.Generators.Scanning
 
             foreach (Event @event in library.Events)
             {
-                this.Blank();
                 this.Line($"public event Action {@event.Name};");
+                this.Blank();
             }
 
             foreach (Property property in library.Properties.Where(p => !p.IsDeprecated))
             {
-                this.Blank();
-                this.Line($"public {property.Type.ToNativeType()} {property.Name}");
-                this.Brace();
-
                 if (property.HasGetter)
                 {
-                    this.Line("get");
+                    string type = property.IsAsync
+                        ? $"Task<{property.Type.ToNativeType()}>"
+                        : property.Type.ToNativeType();
+
+                    this.Line($"public {type} Get_{property.Name}()");
                     this.Brace();
-                    this.Line($@"this.log.AppendLine($""{library.Name}.{property.Name}.Get()"");");
-                    this.Line($"return {GetDefaultForType(property.Type)};");
+
+                    this.Line($@"this.log.AppendLine($""{library.Name}.Get_{property.Name}()"");");
+
+                    if (property.IsAsync)
+                    {
+                        this.Line($"return Task.FromResult({GetDefaultForType(property.Type)});");
+                    }
+                    else
+                    {
+                        this.Line($"return {GetDefaultForType(property.Type)};");
+                    }
+
                     this.Unbrace();
                 }
 
                 if (property.HasSetter)
                 {
-                    this.Line("set");
+                    this.Line($"public {(property.IsAsync ? "Task" : "void")} Set_{property.Name}({property.Type.ToNativeType()} value)");
                     this.Brace();
-                    this.Line($@"this.log.AppendLine($""{library.Name}.{property.Name}.Set()"");");
+
+                    this.Line($@"this.log.AppendLine($""{library.Name}.Set_{property.Name}('{{{PrintValueOfType("value", property.Type)}}}')"");");
+
+                    if (property.IsAsync)
+                    {
+                        this.Line($"return Task.CompletedResult;");
+                    }
+
                     this.Unbrace();
                 }
-
-                this.Unbrace();
             }
 
             foreach (Method method in library.Methods.Where(m => !m.IsDeprecated))
             {
-                this.Blank();
-                this.Line($"public {method.ReturnType?.ToNativeType() ?? "void"} {method.Name}({method.Parameters.Select(p => $"{p.Type.ToNativeType()} {p.Name.ToLowerFirstChar()}").Join(", ")})");
-                this.Brace();
-                this.Line($@"this.log.AppendLine($""{library.Name}.{method.Name}({method.Parameters.Select(p => $"{p.Name.ToLowerFirstChar()}: '{{{GetValueForParameter(p)}}}'").Join(", ")})"");");
+                string type = method.ReturnType.IsDefault()
+                    ? (method.IsAsync ? "Task" : "void")
+                    : (method.IsAsync ? $"Task<{method.ReturnType.ToNativeType()}>" : method.ReturnType.ToNativeType());
 
-                if (!method.ReturnType.IsDefault())
+                this.Line($"public {type} {method.Name}({method.Parameters.Select(p => $"{p.Type.ToNativeType()} {p.Name.ToLowerFirstChar()}").Join(", ")})");
+                this.Brace();
+
+                this.Line($@"this.log.AppendLine($""{library.Name}.{method.Name}({method.Parameters.Select(p => $"{p.Name.ToLowerFirstChar()}: '{{{PrintValueOfType(p.Name, p.Type)}}}'").Join(", ")})"");");
+
+                if (method.ReturnType.IsDefault())
                 {
-                    this.Line($"return {GetDefaultForType(method.ReturnType)};");
+                    if (method.IsAsync)
+                    {
+                        this.Line("return Task.CompletedResult;");
+                    }
+                }
+                else
+                {
+                    if (method.IsAsync)
+                    {
+                        this.Line($"return Task.FromResult({GetDefaultForType(method.ReturnType)});");
+                    }
+                    else
+                    {
+                        this.Line($"return {GetDefaultForType(method.ReturnType)};");
+                    }
                 }
 
                 this.Unbrace();
@@ -130,19 +164,19 @@ namespace SuperBasic.Generators.Scanning
             }
         }
 
-        private static string GetValueForParameter(Parameter parameter)
+        private static string PrintValueOfType(string name, string type)
         {
-            switch (parameter.Type)
+            switch (type)
             {
                 case "StringValue":
                 case "NumberValue":
                 case "BooleanValue":
-                    return parameter.Name.ToLowerFirstChar();
+                    return name;
                 case "BaseValue":
                 case "ArrayValue":
-                    return $"{parameter.Name.ToLowerFirstChar()}.ToDisplayString()";
+                    return $"{name}.ToDisplayString()";
                 default:
-                    throw ExceptionUtilities.UnexpectedValue(parameter.Type);
+                    throw ExceptionUtilities.UnexpectedValue(type);
             }
         }
     }
