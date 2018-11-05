@@ -17,10 +17,10 @@ namespace SuperBasic.Editor.Libraries
             this.Dictionary = new DictionaryLibrary();
             this.File = new FileLibrary(null);
             this.Flickr = new FlickrLibrary();
-            this.GraphicsWindow = new GraphicsWindowLibrary(null, null);
+            this.GraphicsWindow = null;
             this.ImageList = new ImageListLibrary(null);
             this.Math = new MathLibrary();
-            this.Mouse = new MouseLibrary(null);
+            this.Mouse = null;
             this.Network = new NetworkLibrary(null, null);
             this.Program = new ProgramLibrary();
             this.Shapes = new ShapesLibrary(null, null);

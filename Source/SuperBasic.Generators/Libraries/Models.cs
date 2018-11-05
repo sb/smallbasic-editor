@@ -73,6 +73,9 @@ namespace SuperBasic.Generators.Scanning
         [XmlAttribute]
         public string ReturnType { get; set; }
 
+        [XmlAttribute]
+        public bool IsAsync { get; set; }
+
         [XmlArray(nameof(Parameters))]
         [XmlArrayItem(typeof(Parameter))]
         public List<Parameter> Parameters { get; set; }
@@ -97,6 +100,9 @@ namespace SuperBasic.Generators.Scanning
 
         [XmlAttribute]
         public bool HasSetter { get; set; }
+
+        [XmlAttribute]
+        public bool IsAsync { get; set; }
     }
 
     public sealed class Event
@@ -111,7 +117,10 @@ namespace SuperBasic.Generators.Scanning
         public string Name { get; set; }
 
         [XmlAttribute]
-        public string CompilationKind { get; set; }
+        public bool UsesGraphicsWindow { get; set; }
+
+        [XmlAttribute]
+        public string ExplorerIcon { get; set; }
 
         [XmlArray(nameof(Methods))]
         [XmlArrayItem(typeof(Method))]

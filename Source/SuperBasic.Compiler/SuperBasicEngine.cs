@@ -7,6 +7,7 @@ namespace SuperBasic.Compiler
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
@@ -73,7 +74,7 @@ namespace SuperBasic.Compiler
             return new DebuggerSnapshot(this.currentSourceLine, this.ExecutionStack, this.Memory);
         }
 
-        public void Execute(bool pauseAtNextStatement = false)
+        public async Task Execute(bool pauseAtNextStatement = false)
         {
             Debug.Assert(this.isDebugging || !pauseAtNextStatement, $"Cannot {nameof(pauseAtNextStatement)} if not debugging.");
             Debug.Assert(this.State == ExecutionState.Running || this.State == ExecutionState.Paused, "Engine is not in a executable state.");
@@ -87,15 +88,9 @@ namespace SuperBasic.Compiler
             {
                 if (this.ExecutionStack.Count == 0)
                 {
-                    switch (this.compilation.Kind)
+                    if (!this.compilation.UsesGraphicsWindow)
                     {
-                        case CompilationKind.Text:
-                            this.State = ExecutionState.Terminated;
-                            return;
-                        case CompilationKind.Graphics:
-                            return;
-                        default:
-                            throw ExceptionUtilities.UnexpectedValue(this.compilation.Kind);
+                        this.State = ExecutionState.Terminated;
                     }
                 }
 
@@ -119,7 +114,7 @@ namespace SuperBasic.Compiler
                 }
                 else
                 {
-                    instruction.Execute(this, frame);
+                    await instruction.Execute(this, frame).ConfigureAwait(false);
                 }
             }
         }

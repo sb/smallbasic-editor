@@ -8,7 +8,7 @@ namespace SuperBasic.Generators.Scanning
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateLibraryInterfaces : BaseGeneratorTask<LibraryCollection>
+    public sealed class GenerateLibraryInterfaces : BaseConverterTask<LibraryCollection>
     {
         protected override void Generate(LibraryCollection model)
         {
@@ -16,6 +16,7 @@ namespace SuperBasic.Generators.Scanning
             this.Brace();
 
             this.Line("using System;");
+            this.Line("using System.Threading.Tasks;");
             this.Blank();
 
             foreach (Library library in model)
@@ -43,12 +44,24 @@ namespace SuperBasic.Generators.Scanning
 
             foreach (Property property in library.Properties.Where(p => !p.IsDeprecated))
             {
-                members.Add($"{property.Type.ToNativeType()} {property.Name} {{{(property.HasGetter ? " get;" : string.Empty)}{(property.HasSetter ? " set;" : string.Empty)} }}");
+                if (property.HasGetter)
+                {
+                    members.Add($"{(property.IsAsync ? $"Task<{property.Type.ToNativeType()}>" : property.Type.ToNativeType())} Get_{property.Name}();");
+                }
+
+                if (property.HasSetter)
+                {
+                    members.Add($"{(property.IsAsync ? "Task" : "void")} Set_{property.Name}({property.Type.ToNativeType()} value);");
+                }
             }
 
             foreach (Method method in library.Methods.Where(m => !m.IsDeprecated))
             {
-                members.Add($"{method.ReturnType?.ToNativeType() ?? "void"} {method.Name}({method.Parameters.Select(p => $"{p.Type.ToNativeType()} {p.Name.ToLowerFirstChar()}").Join(", ")});");
+                string type = method.ReturnType.IsDefault()
+                    ? (method.IsAsync ? "Task" : "void")
+                    : (method.IsAsync ? $"Task<{method.ReturnType.ToNativeType()}>" : method.ReturnType.ToNativeType());
+
+                members.Add($"{type} {method.Name}({method.Parameters.Select(p => $"{p.Type.ToNativeType()} {p.Name.ToLowerFirstChar()}").Join(", ")});");
             }
 
             for (int i = 0; i < members.Count; i++)

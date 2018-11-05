@@ -9,7 +9,7 @@ namespace SuperBasic.Generators.Binding
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateBoundNodes : BaseGeneratorTask<BoundNodeCollection>
+    public sealed class GenerateBoundNodes : BaseConverterTask<BoundNodeCollection>
     {
         private readonly string[] nonChildrenTypes = new[] { "string", "bool", "decimal", "TokenKind" };
 

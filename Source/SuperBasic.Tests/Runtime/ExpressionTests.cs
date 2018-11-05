@@ -12,7 +12,7 @@ namespace SuperBasic.Tests.Runtime
         [Fact]
         public void NumericStringsAreTreatedAsNumbers()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 x = ""1"" + 1
 y = 4 + ""-1""").VerifyRuntime(memoryContents: @"
 x = 2
@@ -22,7 +22,7 @@ y = 3");
         [Fact]
         public void ItEvaluatesArrayAccess()
         {
-            SuperBasicCompilation.CreateTextProgram(@"
+            new SuperBasicCompilation(@"
 ar[0] = ""first""
 ar[1][0] = ""second""
 ar[1][2] = ""third""

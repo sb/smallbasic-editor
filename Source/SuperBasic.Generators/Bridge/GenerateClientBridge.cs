@@ -8,7 +8,7 @@ namespace SuperBasic.Generators.Bridge
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateClientBridge : BaseGeneratorTask<BridgeTypeCollection>
+    public sealed class GenerateClientBridge : BaseConverterTask<BridgeTypeCollection>
     {
         protected override void Generate(BridgeTypeCollection model)
         {

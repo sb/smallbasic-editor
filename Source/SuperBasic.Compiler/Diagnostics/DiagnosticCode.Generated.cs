@@ -33,7 +33,6 @@ namespace SuperBasic.Compiler.Diagnostics
         UnexpectedArgumentsCount,
         UnsupportedInvocationBaseExpression,
         LibraryMemberDeprecatedFromOlderVersion,
-        LibraryAndCompilationKindMismatch,
         LibraryMemberNeedsDesktop,
     }
 
@@ -64,7 +63,6 @@ namespace SuperBasic.Compiler.Diagnostics
                 case DiagnosticCode.UnexpectedArgumentsCount: return DiagnosticsResources.UnexpectedArgumentsCount;
                 case DiagnosticCode.UnsupportedInvocationBaseExpression: return DiagnosticsResources.UnsupportedInvocationBaseExpression;
                 case DiagnosticCode.LibraryMemberDeprecatedFromOlderVersion: return DiagnosticsResources.LibraryMemberDeprecatedFromOlderVersion;
-                case DiagnosticCode.LibraryAndCompilationKindMismatch: return DiagnosticsResources.LibraryAndCompilationKindMismatch;
                 case DiagnosticCode.LibraryMemberNeedsDesktop: return DiagnosticsResources.LibraryMemberNeedsDesktop;
                 default: throw ExceptionUtilities.UnexpectedValue(kind);
             }

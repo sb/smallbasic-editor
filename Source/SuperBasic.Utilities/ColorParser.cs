@@ -48,7 +48,7 @@ namespace SuperBasic.Utilities
                 case "darkslategray": hexResult = "#2F4F4F"; return true;
                 case "darkturquoise": hexResult = "#00CED1"; return true;
                 case "darkviolet": hexResult = "#9400D3"; return true;
-                case "darkyellow": throw new System.Exception("TODO: https://blogs.msdn.microsoft.com/smallbasic/2016/03/12/small-basic-textwindow-colors/");
+                case "darkyellow": hexResult = "#808000"; return true;
                 case "deeppink": hexResult = "#FF1493"; return true;
                 case "deepskyblue": hexResult = "#00BFFF"; return true;
                 case "dimgray": hexResult = "#696969"; return true;

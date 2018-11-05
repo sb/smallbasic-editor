@@ -9,7 +9,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DiagnosticsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\SuperBasic.EditorResources.resx">
+    <EmbeddedResource Update="Resources\EditorResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\EditorResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -29,7 +33,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DiagnosticsResources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\SuperBasic.EditorResources.Designer.cs">
+    <Compile Update="Resources\EditorResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EditorResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\EditorResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EditorResources.resx</DependentUpon>

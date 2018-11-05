@@ -5,47 +5,50 @@
 namespace SuperBasic.Generators
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using CommandLine;
 
-    public class TaskOptions
+    [Verb("convert", HelpText = "Converts a model file into a code file.")]
+    public class ConvertVerb
     {
         [Option(longName: "task", Required = true, HelpText = "Task name to run")]
         public string TaskName { get; set; }
 
-        [Option(longName: "input", Required = true, HelpText = "Path to input file")]
+        [Option(longName: "input", Required = true, HelpText = "Path to input model file")]
         public string InputFile { get; set; }
 
-        [Option(longName: "output", Required = true, HelpText = "Path to output file")]
+        [Option(longName: "output", Required = true, HelpText = "Path to output code file")]
         public string OutputFile { get; set; }
     }
 
     public static class Program
     {
         public static int Main(string[] args) =>
-            Parser.Default.ParseArguments<TaskOptions>(args)
-            .MapResult(options =>
-            {
-                foreach (Type type in typeof(Program).Assembly.DefinedTypes)
+            CommandLine.Parser.Default.ParseArguments<ConvertVerb>(args).MapResult(
+                (ConvertVerb verb) => FindAndRunTask<BaseConverterTask>(verb.TaskName, task => task.Execute(verb.InputFile, verb.OutputFile)),
+                (IEnumerable<Error> errors) =>
                 {
-                    if (type.Name.ToLower(CultureInfo.CurrentCulture) == options.TaskName.Replace("-", string.Empty, StringComparison.CurrentCulture))
+                    foreach (var error in errors)
                     {
-                        BaseGeneratorTask taskInstance = (BaseGeneratorTask)Activator.CreateInstance(type);
-                        return taskInstance.Execute(options.InputFile, options.OutputFile);
+                        Console.Error.WriteLine(error.ToString());
                     }
-                }
 
-                Console.Error.WriteLine($"Cannot find a task with name '{options.TaskName}'.");
-                return 1;
-            },
-            errors =>
+                    return 1;
+                });
+
+        private static int FindAndRunTask<TTask>(string taskName, Func<TTask, int> then)
+        {
+            foreach (Type type in typeof(Program).Assembly.DefinedTypes)
             {
-                foreach (Error error in errors)
+                if (type.Name.ToLower(CultureInfo.CurrentCulture) == taskName.Replace("-", string.Empty, StringComparison.CurrentCulture))
                 {
-                    Console.Error.WriteLine(error.ToString());
+                    return then((TTask)Activator.CreateInstance(type));
                 }
+            }
 
-                return 1;
-            });
+            Console.Error.WriteLine($"Cannot find a task with name '{taskName}'.");
+            return 1;
+        }
     }
 }

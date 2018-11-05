@@ -10,6 +10,7 @@ namespace SuperBasic.Editor.Libraries
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
 
+    // TODO: all colors should be a color object that holds RBG values, and can be converted to #XXXXXX or to a name to return from properties
     public interface IGraphicsWindowPlugin
     {
         int Height { get; }
@@ -59,13 +60,13 @@ namespace SuperBasic.Editor.Libraries
         void ShowMessage(string text, string title);
     }
 
-    internal sealed class GraphicsWindowLibrary : IGraphicsWindowLibrary
+    internal sealed class GraphicsWindowLibrary
     {
         private static readonly Regex HexColorRegex = new Regex("^#[0-9a-fA-F]{6}$");
         private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
 
         private readonly IGraphicsWindowPlugin graphicsWindowPlugin;
-        private StylesSettings settings;
+        private readonly StylesSettings settings;
 
         public GraphicsWindowLibrary(IGraphicsWindowPlugin graphicsWindowPlugin, StylesSettings settings)
         {

@@ -6,6 +6,7 @@ namespace SuperBasic.Editor.Libraries
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
 
@@ -38,6 +39,9 @@ namespace SuperBasic.Editor.Libraries
         private readonly Dictionary<string, string> buttons;
         private readonly Dictionary<string, string> textBoxes;
 
+        private string lastClickedButton;
+        private string lastTypedTextBox;
+
         public ControlsLibrary(IControlsPlugin plugin)
         {
             this.counters = new NamedCounter();
@@ -46,24 +50,24 @@ namespace SuperBasic.Editor.Libraries
             this.buttons = new Dictionary<string, string>();
             this.textBoxes = new Dictionary<string, string>();
 
-            this.LastClickedButton = string.Empty;
-            this.LastTypedTextBox = string.Empty;
+            this.lastClickedButton = string.Empty;
+            this.lastTypedTextBox = string.Empty;
         }
 
         public event Action ButtonClicked;
 
         public event Action TextTyped;
 
-        public string LastClickedButton { get; private set; }
+        public Task<string> Get_LastClickedButton() => Task.FromResult(this.lastClickedButton);
 
-        public string LastTypedTextBox { get; private set; }
+        public Task<string> Get_LastTypedTextBox() => Task.FromResult(this.lastTypedTextBox);
 
         public string AddButton(string caption, decimal left, decimal top)
         {
             string name = this.counters.GetNext("Button");
             this.plugin.AddButton(name, caption, left, top, () =>
             {
-                this.LastClickedButton = name;
+                this.lastClickedButton = name;
                 this.ButtonClicked();
             });
 
@@ -165,6 +169,11 @@ namespace SuperBasic.Editor.Libraries
             }
         }
 
+        Task<string> IControlsLibrary.AddButton(string caption, decimal left, decimal top)
+        {
+            throw new NotImplementedException();
+        }
+
         private string AddTextBoxAux(decimal left, decimal top, bool isMultiLine)
         {
             string name = this.counters.GetNext("TextBox");
@@ -172,7 +181,7 @@ namespace SuperBasic.Editor.Libraries
             {
                 this.textBoxes[name] = text;
 
-                this.LastTypedTextBox = name;
+                this.lastTypedTextBox = name;
                 this.TextTyped();
             });
 

@@ -7,7 +7,7 @@ namespace SuperBasic.Generators.Diagnostics
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateDiagnosticBag : BaseGeneratorTask<DiagnosticsCollection>
+    public sealed class GenerateDiagnosticBag : BaseConverterTask<DiagnosticsCollection>
     {
         protected override void Generate(DiagnosticsCollection model)
         {

@@ -17,13 +17,14 @@ namespace SuperBasic.Tests
 
     internal static class TestExtensions
     {
-        public static void VerifyDiagnostics(this SuperBasicCompilation compilation, params Diagnostic[] diagnostics)
+        public static SuperBasicCompilation VerifyDiagnostics(this SuperBasicCompilation compilation, params Diagnostic[] diagnostics)
         {
             string[] textLines = Regex.Split(compilation.Text, @"\r?\n");
             string expected = SerializeDiagnostics(textLines, diagnostics);
             string actual = SerializeDiagnostics(textLines, compilation.Diagnostics);
 
             expected.Should().Be(actual);
+            return compilation;
         }
 
         public static void VerifyRuntime(this SuperBasicCompilation compilation, string expectedLog = default, string memoryContents = default)

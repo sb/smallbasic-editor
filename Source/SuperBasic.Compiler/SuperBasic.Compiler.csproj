@@ -8,8 +8,4 @@
     <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Utilities\SuperBasic.Utilities.csproj" />
   </ItemGroup>
 
-  <Target Name="BuildDependentProjects" BeforeTargets="Build">
-    <MSBuild Projects="$(RootDirectory)\Source\SuperBasic.Generators\SuperBasic.Generators.csproj" />
-  </Target>
-
 </Project>

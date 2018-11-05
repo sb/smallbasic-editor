@@ -1,11 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <BridgeType Name="Test">
+  <BridgeType Name="Process">
     <Methods>
-      <Method Name="TestMethod1" InputType="string" InputName="val1" />
-      <Method Name="TestMethod2" OutputType="Bean1" />
-      <Method Name="TestMethod3" OutputType="string" />
-      <Method Name="TestMethod4" InputType="Bean1" InputName="val4" OutputType="string" />
+      <Method Name="OpenExternalLink" InputType="string" InputName="url" />
     </Methods>
   </BridgeType>
 </root>

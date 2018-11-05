@@ -79,12 +79,6 @@
       <Parameter Name="member" Type="string" />
     </Parameters>
   </Diagnostic>
-  <Diagnostic Name="LibraryAndCompilationKindMismatch">
-    <Parameters>
-      <Parameter Name="libraryName" Type="string" />
-      <Parameter Name="compilationKind" Type="string" />
-    </Parameters>
-  </Diagnostic>
   <Diagnostic Name="LibraryMemberNeedsDesktop">
     <Parameters>
       <Parameter Name="library" Type="string" />

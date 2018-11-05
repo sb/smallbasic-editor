@@ -132,9 +132,6 @@
   <data name="LibraryMemberDeprecatedFromOlderVersion" xml:space="preserve">
     <value>The library member '{0}.{1}' was available in older versions only, and has not been made available to this version yet.</value>
   </data>
-  <data name="LibraryAndCompilationKindMismatch" xml:space="preserve">
-    <value>You cannot use the library '{0}' here since this is a '{1}' program. Did you want to change it?</value>
-  </data>
   <data name="LibraryMemberNotFound" xml:space="preserve">
     <value>The library '{0}' has no member named '{1}'.</value>
   </data>

@@ -97,15 +97,6 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cannot use the library &apos;{0}&apos; here since this is a &apos;{1}&apos; program. Did you want to change it?.
-        /// </summary>
-        public static string LibraryAndCompilationKindMismatch {
-            get {
-                return ResourceManager.GetString("LibraryAndCompilationKindMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The library member &apos;{0}.{1}&apos; was available in older versions only, and has not been made available to this version yet..
         /// </summary>
         public static string LibraryMemberDeprecatedFromOlderVersion {

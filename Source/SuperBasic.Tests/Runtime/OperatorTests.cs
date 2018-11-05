@@ -580,7 +580,7 @@ namespace SuperBasic.Tests.Runtime
 
         private static void EvaluateExpression(string expression, string result)
         {
-            SuperBasicCompilation.CreateTextProgram($@"
+            new SuperBasicCompilation($@"
 ar[1] = 2
 x = {expression}").VerifyRuntime(memoryContents: $@"
 ar = 1=2;

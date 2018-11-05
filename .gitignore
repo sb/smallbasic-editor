@@ -2,11 +2,8 @@
 .vs/
 *.csproj.user
 
-# Binary files
+# Output files
 bin
 obj
 node_modules
-
-# Output from webpack
-*.js
-*.js.map
+wwwroot

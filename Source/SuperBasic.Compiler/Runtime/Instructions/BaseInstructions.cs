@@ -5,6 +5,7 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Scanning;
 
     internal abstract class BaseInstruction
@@ -17,7 +18,7 @@ namespace SuperBasic.Compiler.Runtime
 
         public TextRange Range { get; private set; }
 
-        public abstract void Execute(SuperBasicEngine engine, Frame frame);
+        public abstract Task Execute(SuperBasicEngine engine, Frame frame);
     }
 
     internal abstract class BaseJumpInstruction : BaseInstruction
@@ -27,9 +28,10 @@ namespace SuperBasic.Compiler.Runtime
         {
         }
 
-        public override sealed void Execute(SuperBasicEngine engine, Frame frame)
+        public override sealed Task Execute(SuperBasicEngine engine, Frame frame)
         {
             frame.InstructionIndex = this.GetNextInstructionIndex(engine);
+            return Task.CompletedTask;
         }
 
         protected abstract int GetNextInstructionIndex(SuperBasicEngine engine);
@@ -42,13 +44,30 @@ namespace SuperBasic.Compiler.Runtime
         {
         }
 
-        public override sealed void Execute(SuperBasicEngine engine, Frame frame)
+        public override sealed Task Execute(SuperBasicEngine engine, Frame frame)
         {
             frame.InstructionIndex++;
             this.Execute(engine);
+            return Task.CompletedTask;
         }
 
         protected abstract void Execute(SuperBasicEngine engine);
+    }
+
+    internal abstract class BaseAsyncNonJumpInstruction : BaseInstruction
+    {
+        public BaseAsyncNonJumpInstruction(TextRange range)
+            : base(range)
+        {
+        }
+
+        public override sealed async Task Execute(SuperBasicEngine engine, Frame frame)
+        {
+            frame.InstructionIndex++;
+            await this.Execute(engine).ConfigureAwait(false);
+        }
+
+        protected abstract Task Execute(SuperBasicEngine engine);
     }
 
     internal abstract class BaseUnaryInstruction : BaseNonJumpInstruction

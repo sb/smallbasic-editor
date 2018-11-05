@@ -8,6 +8,7 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System;
+    using System.Threading.Tasks;
 
     public interface IArrayLibrary
     {
@@ -24,27 +25,27 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IClockLibrary
     {
-        string Date { get; }
+        string Get_Date();
 
-        decimal Day { get; }
+        decimal Get_Day();
 
-        decimal ElapsedMilliseconds { get; }
+        decimal Get_ElapsedMilliseconds();
 
-        decimal Hour { get; }
+        decimal Get_Hour();
 
-        decimal Millisecond { get; }
+        decimal Get_Millisecond();
 
-        decimal Minute { get; }
+        decimal Get_Minute();
 
-        decimal Month { get; }
+        decimal Get_Month();
 
-        decimal Second { get; }
+        decimal Get_Second();
 
-        string Time { get; }
+        string Get_Time();
 
-        string WeekDay { get; }
+        string Get_WeekDay();
 
-        decimal Year { get; }
+        decimal Get_Year();
     }
 
     public interface IControlsLibrary
@@ -53,11 +54,11 @@ namespace SuperBasic.Compiler.Runtime
 
         event Action TextTyped;
 
-        string LastClickedButton { get; }
+        Task<string> Get_LastClickedButton();
 
-        string LastTypedTextBox { get; }
+        Task<string> Get_LastTypedTextBox();
 
-        string AddButton(string caption, decimal left, decimal top);
+        Task<string> AddButton(string caption, decimal left, decimal top);
 
         string AddMultiLineTextBox(decimal left, decimal top);
 
@@ -84,9 +85,9 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IDesktopLibrary
     {
-        decimal Height { get; }
+        decimal Get_Height();
 
-        decimal Width { get; }
+        decimal Get_Width();
 
         void SetWallPaper(string fileOrUrl);
     }
@@ -97,7 +98,9 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IFileLibrary
     {
-        string LastError { get; set; }
+        string Get_LastError();
+
+        void Set_LastError(string value);
 
         string AppendContents(string filePath, string contents);
 
@@ -144,33 +147,49 @@ namespace SuperBasic.Compiler.Runtime
 
         event Action TextInput;
 
-        string BackgroundColor { get; set; }
+        string Get_BackgroundColor();
 
-        string BrushColor { get; set; }
+        void Set_BackgroundColor(string value);
 
-        bool FontBold { get; set; }
+        string Get_BrushColor();
 
-        bool FontItalic { get; set; }
+        void Set_BrushColor(string value);
 
-        string FontName { get; set; }
+        bool Get_FontBold();
 
-        decimal FontSize { get; set; }
+        void Set_FontBold(bool value);
 
-        decimal Height { get; }
+        bool Get_FontItalic();
 
-        string LastKey { get; }
+        void Set_FontItalic(bool value);
 
-        string LastText { get; }
+        string Get_FontName();
 
-        decimal MouseX { get; }
+        void Set_FontName(string value);
 
-        decimal MouseY { get; }
+        decimal Get_FontSize();
 
-        string PenColor { get; set; }
+        void Set_FontSize(decimal value);
 
-        decimal PenWidth { get; set; }
+        decimal Get_Height();
 
-        decimal Width { get; }
+        string Get_LastKey();
+
+        string Get_LastText();
+
+        decimal Get_MouseX();
+
+        decimal Get_MouseY();
+
+        string Get_PenColor();
+
+        void Set_PenColor(string value);
+
+        decimal Get_PenWidth();
+
+        void Set_PenWidth(decimal value);
+
+        decimal Get_Width();
 
         void Clear();
 
@@ -218,7 +237,7 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IMathLibrary
     {
-        decimal Pi { get; }
+        decimal Get_Pi();
 
         decimal Abs(decimal number);
 
@@ -263,13 +282,17 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IMouseLibrary
     {
-        bool IsLeftButtonDown { get; }
+        bool Get_IsLeftButtonDown();
 
-        bool IsRightButtonDown { get; }
+        bool Get_IsRightButtonDown();
 
-        decimal MouseX { get; set; }
+        decimal Get_MouseX();
 
-        decimal MouseY { get; set; }
+        void Set_MouseX(decimal value);
+
+        decimal Get_MouseY();
+
+        void Set_MouseY(decimal value);
 
         void HideCursor();
 
@@ -373,9 +396,13 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface ITextWindowLibrary
     {
-        string BackgroundColor { get; set; }
+        string Get_BackgroundColor();
 
-        string ForegroundColor { get; set; }
+        void Set_BackgroundColor(string value);
+
+        string Get_ForegroundColor();
+
+        void Set_ForegroundColor(string value);
 
         void Clear();
 
@@ -392,7 +419,9 @@ namespace SuperBasic.Compiler.Runtime
     {
         event Action Tick;
 
-        decimal Interval { get; set; }
+        decimal Get_Interval();
+
+        void Set_Interval(decimal value);
 
         void Pause();
 
@@ -401,13 +430,21 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface ITurtleLibrary
     {
-        decimal Angle { get; set; }
+        decimal Get_Angle();
 
-        decimal Speed { get; set; }
+        void Set_Angle(decimal value);
 
-        decimal X { get; set; }
+        decimal Get_Speed();
 
-        decimal Y { get; set; }
+        void Set_Speed(decimal value);
+
+        decimal Get_X();
+
+        void Set_X(decimal value);
+
+        decimal Get_Y();
+
+        void Set_Y(decimal value);
 
         void Hide();
 

@@ -5,6 +5,7 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Scanning;
 
     internal sealed class InvokeSubModuleInstruction : BaseNonJumpInstruction
@@ -24,7 +25,7 @@ namespace SuperBasic.Compiler.Runtime
         }
     }
 
-    internal sealed class MethodInvocationInstruction : BaseNonJumpInstruction
+    internal sealed class MethodInvocationInstruction : BaseAsyncNonJumpInstruction
     {
         private readonly string library;
         private readonly string method;
@@ -36,13 +37,13 @@ namespace SuperBasic.Compiler.Runtime
             this.method = method;
         }
 
-        protected override void Execute(SuperBasicEngine engine)
+        protected override async Task Execute(SuperBasicEngine engine)
         {
-            Libraries.Types[this.library].Methods[this.method].Execute(engine);
+            await Libraries.Types[this.library].Methods[this.method].Execute(engine).ConfigureAwait(false);
         }
     }
 
-    internal sealed class StorePropertyInstruction : BaseNonJumpInstruction
+    internal sealed class StorePropertyInstruction : BaseAsyncNonJumpInstruction
     {
         private readonly string library;
         private readonly string property;
@@ -54,13 +55,13 @@ namespace SuperBasic.Compiler.Runtime
             this.property = property;
         }
 
-        protected override void Execute(SuperBasicEngine engine)
+        protected override async Task Execute(SuperBasicEngine engine)
         {
-            Libraries.Types[this.library].Properties[this.property].Setter(engine);
+            await Libraries.Types[this.library].Properties[this.property].Setter(engine).ConfigureAwait(false);
         }
     }
 
-    internal sealed class LoadPropertyInstruction : BaseNonJumpInstruction
+    internal sealed class LoadPropertyInstruction : BaseAsyncNonJumpInstruction
     {
         private readonly string library;
         private readonly string property;
@@ -72,9 +73,9 @@ namespace SuperBasic.Compiler.Runtime
             this.property = property;
         }
 
-        protected override void Execute(SuperBasicEngine engine)
+        protected override async Task Execute(SuperBasicEngine engine)
         {
-            Libraries.Types[this.library].Properties[this.property].Getter(engine);
+            await Libraries.Types[this.library].Properties[this.property].Getter(engine).ConfigureAwait(false);
         }
     }
 

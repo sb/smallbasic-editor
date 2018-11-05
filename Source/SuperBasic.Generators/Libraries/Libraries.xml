@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <Library Name="Array">
+  <Library Name="Array" ExplorerIcon="th-list">
     <Methods>
       <Method Name="ContainsIndex" ReturnType="BooleanValue">
         <Parameters>
@@ -31,7 +31,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Clock">
+  <Library Name="Clock" ExplorerIcon="clock">
     <Properties>
       <Property Name="Date" HasGetter="true" HasSetter="false" Type="StringValue" />
       <Property Name="Day" HasGetter="true" HasSetter="false" Type="NumberValue" />
@@ -46,9 +46,9 @@
       <Property Name="Year" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Controls" CompilationKind="Graphics">
+  <Library Name="Controls" ExplorerIcon="sliders-h" UsesGraphicsWindow="true">
     <Methods>
-      <Method Name="AddButton" ReturnType="StringValue">
+      <Method Name="AddButton" ReturnType="StringValue" IsAsync="true">
         <Parameters>
           <Parameter Name="caption" Type="StringValue" />
           <Parameter Name="left" Type="NumberValue" />
@@ -120,15 +120,15 @@
       </Method>
     </Methods>
     <Properties>
-      <Property Name="LastClickedButton" HasGetter="true" HasSetter="false" Type="StringValue" />
-      <Property Name="LastTypedTextBox" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="LastClickedButton" HasGetter="true" HasSetter="false" Type="StringValue" IsAsync="true" />
+      <Property Name="LastTypedTextBox" HasGetter="true" HasSetter="false" Type="StringValue" IsAsync="true" />
     </Properties>
     <Events>
       <Event Name="ButtonClicked" />
       <Event Name="TextTyped" />
     </Events>
   </Library>
-  <Library Name="Desktop">
+  <Library Name="Desktop" ExplorerIcon="desktop">
     <Methods>
       <Method Name="SetWallPaper" ReturnsValue="false" NeedsDesktop="true">
         <Parameters>
@@ -141,7 +141,7 @@
       <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" NeedsDesktop="true" />
     </Properties>
   </Library>
-  <Library Name="Dictionary">
+  <Library Name="Dictionary" ExplorerIcon="font">
     <Methods>
       <Method Name="GetDefinition" ReturnType="StringValue" IsDeprecated="true">
         <Parameters>
@@ -235,7 +235,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="File">
+  <Library Name="File" ExplorerIcon="file">
     <Methods>
       <Method Name="AppendContents" ReturnType="StringValue" NeedsDesktop="true">
         <Parameters>
@@ -312,7 +312,7 @@
       <Property Name="LastError" HasGetter="true" HasSetter="true" Type="StringValue" NeedsDesktop="true" />
     </Properties>
   </Library>
-  <Library Name="Flickr">
+  <Library Name="Flickr" ExplorerIcon="camera">
     <Methods>
       <Method Name="GetPictureOfMoment" ReturnType="StringValue" IsDeprecated="true" />
       <Method Name="GetRandomPicture" ReturnType="StringValue" IsDeprecated="true">
@@ -322,7 +322,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="GraphicsWindow" CompilationKind="Graphics">
+  <Library Name="GraphicsWindow" ExplorerIcon="paint-brush" UsesGraphicsWindow="true">
     <Methods>
       <Method Name="Clear" />
       <Method Name="DrawBoundText">
@@ -475,7 +475,7 @@
       <Event Name="TextInput" />
     </Events>
   </Library>
-  <Library Name="ImageList" CompilationKind="Graphics">
+  <Library Name="ImageList" ExplorerIcon="images" UsesGraphicsWindow="true">
     <Methods>
       <Method Name="GetHeightOfImage" ReturnType="NumberValue">
         <Parameters>
@@ -494,7 +494,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Math">
+  <Library Name="Math" ExplorerIcon="calculator">
     <Methods>
       <Method Name="Abs" ReturnType="NumberValue">
         <Parameters>
@@ -605,7 +605,7 @@
       <Property Name="Pi" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Mouse">
+  <Library Name="Mouse" ExplorerIcon="mouse-pointer">
     <Methods>
       <Method Name="HideCursor" />
       <Method Name="ShowCursor" />
@@ -617,7 +617,7 @@
       <Property Name="MouseY" HasGetter="true" HasSetter="true" Type="NumberValue" />
     </Properties>
   </Library>
-  <Library Name="Network">
+  <Library Name="Network" ExplorerIcon="network-wired">
     <Methods>
       <Method Name="DownloadFile" ReturnType="StringValue">
         <Parameters>
@@ -631,7 +631,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Program">
+  <Library Name="Program" ExplorerIcon="laptop-code">
     <Methods>
       <Method Name="Delay">
         <Parameters>
@@ -651,7 +651,7 @@
       <Property Name="Directory" HasGetter="true" HasSetter="false" Type="StringValue" IsDeprecated="true" />
     </Properties>
   </Library>
-  <Library Name="Shapes" CompilationKind="Graphics">
+  <Library Name="Shapes" ExplorerIcon="shapes" UsesGraphicsWindow="true">
     <Methods>
       <Method Name="AddEllipse" ReturnType="StringValue">
         <Parameters>
@@ -765,7 +765,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Sound">
+  <Library Name="Sound" ExplorerIcon="volume-up">
     <Methods>
       <Method Name="Pause" IsDeprecated="true">
         <Parameters>
@@ -802,7 +802,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Stack">
+  <Library Name="Stack" ExplorerIcon="ellipsis-v">
     <Methods>
       <Method Name="GetCount" ReturnType="NumberValue">
         <Parameters>
@@ -822,7 +822,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="Text">
+  <Library Name="Text" ExplorerIcon="text-height">
     <Methods>
       <Method Name="Append" ReturnType="StringValue">
         <Parameters>
@@ -894,7 +894,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="TextWindow" CompilationKind="Text">
+  <Library Name="TextWindow" ExplorerIcon="terminal">
     <Methods>
       <Method Name="Clear" />
       <Method Name="Hide" IsDeprecated="true" />
@@ -925,7 +925,7 @@
       <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
     </Properties>
   </Library>
-  <Library Name="Timer">
+  <Library Name="Timer" ExplorerIcon="stopwatch">
     <Methods>
       <Method Name="Pause" />
       <Method Name="Resume" />
@@ -937,7 +937,7 @@
       <Event Name="Tick" />
     </Events>
   </Library>
-  <Library Name="Turtle" CompilationKind="Graphics">
+  <Library Name="Turtle" ExplorerIcon="pen-alt" UsesGraphicsWindow="true">
     <Methods>
       <Method Name="Hide" />
       <Method Name="Move">

@@ -19,8 +19,4 @@
     <PackageReference Include="xunit.analyzers" Version="0.10.0" />
   </ItemGroup>
 
-  <Target Name="BuildDependentProjects" BeforeTargets="Build">
-    <MSBuild Projects="$(RootDirectory)\Source\SuperBasic.Generators\SuperBasic.Generators.csproj" />
-  </Target>
-
 </Project>

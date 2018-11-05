@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <InteropType Name="JS">
+    <Methods>
+      <Method Name="InitializeWebView">
+        <Parameters>
+          <Parameter Name="locale" Type="string" />
+          <Parameter Name="title" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="OpenExternalLink">
+        <Parameters>
+          <Parameter Name="url" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="AttachSideBarEvents">
+        <Parameters>
+          <Parameter Name="upButton" Type="HTMLElement" />
+          <Parameter Name="scrollContentsArea" Type="HTMLElement" />
+          <Parameter Name="downButton" Type="HTMLElement" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+  <InteropType Name="Monaco">
+    <Methods>
+      <Method Name="Initialize">
+        <Parameters>
+          <Parameter Name="editorElement" Type="HTMLElement" />
+          <Parameter Name="initialValue" Type="string" />
+          <Parameter Name="isReadOnly" Type="boolean" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+</root>

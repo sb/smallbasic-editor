@@ -122,11 +122,6 @@ namespace SuperBasic.Compiler.Diagnostics
             this.builder.Add(new Diagnostic(DiagnosticCode.LibraryMemberDeprecatedFromOlderVersion, range, library.ToDisplayString(), member.ToDisplayString()));
         }
 
-        public void ReportLibraryAndCompilationKindMismatch(TextRange range, string libraryName, string compilationKind)
-        {
-            this.builder.Add(new Diagnostic(DiagnosticCode.LibraryAndCompilationKindMismatch, range, libraryName.ToDisplayString(), compilationKind.ToDisplayString()));
-        }
-
         public void ReportLibraryMemberNeedsDesktop(TextRange range, string library, string member)
         {
             this.builder.Add(new Diagnostic(DiagnosticCode.LibraryMemberNeedsDesktop, range, library.ToDisplayString(), member.ToDisplayString()));

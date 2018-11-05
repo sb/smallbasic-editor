@@ -1,0 +1,76 @@
+﻿/*!
+ * Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
+ */
+
+actions-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: #E7E8EA;
+    border: 1px solid #656A72;
+    box-sizing: border-box;
+
+    left-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    right-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    separator {
+        width: 2px;
+        height: 72px;
+        background-color: #656A72;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    action {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        margin-left: 15px;
+        margin-right: 15px;
+        text-align: center;
+
+        @mixin create-action-button($name, $image-url) {
+            icon-#{$name} {
+                @include set-background-image($image-url, 50px, 50px);
+            }
+        }
+
+        @include create-action-button("new", "Actions/New.svg");
+        @include create-action-button("save", "Actions/Save.svg");
+
+        @include create-action-button("import", "Actions/Import.svg");
+        @include create-action-button("publish", "Actions/Publish.svg");
+
+        @include create-action-button("copy", "Actions/Copy.svg");
+        @include create-action-button("cut", "Actions/Cut.svg");
+        @include create-action-button("paste", "Actions/Paste.svg");
+
+        @include create-action-button("undo", "Actions/Undo.svg");
+        @include create-action-button("redo", "Actions/Redo.svg");
+
+        @include create-action-button("debug", "Actions/Debug.svg");
+        @include create-action-button("run", "Actions/Run.svg");
+
+        @include create-action-button("back", "Actions/Back.svg");
+        @include create-action-button("continue", "Actions/Continue.svg");
+        @include create-action-button("nextline", "Actions/NextLine.svg");
+    }
+}

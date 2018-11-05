@@ -16,13 +16,14 @@ namespace SuperBasic.Compiler
     {
         private readonly DiagnosticBag diagnostics = new DiagnosticBag();
 
-        private SuperBasicCompilation(string text, CompilationKind kind, bool isRunningOnDesktop = false)
+        public SuperBasicCompilation(string text, bool isRunningOnDesktop = false)
         {
             this.Text = text;
-            this.Kind = kind;
             var scanner = new Scanner(this.Text, this.diagnostics);
             var parser = new Parser(scanner.Tokens, this.diagnostics);
-            var binder = new Binder(parser.SyntaxTree, this.diagnostics, this.Kind, isRunningOnDesktop);
+            var binder = new Binder(parser.SyntaxTree, this.diagnostics, isRunningOnDesktop);
+
+            this.UsesGraphicsWindow |= binder.UsesGraphicsWindow;
 
             this.MainModule = binder.MainModule;
             this.SubModules = binder.SubModules;
@@ -30,18 +31,13 @@ namespace SuperBasic.Compiler
 
         public string Text { get; private set; }
 
+        // TODO: this will eventually move to an engine analyzer, that computes that, along with things like, does it track mouse? should we terminate or does it listen to events? etc....
+        public bool UsesGraphicsWindow { get; private set; }
+
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
-
-        internal CompilationKind Kind { get; private set; }
-
-        internal BoundStatementBlock MainModule { get; private set; }
 
         internal IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
 
-        public static SuperBasicCompilation CreateTextProgram(string text, bool isRunningOnDesktop = false)
-            => new SuperBasicCompilation(text, CompilationKind.Text, isRunningOnDesktop);
-
-        public static SuperBasicCompilation CreateGraphicsProgram(string text, bool isRunningOnDesktop = false)
-            => new SuperBasicCompilation(text, CompilationKind.Graphics, isRunningOnDesktop);
+        internal BoundStatementBlock MainModule { get; private set; }
     }
 }
