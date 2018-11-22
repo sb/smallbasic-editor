@@ -67,13 +67,21 @@
       <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
       <OutputFile>$(RootDirectory)\Source\SuperBasic.Bridge\Bridge.Generated.cs</OutputFile>
     </_ConvertCommands>
-    <_ConvertCommands Include="generate-editor-interop">
-      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\InteropTypes.xml</InputFile>
-      <OutputFile>$(RootDirectory)\Source\SuperBasic.Editor\Interop\Interop.Generated.cs</OutputFile>
+    <_ConvertCommands Include="generate-js-editor-interop">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\JSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Editor\Interop\JSInterop.Generated.cs</OutputFile>
     </_ConvertCommands>
-    <_ConvertCommands Include="generate-client-interop">
-      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\InteropTypes.xml</InputFile>
-      <OutputFile>$(RootDirectory)\Source\SuperBasic.Client\Interop\Interop.Generated.ts</OutputFile>
+    <_ConvertCommands Include="generate-js-client-interop">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\JSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Client\Interop\JSInterop.Generated.ts</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-cs-editor-interop">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\CSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Editor\Interop\CSInterop.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-cs-client-interop">
+      <InputFile>$(RootDirectory)\Source\SuperBasic.Generators\Interop\CSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SuperBasic.Client\Interop\CSInterop.Generated.ts</OutputFile>
     </_ConvertCommands>
   </ItemGroup>
 

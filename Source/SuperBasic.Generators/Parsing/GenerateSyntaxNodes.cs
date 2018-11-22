@@ -117,6 +117,27 @@ namespace SuperBasic.Generators.Parsing
                 foreach (var member in node.Members)
                 {
                     this.Line($"this.{member.Name} = {member.Name.ToLowerFirstChar()};");
+                    if (member.Type != "Token")
+                    {
+                        if (member.IsOptional)
+                        {
+                            this.Line($"if (!this.{member.Name}.IsDefault())");
+                            this.Brace();
+                            this.Line($"this.{member.Name}.Parent = this;");
+                            this.Unbrace();
+                        }
+                        else if (member.IsList)
+                        {
+                            this.Line($"foreach (var child in this.{member.Name})");
+                            this.Brace();
+                            this.Line("child.Parent = this;");
+                            this.Unbrace();
+                        }
+                        else
+                        {
+                            this.Line($"this.{member.Name}.Parent = this;");
+                        }
+                    }
                 }
 
                 this.Unbrace();

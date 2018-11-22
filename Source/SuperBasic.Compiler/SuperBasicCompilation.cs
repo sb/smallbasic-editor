@@ -5,39 +5,53 @@
 namespace SuperBasic.Compiler
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Linq;
     using SuperBasic.Compiler.Binding;
     using SuperBasic.Compiler.Diagnostics;
     using SuperBasic.Compiler.Parsing;
-    using SuperBasic.Compiler.Runtime;
     using SuperBasic.Compiler.Scanning;
+    using SuperBasic.Compiler.Services;
+    using SuperBasic.Utilities;
 
     public sealed class SuperBasicCompilation
     {
-        private readonly DiagnosticBag diagnostics = new DiagnosticBag();
+        private readonly Scanner scanner;
+        private readonly Parser parser;
+        private readonly Binder binder;
+        private readonly DiagnosticBag diagnostics;
 
-        public SuperBasicCompilation(string text, bool isRunningOnDesktop = false)
+        public SuperBasicCompilation(string text)
+#if IsBuildingForDesktop
+           : this(text, isRunningOnDesktop: true)
+#else
+           : this(text, isRunningOnDesktop: false)
+#endif
+        {
+        }
+
+        public SuperBasicCompilation(string text, bool isRunningOnDesktop)
         {
             this.Text = text;
-            var scanner = new Scanner(this.Text, this.diagnostics);
-            var parser = new Parser(scanner.Tokens, this.diagnostics);
-            var binder = new Binder(parser.SyntaxTree, this.diagnostics, isRunningOnDesktop);
+            this.diagnostics = new DiagnosticBag();
 
-            this.UsesGraphicsWindow |= binder.UsesGraphicsWindow;
-
-            this.MainModule = binder.MainModule;
-            this.SubModules = binder.SubModules;
+            this.scanner = new Scanner(this.Text, this.diagnostics);
+            this.parser = new Parser(this.scanner.Tokens, this.diagnostics);
+            this.binder = new Binder(this.parser.SyntaxTree, this.diagnostics, isRunningOnDesktop);
         }
 
         public string Text { get; private set; }
 
         // TODO: this will eventually move to an engine analyzer, that computes that, along with things like, does it track mouse? should we terminate or does it listen to events? etc....
-        public bool UsesGraphicsWindow { get; private set; }
+        public bool UsesGraphicsWindow => this.binder.UsesGraphicsWindow;
 
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
 
-        internal IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
+        internal BoundStatementBlock MainModule => this.binder.MainModule;
 
-        internal BoundStatementBlock MainModule { get; private set; }
+        internal IReadOnlyDictionary<string, BoundSubModule> SubModules => this.binder.SubModules;
+
+        public MonacoCompletionItem[] ProvideCompletionItems(TextPosition position) => CompletionItemProvider.Provide(this.parser, position);
+
+        public string[] ProvideHover(TextPosition position) => HoverProvider.Provide(this.diagnostics, this.parser, position);
     }
 }

@@ -7,6 +7,7 @@ namespace SuperBasic.Editor.Components.Toolbox
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Interop;
 
     // TODO: it messes up size when the explorer expands
     // TODO: logo link in header should not navigate
@@ -29,7 +30,7 @@ TextWindow.WriteLine(""Hello, World!"")";
         {
             if (!this.alreadyRendered)
             {
-                await Interop.Monaco.Initialize(this.editorElement, InitialValue, isReadOnly: false).ConfigureAwait(false);
+                await JSInterop.Monaco.Initialize(this.editorElement, InitialValue, isReadOnly: false).ConfigureAwait(false);
                 this.alreadyRendered = true;
             }
         }

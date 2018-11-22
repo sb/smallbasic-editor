@@ -2,10 +2,10 @@
  * Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
  */
 
-import { IJSInterop } from "./Interop.Generated";
+import { ILayoutInterop } from "./JSInterop.Generated";
 import { ScrollAreaContentsUtils } from "../Utility/ScrollAreaContentsUtils";
 
-export class JSInterop implements IJSInterop {
+export class LayoutInterop implements ILayoutInterop {
     public initializeWebView(locale: string, title: string): void {
         document.documentElement.setAttribute("lang", locale);
         document.title = title;

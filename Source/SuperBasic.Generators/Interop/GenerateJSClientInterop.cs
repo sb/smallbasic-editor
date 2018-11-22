@@ -1,4 +1,4 @@
-﻿// <copyright file="GenerateClientInterop.cs" company="2018 Omar Tawfik">
+﻿// <copyright file="GenerateJSClientInterop.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
@@ -8,7 +8,7 @@ namespace SuperBasic.Generators.Interop
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateClientInterop : BaseConverterTask<InteropTypeCollection>
+    public sealed class GenerateJSClientInterop : BaseConverterTask<InteropTypeCollection>
     {
         protected override void Generate(InteropTypeCollection model)
         {
@@ -47,7 +47,7 @@ namespace SuperBasic.Generators.Interop
             this.Line("declare global {");
             this.Indent();
 
-            this.Line("export module Interop {");
+            this.Line("export module JSInterop {");
             this.Indent();
 
             foreach (InteropType type in model)
@@ -67,7 +67,7 @@ namespace SuperBasic.Generators.Interop
             }
 
             this.Blank();
-            this.Line("(<any>global).Interop = {");
+            this.Line("(<any>global).JSInterop = {");
             this.Indent();
 
             for (int i = 0; i < model.Count; i++)

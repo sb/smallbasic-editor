@@ -111,8 +111,8 @@ export default function (env: IEnvArguments): webpack.Configuration[] {
         createCommonConfig({
             env: env,
             entry: {
-                "SmallBasic.Interop": getEntry(env.isBuildingForDesktop === "True" ? "Renderer.ts" : "Web.ts"),
-                "SmallBasic.Monaco": "@timkendrick/monaco-editor/dist/standalone/index.js"
+                "SmallBasic.Monaco": "@timkendrick/monaco-editor/dist/standalone/index.js",
+                "SmallBasic.Interop": getEntry(env.isBuildingForDesktop === "True" ? "Renderer.ts" : "Web.ts")
             },
             target: env.isBuildingForDesktop === "True" ? "electron-renderer" : "web",
             plugins: [

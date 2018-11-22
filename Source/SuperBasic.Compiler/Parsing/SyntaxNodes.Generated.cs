@@ -33,6 +33,7 @@ namespace SuperBasic.Compiler.Parsing
             this.SubToken = subToken;
             this.NameToken = nameToken;
             this.Body = body;
+            this.Body.Parent = this;
             this.EndSubToken = endSubToken;
         }
 
@@ -78,6 +79,10 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(!body.IsDefault(), "'body' must not be null.");
 
             this.Body = body;
+            foreach (var child in this.Body)
+            {
+                child.Parent = this;
+            }
         }
 
         public IReadOnlyList<BaseStatementSyntax> Body { get; private set; }
@@ -137,8 +142,10 @@ namespace SuperBasic.Compiler.Parsing
 
             this.IfToken = ifToken;
             this.Condition = condition;
+            this.Condition.Parent = this;
             this.ThenToken = thenToken;
             this.Body = body;
+            this.Body.Parent = this;
         }
 
         public Token IfToken { get; private set; }
@@ -190,8 +197,10 @@ namespace SuperBasic.Compiler.Parsing
 
             this.ElseIfToken = elseIfToken;
             this.Condition = condition;
+            this.Condition.Parent = this;
             this.ThenToken = thenToken;
             this.Body = body;
+            this.Body.Parent = this;
         }
 
         public Token ElseIfToken { get; private set; }
@@ -240,6 +249,7 @@ namespace SuperBasic.Compiler.Parsing
 
             this.ElseToken = elseToken;
             this.Body = body;
+            this.Body.Parent = this;
         }
 
         public Token ElseToken { get; private set; }
@@ -283,8 +293,19 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(endIfToken.Kind == TokenKind.EndIf, "'endIfToken' must have a TokenKind of 'EndIf'.");
 
             this.IfPart = ifPart;
+            this.IfPart.Parent = this;
             this.ElseIfParts = elseIfParts;
+            foreach (var child in this.ElseIfParts)
+            {
+                child.Parent = this;
+            }
+
             this.ElsePartOpt = elsePartOpt;
+            if (!this.ElsePartOpt.IsDefault())
+            {
+                this.ElsePartOpt.Parent = this;
+            }
+
             this.EndIfToken = endIfToken;
         }
 
@@ -345,7 +366,9 @@ namespace SuperBasic.Compiler.Parsing
 
             this.WhileToken = whileToken;
             this.Condition = condition;
+            this.Condition.Parent = this;
             this.Body = body;
+            this.Body.Parent = this;
             this.EndWhileToken = endWhileToken;
         }
 
@@ -395,6 +418,7 @@ namespace SuperBasic.Compiler.Parsing
 
             this.StepToken = stepToken;
             this.Expression = expression;
+            this.Expression.Parent = this;
         }
 
         public Token StepToken { get; private set; }
@@ -450,10 +474,18 @@ namespace SuperBasic.Compiler.Parsing
             this.IdentifierToken = identifierToken;
             this.EqualToken = equalToken;
             this.FromExpression = fromExpression;
+            this.FromExpression.Parent = this;
             this.ToToken = toToken;
             this.ToExpression = toExpression;
+            this.ToExpression.Parent = this;
             this.StepClauseOpt = stepClauseOpt;
+            if (!this.StepClauseOpt.IsDefault())
+            {
+                this.StepClauseOpt.Parent = this;
+            }
+
             this.Body = body;
+            this.Body.Parent = this;
             this.EndForToken = endForToken;
         }
 
@@ -642,6 +674,7 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(!expression.IsDefault(), "'expression' must not be null.");
 
             this.Expression = expression;
+            this.Expression.Parent = this;
         }
 
         public BaseExpressionSyntax Expression { get; private set; }
@@ -726,6 +759,7 @@ namespace SuperBasic.Compiler.Parsing
 
             this.OperatorToken = operatorToken;
             this.Expression = expression;
+            this.Expression.Parent = this;
         }
 
         public Token OperatorToken { get; private set; }
@@ -769,8 +803,10 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(!right.IsDefault(), "'right' must not be null.");
 
             this.Left = left;
+            this.Left.Parent = this;
             this.OperatorToken = operatorToken;
             this.Right = right;
+            this.Right.Parent = this;
         }
 
         public BaseExpressionSyntax Left { get; private set; }
@@ -818,6 +854,7 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(identifierToken.Kind == TokenKind.Identifier, "'identifierToken' must have a TokenKind of 'Identifier'.");
 
             this.BaseExpression = baseExpression;
+            this.BaseExpression.Parent = this;
             this.DotToken = dotToken;
             this.IdentifierToken = identifierToken;
         }
@@ -867,8 +904,10 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(rightBracketToken.Kind == TokenKind.RightBracket, "'rightBracketToken' must have a TokenKind of 'RightBracket'.");
 
             this.BaseExpression = baseExpression;
+            this.BaseExpression.Parent = this;
             this.LeftBracketToken = leftBracketToken;
             this.IndexExpression = indexExpression;
+            this.IndexExpression.Parent = this;
             this.RightBracketToken = rightBracketToken;
         }
 
@@ -919,6 +958,7 @@ namespace SuperBasic.Compiler.Parsing
             }
 
             this.Expression = expression;
+            this.Expression.Parent = this;
             this.CommaTokenOpt = commaTokenOpt;
         }
 
@@ -970,8 +1010,14 @@ namespace SuperBasic.Compiler.Parsing
             Debug.Assert(rightParenToken.Kind == TokenKind.RightParen, "'rightParenToken' must have a TokenKind of 'RightParen'.");
 
             this.BaseExpression = baseExpression;
+            this.BaseExpression.Parent = this;
             this.LeftParenToken = leftParenToken;
             this.Arguments = arguments;
+            foreach (var child in this.Arguments)
+            {
+                child.Parent = this;
+            }
+
             this.RightParenToken = rightParenToken;
         }
 
@@ -1026,6 +1072,7 @@ namespace SuperBasic.Compiler.Parsing
 
             this.LeftParenToken = leftParenToken;
             this.Expression = expression;
+            this.Expression.Parent = this;
             this.RightParenToken = rightParenToken;
         }
 

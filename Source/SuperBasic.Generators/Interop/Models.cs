@@ -15,10 +15,16 @@ namespace SuperBasic.Generators.Interop
         {
             switch (type)
             {
+                // Native Types
                 case "number": return "decimal";
                 case "string": return "string";
                 case "boolean": return "bool";
+
+                // Blazor Types
                 case "HTMLElement": return "ElementRef";
+
+                // Monaco Types
+                case "monaco.languages.CompletionItem": return "MonacoCompletionItem";
 
                 case string array when array.EndsWith("[]", StringComparison.InvariantCulture):
                     return ToCSharpType(array.RemoveSuffix("[]")) + "[]";

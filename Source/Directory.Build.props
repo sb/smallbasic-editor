@@ -28,6 +28,7 @@
     <DisabledWarnings Include="SA1116" Comment="Split parameters must start on line after declaration (tests assertions)." />
     <DisabledWarnings Include="SA1117" Comment="The parameters must all be placed on the same line or each parameter must be placed on its own line (tests assertions)." />
     <DisabledWarnings Include="SA1118" Comment="The parameter spans multiple lines (generated libraries)." />
+    <DisabledWarnings Include="SA1119" Comment="Statement must not use unnecessary parenthesis." />
     <DisabledWarnings Include="SA1204" Comment="Static members must appear before non-static members." />
     <DisabledWarnings Include="SA1402" Comment="File may only contain a single class." />
     <DisabledWarnings Include="SA1515" Comment="Single-line comment must be preceded by blank line (tests diagnostics assertions)." />
