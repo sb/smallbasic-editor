@@ -29,6 +29,14 @@ namespace SuperBasic.Compiler.Scanning
 
         public static bool operator !=(TextPosition left, TextPosition right) => !(left == right);
 
+        public static bool operator <(TextPosition left, TextPosition right) => left.Line < right.Line || (left.Line == right.Line && left.Column < right.Column);
+
+        public static bool operator >(TextPosition left, TextPosition right) => left.Line > right.Line || (left.Line == right.Line && left.Column > right.Column);
+
+        public static bool operator <=(TextPosition left, TextPosition right) => left < right || left == right;
+
+        public static bool operator >=(TextPosition left, TextPosition right) => left > right || left == right;
+
         public override bool Equals(object obj) => obj is TextPosition other && this == other;
 
         public override int GetHashCode() => this.Line ^ this.Column;

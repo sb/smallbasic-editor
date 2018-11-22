@@ -36,5 +36,7 @@ namespace SuperBasic.Compiler.Scanning
         public bool Equals(TextRange other) => this == other;
 
         public string ToDisplayString() => $"({this.Start.ToDisplayString()}, {this.End.ToDisplayString()})";
+
+        public bool Contains(in TextPosition position) => this.Start <= position && position <= this.End;
     }
 }

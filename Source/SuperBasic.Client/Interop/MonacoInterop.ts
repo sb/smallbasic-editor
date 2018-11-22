@@ -4,8 +4,9 @@
 
 /// <reference path="../node_modules/monaco-editor/monaco.d.ts" />
 
-import { IMonacoInterop } from "./Interop.Generated";
+import { IMonacoInterop } from "./JSInterop.Generated";
 import * as elementResizeEvent from "element-resize-event";
+import { CSIntrop } from "./CSInterop.Generated";
 
 export class MonacoInterop implements IMonacoInterop {
     private outerContainer: HTMLElement | null = null;
@@ -48,3 +49,34 @@ export class MonacoInterop implements IMonacoInterop {
         });
     }
 }
+
+function createRange(start: string, stop: string): string[] {
+    const result: string[] = [];
+    for (let idx = start.charCodeAt(0), end = stop.charCodeAt(0); idx <= end; ++idx) {
+        result.push(String.fromCharCode(idx));
+    }
+    return result;
+}
+
+monaco.languages.registerCompletionItemProvider("sb", {
+    triggerCharacters: [
+        ".",
+        ...createRange("a", "z"),
+        ...createRange("A", "Z")
+    ],
+    provideCompletionItems: (model: monaco.editor.IReadOnlyModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+        // TODO: Issue with monaco typing. This actually expects a CompletionItem[] not a CompletionList. Cast to <any> for now.
+        return <any>CSIntrop.Monaco.provideCompletionItems(model.getValue(), position.lineNumber, position.column);
+    }
+});
+
+monaco.languages.registerHoverProvider("sb", {
+    provideHover: (model: monaco.editor.IReadOnlyModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.Hover> => {
+        // TODO: Issue with monaco typing. It accepts string[], but types specify MarkdownString[] only. Cast to <any> for now.
+        return CSIntrop.Monaco.provideHover(model.getValue(), position.lineNumber, position.column).then(lines => {
+            return {
+                contents: <any>lines
+            };
+        });
+    }
+});

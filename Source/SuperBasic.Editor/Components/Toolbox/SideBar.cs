@@ -11,6 +11,7 @@ namespace SuperBasic.Editor.Components.Toolbox
     using Microsoft.AspNetCore.Blazor;
     using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Interop;
     using SuperBasic.Utilities;
 
     public sealed class SideBar : SuperBasicComponent
@@ -135,7 +136,7 @@ namespace SuperBasic.Editor.Components.Toolbox
         {
             if (this.ShowScrollArrows)
             {
-                await Interop.JS.AttachSideBarEvents(this.upButton, this.scrollContentsArea, this.downButton).ConfigureAwait(false);
+                await JSInterop.Layout.AttachSideBarEvents(this.upButton, this.scrollContentsArea, this.downButton).ConfigureAwait(false);
             }
         }
 

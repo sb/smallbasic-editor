@@ -1,4 +1,4 @@
-﻿// <copyright file="GenerateEditorInterop.cs" company="2018 Omar Tawfik">
+﻿// <copyright file="GenerateJSEditorInterop.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
@@ -9,11 +9,11 @@ namespace SuperBasic.Generators.Interop
     using System.Linq;
     using SuperBasic.Utilities;
 
-    public sealed class GenerateEditorInterop : BaseConverterTask<InteropTypeCollection>
+    public sealed class GenerateJSEditorInterop : BaseConverterTask<InteropTypeCollection>
     {
         protected override void Generate(InteropTypeCollection model)
         {
-            this.Line("namespace SuperBasic.Editor");
+            this.Line("namespace SuperBasic.Editor.Interop");
             this.Brace();
 
             this.Line("using System.Threading.Tasks;");
@@ -21,7 +21,7 @@ namespace SuperBasic.Generators.Interop
             this.Line("using Microsoft.JSInterop;");
             this.Blank();
 
-            this.Line("internal static class Interop");
+            this.Line("internal static class JSInterop");
             this.Brace();
 
             foreach (InteropType type in model)
@@ -38,7 +38,7 @@ namespace SuperBasic.Generators.Interop
 
                     IEnumerable<string> arguments = new string[]
                     {
-                        $@"""Interop.{type.Name}.{method.Name.ToLowerFirstChar()}"""
+                        $@"""JSInterop.{type.Name}.{method.Name.ToLowerFirstChar()}"""
                     }.Concat(method.Parameters.Select(p => p.Name));
 
                     if (method.ReturnType.IsDefault())

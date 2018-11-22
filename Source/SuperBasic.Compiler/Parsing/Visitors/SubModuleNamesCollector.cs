@@ -2,12 +2,10 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Compiler.Binding
+namespace SuperBasic.Compiler.Parsing
 {
     using System.Collections.Generic;
     using SuperBasic.Compiler.Diagnostics;
-    using SuperBasic.Compiler.Parsing;
-    using SuperBasic.Utilities;
 
     internal class SubModuleNamesCollector : BaseSyntaxNodeVisitor
     {

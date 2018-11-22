@@ -13,8 +13,6 @@ namespace SuperBasic.Compiler.Parsing
 
     internal sealed class Parser
     {
-        private const string MissingTokenText = "<?>";
-
         private static readonly TokenKind[] BinaryOperatorPrecedence =
         {
             TokenKind.Or,
@@ -341,7 +339,7 @@ namespace SuperBasic.Compiler.Parsing
             if (this.index >= this.tokens.Count)
             {
                 var range = this.tokens[this.tokens.Count - 1].Range;
-                var missingToken = new Token(TokenKind.Identifier, MissingTokenText, range);
+                var missingToken = new Token(TokenKind.Identifier, string.Empty, range);
 
                 this.diagnostics.ReportUnexpectedEndOfStream(range, missingToken.Kind);
                 return new IdentifierExpressionSyntax(missingToken);
@@ -425,14 +423,14 @@ namespace SuperBasic.Compiler.Parsing
                 else
                 {
                     this.diagnostics.ReportUnexpectedTokenFound(current.Range, current.Kind, kind);
-                    return new Token(kind, MissingTokenText, current.Range);
+                    return new Token(kind, string.Empty, current.Range);
                 }
             }
             else
             {
                 var range = this.tokens[this.tokens.Count - 1].Range;
                 this.diagnostics.ReportUnexpectedEndOfStream(range, kind);
-                return new Token(kind, MissingTokenText, range);
+                return new Token(kind, string.Empty, range);
             }
         }
     }

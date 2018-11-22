@@ -8,6 +8,7 @@ namespace SuperBasic.Editor.Components.Layout
     using System.Globalization;
     using System.Threading.Tasks;
     using SuperBasic.Editor.Components.Toolbox;
+    using SuperBasic.Editor.Interop;
     using SuperBasic.Utilities.Resources;
 
     public abstract class MainLayout : SuperBasicComponent
@@ -22,7 +23,7 @@ namespace SuperBasic.Editor.Components.Layout
 
         protected override async Task OnInitAsync()
         {
-            await Interop.JS.InitializeWebView(CultureInfo.CurrentCulture.Name, EditorResources.ApplicationTitle).ConfigureAwait(false);
+            await JSInterop.Layout.InitializeWebView(CultureInfo.CurrentCulture.Name, EditorResources.ApplicationTitle).ConfigureAwait(false);
         }
 
         protected sealed override void ComposeTree(TreeComposer composer)
@@ -74,7 +75,7 @@ namespace SuperBasic.Editor.Components.Layout
 #if IsBuildingForDesktop
             await Bridge.Process.OpenExternalLink(url).ConfigureAwait(false);
 #else
-            await Interop.JS.OpenExternalLink(url).ConfigureAwait(false);
+            await JSInterop.Layout.OpenExternalLink(url).ConfigureAwait(false);
 #endif
         }
     }

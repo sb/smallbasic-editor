@@ -5,4 +5,5 @@
 import "typeface-roboto";
 
 import "./Styles";
-import "../Interop/Interop.Generated";
+import "../Interop/JSInterop.Generated";
+import "../Interop/CSInterop.Generated";

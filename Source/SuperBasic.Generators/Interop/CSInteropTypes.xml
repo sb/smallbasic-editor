@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <InteropType Name="Monaco">
+    <Methods>
+      <Method Name="ProvideCompletionItems" ReturnType="monaco.languages.CompletionItem[]">
+        <Parameters>
+          <Parameter Name="code" Type="string" />
+          <Parameter Name="line" Type="number" />
+          <Parameter Name="column" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="ProvideHover" ReturnType="string[]">
+        <Parameters>
+          <Parameter Name="code" Type="string" />
+          <Parameter Name="line" Type="number" />
+          <Parameter Name="column" Type="number" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
+</root>

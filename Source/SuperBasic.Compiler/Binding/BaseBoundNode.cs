@@ -5,10 +5,23 @@
 namespace SuperBasic.Compiler.Binding
 {
     using System.Collections.Generic;
-    using SuperBasic.Compiler.Parsing;
+    using System.Diagnostics;
+    using SuperBasic.Utilities;
 
     internal abstract class BaseBoundNode
     {
+        private BaseBoundNode parent;
+
+        public BaseBoundNode Parent
+        {
+            get => this.parent;
+            set
+            {
+                Debug.Assert(this.parent.IsDefault(), "Parent node is already set.");
+                this.parent = value;
+            }
+        }
+
         public abstract IEnumerable<BaseBoundNode> Children { get; }
     }
 }

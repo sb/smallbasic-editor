@@ -151,14 +151,14 @@
         </div>
     </app>
 
-    <script src="_framework/blazor.webassembly.js"></script>
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[css] %>">
+    <% } %>
 
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
     <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
     <% } %>
 
-    <% for (var css in htmlWebpackPlugin.files.css) { %>
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[css] %>">
-    <% } %>
+    <script src="_framework/blazor.webassembly.js"></script>
 </body>
 </html>
