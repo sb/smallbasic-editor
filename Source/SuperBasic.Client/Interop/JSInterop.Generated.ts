@@ -9,14 +9,22 @@ import { LayoutInterop } from "./LayoutInterop";
 import { MonacoInterop } from "./MonacoInterop";
 
 export interface ILayoutInterop {
-    initializeWebView(locale: string, title: string): void;
-    openExternalLink(url: string): void;
-    attachSideBarEvents(upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement): void;
+    initializeWebView(locale: string, title: string): Promise<void>;
+    openExternalLink(url: string): Promise<void>;
+    attachSideBarEvents(upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement): Promise<void>;
 }
 
 export interface IMonacoInterop {
-    initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): string;
-    selectRange(id: string, range: monaco.IRange): void;
+    initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): Promise<void>;
+    selectRange(range: monaco.IRange): Promise<void>;
+    saveToFile(): Promise<void>;
+    openFile(confirmationMessage: string): Promise<void>;
+    clearEditor(confirmationMessage: string): Promise<void>;
+    cut(): Promise<void>;
+    copy(): Promise<void>;
+    paste(): Promise<void>;
+    undo(): Promise<void>;
+    redo(): Promise<void>;
 }
 
 declare global {
@@ -31,25 +39,58 @@ const monaco: IMonacoInterop = new MonacoInterop();
 
 (<any>global).JSInterop = {
     Layout: {
-        initializeWebView: (locale: string, title: string) : boolean => {
-            layout.initializeWebView(locale, title);
+        initializeWebView: async (locale: string, title: string) : Promise<boolean> => {
+            await layout.initializeWebView(locale, title);
             return true;
         },
-        openExternalLink: (url: string) : boolean => {
-            layout.openExternalLink(url);
+        openExternalLink: async (url: string) : Promise<boolean> => {
+            await layout.openExternalLink(url);
             return true;
         },
-        attachSideBarEvents: (upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement) : boolean => {
-            layout.attachSideBarEvents(upButton, scrollContentsArea, downButton);
+        attachSideBarEvents: async (upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement) : Promise<boolean> => {
+            await layout.attachSideBarEvents(upButton, scrollContentsArea, downButton);
             return true;
         }
     },
     Monaco: {
-        initialize: (editorElement: HTMLElement, initialValue: string, isReadOnly: boolean) : string => {
-            return monaco.initialize(editorElement, initialValue, isReadOnly);
+        initialize: async (editorElement: HTMLElement, initialValue: string, isReadOnly: boolean) : Promise<boolean> => {
+            await monaco.initialize(editorElement, initialValue, isReadOnly);
+            return true;
         },
-        selectRange: (id: string, range: monaco.IRange) : boolean => {
-            monaco.selectRange(id, range);
+        selectRange: async (range: monaco.IRange) : Promise<boolean> => {
+            await monaco.selectRange(range);
+            return true;
+        },
+        saveToFile: async () : Promise<boolean> => {
+            await monaco.saveToFile();
+            return true;
+        },
+        openFile: async (confirmationMessage: string) : Promise<boolean> => {
+            await monaco.openFile(confirmationMessage);
+            return true;
+        },
+        clearEditor: async (confirmationMessage: string) : Promise<boolean> => {
+            await monaco.clearEditor(confirmationMessage);
+            return true;
+        },
+        cut: async () : Promise<boolean> => {
+            await monaco.cut();
+            return true;
+        },
+        copy: async () : Promise<boolean> => {
+            await monaco.copy();
+            return true;
+        },
+        paste: async () : Promise<boolean> => {
+            await monaco.paste();
+            return true;
+        },
+        undo: async () : Promise<boolean> => {
+            await monaco.undo();
+            return true;
+        },
+        redo: async () : Promise<boolean> => {
+            await monaco.redo();
             return true;
         }
     }

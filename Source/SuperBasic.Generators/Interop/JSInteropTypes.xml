@@ -24,7 +24,7 @@
   </InteropType>
   <InteropType Name="Monaco">
     <Methods>
-      <Method Name="Initialize" ReturnType="string">
+      <Method Name="Initialize">
         <Parameters>
           <Parameter Name="editorElement" Type="HTMLElement" />
           <Parameter Name="initialValue" Type="string" />
@@ -33,10 +33,25 @@
       </Method>
       <Method Name="SelectRange">
         <Parameters>
-          <Parameter Name="id" Type="string" />
           <Parameter Name="range" Type="monaco.IRange" />
         </Parameters>
       </Method>
+      <Method Name="SaveToFile" />
+      <Method Name="OpenFile">
+        <Parameters>
+          <Parameter Name="confirmationMessage" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="ClearEditor">
+        <Parameters>
+          <Parameter Name="confirmationMessage" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="Cut" />
+      <Method Name="Copy" />
+      <Method Name="Paste" />
+      <Method Name="Undo" />
+      <Method Name="Redo" />
     </Methods>
   </InteropType>
 </root>

@@ -14,6 +14,226 @@ namespace SuperBasic.Compiler.Parsing
     using SuperBasic.Compiler.Scanning;
     using SuperBasic.Utilities;
 
+    public abstract class BaseSyntaxNodeVisitor
+    {
+        private protected void Visit(BaseSyntaxNode node)
+        {
+            switch (node)
+            {
+                case SubModuleStatementSyntax subModuleStatement:
+                    this.VisitSubModuleStatement(subModuleStatement);
+                    break;
+                case StatementBlockSyntax statementBlock:
+                    this.VisitStatementBlock(statementBlock);
+                    break;
+                case IfPartSyntax ifPart:
+                    this.VisitIfPart(ifPart);
+                    break;
+                case ElseIfPartSyntax elseIfPart:
+                    this.VisitElseIfPart(elseIfPart);
+                    break;
+                case ElsePartSyntax elsePart:
+                    this.VisitElsePart(elsePart);
+                    break;
+                case IfStatementSyntax ifStatement:
+                    this.VisitIfStatement(ifStatement);
+                    break;
+                case WhileStatementSyntax whileStatement:
+                    this.VisitWhileStatement(whileStatement);
+                    break;
+                case ForStepClauseSyntax forStepClause:
+                    this.VisitForStepClause(forStepClause);
+                    break;
+                case ForStatementSyntax forStatement:
+                    this.VisitForStatement(forStatement);
+                    break;
+                case LabelStatementSyntax labelStatement:
+                    this.VisitLabelStatement(labelStatement);
+                    break;
+                case GoToStatementSyntax goToStatement:
+                    this.VisitGoToStatement(goToStatement);
+                    break;
+                case UnrecognizedStatementSyntax unrecognizedStatement:
+                    this.VisitUnrecognizedStatement(unrecognizedStatement);
+                    break;
+                case ExpressionStatementSyntax expressionStatement:
+                    this.VisitExpressionStatement(expressionStatement);
+                    break;
+                case CommentStatementSyntax commentStatement:
+                    this.VisitCommentStatement(commentStatement);
+                    break;
+                case UnaryOperatorExpressionSyntax unaryOperatorExpression:
+                    this.VisitUnaryOperatorExpression(unaryOperatorExpression);
+                    break;
+                case BinaryOperatorExpressionSyntax binaryOperatorExpression:
+                    this.VisitBinaryOperatorExpression(binaryOperatorExpression);
+                    break;
+                case ObjectAccessExpressionSyntax objectAccessExpression:
+                    this.VisitObjectAccessExpression(objectAccessExpression);
+                    break;
+                case ArrayAccessExpressionSyntax arrayAccessExpression:
+                    this.VisitArrayAccessExpression(arrayAccessExpression);
+                    break;
+                case ArgumentSyntax argument:
+                    this.VisitArgument(argument);
+                    break;
+                case InvocationExpressionSyntax invocationExpression:
+                    this.VisitInvocationExpression(invocationExpression);
+                    break;
+                case ParenthesisExpressionSyntax parenthesisExpression:
+                    this.VisitParenthesisExpression(parenthesisExpression);
+                    break;
+                case IdentifierExpressionSyntax identifierExpression:
+                    this.VisitIdentifierExpression(identifierExpression);
+                    break;
+                case StringLiteralExpressionSyntax stringLiteralExpression:
+                    this.VisitStringLiteralExpression(stringLiteralExpression);
+                    break;
+                case NumberLiteralExpressionSyntax numberLiteralExpression:
+                    this.VisitNumberLiteralExpression(numberLiteralExpression);
+                    break;
+                case UnrecognizedExpressionSyntax unrecognizedExpression:
+                    this.VisitUnrecognizedExpression(unrecognizedExpression);
+                    break;
+                default:
+                    throw ExceptionUtilities.UnexpectedValue(node);
+            }
+        }
+
+        private protected virtual void VisitSubModuleStatement(SubModuleStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitStatementBlock(StatementBlockSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitIfPart(IfPartSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitElseIfPart(ElseIfPartSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitElsePart(ElsePartSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitIfStatement(IfStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitWhileStatement(WhileStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitForStepClause(ForStepClauseSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitForStatement(ForStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLabelStatement(LabelStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitGoToStatement(GoToStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitUnrecognizedStatement(UnrecognizedStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitExpressionStatement(ExpressionStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitCommentStatement(CommentStatementSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitUnaryOperatorExpression(UnaryOperatorExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitBinaryOperatorExpression(BinaryOperatorExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitObjectAccessExpression(ObjectAccessExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitArrayAccessExpression(ArrayAccessExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitArgument(ArgumentSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitParenthesisExpression(ParenthesisExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitIdentifierExpression(IdentifierExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitStringLiteralExpression(StringLiteralExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitNumberLiteralExpression(NumberLiteralExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitUnrecognizedExpression(UnrecognizedExpressionSyntax node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private void DefaultVisit(BaseSyntaxNode node)
+        {
+            foreach (var child in node.Children)
+            {
+                this.Visit(child);
+            }
+        }
+    }
+
     internal abstract class BaseStatementSyntax : BaseSyntaxNode
     {
     }
@@ -1260,226 +1480,6 @@ namespace SuperBasic.Compiler.Parsing
                 {
                     return this.UnrecognizedToken.Range.End;
                 }
-            }
-        }
-    }
-
-    internal abstract class BaseSyntaxNodeVisitor
-    {
-        public void Visit(BaseSyntaxNode node)
-        {
-            switch (node)
-            {
-                case SubModuleStatementSyntax subModuleStatement:
-                    this.VisitSubModuleStatement(subModuleStatement);
-                    break;
-                case StatementBlockSyntax statementBlock:
-                    this.VisitStatementBlock(statementBlock);
-                    break;
-                case IfPartSyntax ifPart:
-                    this.VisitIfPart(ifPart);
-                    break;
-                case ElseIfPartSyntax elseIfPart:
-                    this.VisitElseIfPart(elseIfPart);
-                    break;
-                case ElsePartSyntax elsePart:
-                    this.VisitElsePart(elsePart);
-                    break;
-                case IfStatementSyntax ifStatement:
-                    this.VisitIfStatement(ifStatement);
-                    break;
-                case WhileStatementSyntax whileStatement:
-                    this.VisitWhileStatement(whileStatement);
-                    break;
-                case ForStepClauseSyntax forStepClause:
-                    this.VisitForStepClause(forStepClause);
-                    break;
-                case ForStatementSyntax forStatement:
-                    this.VisitForStatement(forStatement);
-                    break;
-                case LabelStatementSyntax labelStatement:
-                    this.VisitLabelStatement(labelStatement);
-                    break;
-                case GoToStatementSyntax goToStatement:
-                    this.VisitGoToStatement(goToStatement);
-                    break;
-                case UnrecognizedStatementSyntax unrecognizedStatement:
-                    this.VisitUnrecognizedStatement(unrecognizedStatement);
-                    break;
-                case ExpressionStatementSyntax expressionStatement:
-                    this.VisitExpressionStatement(expressionStatement);
-                    break;
-                case CommentStatementSyntax commentStatement:
-                    this.VisitCommentStatement(commentStatement);
-                    break;
-                case UnaryOperatorExpressionSyntax unaryOperatorExpression:
-                    this.VisitUnaryOperatorExpression(unaryOperatorExpression);
-                    break;
-                case BinaryOperatorExpressionSyntax binaryOperatorExpression:
-                    this.VisitBinaryOperatorExpression(binaryOperatorExpression);
-                    break;
-                case ObjectAccessExpressionSyntax objectAccessExpression:
-                    this.VisitObjectAccessExpression(objectAccessExpression);
-                    break;
-                case ArrayAccessExpressionSyntax arrayAccessExpression:
-                    this.VisitArrayAccessExpression(arrayAccessExpression);
-                    break;
-                case ArgumentSyntax argument:
-                    this.VisitArgument(argument);
-                    break;
-                case InvocationExpressionSyntax invocationExpression:
-                    this.VisitInvocationExpression(invocationExpression);
-                    break;
-                case ParenthesisExpressionSyntax parenthesisExpression:
-                    this.VisitParenthesisExpression(parenthesisExpression);
-                    break;
-                case IdentifierExpressionSyntax identifierExpression:
-                    this.VisitIdentifierExpression(identifierExpression);
-                    break;
-                case StringLiteralExpressionSyntax stringLiteralExpression:
-                    this.VisitStringLiteralExpression(stringLiteralExpression);
-                    break;
-                case NumberLiteralExpressionSyntax numberLiteralExpression:
-                    this.VisitNumberLiteralExpression(numberLiteralExpression);
-                    break;
-                case UnrecognizedExpressionSyntax unrecognizedExpression:
-                    this.VisitUnrecognizedExpression(unrecognizedExpression);
-                    break;
-                default:
-                    throw ExceptionUtilities.UnexpectedValue(node);
-            }
-        }
-
-        public virtual void VisitSubModuleStatement(SubModuleStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitStatementBlock(StatementBlockSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitIfPart(IfPartSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitElseIfPart(ElseIfPartSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitElsePart(ElsePartSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitIfStatement(IfStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitWhileStatement(WhileStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitForStepClause(ForStepClauseSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitForStatement(ForStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLabelStatement(LabelStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitGoToStatement(GoToStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitUnrecognizedStatement(UnrecognizedStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitExpressionStatement(ExpressionStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitCommentStatement(CommentStatementSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitUnaryOperatorExpression(UnaryOperatorExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitBinaryOperatorExpression(BinaryOperatorExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitObjectAccessExpression(ObjectAccessExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitArrayAccessExpression(ArrayAccessExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitArgument(ArgumentSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitInvocationExpression(InvocationExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitParenthesisExpression(ParenthesisExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitIdentifierExpression(IdentifierExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitStringLiteralExpression(StringLiteralExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitNumberLiteralExpression(NumberLiteralExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitUnrecognizedExpression(UnrecognizedExpressionSyntax node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        private void DefaultVisit(BaseSyntaxNode node)
-        {
-            foreach (var child in node.Children)
-            {
-                this.Visit(child);
             }
         }
     }

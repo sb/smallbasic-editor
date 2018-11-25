@@ -4,11 +4,13 @@
 
 namespace SuperBasic.Utilities
 {
+    using System.Globalization;
+
     public static class ColorParser
     {
-        public static bool TryParseColorName(string name, out string hexResult)
+        public static bool HexFromName(string name, out string hexResult)
         {
-            switch (name)
+            switch (name.ToLower(CultureInfo.CurrentCulture))
             {
                 case "aliceblue": hexResult = "#F0F8FF"; return true;
                 case "antiquewhite": hexResult = "#FAEBD7"; return true;
@@ -153,6 +155,35 @@ namespace SuperBasic.Utilities
                 case "yellowgreen": hexResult = "#9ACD32"; return true;
                 default: hexResult = null; return false;
             }
+        }
+
+        public static bool HexFromNumber(string number, out string result)
+        {
+            if (decimal.TryParse(number, out decimal value))
+            {
+                switch (value)
+                {
+                    case 0: return HexFromName("Black", out result);
+                    case 1: return HexFromName("DarkBlue", out result);
+                    case 2: return HexFromName("DarkGreen", out result);
+                    case 3: return HexFromName("DarkCyan", out result);
+                    case 4: return HexFromName("DarkRed", out result);
+                    case 5: return HexFromName("DarkMagenta", out result);
+                    case 6: return HexFromName("DarkYellow", out result);
+                    case 7: return HexFromName("Gray", out result);
+                    case 8: return HexFromName("DarkGray", out result);
+                    case 9: return HexFromName("Blue", out result);
+                    case 10: return HexFromName("Green", out result);
+                    case 11: return HexFromName("Cyan", out result);
+                    case 12: return HexFromName("Red", out result);
+                    case 13: return HexFromName("Magenta", out result);
+                    case 14: return HexFromName("Yellow", out result);
+                    case 15: return HexFromName("White", out result);
+                }
+            }
+
+            result = default;
+            return false;
         }
     }
 }

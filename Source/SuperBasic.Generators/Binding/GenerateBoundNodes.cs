@@ -26,13 +26,13 @@ namespace SuperBasic.Generators.Binding
             this.Line("using SuperBasic.Utilities;");
             this.Blank();
 
+            this.GenerateBaseVisitor(model);
+
             foreach (var node in model)
             {
                 this.ValidateNode(model, node);
                 this.GenerateNode(model, node);
             }
-
-            this.GenerateBaseVisitor(model);
 
             this.Unbrace();
         }
@@ -238,10 +238,10 @@ namespace SuperBasic.Generators.Binding
 
         private void GenerateBaseVisitor(BoundNodeCollection model)
         {
-            this.Line("internal abstract class BaseBoundNodeVisitor");
+            this.Line("public abstract class BaseBoundNodeVisitor");
             this.Brace();
 
-            this.Line("public void Visit(BaseBoundNode node)");
+            this.Line("private protected void Visit(BaseBoundNode node)");
             this.Brace();
 
             this.Line("switch (node)");
@@ -266,7 +266,7 @@ namespace SuperBasic.Generators.Binding
 
             foreach (var node in model.Where(node => !node.IsAbstract))
             {
-                this.Line($"public virtual void Visit{node.Name.RemovePrefix("Bound")}({node.Name} node)");
+                this.Line($"private protected virtual void Visit{node.Name.RemovePrefix("Bound")}({node.Name} node)");
                 this.Brace();
                 this.Line("this.DefaultVisit(node);");
                 this.Unbrace();

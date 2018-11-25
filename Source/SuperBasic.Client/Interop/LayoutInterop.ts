@@ -6,16 +6,16 @@ import { ILayoutInterop } from "./JSInterop.Generated";
 import { ScrollAreaContentsUtils } from "../Utility/ScrollAreaContentsUtils";
 
 export class LayoutInterop implements ILayoutInterop {
-    public initializeWebView(locale: string, title: string): void {
+    public async initializeWebView(locale: string, title: string): Promise<void> {
         document.documentElement.setAttribute("lang", locale);
         document.title = title;
     }
 
-    public openExternalLink(url: string): void {
+    public async openExternalLink(url: string): Promise<void> {
         window.open(url, "_blank");
     }
 
-    public attachSideBarEvents(upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement): void {
+    public async attachSideBarEvents(upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement): Promise<void> {
         upButton.addEventListener("click", () => {
             ScrollAreaContentsUtils.scrollUp(scrollContentsArea, 200);
         });
@@ -30,6 +30,7 @@ export class LayoutInterop implements ILayoutInterop {
             } else {
                 ScrollAreaContentsUtils.scrollUp(scrollContentsArea, event.wheelDeltaY);
             }
+            event.preventDefault();
         });
     }
 }

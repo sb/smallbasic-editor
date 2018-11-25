@@ -6,27 +6,25 @@ namespace SuperBasic.Editor.Interop
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using SuperBasic.Compiler;
-    using SuperBasic.Compiler.Scanning;
     using SuperBasic.Compiler.Services;
-    using SuperBasic.Editor.Components.Toolbox;
+    using SuperBasic.Editor.Components;
 
     public class MonacoInterop : IMonacoInterop
     {
-        public async Task<MonacoRange[]> OnChange(string id, string code)
+        public Task<MonacoRange[]> UpdateDiagnostics(string code)
         {
-            var ranges = await MonacoEditor.TriggerOnChange(id, code).ConfigureAwait(false);
-            return ranges.Select(range => range.ToMonacoRange()).ToArray();
+            StaticStore.Update(code);
+            return Task.FromResult(StaticStore.Compilation.Diagnostics.Select(d => d.Range.ToMonacoRange()).ToArray());
         }
 
         public Task<MonacoCompletionItem[]> ProvideCompletionItems(string code, MonacoPosition position)
         {
-            return Task.FromResult(new SuperBasicCompilation(code).ProvideCompletionItems(position.ToCompilerPosition()));
+            return Task.FromResult(StaticStore.Compilation.ProvideCompletionItems(position.ToCompilerPosition()));
         }
 
         public Task<string[]> ProvideHover(string code, MonacoPosition position)
         {
-            return Task.FromResult(new SuperBasicCompilation(code).ProvideHover(position.ToCompilerPosition()));
+            return Task.FromResult(StaticStore.Compilation.ProvideHover(position.ToCompilerPosition()));
         }
     }
 }

@@ -15,8 +15,8 @@ export declare module DotNet {
 
 export module CSIntrop {
     export module Monaco {
-        export function onChange(id: string, code: string): Promise<monaco.IRange[]> {
-            return DotNet.invokeMethodAsync<monaco.IRange[]>("SuperBasic.Editor", "CSIntrop.Monaco.OnChange", id, code);
+        export function updateDiagnostics(code: string): Promise<monaco.IRange[]> {
+            return DotNet.invokeMethodAsync<monaco.IRange[]>("SuperBasic.Editor", "CSIntrop.Monaco.UpdateDiagnostics", code);
         }
 
         export function provideCompletionItems(code: string, position: monaco.IPosition): Promise<monaco.languages.CompletionItem[]> {

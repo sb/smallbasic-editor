@@ -10,7 +10,6 @@ namespace SuperBasic.Editor.Libraries
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
 
-    // TODO: all colors should be a color object that holds RBG values, and can be converted to #XXXXXX or to a name to return from properties
     public interface IGraphicsWindowPlugin
     {
         int Height { get; }
@@ -248,7 +247,7 @@ namespace SuperBasic.Editor.Libraries
             {
                 case string hex when HexColorRegex.IsMatch(hex):
                     return hex;
-                case string name when ColorParser.TryParseColorName(name, out string result):
+                case string name when ColorParser.HexFromName(name, out string result):
                     return result;
                 default:
                     return default;

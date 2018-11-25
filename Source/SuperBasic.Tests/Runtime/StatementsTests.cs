@@ -4,62 +4,63 @@
 
 namespace SuperBasic.Tests.Runtime
 {
+    using System.Threading.Tasks;
     using SuperBasic.Compiler;
     using Xunit;
 
     public sealed class StatementsTests
     {
         [Fact]
-        public void ItEvaluatesSingleIfTrueExpression()
+        public async Task ItEvaluatesSingleIfTrueExpression()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 If ""True"" Then
     TextWindow.WriteLine(""first"")
 EndIf").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'first')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvaluatesSingleIfFalseExpression()
+        public async Task ItEvaluatesSingleIfFalseExpression()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 If ""False"" Then
     TextWindow.WriteLine(""first"")
 EndIf").VerifyRuntime(expectedLog: @"
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvaluatesIfElseTrueExpression()
+        public async Task ItEvaluatesIfElseTrueExpression()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 If ""True"" Then
     TextWindow.WriteLine(""first"")
 Else
     TextWindow.WriteLine(""second"")
 EndIf").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'first')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvaluatesIfElseFalseExpression()
+        public async Task ItEvaluatesIfElseFalseExpression()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 If ""False"" Then
     TextWindow.WriteLine(""first"")
 Else
     TextWindow.WriteLine(""second"")
 EndIf").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'second')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvaluatesDifferentElseIfBranches()
+        public async Task ItEvaluatesDifferentElseIfBranches()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 4
     If x = 1 Then
         TextWindow.WriteLine(""first"")
@@ -75,13 +76,13 @@ TextWindow.WriteLine(data: 'first')
 TextWindow.WriteLine(data: 'second')
 TextWindow.WriteLine(data: 'third')
 TextWindow.WriteLine(data: 'fourth')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithNoStep()
+        public async Task ItEvalutesForLoopWithNoStep()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 4
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -89,13 +90,13 @@ TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '4')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithStepOne()
+        public async Task ItEvalutesForLoopWithStepOne()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 4 Step 1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -103,13 +104,13 @@ TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '4')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithStepTwo()
+        public async Task ItEvalutesForLoopWithStepTwo()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 8 Step 2
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -117,13 +118,13 @@ TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '5')
 TextWindow.WriteLine(data: '7')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithInverseStepOne()
+        public async Task ItEvalutesForLoopWithInverseStepOne()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 4 To 1 Step -1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -131,13 +132,13 @@ TextWindow.WriteLine(data: '4')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '1')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithInverseStepTwo()
+        public async Task ItEvalutesForLoopWithInverseStepTwo()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 8 To 1 Step -2
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
@@ -145,46 +146,46 @@ TextWindow.WriteLine(data: '8')
 TextWindow.WriteLine(data: '6')
 TextWindow.WriteLine(data: '4')
 TextWindow.WriteLine(data: '2')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithEqualRangeAndNoStep()
+        public async Task ItEvalutesForLoopWithEqualRangeAndNoStep()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithEqualRangeAndPositiveStep()
+        public async Task ItEvalutesForLoopWithEqualRangeAndPositiveStep()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 1 Step 1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesForLoopWithEqualRangeAndNegativeStep()
+        public async Task ItEvalutesForLoopWithEqualRangeAndNegativeStep()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 For x = 1 To 1 Step -1
     TextWindow.WriteLine(x)
 EndFor").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesGoToLabels()
+        public async Task ItEvalutesGoToLabels()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 GoTo two
 one:
 TextWindow.WriteLine(1)
@@ -197,13 +198,13 @@ TextWindow.WriteLine(3)").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '3')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvalutesWhileLoop()
+        public async Task ItEvalutesWhileLoop()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 x = 5
 result = 1
 While x > 0
@@ -213,13 +214,13 @@ EndWhile
 TextWindow.WriteLine(result)
 ").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '32')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItDoesNotEvaluteWhileLoopWithNegativeCondition()
+        public async Task ItDoesNotEvaluteWhileLoopWithNegativeCondition()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 result = 1
 While ""False""
     result = 2
@@ -227,13 +228,13 @@ EndWhile
 TextWindow.WriteLine(result)
 ").VerifyRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
-");
+").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItExitsFromAnInfitinteWhileLoop()
+        public async Task ItExitsFromAnInfitinteWhileLoop()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 result = 1
 While ""True""
     TextWindow.WriteLine(result)
@@ -247,7 +248,7 @@ TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '4')
-");
+").ConfigureAwait(false);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace SuperBasic.Compiler
             this.currentSourceLine = 0;
 
             this.State = ExecutionState.Running;
+            this.Analysis = new RuntimeAnalysis(compilation);
             this.ExecutionStack = new LinkedList<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
             this.Memory = new Dictionary<string, BaseValue>();
@@ -58,6 +59,8 @@ namespace SuperBasic.Compiler
         }
 
         public ExecutionState State { get; private set; }
+
+        public RuntimeAnalysis Analysis { get; private set; }
 
         internal LinkedList<Frame> ExecutionStack { get; private set; }
 
@@ -88,10 +91,12 @@ namespace SuperBasic.Compiler
             {
                 if (this.ExecutionStack.Count == 0)
                 {
-                    if (!this.compilation.UsesGraphicsWindow)
+                    if (!this.Analysis.ListensToEvents)
                     {
                         this.State = ExecutionState.Terminated;
                     }
+
+                    break;
                 }
 
                 Frame frame = this.ExecutionStack.Last();
