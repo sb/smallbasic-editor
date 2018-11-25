@@ -9,5 +9,15 @@
     position: absolute;
 
     editor {
+        .wavy-line {
+            display: inline-block;
+            position: relative;
+            background: url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x;
+        }
+
+        .error-line-glyph {
+            margin-left: 24px;
+            @include set-background-image("SideBars/Error.svg", 20px, 20px);
+        }
     }
 }

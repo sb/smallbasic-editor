@@ -6,6 +6,7 @@ namespace SuperBasic.Compiler.Scanning
 {
     using System;
     using System.Diagnostics;
+    using SuperBasic.Compiler.Services;
 
     [DebuggerDisplay("{ToDisplayString()}")]
     public readonly struct TextRange : IEquatable<TextRange>
@@ -38,5 +39,13 @@ namespace SuperBasic.Compiler.Scanning
         public string ToDisplayString() => $"({this.Start.ToDisplayString()}, {this.End.ToDisplayString()})";
 
         public bool Contains(in TextPosition position) => this.Start <= position && position <= this.End;
+
+        public MonacoRange ToMonacoRange() => new MonacoRange
+        {
+            startLineNumber = this.Start.Line + 1,
+            startColumn = this.Start.Column + 1,
+            endLineNumber = this.End.Line + 1,
+            endColumn = this.End.Column + 2
+        };
     }
 }

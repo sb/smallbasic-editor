@@ -13,25 +13,33 @@ namespace SuperBasic.Editor.Interop
 
     internal interface IMonacoInterop
     {
-        Task<MonacoCompletionItem[]> ProvideCompletionItems(string code, decimal line, decimal column);
+        Task<MonacoRange[]> OnChange(string id, string code);
 
-        Task<string[]> ProvideHover(string code, decimal line, decimal column);
+        Task<MonacoCompletionItem[]> ProvideCompletionItems(string code, MonacoPosition position);
+
+        Task<string[]> ProvideHover(string code, MonacoPosition position);
     }
 
     public static class CSInterop
     {
         private static readonly IMonacoInterop Monaco = new MonacoInterop();
 
-        [JSInvokable("CSIntrop.Monaco.ProvideCompletionItems")]
-        public static async Task<MonacoCompletionItem[]> Monaco_ProvideCompletionItems(string code, decimal line, decimal column)
+        [JSInvokable("CSIntrop.Monaco.OnChange")]
+        public static async Task<MonacoRange[]> Monaco_OnChange(string id, string code)
         {
-            return await Monaco.ProvideCompletionItems(code, line, column);
+            return await Monaco.OnChange(id, code);
+        }
+
+        [JSInvokable("CSIntrop.Monaco.ProvideCompletionItems")]
+        public static async Task<MonacoCompletionItem[]> Monaco_ProvideCompletionItems(string code, MonacoPosition position)
+        {
+            return await Monaco.ProvideCompletionItems(code, position);
         }
 
         [JSInvokable("CSIntrop.Monaco.ProvideHover")]
-        public static async Task<string[]> Monaco_ProvideHover(string code, decimal line, decimal column)
+        public static async Task<string[]> Monaco_ProvideHover(string code, MonacoPosition position)
         {
-            return await Monaco.ProvideHover(code, line, column);
+            return await Monaco.ProvideHover(code, position);
         }
     }
 }

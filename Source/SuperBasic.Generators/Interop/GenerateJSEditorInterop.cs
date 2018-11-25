@@ -19,6 +19,7 @@ namespace SuperBasic.Generators.Interop
             this.Line("using System.Threading.Tasks;");
             this.Line("using Microsoft.AspNetCore.Blazor;");
             this.Line("using Microsoft.JSInterop;");
+            this.Line("using SuperBasic.Compiler.Services;");
             this.Blank();
 
             this.Line("internal static class JSInterop");
@@ -47,7 +48,7 @@ namespace SuperBasic.Generators.Interop
                     }
                     else
                     {
-                        this.Line($@"return await JSRuntime.Current.InvokeAsync<{returnType}>({arguments.Join(", ")});");
+                        this.Line($@"return await JSRuntime.Current.InvokeAsync<{method.ReturnType.ToCSharpType()}>({arguments.Join(", ")});");
                     }
 
                     this.Unbrace();

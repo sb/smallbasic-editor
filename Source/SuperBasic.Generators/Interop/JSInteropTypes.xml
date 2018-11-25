@@ -24,11 +24,17 @@
   </InteropType>
   <InteropType Name="Monaco">
     <Methods>
-      <Method Name="Initialize">
+      <Method Name="Initialize" ReturnType="string">
         <Parameters>
           <Parameter Name="editorElement" Type="HTMLElement" />
           <Parameter Name="initialValue" Type="string" />
           <Parameter Name="isReadOnly" Type="boolean" />
+        </Parameters>
+      </Method>
+      <Method Name="SelectRange">
+        <Parameters>
+          <Parameter Name="id" Type="string" />
+          <Parameter Name="range" Type="monaco.IRange" />
         </Parameters>
       </Method>
     </Methods>

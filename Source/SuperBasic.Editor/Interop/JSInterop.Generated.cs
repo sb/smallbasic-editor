@@ -10,6 +10,7 @@ namespace SuperBasic.Editor.Interop
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor;
     using Microsoft.JSInterop;
+    using SuperBasic.Compiler.Services;
 
     internal static class JSInterop
     {
@@ -33,9 +34,14 @@ namespace SuperBasic.Editor.Interop
 
         public static class Monaco
         {
-            public static async Task Initialize(ElementRef editorElement, string initialValue, bool isReadOnly)
+            public static async Task<string> Initialize(ElementRef editorElement, string initialValue, bool isReadOnly)
             {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.initialize", editorElement, initialValue, isReadOnly);
+                return await JSRuntime.Current.InvokeAsync<string>("JSInterop.Monaco.initialize", editorElement, initialValue, isReadOnly);
+            }
+
+            public static async Task SelectRange(string id, MonacoRange range)
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.selectRange", id, range);
             }
         }
     }

@@ -29,8 +29,102 @@ edit-page {
         errors-space {
             width: 100%;
             flex-shrink: 0;
-            color: blue;
-            background-color: darkgrey;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+
+            title-row {
+                flex-shrink: 0;
+                width: 100%;
+                height: 60px;
+                background-color: #656A72;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+
+                icon {
+                    flex-shrink: 0;
+                    @include set-background-image("SideBars/Error.svg", 32px, 32px);
+                    margin-left: 40px;
+                }
+
+                errors-count {
+                    flex-grow: 1;
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: #E7E8EA;
+                    margin-left: 15px;
+                }
+
+                caret {
+                    flex-shrink: 0;
+                    margin-right: 40px;
+                    @include set-background-image("SideBars/Caret.svg", 18px, 28px);
+                }
+
+                caret-closed {
+                    @extend caret;
+                    transform: rotate(90deg);
+                }
+
+                caret-opened {
+                    @extend caret;
+                    transform: rotate(270deg);
+                }
+            }
+
+            data-line {
+                flex-shrink: 0;
+                width: 100%;
+                font-size: 14px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            line-number {
+                flex-shrink: 0;
+                width: 72px;
+                text-align: right;
+            }
+
+            description {
+                flex-grow: 1;
+                margin-left: 15px;
+            }
+
+            header-line {
+                @extend data-line;
+                height: 32px;
+                background-color: #232528;
+                color: #E7E8EA;
+                font-weight: 500;
+            }
+
+            errors-list {
+                flex-shrink: 0;
+                width: 100%;
+                height: 188px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                overflow-y: auto;
+                background-color: #E7E8EA;
+
+                error-line {
+                    @extend data-line;
+                    height: 32px;
+                    color: #232528;
+                }
+
+                error-line:hover {
+                    background-color: #BABEC4;
+                }
+            }
         }
     }
 }
