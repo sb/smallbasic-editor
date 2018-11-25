@@ -4,11 +4,13 @@
 
 namespace SuperBasic.Tests.Compiler
 {
+    using System.Threading.Tasks;
     using FluentAssertions;
     using SuperBasic.Compiler;
     using SuperBasic.Compiler.Diagnostics;
     using Xunit;
 
+    // TODO: how to set timeout for all tests globally? they currently run indefinetely.
     public sealed class BindingTests
     {
         [Fact]
@@ -492,17 +494,27 @@ File.DeleteFile(""a.txt"")", isRunningOnDesktop: false).VerifyDiagnostics(
         }
 
         [Fact]
-        public void ItDoesNotSetUsesGraphicsWindowWhenNotNeeded()
+        public async Task ItDoesNotUseGraphicsWindowWhenNotNeeded()
         {
-            new SuperBasicCompilation(@"
-TextWindow.WriteLine(5)").VerifyDiagnostics().UsesGraphicsWindow.Should().Be(false);
+            var engine = await new SuperBasicCompilation("TextWindow.WriteLine(5)").VerifyRuntime().ConfigureAwait(false);
+            engine.Analysis.UsesTextWindow.Should().Be(true);
+            engine.Analysis.UsesGraphicsWindow.Should().Be(false);
         }
 
         [Fact]
-        public void ItSetsUsesGraphicsWindowWhenNeeded()
+        public async Task ItUsesGraphicsWindowWhenNeeded()
         {
-            new SuperBasicCompilation(@"
-Controls.ShowControl(something)").VerifyDiagnostics().UsesGraphicsWindow.Should().Be(true);
+            var engine = await new SuperBasicCompilation("Controls.ShowControl(something)").VerifyRuntime().ConfigureAwait(false);
+            engine.Analysis.UsesTextWindow.Should().Be(false);
+            engine.Analysis.UsesGraphicsWindow.Should().Be(true);
+        }
+
+        [Fact]
+        public async Task ItUsesTextWindowWhenNothingIsNeeded()
+        {
+            var engine = await new SuperBasicCompilation("x = Math.Sin(5)").VerifyRuntime().ConfigureAwait(false);
+            engine.Analysis.UsesTextWindow.Should().Be(true);
+            engine.Analysis.UsesGraphicsWindow.Should().Be(false);
         }
     }
 }

@@ -24,13 +24,14 @@ namespace SuperBasic.Generators.Parsing
             this.Line("using SuperBasic.Utilities;");
             this.Blank();
 
+            this.GenerateBaseVisitor(model);
+
             foreach (var node in model)
             {
                 this.ValidateNode(node);
                 this.GenerateNode(node);
             }
 
-            this.GenerateBaseVisitor(model);
             this.Unbrace();
         }
 
@@ -283,10 +284,10 @@ namespace SuperBasic.Generators.Parsing
 
         private void GenerateBaseVisitor(SyntaxNodeCollection model)
         {
-            this.Line("internal abstract class BaseSyntaxNodeVisitor");
+            this.Line("public abstract class BaseSyntaxNodeVisitor");
             this.Brace();
 
-            this.Line("public void Visit(BaseSyntaxNode node)");
+            this.Line("private protected void Visit(BaseSyntaxNode node)");
             this.Brace();
 
             this.Line("switch (node)");
@@ -311,7 +312,7 @@ namespace SuperBasic.Generators.Parsing
 
             foreach (var node in model.Where(node => !node.IsAbstract))
             {
-                this.Line($"public virtual void Visit{node.Name.RemoveSuffix("Syntax")}({node.Name} node)");
+                this.Line($"private protected virtual void Visit{node.Name.RemoveSuffix("Syntax")}({node.Name} node)");
                 this.Brace();
                 this.Line("this.DefaultVisit(node);");
                 this.Unbrace();

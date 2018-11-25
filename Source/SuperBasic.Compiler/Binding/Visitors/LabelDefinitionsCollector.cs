@@ -14,14 +14,15 @@ namespace SuperBasic.Compiler.Binding
         private readonly DiagnosticBag diagnostics;
         private readonly HashSet<string> labels = new HashSet<string>();
 
-        public LabelDefinitionsCollector(DiagnosticBag diagnostics)
+        public LabelDefinitionsCollector(DiagnosticBag diagnostics, BoundStatementBlock module)
         {
             this.diagnostics = diagnostics;
+            this.Visit(module);
         }
 
         public IReadOnlyCollection<string> Labels => this.labels;
 
-        public override void VisitLabelStatement(BoundLabelStatement node)
+        private protected override void VisitLabelStatement(BoundLabelStatement node)
         {
             if (!this.labels.Add(node.Label))
             {

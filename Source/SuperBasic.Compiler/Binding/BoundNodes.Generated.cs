@@ -14,6 +14,282 @@ namespace SuperBasic.Compiler.Binding
     using SuperBasic.Compiler.Scanning;
     using SuperBasic.Utilities;
 
+    public abstract class BaseBoundNodeVisitor
+    {
+        private protected void Visit(BaseBoundNode node)
+        {
+            switch (node)
+            {
+                case BoundSubModule subModule:
+                    this.VisitSubModule(subModule);
+                    break;
+                case BoundStatementBlock statementBlock:
+                    this.VisitStatementBlock(statementBlock);
+                    break;
+                case BoundIfPart ifPart:
+                    this.VisitIfPart(ifPart);
+                    break;
+                case BoundElseIfPart elseIfPart:
+                    this.VisitElseIfPart(elseIfPart);
+                    break;
+                case BoundElsePart elsePart:
+                    this.VisitElsePart(elsePart);
+                    break;
+                case BoundIfStatement ifStatement:
+                    this.VisitIfStatement(ifStatement);
+                    break;
+                case BoundWhileStatement whileStatement:
+                    this.VisitWhileStatement(whileStatement);
+                    break;
+                case BoundForStatement forStatement:
+                    this.VisitForStatement(forStatement);
+                    break;
+                case BoundLabelStatement labelStatement:
+                    this.VisitLabelStatement(labelStatement);
+                    break;
+                case BoundGoToStatement goToStatement:
+                    this.VisitGoToStatement(goToStatement);
+                    break;
+                case BoundSubModuleInvocationStatement subModuleInvocationStatement:
+                    this.VisitSubModuleInvocationStatement(subModuleInvocationStatement);
+                    break;
+                case BoundLibraryMethodInvocationStatement libraryMethodInvocationStatement:
+                    this.VisitLibraryMethodInvocationStatement(libraryMethodInvocationStatement);
+                    break;
+                case BoundVariableAssignmentStatement variableAssignmentStatement:
+                    this.VisitVariableAssignmentStatement(variableAssignmentStatement);
+                    break;
+                case BoundPropertyAssignmentStatement propertyAssignmentStatement:
+                    this.VisitPropertyAssignmentStatement(propertyAssignmentStatement);
+                    break;
+                case BoundEventAssignmentStatement eventAssignmentStatement:
+                    this.VisitEventAssignmentStatement(eventAssignmentStatement);
+                    break;
+                case BoundArrayAssignmentStatement arrayAssignmentStatement:
+                    this.VisitArrayAssignmentStatement(arrayAssignmentStatement);
+                    break;
+                case BoundInvalidExpressionStatement invalidExpressionStatement:
+                    this.VisitInvalidExpressionStatement(invalidExpressionStatement);
+                    break;
+                case BoundUnaryExpression unaryExpression:
+                    this.VisitUnaryExpression(unaryExpression);
+                    break;
+                case BoundBinaryExpression binaryExpression:
+                    this.VisitBinaryExpression(binaryExpression);
+                    break;
+                case BoundArrayAccessExpression arrayAccessExpression:
+                    this.VisitArrayAccessExpression(arrayAccessExpression);
+                    break;
+                case BoundLibraryTypeExpression libraryTypeExpression:
+                    this.VisitLibraryTypeExpression(libraryTypeExpression);
+                    break;
+                case BoundLibraryMethodExpression libraryMethodExpression:
+                    this.VisitLibraryMethodExpression(libraryMethodExpression);
+                    break;
+                case BoundLibraryPropertyExpression libraryPropertyExpression:
+                    this.VisitLibraryPropertyExpression(libraryPropertyExpression);
+                    break;
+                case BoundLibraryEventExpression libraryEventExpression:
+                    this.VisitLibraryEventExpression(libraryEventExpression);
+                    break;
+                case BoundLibraryMethodInvocationExpression libraryMethodInvocationExpression:
+                    this.VisitLibraryMethodInvocationExpression(libraryMethodInvocationExpression);
+                    break;
+                case BoundSubModuleExpression subModuleExpression:
+                    this.VisitSubModuleExpression(subModuleExpression);
+                    break;
+                case BoundSubModuleInvocationExpression subModuleInvocationExpression:
+                    this.VisitSubModuleInvocationExpression(subModuleInvocationExpression);
+                    break;
+                case BoundVariableExpression variableExpression:
+                    this.VisitVariableExpression(variableExpression);
+                    break;
+                case BoundStringLiteralExpression stringLiteralExpression:
+                    this.VisitStringLiteralExpression(stringLiteralExpression);
+                    break;
+                case BoundNumberLiteralExpression numberLiteralExpression:
+                    this.VisitNumberLiteralExpression(numberLiteralExpression);
+                    break;
+                case BoundParenthesisExpression parenthesisExpression:
+                    this.VisitParenthesisExpression(parenthesisExpression);
+                    break;
+                case BoundInvalidExpression invalidExpression:
+                    this.VisitInvalidExpression(invalidExpression);
+                    break;
+                default:
+                    throw ExceptionUtilities.UnexpectedValue(node);
+            }
+        }
+
+        private protected virtual void VisitSubModule(BoundSubModule node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitStatementBlock(BoundStatementBlock node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitIfPart(BoundIfPart node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitElseIfPart(BoundElseIfPart node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitElsePart(BoundElsePart node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitIfStatement(BoundIfStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitWhileStatement(BoundWhileStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitForStatement(BoundForStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLabelStatement(BoundLabelStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitGoToStatement(BoundGoToStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitSubModuleInvocationStatement(BoundSubModuleInvocationStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLibraryMethodInvocationStatement(BoundLibraryMethodInvocationStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitVariableAssignmentStatement(BoundVariableAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitPropertyAssignmentStatement(BoundPropertyAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitEventAssignmentStatement(BoundEventAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitArrayAssignmentStatement(BoundArrayAssignmentStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitInvalidExpressionStatement(BoundInvalidExpressionStatement node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitUnaryExpression(BoundUnaryExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitBinaryExpression(BoundBinaryExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitArrayAccessExpression(BoundArrayAccessExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLibraryTypeExpression(BoundLibraryTypeExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLibraryMethodExpression(BoundLibraryMethodExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLibraryPropertyExpression(BoundLibraryPropertyExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLibraryEventExpression(BoundLibraryEventExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitLibraryMethodInvocationExpression(BoundLibraryMethodInvocationExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitSubModuleExpression(BoundSubModuleExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitSubModuleInvocationExpression(BoundSubModuleInvocationExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitVariableExpression(BoundVariableExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitStringLiteralExpression(BoundStringLiteralExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitNumberLiteralExpression(BoundNumberLiteralExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitParenthesisExpression(BoundParenthesisExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private protected virtual void VisitInvalidExpression(BoundInvalidExpression node)
+        {
+            this.DefaultVisit(node);
+        }
+
+        private void DefaultVisit(BaseBoundNode node)
+        {
+            foreach (var child in node.Children)
+            {
+                this.Visit(child);
+            }
+        }
+    }
+
     internal sealed class BoundSubModule : BaseBoundNode
     {
         public BoundSubModule(SubModuleStatementSyntax syntax, string name, BoundStatementBlock body)
@@ -928,282 +1204,6 @@ namespace SuperBasic.Compiler.Binding
             get
             {
                 return Enumerable.Empty<BaseBoundNode>();
-            }
-        }
-    }
-
-    internal abstract class BaseBoundNodeVisitor
-    {
-        public void Visit(BaseBoundNode node)
-        {
-            switch (node)
-            {
-                case BoundSubModule subModule:
-                    this.VisitSubModule(subModule);
-                    break;
-                case BoundStatementBlock statementBlock:
-                    this.VisitStatementBlock(statementBlock);
-                    break;
-                case BoundIfPart ifPart:
-                    this.VisitIfPart(ifPart);
-                    break;
-                case BoundElseIfPart elseIfPart:
-                    this.VisitElseIfPart(elseIfPart);
-                    break;
-                case BoundElsePart elsePart:
-                    this.VisitElsePart(elsePart);
-                    break;
-                case BoundIfStatement ifStatement:
-                    this.VisitIfStatement(ifStatement);
-                    break;
-                case BoundWhileStatement whileStatement:
-                    this.VisitWhileStatement(whileStatement);
-                    break;
-                case BoundForStatement forStatement:
-                    this.VisitForStatement(forStatement);
-                    break;
-                case BoundLabelStatement labelStatement:
-                    this.VisitLabelStatement(labelStatement);
-                    break;
-                case BoundGoToStatement goToStatement:
-                    this.VisitGoToStatement(goToStatement);
-                    break;
-                case BoundSubModuleInvocationStatement subModuleInvocationStatement:
-                    this.VisitSubModuleInvocationStatement(subModuleInvocationStatement);
-                    break;
-                case BoundLibraryMethodInvocationStatement libraryMethodInvocationStatement:
-                    this.VisitLibraryMethodInvocationStatement(libraryMethodInvocationStatement);
-                    break;
-                case BoundVariableAssignmentStatement variableAssignmentStatement:
-                    this.VisitVariableAssignmentStatement(variableAssignmentStatement);
-                    break;
-                case BoundPropertyAssignmentStatement propertyAssignmentStatement:
-                    this.VisitPropertyAssignmentStatement(propertyAssignmentStatement);
-                    break;
-                case BoundEventAssignmentStatement eventAssignmentStatement:
-                    this.VisitEventAssignmentStatement(eventAssignmentStatement);
-                    break;
-                case BoundArrayAssignmentStatement arrayAssignmentStatement:
-                    this.VisitArrayAssignmentStatement(arrayAssignmentStatement);
-                    break;
-                case BoundInvalidExpressionStatement invalidExpressionStatement:
-                    this.VisitInvalidExpressionStatement(invalidExpressionStatement);
-                    break;
-                case BoundUnaryExpression unaryExpression:
-                    this.VisitUnaryExpression(unaryExpression);
-                    break;
-                case BoundBinaryExpression binaryExpression:
-                    this.VisitBinaryExpression(binaryExpression);
-                    break;
-                case BoundArrayAccessExpression arrayAccessExpression:
-                    this.VisitArrayAccessExpression(arrayAccessExpression);
-                    break;
-                case BoundLibraryTypeExpression libraryTypeExpression:
-                    this.VisitLibraryTypeExpression(libraryTypeExpression);
-                    break;
-                case BoundLibraryMethodExpression libraryMethodExpression:
-                    this.VisitLibraryMethodExpression(libraryMethodExpression);
-                    break;
-                case BoundLibraryPropertyExpression libraryPropertyExpression:
-                    this.VisitLibraryPropertyExpression(libraryPropertyExpression);
-                    break;
-                case BoundLibraryEventExpression libraryEventExpression:
-                    this.VisitLibraryEventExpression(libraryEventExpression);
-                    break;
-                case BoundLibraryMethodInvocationExpression libraryMethodInvocationExpression:
-                    this.VisitLibraryMethodInvocationExpression(libraryMethodInvocationExpression);
-                    break;
-                case BoundSubModuleExpression subModuleExpression:
-                    this.VisitSubModuleExpression(subModuleExpression);
-                    break;
-                case BoundSubModuleInvocationExpression subModuleInvocationExpression:
-                    this.VisitSubModuleInvocationExpression(subModuleInvocationExpression);
-                    break;
-                case BoundVariableExpression variableExpression:
-                    this.VisitVariableExpression(variableExpression);
-                    break;
-                case BoundStringLiteralExpression stringLiteralExpression:
-                    this.VisitStringLiteralExpression(stringLiteralExpression);
-                    break;
-                case BoundNumberLiteralExpression numberLiteralExpression:
-                    this.VisitNumberLiteralExpression(numberLiteralExpression);
-                    break;
-                case BoundParenthesisExpression parenthesisExpression:
-                    this.VisitParenthesisExpression(parenthesisExpression);
-                    break;
-                case BoundInvalidExpression invalidExpression:
-                    this.VisitInvalidExpression(invalidExpression);
-                    break;
-                default:
-                    throw ExceptionUtilities.UnexpectedValue(node);
-            }
-        }
-
-        public virtual void VisitSubModule(BoundSubModule node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitStatementBlock(BoundStatementBlock node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitIfPart(BoundIfPart node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitElseIfPart(BoundElseIfPart node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitElsePart(BoundElsePart node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitIfStatement(BoundIfStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitWhileStatement(BoundWhileStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitForStatement(BoundForStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLabelStatement(BoundLabelStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitGoToStatement(BoundGoToStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitSubModuleInvocationStatement(BoundSubModuleInvocationStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLibraryMethodInvocationStatement(BoundLibraryMethodInvocationStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitVariableAssignmentStatement(BoundVariableAssignmentStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitPropertyAssignmentStatement(BoundPropertyAssignmentStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitEventAssignmentStatement(BoundEventAssignmentStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitArrayAssignmentStatement(BoundArrayAssignmentStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitInvalidExpressionStatement(BoundInvalidExpressionStatement node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitUnaryExpression(BoundUnaryExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitBinaryExpression(BoundBinaryExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitArrayAccessExpression(BoundArrayAccessExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLibraryTypeExpression(BoundLibraryTypeExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLibraryMethodExpression(BoundLibraryMethodExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLibraryPropertyExpression(BoundLibraryPropertyExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLibraryEventExpression(BoundLibraryEventExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitLibraryMethodInvocationExpression(BoundLibraryMethodInvocationExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitSubModuleExpression(BoundSubModuleExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitSubModuleInvocationExpression(BoundSubModuleInvocationExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitVariableExpression(BoundVariableExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitStringLiteralExpression(BoundStringLiteralExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitNumberLiteralExpression(BoundNumberLiteralExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitParenthesisExpression(BoundParenthesisExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        public virtual void VisitInvalidExpression(BoundInvalidExpression node)
-        {
-            this.DefaultVisit(node);
-        }
-
-        private void DefaultVisit(BaseBoundNode node)
-        {
-            foreach (var child in node.Children)
-            {
-                this.Visit(child);
             }
         }
     }

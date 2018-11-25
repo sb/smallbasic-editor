@@ -13,8 +13,6 @@ namespace SuperBasic.Editor.Components.Layout
 
     public abstract class MainLayout : SuperBasicComponent
     {
-        private const string HomePageLink = "https://smallbasic-publicwebsite.azurewebsites.net/";
-
         private static readonly IReadOnlyDictionary<string, string> HeaderLinks = new Dictionary<string, string>
         {
             { EditorResources.Header_TutorialsLink, "https://smallbasic-publicwebsite.azurewebsites.net/Pages/Tutorials/Tutorials.aspx" },
@@ -34,10 +32,7 @@ namespace SuperBasic.Editor.Components.Layout
                 {
                     composer.Element("logo-area", body: () =>
                     {
-                        Micro.ClickableAsync(composer, () => OpenExtrernalLink(HomePageLink), body: () =>
-                        {
-                            composer.Element("logo");
-                        });
+                        composer.Element("logo");
                     });
 
                     composer.Element("header-links", body: () =>

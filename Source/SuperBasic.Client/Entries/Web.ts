@@ -5,5 +5,7 @@
 import "typeface-roboto";
 
 import "./Styles";
+
+import "../Utility/SetupMonacoEnvironment";
 import "../Interop/JSInterop.Generated";
 import "../Interop/CSInterop.Generated";

@@ -13,13 +13,14 @@ namespace SuperBasic.Compiler.Binding
         private readonly DiagnosticBag diagnostics;
         private readonly IReadOnlyCollection<string> labels = new HashSet<string>();
 
-        public GoToUndefinedLabelChecker(DiagnosticBag diagnostics, IReadOnlyCollection<string> labels)
+        public GoToUndefinedLabelChecker(DiagnosticBag diagnostics, IReadOnlyCollection<string> labels, BoundStatementBlock module)
         {
             this.diagnostics = diagnostics;
             this.labels = labels;
+            this.Visit(module);
         }
 
-        public override void VisitGoToStatement(BoundGoToStatement node)
+        private protected override void VisitGoToStatement(BoundGoToStatement node)
         {
             if (!this.labels.Contains(node.Label))
             {

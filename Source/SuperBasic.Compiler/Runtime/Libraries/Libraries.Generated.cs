@@ -21,6 +21,7 @@ namespace SuperBasic.Compiler.Runtime
             string description,
             string explorerIcon,
             bool usesGraphicsWindow,
+            bool usesTextWindow,
             IReadOnlyDictionary<string, Method> methods,
             IReadOnlyDictionary<string, Property> properties,
             IReadOnlyDictionary<string, Event> events)
@@ -29,6 +30,7 @@ namespace SuperBasic.Compiler.Runtime
             this.Description = description;
             this.ExplorerIcon = explorerIcon;
             this.UsesGraphicsWindow = usesGraphicsWindow;
+            this.UsesTextWindow = usesTextWindow;
             this.Methods = methods;
             this.Properties = properties;
             this.Events = events;
@@ -41,6 +43,8 @@ namespace SuperBasic.Compiler.Runtime
         public string ExplorerIcon { get; private set; }
 
         public bool UsesGraphicsWindow { get; private set; }
+
+        public bool UsesTextWindow { get; private set; }
 
         public IReadOnlyDictionary<string, Method> Methods { get; private set; }
 
@@ -289,7 +293,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Array", new Library("Array", LibrariesResources.Array, "th-list", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Array", new Library("Array", LibrariesResources.Array, "th-list", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Clock'
@@ -432,7 +436,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, "clock", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Clock", new Library("Clock", LibrariesResources.Clock, "clock", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Controls'
@@ -769,7 +773,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextTyped", new Event("TextTyped", LibrariesResources.Controls_TextTyped) },
                 };
 
-                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, "sliders-h", usesGraphicsWindow: true, methods, properties, events));
+                types.Add("Controls", new Library("Controls", LibrariesResources.Controls, "sliders-h", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Desktop'
@@ -827,7 +831,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, "desktop", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, "desktop", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Dictionary'
@@ -1216,7 +1220,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, "font", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, "font", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'File'
@@ -1588,7 +1592,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("File", new Library("File", LibrariesResources.File, "file", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("File", new Library("File", LibrariesResources.File, "file", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Flickr'
@@ -1638,7 +1642,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, "camera", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, "camera", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'GraphicsWindow'
@@ -2447,7 +2451,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "TextInput", new Event("TextInput", LibrariesResources.GraphicsWindow_TextInput) },
                 };
 
-                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, "paint-brush", usesGraphicsWindow: true, methods, properties, events));
+                types.Add("GraphicsWindow", new Library("GraphicsWindow", LibrariesResources.GraphicsWindow, "paint-brush", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'ImageList'
@@ -2530,7 +2534,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, "images", usesGraphicsWindow: true, methods, properties, events));
+                types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, "images", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Math'
@@ -3041,7 +3045,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Math", new Library("Math", LibrariesResources.Math, "calculator", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Math", new Library("Math", LibrariesResources.Math, "calculator", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Mouse'
@@ -3152,7 +3156,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, "mouse-pointer", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, "mouse-pointer", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Network'
@@ -3211,7 +3215,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Network", new Library("Network", LibrariesResources.Network, "network-wired", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Network", new Library("Network", LibrariesResources.Network, "network-wired", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Program'
@@ -3324,7 +3328,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Program", new Library("Program", LibrariesResources.Program, "laptop-code", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Program", new Library("Program", LibrariesResources.Program, "laptop-code", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Shapes'
@@ -3798,7 +3802,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, "shapes", usesGraphicsWindow: true, methods, properties, events));
+                types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, "shapes", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Sound'
@@ -4058,7 +4062,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, "volume-up", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Sound", new Library("Sound", LibrariesResources.Sound, "volume-up", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Stack'
@@ -4142,7 +4146,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, "ellipsis-v", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Stack", new Library("Stack", LibrariesResources.Stack, "ellipsis-v", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Text'
@@ -4457,7 +4461,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Text", new Library("Text", LibrariesResources.Text, "text-height", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Text", new Library("Text", LibrariesResources.Text, "text-height", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'TextWindow'
@@ -4776,7 +4780,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, "terminal", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, "terminal", usesGraphicsWindow: false, usesTextWindow: true, methods, properties, events));
             }
 
             // Initialization code for library 'Timer'
@@ -4847,7 +4851,7 @@ namespace SuperBasic.Compiler.Runtime
                     { "Tick", new Event("Tick", LibrariesResources.Timer_Tick) },
                 };
 
-                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, "stopwatch", usesGraphicsWindow: false, methods, properties, events));
+                types.Add("Timer", new Library("Timer", LibrariesResources.Timer, "stopwatch", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Turtle'
@@ -5119,7 +5123,7 @@ namespace SuperBasic.Compiler.Runtime
 
                 var events = new Dictionary<string, Event>();
 
-                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, "pen-alt", usesGraphicsWindow: true, methods, properties, events));
+                types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, "pen-alt", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             Types = types;

@@ -14,6 +14,7 @@
     <DisabledWarnings Include="CA1055" Comment="Uri return values should not be strings." />
     <DisabledWarnings Include="CA1710" Comment="Rename '{0}' to end in '{1}' (for IReadOnly collections)." />
     <DisabledWarnings Include="CA1716" Comment="Rename type '{0}' so that it no longer conflicts with the reserved language keyword '{0}'. Using a reserved keyword as the name of a type makes it harder for consumers in other languages to use the type." />
+    <DisabledWarnings Include="CA1812" Comment="'{0}' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static members, make it static (blazor components)." />
     <DisabledWarnings Include="CA2225" Comment="Operator overloads have named alternates." />
     <DisabledWarnings Include="CA2227" Comment="Collection properties should be read only (required for XML deserialization)." />
 

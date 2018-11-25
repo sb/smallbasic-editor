@@ -9,6 +9,7 @@ namespace SuperBasic.Tests
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using FluentAssertions;
     using SuperBasic.Compiler;
     using SuperBasic.Compiler.Diagnostics;
@@ -27,7 +28,7 @@ namespace SuperBasic.Tests
             return compilation;
         }
 
-        public static void VerifyRuntime(this SuperBasicCompilation compilation, string expectedLog = default, string memoryContents = default)
+        public static async Task<SuperBasicEngine> VerifyRuntime(this SuperBasicCompilation compilation, string expectedLog = default, string memoryContents = default)
         {
             compilation.VerifyDiagnostics();
 
@@ -37,7 +38,7 @@ namespace SuperBasic.Tests
             while (engine.State != ExecutionState.Terminated)
             {
                 engine.State.Should().Be(ExecutionState.Running, "loggers cannot move to another state");
-                engine.Execute(pauseAtNextStatement: false);
+                await engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
             }
 
             DebuggerSnapshot snapshot = engine.GetSnapshot();
@@ -55,6 +56,8 @@ namespace SuperBasic.Tests
 
                 values.Should().Be(memoryContents);
             }
+
+            return engine;
         }
 
         private static string SerializeDiagnostics(string[] textLines, IEnumerable<Diagnostic> diagnostics)

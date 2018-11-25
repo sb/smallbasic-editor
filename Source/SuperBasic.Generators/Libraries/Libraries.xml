@@ -894,7 +894,7 @@
       </Method>
     </Methods>
   </Library>
-  <Library Name="TextWindow" ExplorerIcon="terminal">
+  <Library Name="TextWindow" ExplorerIcon="terminal" UsesTextWindow="true">
     <Methods>
       <Method Name="Clear" />
       <Method Name="Hide" IsDeprecated="true" />

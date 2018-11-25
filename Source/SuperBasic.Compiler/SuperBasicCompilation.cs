@@ -41,9 +41,6 @@ namespace SuperBasic.Compiler
 
         public string Text { get; private set; }
 
-        // TODO: this will eventually move to an engine analyzer, that computes that, along with things like, does it track mouse? should we terminate or does it listen to events? etc....
-        public bool UsesGraphicsWindow => this.binder.UsesGraphicsWindow;
-
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
 
         internal BoundStatementBlock MainModule => this.binder.MainModule;

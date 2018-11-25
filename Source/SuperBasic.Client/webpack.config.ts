@@ -24,7 +24,7 @@ function createCommonConfig(params: {
     return {
         entry: params.entry,
         output: {
-            path: params.env.outputPath,
+            path: params.env.outputPath
         },
         watch: params.env.watch === "True",
         target: params.target,
@@ -111,7 +111,7 @@ export default function (env: IEnvArguments): webpack.Configuration[] {
         createCommonConfig({
             env: env,
             entry: {
-                "SmallBasic.Monaco": "@timkendrick/monaco-editor/dist/standalone/index.js",
+                "monaco.editor": "@timkendrick/monaco-editor/dist/standalone/index.js",
                 "SmallBasic.Interop": getEntry(env.isBuildingForDesktop === "True" ? "Renderer.ts" : "Web.ts")
             },
             target: env.isBuildingForDesktop === "True" ? "electron-renderer" : "web",

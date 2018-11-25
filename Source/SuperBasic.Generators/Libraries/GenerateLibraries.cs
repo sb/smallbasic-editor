@@ -39,6 +39,7 @@ namespace SuperBasic.Generators.Scanning
                 ("public", "string", "Description"),
                 ("public", "string", "ExplorerIcon"),
                 ("public", "bool", "UsesGraphicsWindow"),
+                ("public", "bool", "UsesTextWindow"),
                 ("public", "IReadOnlyDictionary<string, Method>", "Methods"),
                 ("public", "IReadOnlyDictionary<string, Property>", "Properties"),
                 ("public", "IReadOnlyDictionary<string, Event>", "Events"));
@@ -153,6 +154,7 @@ namespace SuperBasic.Generators.Scanning
                 $"LibrariesResources.{library.Name}",
                 $@"""{library.ExplorerIcon}""",
                 $"usesGraphicsWindow: {(library.UsesGraphicsWindow ? "true" : "false")}",
+                $"usesTextWindow: {(library.UsesTextWindow ? "true" : "false")}",
                 "methods",
                 "properties",
                 "events"

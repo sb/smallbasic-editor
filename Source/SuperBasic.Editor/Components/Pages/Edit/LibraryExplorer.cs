@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Editor.Components.Toolbox
+namespace SuperBasic.Editor.Components.Pages.Edit
 {
     using System;
     using System.Collections.Generic;
@@ -12,10 +12,10 @@ namespace SuperBasic.Editor.Components.Toolbox
     using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Components.Toolbox;
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    // TODO: replace icons with monaco ones.
     // TODO: show warning on deprecated types or members.
     // TODO: show when member/library is desktop only.
     public sealed class LibraryExplorer : SuperBasicComponent
@@ -100,7 +100,7 @@ namespace SuperBasic.Editor.Components.Toolbox
                 {
                     composer.Element("group-title", body: () =>
                     {
-                        composer.Element("icon", body: () => Micro.FontAwesome(composer, "bolt"));
+                        composer.Element("icon", body: () => Micro.FontAwesome(composer, "neuter"));
                         composer.Element("name", body: () => composer.Text(EditorResources.LibraryExplorer_Events));
                     });
 

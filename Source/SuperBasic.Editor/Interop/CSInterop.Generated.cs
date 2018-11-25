@@ -13,7 +13,7 @@ namespace SuperBasic.Editor.Interop
 
     internal interface IMonacoInterop
     {
-        Task<MonacoRange[]> OnChange(string id, string code);
+        Task<MonacoRange[]> UpdateDiagnostics(string code);
 
         Task<MonacoCompletionItem[]> ProvideCompletionItems(string code, MonacoPosition position);
 
@@ -24,10 +24,10 @@ namespace SuperBasic.Editor.Interop
     {
         private static readonly IMonacoInterop Monaco = new MonacoInterop();
 
-        [JSInvokable("CSIntrop.Monaco.OnChange")]
-        public static async Task<MonacoRange[]> Monaco_OnChange(string id, string code)
+        [JSInvokable("CSIntrop.Monaco.UpdateDiagnostics")]
+        public static async Task<MonacoRange[]> Monaco_UpdateDiagnostics(string code)
         {
-            return await Monaco.OnChange(id, code);
+            return await Monaco.UpdateDiagnostics(code);
         }
 
         [JSInvokable("CSIntrop.Monaco.ProvideCompletionItems")]

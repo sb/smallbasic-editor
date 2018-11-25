@@ -24,16 +24,12 @@
     <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.6.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
   <Target Name="CopyElectronFiles" AfterTargets="Build" Condition="'$(IsBuildingForDesktop)' == 'True'">
-    <Message Importance="high" Text="Copying electron files to $(DistFolder)" />
-
     <PropertyGroup>
       <DistFolder>$([System.IO.Path]::GetFullPath($(OutputPath)\dist))</DistFolder>
     </PropertyGroup>
+
+    <Message Importance="high" Text="Copying electron files to $(DistFolder)" />
 
     <ItemGroup>
       <BridgeFiles Include="$(RootDirectory)\Source\SuperBasic.Bridge\bin\$(Configuration)\netcoreapp2.0\**\*.*" />

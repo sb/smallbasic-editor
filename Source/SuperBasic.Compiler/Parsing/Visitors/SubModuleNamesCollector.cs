@@ -12,14 +12,15 @@ namespace SuperBasic.Compiler.Parsing
         private readonly DiagnosticBag diagnostics;
         private readonly HashSet<string> names = new HashSet<string>();
 
-        public SubModuleNamesCollector(DiagnosticBag diagnostics)
+        public SubModuleNamesCollector(DiagnosticBag diagnostics, StatementBlockSyntax syntaxTree)
         {
             this.diagnostics = diagnostics;
+            this.Visit(syntaxTree);
         }
 
         public IReadOnlyCollection<string> Names => this.names;
 
-        public override void VisitSubModuleStatement(SubModuleStatementSyntax node)
+        private protected override void VisitSubModuleStatement(SubModuleStatementSyntax node)
         {
             this.names.Add(node.NameToken.Text);
         }

@@ -2,9 +2,8 @@
 <root>
   <InteropType Name="Monaco">
     <Methods>
-      <Method Name="OnChange" ReturnType="monaco.IRange[]">
+      <Method Name="UpdateDiagnostics" ReturnType="monaco.IRange[]">
         <Parameters>
-          <Parameter Name="id" Type="string" />
           <Parameter Name="code" Type="string" />
         </Parameters>
       </Method>

@@ -61,6 +61,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This will clear the existing program. Are you sure?.
+        /// </summary>
+        public static string Actions_ClearEverythingConfirmation {
+            get {
+                return ResourceManager.GetString("Actions_ClearEverythingConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Actions_Copy {
@@ -88,6 +97,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Coming soon!.
+        /// </summary>
+        public static string Actions_DisabledMessage_ComingSoon {
+            get {
+                return ResourceManager.GetString("Actions_DisabledMessage_ComingSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         public static string Actions_Import {
@@ -102,6 +120,15 @@ namespace SuperBasic.Utilities.Resources {
         public static string Actions_New {
             get {
                 return ResourceManager.GetString("Actions_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Actions_Open {
+            get {
+                return ResourceManager.GetString("Actions_Open", resourceCulture);
             }
         }
         

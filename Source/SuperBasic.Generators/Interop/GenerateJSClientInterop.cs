@@ -36,7 +36,7 @@ namespace SuperBasic.Generators.Interop
             foreach (Method method in type.Methods)
             {
                 string returnType = method.ReturnType.IsDefault() ? "void" : method.ReturnType;
-                this.Line($"{method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => $"{p.Name}: {p.Type}").Join(", ")}): {returnType};");
+                this.Line($"{method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => $"{p.Name}: {p.Type}").Join(", ")}): Promise<{returnType}>;");
             }
 
             this.Unbrace();
@@ -82,17 +82,17 @@ namespace SuperBasic.Generators.Interop
                     string parameters = method.Parameters.Select(p => $"{p.Name}: {p.Type}").Join(", ");
                     string returnType = method.ReturnType.IsDefault() ? "boolean" : method.ReturnType;
 
-                    this.Line($"{method.Name.ToLowerFirstChar()}: ({parameters}) : {returnType} => {{");
+                    this.Line($"{method.Name.ToLowerFirstChar()}: async ({parameters}) : Promise<{returnType}> => {{");
                     this.Indent();
 
                     if (method.ReturnType.IsDefault())
                     {
-                        this.Line($"{type.Name.ToLowerFirstChar()}.{method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => p.Name).Join(", ")});");
+                        this.Line($"await {type.Name.ToLowerFirstChar()}.{method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => p.Name).Join(", ")});");
                         this.Line("return true;");
                     }
                     else
                     {
-                        this.Line($"return {type.Name.ToLowerFirstChar()}.{method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => p.Name).Join(", ")});");
+                        this.Line($"return await {type.Name.ToLowerFirstChar()}.{method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => p.Name).Join(", ")});");
                     }
 
                     this.Unindent();

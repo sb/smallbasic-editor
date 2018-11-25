@@ -2,30 +2,23 @@
  * Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
  */
 
-/// <reference path="../node_modules/monaco-editor/monaco.d.ts" />
-
 import { IMonacoInterop } from "./JSInterop.Generated";
 import * as elementResizeEvent from "element-resize-event";
+import * as FileSaver from "file-saver";
 import { CSIntrop } from "./CSInterop.Generated";
 
-let idCounter = 1;
-const activeEditors: { [id: string]: monaco.editor.IStandaloneCodeEditor } = {};
-
 export class MonacoInterop implements IMonacoInterop {
-    public initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): string {
-        Object.keys(activeEditors).forEach(id => {
-            if (!document.getElementById(id)) {
-                activeEditors[id].dispose();
-                delete activeEditors[id];
-            }
-        });
+    private clipboard: string = "";
+    private outerContainer: HTMLElement | null = null;
+    private activeEditor: monaco.editor.IStandaloneCodeEditor | null = null;
 
-        const outerContainer = editorElement.parentElement && editorElement.parentElement.parentElement;
-        if (!outerContainer) {
+    public async initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): Promise<void> {
+        this.outerContainer = editorElement.parentElement && editorElement.parentElement.parentElement;
+        if (!this.outerContainer) {
             throw new Error("Editor outer container not found");
         }
 
-        const editorInstance = monaco.editor.create(editorElement, {
+        this.activeEditor = monaco.editor.create(editorElement, {
             value: initialValue,
             language: "sb",
             scrollBeyondLastLine: false,
@@ -38,71 +31,117 @@ export class MonacoInterop implements IMonacoInterop {
             }
         });
 
-        this.setLayout(editorInstance, outerContainer);
-        elementResizeEvent(outerContainer, this.setLayout.bind(this, editorInstance, outerContainer));
+        this.setLayout();
+        elementResizeEvent(this.outerContainer, this.setLayout.bind(this));
 
-        editorElement.id = "monaco_" + (idCounter++);
         let decorations: string[] = [];
+        this.activeEditor.onDidChangeModelContent(async () => {
+            const code = this.activeEditor!.getModel()!.getValue();
+            const ranges = await CSIntrop.Monaco.updateDiagnostics(code);
+            decorations = this.activeEditor!.deltaDecorations(decorations, ranges.map(range => {
+                return {
+                    range: range,
+                    options: {
+                        className: "wavy-line",
+                        glyphMarginClassName: "error-line-glyph"
+                    }
+                };
+            }));
+        });
+    }
 
-        editorInstance.onDidChangeModelContent(() => {
-            CSIntrop.Monaco.onChange(editorElement.id, editorInstance.getModel()!.getValue()).then(ranges => {
-                decorations = editorInstance.deltaDecorations(decorations, ranges.map(range => {
-                    return {
-                        range: range,
-                        options: {
-                            className: "wavy-line",
-                            glyphMarginClassName: "error-line-glyph"
-                        }
-                    };
-                }));
-            });
+    public async selectRange(range: monaco.IRange): Promise<void> {
+        this.activeEditor!.setSelection(range);
+    }
+
+    public async saveToFile(): Promise<void> {
+        const code = this.activeEditor!.getModel().getValue();
+        const blob = new Blob([code]);
+        FileSaver.saveAs(blob, "Program.txt");
+    }
+
+    public async openFile(confirmationMessage: string): Promise<void> {
+        if (!confirm(confirmationMessage)) {
+            return;
+        }
+
+        const filePicker = document.createElement("input");
+        filePicker.type = "file";
+        filePicker.style.display = "none";
+
+        filePicker.addEventListener("change", () => {
+            if (!filePicker.files) {
+                return;
+            }
+
+            for (let i = 0; i < filePicker.files.length; i++) {
+                const file = filePicker.files.item(i);
+                if (!file) {
+                    continue;
+                }
+
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    this.activeEditor!.getModel().setValue(reader.result as string);
+                };
+
+                reader.readAsBinaryString(file);
+            }
+
+            filePicker.remove();
         });
 
-        activeEditors[editorElement.id] = editorInstance;
-        return editorElement.id;
+        filePicker.click();
     }
 
-    public selectRange(id: string, range: monaco.IRange): void {
-        activeEditors[id].setSelection(range);
+    public async clearEditor(confirmationMessage: string): Promise<void> {
+        if (!confirm(confirmationMessage)) {
+            return;
+        }
+
+        this.activeEditor!.getModel().setValue("");
     }
 
-    private setLayout(editorInstance: monaco.editor.IStandaloneCodeEditor, outerContainer: HTMLElement): void {
-        const rect = outerContainer.getBoundingClientRect();
-        editorInstance.layout({
+    public async cut(): Promise<void> {
+        const selection = this.activeEditor!.getSelection();
+        this.clipboard = this.activeEditor!.getModel().getValueInRange(selection);
+
+        this.activeEditor!.executeEdits("", [{
+            identifier: { major: 1, minor: 1 },
+            range: selection,
+            text: "",
+            forceMoveMarkers: true
+        }]);
+    }
+
+    public async copy(): Promise<void> {
+        const selection = this.activeEditor!.getSelection();
+        this.clipboard = this.activeEditor!.getModel().getValueInRange(selection);
+    }
+
+    public async paste(): Promise<void> {
+        this.activeEditor!.executeEdits("", [{
+            identifier: { major: 1, minor: 1 },
+            range: this.activeEditor!.getSelection(),
+            text: this.clipboard,
+            forceMoveMarkers: true
+        }]);
+    }
+
+    public async undo(): Promise<void> {
+        this.activeEditor!.trigger("", "undo", "");
+    }
+
+    public async redo(): Promise<void> {
+        this.activeEditor!.trigger("", "redo", "");
+    }
+
+    private setLayout(): void {
+        const rect = this.outerContainer!.getBoundingClientRect();
+        this.activeEditor!.layout({
             // To account for container padding
             height: rect.height - 60,
             width: rect.width
         });
     }
 }
-
-function createRange(start: string, stop: string): string[] {
-    const result: string[] = [];
-    for (let idx = start.charCodeAt(0), end = stop.charCodeAt(0); idx <= end; ++idx) {
-        result.push(String.fromCharCode(idx));
-    }
-    return result;
-}
-
-monaco.languages.registerCompletionItemProvider("sb", {
-    triggerCharacters: [
-        ".",
-        ...createRange("a", "z"),
-        ...createRange("A", "Z")
-    ],
-    provideCompletionItems: (model: monaco.editor.IReadOnlyModel, position: monaco.IPosition): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
-        // TODO: Issue with monaco typing. This actually expects a CompletionItem[] not a CompletionList. Cast to <any> for now.
-        return <any>CSIntrop.Monaco.provideCompletionItems(model.getValue(), position);
-    }
-});
-
-monaco.languages.registerHoverProvider("sb", {
-    provideHover: (model: monaco.editor.IReadOnlyModel, position: monaco.IPosition): monaco.languages.ProviderResult<monaco.languages.Hover> => {
-        // TODO: Issue with monaco typing. It accepts string[], but types specify MarkdownString[] only. Cast to <any> for now.
-        return CSIntrop.Monaco.provideHover(model.getValue(), position).then(lines => {
-            return {
-                contents: <any>lines
-            };
-        });
-    }
-});

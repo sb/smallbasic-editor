@@ -35,7 +35,7 @@ namespace SuperBasic.Editor.Libraries
 
         public void Set_BackgroundColor(string value)
         {
-            if (TryGetColorFromNumber(value, out string result))
+            if (ColorParser.HexFromNumber(value, out string result))
             {
                 this.settings.BackgroundColor = result;
             }
@@ -45,7 +45,7 @@ namespace SuperBasic.Editor.Libraries
 
         public void Set_ForegroundColor(string value)
         {
-            if (TryGetColorFromNumber(value, out string result))
+            if (ColorParser.HexFromNumber(value, out string result))
             {
                 this.settings.PenColor = result;
             }
@@ -60,34 +60,5 @@ namespace SuperBasic.Editor.Libraries
         public void Write(string data) => this.plugin.Write(data);
 
         public void WriteLine(string data) => this.plugin.WriteLine(data);
-
-        private static bool TryGetColorFromNumber(string number, out string result)
-        {
-            if (decimal.TryParse(number, out decimal value))
-            {
-                switch (value)
-                {
-                    case 0: return ColorParser.TryParseColorName("Black", out result);
-                    case 1: return ColorParser.TryParseColorName("DarkBlue", out result);
-                    case 2: return ColorParser.TryParseColorName("DarkGreen", out result);
-                    case 3: return ColorParser.TryParseColorName("DarkCyan", out result);
-                    case 4: return ColorParser.TryParseColorName("DarkRed", out result);
-                    case 5: return ColorParser.TryParseColorName("DarkMagenta", out result);
-                    case 6: return ColorParser.TryParseColorName("DarkYellow", out result);
-                    case 7: return ColorParser.TryParseColorName("Gray", out result);
-                    case 8: return ColorParser.TryParseColorName("DarkGray", out result);
-                    case 9: return ColorParser.TryParseColorName("Blue", out result);
-                    case 10: return ColorParser.TryParseColorName("Green", out result);
-                    case 11: return ColorParser.TryParseColorName("Cyan", out result);
-                    case 12: return ColorParser.TryParseColorName("Red", out result);
-                    case 13: return ColorParser.TryParseColorName("Magenta", out result);
-                    case 14: return ColorParser.TryParseColorName("Yellow", out result);
-                    case 15: return ColorParser.TryParseColorName("White", out result);
-                }
-            }
-
-            result = default;
-            return false;
-        }
     }
 }

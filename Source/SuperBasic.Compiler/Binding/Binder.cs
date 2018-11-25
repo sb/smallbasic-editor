@@ -23,7 +23,7 @@ namespace SuperBasic.Compiler.Binding
         {
             this.diagnostics = diagnostics;
             this.isRunningOnDesktop = isRunningOnDesktop;
-            this.definedSubModules = this.CollectSubModuleNames(syntaxTree);
+            this.definedSubModules = new SubModuleNamesCollector(this.diagnostics, syntaxTree).Names;
 
             var mainModule = new List<BaseBoundStatement>();
             var subModules = new Dictionary<string, BoundSubModule>();
@@ -76,22 +76,10 @@ namespace SuperBasic.Compiler.Binding
 
         public IReadOnlyDictionary<string, BoundSubModule> SubModules { get; private set; }
 
-        public bool UsesGraphicsWindow { get; private set; }
-
-        private void CheckForLabelErrors(BoundStatementBlock block)
+        private void CheckForLabelErrors(BoundStatementBlock module)
         {
-            var labelsCollector = new LabelDefinitionsCollector(this.diagnostics);
-            labelsCollector.Visit(block);
-
-            var gotoChecker = new GoToUndefinedLabelChecker(this.diagnostics, labelsCollector.Labels);
-            gotoChecker.Visit(block);
-        }
-
-        private IReadOnlyCollection<string> CollectSubModuleNames(StatementBlockSyntax syntaxTree)
-        {
-            var namesCollector = new SubModuleNamesCollector(this.diagnostics);
-            namesCollector.Visit(syntaxTree);
-            return namesCollector.Names;
+            var labelsCollector = new LabelDefinitionsCollector(this.diagnostics, module);
+            var gotoChecker = new GoToUndefinedLabelChecker(this.diagnostics, labelsCollector.Labels, module);
         }
 
         private BaseBoundStatement BindStatementOpt(BaseStatementSyntax syntax)
@@ -546,8 +534,6 @@ namespace SuperBasic.Compiler.Binding
 
             if (Libraries.Types.TryGetValue(name, out Library library))
             {
-                this.UsesGraphicsWindow |= library.UsesGraphicsWindow;
-
                 if (expectsValue)
                 {
                     hasErrors = true;

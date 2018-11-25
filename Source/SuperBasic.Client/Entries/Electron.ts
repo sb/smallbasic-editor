@@ -12,6 +12,7 @@ function createWindow(): void {
         height: 600
     });
 
+    window.setMenu(null);
     window.loadFile("index.html");
 
     window.on("closed", () => {

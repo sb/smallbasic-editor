@@ -34,14 +34,54 @@ namespace SuperBasic.Editor.Interop
 
         public static class Monaco
         {
-            public static async Task<string> Initialize(ElementRef editorElement, string initialValue, bool isReadOnly)
+            public static async Task Initialize(ElementRef editorElement, string initialValue, bool isReadOnly)
             {
-                return await JSRuntime.Current.InvokeAsync<string>("JSInterop.Monaco.initialize", editorElement, initialValue, isReadOnly);
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.initialize", editorElement, initialValue, isReadOnly);
             }
 
-            public static async Task SelectRange(string id, MonacoRange range)
+            public static async Task SelectRange(MonacoRange range)
             {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.selectRange", id, range);
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.selectRange", range);
+            }
+
+            public static async Task SaveToFile()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.saveToFile");
+            }
+
+            public static async Task OpenFile(string confirmationMessage)
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.openFile", confirmationMessage);
+            }
+
+            public static async Task ClearEditor(string confirmationMessage)
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.clearEditor", confirmationMessage);
+            }
+
+            public static async Task Cut()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.cut");
+            }
+
+            public static async Task Copy()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.copy");
+            }
+
+            public static async Task Paste()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.paste");
+            }
+
+            public static async Task Undo()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.undo");
+            }
+
+            public static async Task Redo()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.redo");
             }
         }
     }

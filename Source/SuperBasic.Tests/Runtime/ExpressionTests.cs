@@ -4,25 +4,26 @@
 
 namespace SuperBasic.Tests.Runtime
 {
+    using System.Threading.Tasks;
     using SuperBasic.Compiler;
     using Xunit;
 
     public sealed class ExpressionTests
     {
         [Fact]
-        public void NumericStringsAreTreatedAsNumbers()
+        public async Task NumericStringsAreTreatedAsNumbers()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 x = ""1"" + 1
 y = 4 + ""-1""").VerifyRuntime(memoryContents: @"
 x = 2
-y = 3");
+y = 3").ConfigureAwait(false);
         }
 
         [Fact]
-        public void ItEvaluatesArrayAccess()
+        public async Task ItEvaluatesArrayAccess()
         {
-            new SuperBasicCompilation(@"
+            await new SuperBasicCompilation(@"
 ar[0] = ""first""
 ar[1][0] = ""second""
 ar[1][2] = ""third""
@@ -39,7 +40,7 @@ found_first = first
 found_second = third
 not_found_ar = 
 not_found_first = 
-not_found_second = ");
+not_found_second = ").ConfigureAwait(false);
         }
     }
 }

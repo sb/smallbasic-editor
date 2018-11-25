@@ -5,6 +5,7 @@
 namespace SuperBasic.Editor.Components.Toolbox
 {
     using System;
+    using System.Threading.Tasks;
 
     internal static class Actions
     {
@@ -17,15 +18,29 @@ namespace SuperBasic.Editor.Components.Toolbox
             });
         }
 
-        public static void Button(TreeComposer composer, string name, string title, Action onClick)
+        public static void Action(TreeComposer composer, string name, string title, Func<Task> onClick)
         {
-            Micro.Clickable(composer, onClick, body: () =>
+            Micro.ClickableAsync(composer, onClick, body: () =>
             {
                 composer.Element("action", body: () =>
                 {
                     composer.Element("icon-" + name);
                     composer.Text(title);
                 });
+            });
+        }
+
+        public static void DisabledAction(TreeComposer composer, string name, string title, string message)
+        {
+            composer.Element("disabled-action-container", body: () =>
+            {
+                composer.Element("action", body: () =>
+                {
+                    composer.Element("icon-" + name);
+                    composer.Text(title);
+                });
+
+                composer.Element("disabled-message", body: () => composer.Text(message));
             });
         }
 

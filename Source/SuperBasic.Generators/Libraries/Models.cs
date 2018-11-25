@@ -120,6 +120,9 @@ namespace SuperBasic.Generators.Scanning
         public bool UsesGraphicsWindow { get; set; }
 
         [XmlAttribute]
+        public bool UsesTextWindow { get; set; }
+
+        [XmlAttribute]
         public string ExplorerIcon { get; set; }
 
         [XmlArray(nameof(Methods))]
