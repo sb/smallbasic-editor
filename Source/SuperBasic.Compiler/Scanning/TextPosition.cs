@@ -6,21 +6,22 @@ namespace SuperBasic.Compiler.Scanning
 {
     using System;
     using System.Diagnostics;
+    using SuperBasic.Compiler.Services;
 
     [DebuggerDisplay("{ToDisplayString()}")]
     public readonly struct TextPosition : IEquatable<TextPosition>
     {
-        internal TextPosition(short line, short column)
+        internal TextPosition(int line, int column)
         {
             this.Line = line;
             this.Column = column;
         }
 
-        public short Line { get; }
+        public int Line { get; }
 
-        public short Column { get; }
+        public int Column { get; }
 
-        public static implicit operator TextPosition(in (short Line, short Column) tuple)
+        public static implicit operator TextPosition(in (int Line, int Column) tuple)
         {
             return new TextPosition(tuple.Line, tuple.Column);
         }
@@ -44,5 +45,11 @@ namespace SuperBasic.Compiler.Scanning
         public bool Equals(TextPosition other) => this == other;
 
         public string ToDisplayString() => $"({this.Line}, {this.Column})";
+
+        public MonacoPosition ToMonacoPosition() => new MonacoPosition
+        {
+            lineNumber = this.Line + 1,
+            column = this.Column + 1
+        };
     }
 }

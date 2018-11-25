@@ -15,12 +15,16 @@ export declare module DotNet {
 
 export module CSIntrop {
     export module Monaco {
-        export function provideCompletionItems(code: string, line: number, column: number): Promise<monaco.languages.CompletionItem[]> {
-            return DotNet.invokeMethodAsync<monaco.languages.CompletionItem[]>("SuperBasic.Editor", "CSIntrop.Monaco.ProvideCompletionItems", code, line, column);
+        export function onChange(id: string, code: string): Promise<monaco.IRange[]> {
+            return DotNet.invokeMethodAsync<monaco.IRange[]>("SuperBasic.Editor", "CSIntrop.Monaco.OnChange", id, code);
         }
 
-        export function provideHover(code: string, line: number, column: number): Promise<string[]> {
-            return DotNet.invokeMethodAsync<string[]>("SuperBasic.Editor", "CSIntrop.Monaco.ProvideHover", code, line, column);
+        export function provideCompletionItems(code: string, position: monaco.IPosition): Promise<monaco.languages.CompletionItem[]> {
+            return DotNet.invokeMethodAsync<monaco.languages.CompletionItem[]>("SuperBasic.Editor", "CSIntrop.Monaco.ProvideCompletionItems", code, position);
+        }
+
+        export function provideHover(code: string, position: monaco.IPosition): Promise<string[]> {
+            return DotNet.invokeMethodAsync<string[]>("SuperBasic.Editor", "CSIntrop.Monaco.ProvideHover", code, position);
         }
     }
 }

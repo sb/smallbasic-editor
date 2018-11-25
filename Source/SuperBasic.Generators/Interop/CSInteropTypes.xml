@@ -2,18 +2,22 @@
 <root>
   <InteropType Name="Monaco">
     <Methods>
+      <Method Name="OnChange" ReturnType="monaco.IRange[]">
+        <Parameters>
+          <Parameter Name="id" Type="string" />
+          <Parameter Name="code" Type="string" />
+        </Parameters>
+      </Method>
       <Method Name="ProvideCompletionItems" ReturnType="monaco.languages.CompletionItem[]">
         <Parameters>
           <Parameter Name="code" Type="string" />
-          <Parameter Name="line" Type="number" />
-          <Parameter Name="column" Type="number" />
+          <Parameter Name="position" Type="monaco.IPosition" />
         </Parameters>
       </Method>
       <Method Name="ProvideHover" ReturnType="string[]">
         <Parameters>
           <Parameter Name="code" Type="string" />
-          <Parameter Name="line" Type="number" />
-          <Parameter Name="column" Type="number" />
+          <Parameter Name="position" Type="monaco.IPosition" />
         </Parameters>
       </Method>
     </Methods>

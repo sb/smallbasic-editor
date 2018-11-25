@@ -22,7 +22,7 @@ namespace SuperBasic.Compiler.Services
             }
 
             // column - 1, as we want to check inside the previous node, not after it.
-            position = (position.Line, (short)(position.Column - 1));
+            position = (position.Line, position.Column - 1);
             var node = parser.SyntaxTree.FindNodeAt(position);
             if (node.IsDefault())
             {

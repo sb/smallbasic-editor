@@ -15,7 +15,8 @@ export interface ILayoutInterop {
 }
 
 export interface IMonacoInterop {
-    initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): void;
+    initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): string;
+    selectRange(id: string, range: monaco.IRange): void;
 }
 
 declare global {
@@ -44,8 +45,11 @@ const monaco: IMonacoInterop = new MonacoInterop();
         }
     },
     Monaco: {
-        initialize: (editorElement: HTMLElement, initialValue: string, isReadOnly: boolean) : boolean => {
-            monaco.initialize(editorElement, initialValue, isReadOnly);
+        initialize: (editorElement: HTMLElement, initialValue: string, isReadOnly: boolean) : string => {
+            return monaco.initialize(editorElement, initialValue, isReadOnly);
+        },
+        selectRange: (id: string, range: monaco.IRange) : boolean => {
+            monaco.selectRange(id, range);
             return true;
         }
     }

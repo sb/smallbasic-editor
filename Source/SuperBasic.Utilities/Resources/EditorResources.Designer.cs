@@ -169,6 +169,33 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Errors.
+        /// </summary>
+        public static string Errors_Count {
+            get {
+                return ResourceManager.GetString("Errors_Count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Errors_Description {
+            get {
+                return ResourceManager.GetString("Errors_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string Errors_Line {
+            get {
+                return ResourceManager.GetString("Errors_Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documentation.
         /// </summary>
         public static string Header_DocumentationLink {

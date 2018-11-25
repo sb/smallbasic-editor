@@ -8,41 +8,67 @@ import { IMonacoInterop } from "./JSInterop.Generated";
 import * as elementResizeEvent from "element-resize-event";
 import { CSIntrop } from "./CSInterop.Generated";
 
-export class MonacoInterop implements IMonacoInterop {
-    private outerContainer: HTMLElement | null = null;
-    private editorInstance: monaco.editor.IStandaloneCodeEditor | null = null;
+let idCounter = 1;
+const activeEditors: { [id: string]: monaco.editor.IStandaloneCodeEditor } = {};
 
-    public initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): void {
-        this.outerContainer = editorElement.parentElement && editorElement.parentElement.parentElement;
-        if (!this.outerContainer) {
+export class MonacoInterop implements IMonacoInterop {
+    public initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): string {
+        Object.keys(activeEditors).forEach(id => {
+            if (!document.getElementById(id)) {
+                activeEditors[id].dispose();
+                delete activeEditors[id];
+            }
+        });
+
+        const outerContainer = editorElement.parentElement && editorElement.parentElement.parentElement;
+        if (!outerContainer) {
             throw new Error("Editor outer container not found");
         }
 
-        this.editorInstance = monaco.editor.create(editorElement, {
+        const editorInstance = monaco.editor.create(editorElement, {
             value: initialValue,
             language: "sb",
             scrollBeyondLastLine: false,
             readOnly: isReadOnly,
             fontFamily: "Consolas, monospace, Hack",
             fontSize: 18,
+            glyphMargin: true,
             minimap: {
                 enabled: false
             }
         });
 
-        this.setLayout();
-        elementResizeEvent(this.outerContainer, this.setLayout.bind(this));
+        this.setLayout(editorInstance, outerContainer);
+        elementResizeEvent(outerContainer, this.setLayout.bind(this, editorInstance, outerContainer));
+
+        editorElement.id = "monaco_" + (idCounter++);
+        let decorations: string[] = [];
+
+        editorInstance.onDidChangeModelContent(() => {
+            CSIntrop.Monaco.onChange(editorElement.id, editorInstance.getModel()!.getValue()).then(ranges => {
+                decorations = editorInstance.deltaDecorations(decorations, ranges.map(range => {
+                    return {
+                        range: range,
+                        options: {
+                            className: "wavy-line",
+                            glyphMarginClassName: "error-line-glyph"
+                        }
+                    };
+                }));
+            });
+        });
+
+        activeEditors[editorElement.id] = editorInstance;
+        return editorElement.id;
     }
 
-    private setLayout(): void {
-        if (!this.editorInstance) {
-            throw new Error("Resizing non-existent editor.");
-        } else if (!this.outerContainer) {
-            throw new Error("Editor container not found.");
-        }
+    public selectRange(id: string, range: monaco.IRange): void {
+        activeEditors[id].setSelection(range);
+    }
 
-        const rect = this.outerContainer.getBoundingClientRect();
-        this.editorInstance.layout({
+    private setLayout(editorInstance: monaco.editor.IStandaloneCodeEditor, outerContainer: HTMLElement): void {
+        const rect = outerContainer.getBoundingClientRect();
+        editorInstance.layout({
             // To account for container padding
             height: rect.height - 60,
             width: rect.width
@@ -64,16 +90,16 @@ monaco.languages.registerCompletionItemProvider("sb", {
         ...createRange("a", "z"),
         ...createRange("A", "Z")
     ],
-    provideCompletionItems: (model: monaco.editor.IReadOnlyModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+    provideCompletionItems: (model: monaco.editor.IReadOnlyModel, position: monaco.IPosition): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
         // TODO: Issue with monaco typing. This actually expects a CompletionItem[] not a CompletionList. Cast to <any> for now.
-        return <any>CSIntrop.Monaco.provideCompletionItems(model.getValue(), position.lineNumber, position.column);
+        return <any>CSIntrop.Monaco.provideCompletionItems(model.getValue(), position);
     }
 });
 
 monaco.languages.registerHoverProvider("sb", {
-    provideHover: (model: monaco.editor.IReadOnlyModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.Hover> => {
+    provideHover: (model: monaco.editor.IReadOnlyModel, position: monaco.IPosition): monaco.languages.ProviderResult<monaco.languages.Hover> => {
         // TODO: Issue with monaco typing. It accepts string[], but types specify MarkdownString[] only. Cast to <any> for now.
-        return CSIntrop.Monaco.provideHover(model.getValue(), position.lineNumber, position.column).then(lines => {
+        return CSIntrop.Monaco.provideHover(model.getValue(), position).then(lines => {
             return {
                 contents: <any>lines
             };

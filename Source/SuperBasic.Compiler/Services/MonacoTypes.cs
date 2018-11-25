@@ -4,6 +4,8 @@
 
 namespace SuperBasic.Compiler.Services
 {
+    using SuperBasic.Compiler.Scanning;
+
     public enum MonacoCompletionItemKind
     {
         Class = 4, /* monaco.lanaguages.CompletionItemKind.Variable */
@@ -23,13 +25,39 @@ namespace SuperBasic.Compiler.Services
         }
 
 #pragma warning disable SA1300 // Element must begin with upper-case letter
-        public MonacoCompletionItemKind kind { get; private set; }
+        public MonacoCompletionItemKind kind { get; set; }
 
-        public string label { get; private set; }
+        public string label { get; set; }
 
-        public string insertText { get; private set; }
+        public string insertText { get; set; }
 
-        public string detail { get; private set; }
+        public string detail { get; set; }
 #pragma warning restore SA1300 // Element must begin with upper-case letter
+    }
+
+    public class MonacoPosition
+    {
+#pragma warning disable SA1300 // Element must begin with upper-case letter
+        public int lineNumber { get; set; }
+
+        public int column { get; set; }
+#pragma warning restore SA1300 // Element must begin with upper-case letter
+
+        public TextPosition ToCompilerPosition() => (this.lineNumber - 1, this.column - 1);
+    }
+
+    public class MonacoRange
+    {
+#pragma warning disable SA1300 // Element must begin with upper-case letter
+        public int startLineNumber { get; set; }
+
+        public int startColumn { get; set; }
+
+        public int endLineNumber { get; set; }
+
+        public int endColumn { get; set; }
+#pragma warning restore SA1300 // Element must begin with upper-case letter
+
+        public TextRange ToCompilerRange() => ((this.startLineNumber - 1, this.startColumn - 1), (this.endLineNumber - 1, this.endColumn - 2));
     }
 }

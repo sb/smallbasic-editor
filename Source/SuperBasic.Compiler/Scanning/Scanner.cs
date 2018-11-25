@@ -16,9 +16,9 @@ namespace SuperBasic.Compiler.Scanning
 
         private readonly List<Token> tokens;
 
-        private short index = 0;
-        private short line = 0;
-        private short column = 0;
+        private int index = 0;
+        private int line = 0;
+        private int column = 0;
 
         public Scanner(string text, DiagnosticBag diagnostics)
         {
@@ -101,7 +101,7 @@ namespace SuperBasic.Compiler.Scanning
 
         private void ScanCommentToken()
         {
-            short lookAhead = this.index;
+            int lookAhead = this.index;
             while (lookAhead < this.text.Length)
             {
                 char current = this.text[lookAhead];
@@ -142,8 +142,8 @@ namespace SuperBasic.Compiler.Scanning
                         {
                             if (!current.IsSupportedCharacter())
                             {
-                                var column = (short)(this.column + lookAhead - this.index);
-                                this.diagnostics.ReportUnrecognizedCharacter(((this.line, column), (this.line, (short)(column + 1))), current);
+                                var column = this.column + lookAhead - this.index;
+                                this.diagnostics.ReportUnrecognizedCharacter(((this.line, column), (this.line, column + 1)), current);
                             }
 
                             lookAhead++;
@@ -219,11 +219,9 @@ namespace SuperBasic.Compiler.Scanning
 
         private Token AddToken(string text, TokenKind kind)
         {
-            var length = (short)text.Length;
-
-            Token token = new Token(kind, text, ((this.line, this.column), (this.line, (short)(this.column + length - 1))));
-            this.index += length;
-            this.column += length;
+            Token token = new Token(kind, text, ((this.line, this.column), (this.line, this.column + text.Length - 1)));
+            this.index += text.Length;
+            this.column += text.Length;
 
             this.tokens.Add(token);
             return token;

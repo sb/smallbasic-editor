@@ -32,7 +32,7 @@ namespace SuperBasic.Compiler.Parsing
         private readonly IReadOnlyList<Token> tokens;
         private readonly DiagnosticBag diagnostics;
 
-        private short index = 0;
+        private int index = 0;
 
         public Parser(IReadOnlyList<Token> tokens, DiagnosticBag diagnostics)
         {

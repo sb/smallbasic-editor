@@ -31,7 +31,7 @@ namespace SuperBasic.Generators.Interop
 
                 foreach (Method method in type.Methods)
                 {
-                    this.Line($"export function {method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => $"{p.Name}: {p.Type}").Join(", ")}): Promise<{method.ReturnType}> {{");
+                    this.Line($"export function {method.Name.ToLowerFirstChar()}({method.Parameters.Select(p => $"{p.Name}: {p.Type}").Join(", ")}): Promise<{method.ReturnType ?? "void"}> {{");
                     this.Indent();
 
                     IEnumerable<string> arguments = new string[]

@@ -25,6 +25,8 @@ namespace SuperBasic.Generators.Interop
 
                 // Monaco Types
                 case "monaco.languages.CompletionItem": return "MonacoCompletionItem";
+                case "monaco.IPosition": return "MonacoPosition";
+                case "monaco.IRange": return "MonacoRange";
 
                 case string array when array.EndsWith("[]", StringComparison.InvariantCulture):
                     return ToCSharpType(array.RemoveSuffix("[]")) + "[]";
