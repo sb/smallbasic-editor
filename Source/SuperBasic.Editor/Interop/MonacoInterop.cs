@@ -13,7 +13,7 @@ namespace SuperBasic.Editor.Interop
     {
         public Task<MonacoRange[]> UpdateDiagnostics(string code)
         {
-            StaticStore.Update(code);
+            StaticStore.UpdateText(code);
             return Task.FromResult(StaticStore.Compilation.Diagnostics.Select(d => d.Range.ToMonacoRange()).ToArray());
         }
 

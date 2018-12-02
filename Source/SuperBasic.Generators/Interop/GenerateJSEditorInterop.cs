@@ -34,7 +34,7 @@ namespace SuperBasic.Generators.Interop
                 {
                     string returnType = method.ReturnType.IsDefault() ? "Task" : $"Task<{method.ReturnType.ToCSharpType()}>";
                     string parameters = method.Parameters.Select(p => $"{p.Type.ToCSharpType()} {p.Name}").Join(", ");
-                    this.Line($"public static async {returnType} {method.Name}({parameters})");
+                    this.Line($"public static {(method.ReturnType.IsDefault() ? "async " : string.Empty)}{returnType} {method.Name}({parameters})");
                     this.Brace();
 
                     IEnumerable<string> arguments = new string[]
@@ -44,11 +44,11 @@ namespace SuperBasic.Generators.Interop
 
                     if (method.ReturnType.IsDefault())
                     {
-                        this.Line($@"await JSRuntime.Current.InvokeAsync<bool>({arguments.Join(", ")});");
+                        this.Line($@"await JSRuntime.Current.InvokeAsync<bool>({arguments.Join(", ")}).ConfigureAwait(false);");
                     }
                     else
                     {
-                        this.Line($@"return await JSRuntime.Current.InvokeAsync<{method.ReturnType.ToCSharpType()}>({arguments.Join(", ")});");
+                        this.Line($@"return JSRuntime.Current.InvokeAsync<{method.ReturnType.ToCSharpType()}>({arguments.Join(", ")});");
                     }
 
                     this.Unbrace();

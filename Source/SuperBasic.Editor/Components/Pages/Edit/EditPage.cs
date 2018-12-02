@@ -4,18 +4,25 @@
 
 namespace SuperBasic.Editor.Components.Pages.Edit
 {
+    using System;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor.Components;
+    using Microsoft.AspNetCore.Blazor.Services;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Components.Toolbox;
     using SuperBasic.Editor.Interop;
     using SuperBasic.Utilities.Resources;
 
-    [Route("/")] // For browser entry
-    [Route("/index.html")] // For electron entry
-    public sealed class EditPage : MainLayout
+    [Route("/edit")]
+    public sealed class EditPage : MainLayout, IDisposable
     {
+        public void Dispose()
+        {
+            JSInterop.Monaco.Dispose().ConfigureAwait(false);
+        }
+
         protected override void ComposeBody(TreeComposer composer)
         {
             composer.Element("edit-page", body: () =>
@@ -59,6 +66,9 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
     public sealed class ExeuctionActions : SuperBasicComponent
     {
+        [Inject]
+        private IUriHelper UriHelper { get; set; }
+
         internal static void Inject(TreeComposer composer)
         {
             composer.Inject<ExeuctionActions>();
@@ -79,7 +89,12 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             }
             else
             {
-                Actions.Action(composer, "run", EditorResources.Actions_Run, onClick: null);
+                Actions.Action(composer, "run", EditorResources.Actions_Run, onClick: () =>
+                {
+                    this.UriHelper.NavigateTo("/run");
+                    return Task.CompletedTask;
+                });
+
                 Actions.Action(composer, "debug", EditorResources.Actions_Debug, onClick: null);
             }
         }

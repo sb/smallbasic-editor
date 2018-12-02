@@ -61,6 +61,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Actions_Back {
+            get {
+                return ResourceManager.GetString("Actions_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This will clear the existing program. Are you sure?.
         /// </summary>
         public static string Actions_ClearEverythingConfirmation {
@@ -282,6 +291,15 @@ namespace SuperBasic.Utilities.Resources {
         public static string SideBar_Libraries {
             get {
                 return ResourceManager.GetString("SideBar_Libraries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program has ended..
+        /// </summary>
+        public static string TextDisplay_TerminateMessage {
+            get {
+                return ResourceManager.GetString("TextDisplay_TerminateMessage", resourceCulture);
             }
         }
     }

@@ -19,9 +19,9 @@ namespace SuperBasic.Editor.Components.Layout
             { EditorResources.Header_DocumentationLink, "https://smallbasic-publicwebsite.azurewebsites.net/Pages/DocumentReference.aspx" }
         };
 
-        protected override async Task OnInitAsync()
+        protected override Task OnInitAsync()
         {
-            await JSInterop.Layout.InitializeWebView(CultureInfo.CurrentCulture.Name, EditorResources.ApplicationTitle).ConfigureAwait(false);
+            return JSInterop.Layout.InitializeWebView(CultureInfo.CurrentCulture.Name, EditorResources.ApplicationTitle);
         }
 
         protected sealed override void ComposeTree(TreeComposer composer)
@@ -59,18 +59,24 @@ namespace SuperBasic.Editor.Components.Layout
             });
         }
 
-        protected abstract void ComposeBody(TreeComposer composer);
+        protected virtual void ComposeBody(TreeComposer composer)
+        {
+        }
 
-        protected abstract void ComposeLeftActions(TreeComposer composer);
+        protected virtual void ComposeLeftActions(TreeComposer composer)
+        {
+        }
 
-        protected abstract void ComposeRightActions(TreeComposer composer);
+        protected virtual void ComposeRightActions(TreeComposer composer)
+        {
+        }
 
-        private static async Task OpenExtrernalLink(string url)
+        private static Task OpenExtrernalLink(string url)
         {
 #if IsBuildingForDesktop
-            await Bridge.Process.OpenExternalLink(url).ConfigureAwait(false);
+            return Bridge.Process.OpenExternalLink(url);
 #else
-            await JSInterop.Layout.OpenExternalLink(url).ConfigureAwait(false);
+            return JSInterop.Layout.OpenExternalLink(url);
 #endif
         }
     }

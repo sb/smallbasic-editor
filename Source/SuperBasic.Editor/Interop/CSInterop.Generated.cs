@@ -20,26 +20,40 @@ namespace SuperBasic.Editor.Interop
         Task<string[]> ProvideHover(string code, MonacoPosition position);
     }
 
+    internal interface ITextDisplayInterop
+    {
+        Task AcceptInput(string key);
+    }
+
     public static class CSInterop
     {
         private static readonly IMonacoInterop Monaco = new MonacoInterop();
 
+        private static readonly ITextDisplayInterop TextDisplay = new TextDisplayInterop();
+
         [JSInvokable("CSIntrop.Monaco.UpdateDiagnostics")]
-        public static async Task<MonacoRange[]> Monaco_UpdateDiagnostics(string code)
+        public static Task<MonacoRange[]> Monaco_UpdateDiagnostics(string code)
         {
-            return await Monaco.UpdateDiagnostics(code);
+            return Monaco.UpdateDiagnostics(code);
         }
 
         [JSInvokable("CSIntrop.Monaco.ProvideCompletionItems")]
-        public static async Task<MonacoCompletionItem[]> Monaco_ProvideCompletionItems(string code, MonacoPosition position)
+        public static Task<MonacoCompletionItem[]> Monaco_ProvideCompletionItems(string code, MonacoPosition position)
         {
-            return await Monaco.ProvideCompletionItems(code, position);
+            return Monaco.ProvideCompletionItems(code, position);
         }
 
         [JSInvokable("CSIntrop.Monaco.ProvideHover")]
-        public static async Task<string[]> Monaco_ProvideHover(string code, MonacoPosition position)
+        public static Task<string[]> Monaco_ProvideHover(string code, MonacoPosition position)
         {
-            return await Monaco.ProvideHover(code, position);
+            return Monaco.ProvideHover(code, position);
+        }
+
+        [JSInvokable("CSIntrop.TextDisplay.AcceptInput")]
+        public static async Task<bool> TextDisplay_AcceptInput(string key)
+        {
+            await TextDisplay.AcceptInput(key).ConfigureAwait(false);
+            return true;
         }
     }
 }

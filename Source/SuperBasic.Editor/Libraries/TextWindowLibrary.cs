@@ -4,61 +4,87 @@
 
 namespace SuperBasic.Editor.Libraries
 {
+    using System.Globalization;
+    using System.Threading.Tasks;
+    using SuperBasic.Compiler;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Editor.Components;
+    using SuperBasic.Editor.Components.Display;
+    using SuperBasic.Editor.Interop;
     using SuperBasic.Utilities;
-
-    public interface ITextWindowPlugin
-    {
-        void Clear();
-
-        string Read();
-
-        decimal ReadNumber();
-
-        void Write(string data);
-
-        void WriteLine(string data);
-    }
+    using SuperBasic.Utilities.Resources;
 
     internal sealed class TextWindowLibrary : ITextWindowLibrary
     {
-        private readonly ITextWindowPlugin plugin;
-        private readonly StylesSettings settings;
+        private string backgroundColorName = "Black";
+        private string foregroundColorName = "White";
+        private string inputBuffer = string.Empty;
 
-        public TextWindowLibrary(ITextWindowPlugin plugin, StylesSettings settings)
+        public void Clear() => StaticStore.TextDisplay.Clear();
+
+        public Task<string> Get_BackgroundColor() => Task.FromResult(this.backgroundColorName);
+
+        public string Get_ForegroundColor() => this.foregroundColorName;
+
+        public string Read() => this.inputBuffer;
+
+        public decimal ReadNumber() => decimal.Parse(this.inputBuffer, CultureInfo.CurrentCulture);
+
+        public Task Set_BackgroundColor(string value)
         {
-            this.plugin = plugin;
-            this.settings = settings;
-        }
-
-        public string Get_BackgroundColor() => this.settings.BackgroundColor;
-
-        public void Set_BackgroundColor(string value)
-        {
-            if (ColorParser.HexFromNumber(value, out string result))
+            if (ColorParser.TryGetNameFromNumber(value, out string name))
             {
-                this.settings.BackgroundColor = result;
+                this.backgroundColorName = name;
+            }
+            else if (ColorParser.TryGetHexFromName(value, out _))
+            {
+                this.backgroundColorName = value;
+            }
+            else
+            {
+                return Task.CompletedTask;
+            }
+
+            if (ColorParser.TryGetHexFromName(this.backgroundColorName, out string hexColor))
+            {
+                return JSInterop.TextDisplay.SetBackgroundColor(hexColor);
+            }
+            else
+            {
+                throw ExceptionUtilities.UnexpectedValue(this.backgroundColorName);
             }
         }
-
-        public string Get_ForegroundColor() => this.settings.PenColor;
 
         public void Set_ForegroundColor(string value)
         {
-            if (ColorParser.HexFromNumber(value, out string result))
+            if (ColorParser.TryGetNameFromNumber(value, out string name))
             {
-                this.settings.PenColor = result;
+                this.foregroundColorName = name;
+            }
+            else if (ColorParser.TryGetHexFromName(value, out _))
+            {
+                this.foregroundColorName = value;
             }
         }
 
-        public void Clear() => this.plugin.Clear();
+        public void Write(string data)
+        {
+            StaticStore.TextDisplay.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: false));
+        }
 
-        public string Read() => this.plugin.Read();
+        public void WriteLine(string data)
+        {
+            StaticStore.TextDisplay.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: true));
+        }
 
-        public decimal ReadNumber() => this.plugin.ReadNumber();
+        internal void SetInputBuffer(string value)
+        {
+            this.inputBuffer = value;
+        }
 
-        public void Write(string data) => this.plugin.Write(data);
-
-        public void WriteLine(string data) => this.plugin.WriteLine(data);
+        internal void TerminateTextDisplay()
+        {
+            StaticStore.TextDisplay.AppendOutput(new OutputChunk(EditorResources.TextDisplay_TerminateMessage, this.foregroundColorName, appendNewLine: true));
+        }
     }
 }

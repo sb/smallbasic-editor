@@ -21,4 +21,13 @@
       </Method>
     </Methods>
   </InteropType>
+  <InteropType Name="TextDisplay">
+    <Methods>
+      <Method Name="AcceptInput">
+        <Parameters>
+          <Parameter Name="key" Type="string" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
 </root>

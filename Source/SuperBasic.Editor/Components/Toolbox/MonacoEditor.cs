@@ -30,9 +30,9 @@ namespace SuperBasic.Editor.Components.Toolbox
             });
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override Task OnAfterRenderAsync()
         {
-            await JSInterop.Monaco.Initialize(this.editorElement, StaticStore.Compilation.Text, this.IsReadOnly).ConfigureAwait(false);
+            return JSInterop.Monaco.Initialize(this.editorElement, StaticStore.Compilation.Text, this.IsReadOnly);
         }
 
         protected override void ComposeTree(TreeComposer composer)

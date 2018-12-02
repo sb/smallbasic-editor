@@ -37,9 +37,9 @@ namespace SuperBasic.Compiler.Runtime
             this.method = method;
         }
 
-        protected override async Task Execute(SuperBasicEngine engine)
+        protected override Task Execute(SuperBasicEngine engine)
         {
-            await Libraries.Types[this.library].Methods[this.method].Execute(engine).ConfigureAwait(false);
+            return Libraries.Types[this.library].Methods[this.method].Execute(engine);
         }
     }
 
@@ -55,9 +55,9 @@ namespace SuperBasic.Compiler.Runtime
             this.property = property;
         }
 
-        protected override async Task Execute(SuperBasicEngine engine)
+        protected override Task Execute(SuperBasicEngine engine)
         {
-            await Libraries.Types[this.library].Properties[this.property].Setter(engine).ConfigureAwait(false);
+            return Libraries.Types[this.library].Properties[this.property].Setter(engine);
         }
     }
 
@@ -73,9 +73,9 @@ namespace SuperBasic.Compiler.Runtime
             this.property = property;
         }
 
-        protected override async Task Execute(SuperBasicEngine engine)
+        protected override Task Execute(SuperBasicEngine engine)
         {
-            await Libraries.Types[this.library].Properties[this.property].Getter(engine).ConfigureAwait(false);
+            return Libraries.Types[this.library].Properties[this.property].Getter(engine);
         }
     }
 

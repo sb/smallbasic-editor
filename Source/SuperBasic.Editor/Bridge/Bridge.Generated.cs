@@ -16,7 +16,7 @@ namespace SuperBasic.Editor
         {
             public static async Task OpenExternalLink(string url)
             {
-                await JSRuntime.Current.InvokeAsync<bool>("Bridge.Process.OpenExternalLink", url);
+                await JSRuntime.Current.InvokeAsync<bool>("Bridge.Process.OpenExternalLink", url).ConfigureAwait(false);
             }
         }
     }

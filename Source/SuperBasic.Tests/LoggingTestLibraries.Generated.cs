@@ -1102,15 +1102,16 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public string Get_BackgroundColor()
+        public Task<string> Get_BackgroundColor()
         {
             this.log.AppendLine($"TextWindow.Get_BackgroundColor()");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public void Set_BackgroundColor(string value)
+        public Task Set_BackgroundColor(string value)
         {
             this.log.AppendLine($"TextWindow.Set_BackgroundColor('{value}')");
+            return Task.CompletedTask;
         }
 
         public string Get_ForegroundColor()

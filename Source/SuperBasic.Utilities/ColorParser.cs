@@ -8,7 +8,7 @@ namespace SuperBasic.Utilities
 
     public static class ColorParser
     {
-        public static bool HexFromName(string name, out string hexResult)
+        public static bool TryGetHexFromName(string name, out string hexResult)
         {
             switch (name.ToLower(CultureInfo.CurrentCulture))
             {
@@ -157,28 +157,28 @@ namespace SuperBasic.Utilities
             }
         }
 
-        public static bool HexFromNumber(string number, out string result)
+        public static bool TryGetNameFromNumber(string number, out string result)
         {
             if (decimal.TryParse(number, out decimal value))
             {
                 switch (value)
                 {
-                    case 0: return HexFromName("Black", out result);
-                    case 1: return HexFromName("DarkBlue", out result);
-                    case 2: return HexFromName("DarkGreen", out result);
-                    case 3: return HexFromName("DarkCyan", out result);
-                    case 4: return HexFromName("DarkRed", out result);
-                    case 5: return HexFromName("DarkMagenta", out result);
-                    case 6: return HexFromName("DarkYellow", out result);
-                    case 7: return HexFromName("Gray", out result);
-                    case 8: return HexFromName("DarkGray", out result);
-                    case 9: return HexFromName("Blue", out result);
-                    case 10: return HexFromName("Green", out result);
-                    case 11: return HexFromName("Cyan", out result);
-                    case 12: return HexFromName("Red", out result);
-                    case 13: return HexFromName("Magenta", out result);
-                    case 14: return HexFromName("Yellow", out result);
-                    case 15: return HexFromName("White", out result);
+                    case 0: result = "Black"; return true;
+                    case 1: result = "DarkBlue"; return true;
+                    case 2: result = "DarkGreen"; return true;
+                    case 3: result = "DarkCyan"; return true;
+                    case 4: result = "DarkRed"; return true;
+                    case 5: result = "DarkMagenta"; return true;
+                    case 6: result = "DarkYellow"; return true;
+                    case 7: result = "Gray"; return true;
+                    case 8: result = "DarkGray"; return true;
+                    case 9: result = "Blue"; return true;
+                    case 10: result = "Green"; return true;
+                    case 11: result = "Cyan"; return true;
+                    case 12: result = "Red"; return true;
+                    case 13: result = "Magenta"; return true;
+                    case 14: result = "Yellow"; return true;
+                    case 15: result = "White"; return true;
                 }
             }
 

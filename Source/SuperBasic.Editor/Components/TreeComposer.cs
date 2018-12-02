@@ -27,17 +27,17 @@ namespace SuperBasic.Editor.Components
         {
             this.builder.OpenElement(this.sequence++, name);
 
-            if (!capture.IsDefault())
-            {
-                this.builder.AddElementReferenceCapture(this.sequence++, capture);
-            }
-
             if (!attributes.IsDefault())
             {
                 foreach (var pair in attributes)
                 {
                     this.builder.AddAttribute(this.sequence++, pair.Key, pair.Value);
                 }
+            }
+
+            if (!capture.IsDefault())
+            {
+                this.builder.AddElementReferenceCapture(this.sequence++, capture);
             }
 
             if (!body.IsDefault())
@@ -50,7 +50,7 @@ namespace SuperBasic.Editor.Components
 
         public void Text(string value)
         {
-            this.builder.AddContent(this.sequence++, textContent: value);
+            this.builder.AddMarkupContent(this.sequence++, value);
         }
 
         public void Inject<TComponent>(Dictionary<string, object> parameters = null)

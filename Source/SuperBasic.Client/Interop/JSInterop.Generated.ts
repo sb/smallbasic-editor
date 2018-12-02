@@ -7,6 +7,7 @@
 /// </summary>
 import { LayoutInterop } from "./LayoutInterop";
 import { MonacoInterop } from "./MonacoInterop";
+import { TextDisplayInterop } from "./TextDisplayInterop";
 
 export interface ILayoutInterop {
     initializeWebView(locale: string, title: string): Promise<void>;
@@ -16,6 +17,7 @@ export interface ILayoutInterop {
 
 export interface IMonacoInterop {
     initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): Promise<void>;
+    dispose(): Promise<void>;
     selectRange(range: monaco.IRange): Promise<void>;
     saveToFile(): Promise<void>;
     openFile(confirmationMessage: string): Promise<void>;
@@ -27,15 +29,24 @@ export interface IMonacoInterop {
     redo(): Promise<void>;
 }
 
+export interface ITextDisplayInterop {
+    initialize(textDisplayElement: HTMLElement): Promise<void>;
+    dispose(): Promise<void>;
+    scrollTo(element: HTMLElement): Promise<void>;
+    setBackgroundColor(hexColor: string): Promise<void>;
+}
+
 declare global {
     export module JSInterop {
         export const Layout: ILayoutInterop;
         export const Monaco: IMonacoInterop;
+        export const TextDisplay: ITextDisplayInterop;
     }
 }
 
 const layout: ILayoutInterop = new LayoutInterop();
 const monaco: IMonacoInterop = new MonacoInterop();
+const textDisplay: ITextDisplayInterop = new TextDisplayInterop();
 
 (<any>global).JSInterop = {
     Layout: {
@@ -55,6 +66,10 @@ const monaco: IMonacoInterop = new MonacoInterop();
     Monaco: {
         initialize: async (editorElement: HTMLElement, initialValue: string, isReadOnly: boolean) : Promise<boolean> => {
             await monaco.initialize(editorElement, initialValue, isReadOnly);
+            return true;
+        },
+        dispose: async () : Promise<boolean> => {
+            await monaco.dispose();
             return true;
         },
         selectRange: async (range: monaco.IRange) : Promise<boolean> => {
@@ -91,6 +106,24 @@ const monaco: IMonacoInterop = new MonacoInterop();
         },
         redo: async () : Promise<boolean> => {
             await monaco.redo();
+            return true;
+        }
+    },
+    TextDisplay: {
+        initialize: async (textDisplayElement: HTMLElement) : Promise<boolean> => {
+            await textDisplay.initialize(textDisplayElement);
+            return true;
+        },
+        dispose: async () : Promise<boolean> => {
+            await textDisplay.dispose();
+            return true;
+        },
+        scrollTo: async (element: HTMLElement) : Promise<boolean> => {
+            await textDisplay.scrollTo(element);
+            return true;
+        },
+        setBackgroundColor: async (hexColor: string) : Promise<boolean> => {
+            await textDisplay.setBackgroundColor(hexColor);
             return true;
         }
     }

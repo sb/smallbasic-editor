@@ -61,10 +61,10 @@ namespace SuperBasic.Compiler.Runtime
         {
         }
 
-        public override sealed async Task Execute(SuperBasicEngine engine, Frame frame)
+        public override sealed Task Execute(SuperBasicEngine engine, Frame frame)
         {
             frame.InstructionIndex++;
-            await this.Execute(engine).ConfigureAwait(false);
+            return this.Execute(engine);
         }
 
         protected abstract Task Execute(SuperBasicEngine engine);

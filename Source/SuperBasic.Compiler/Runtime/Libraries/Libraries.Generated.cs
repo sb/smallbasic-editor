@@ -4667,18 +4667,16 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property TextWindow.BackgroundColor:
                 {
-                    Task getter(SuperBasicEngine engine)
+                    async Task getter(SuperBasicEngine engine)
                     {
-                        string value = engine.Libraries.TextWindow.Get_BackgroundColor();
+                        string value = await engine.Libraries.TextWindow.Get_BackgroundColor().ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(value));
-                        return Task.CompletedTask;
                     }
 
                     Task setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.TextWindow.Set_BackgroundColor(value);
-                        return Task.CompletedTask;
+                        return engine.Libraries.TextWindow.Set_BackgroundColor(value);
                     }
 
                     properties.Add("BackgroundColor", new Property("BackgroundColor", LibrariesResources.TextWindow_BackgroundColor, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));

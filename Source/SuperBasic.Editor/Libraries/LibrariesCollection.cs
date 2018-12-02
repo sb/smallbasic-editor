@@ -5,9 +5,12 @@
 namespace SuperBasic.Editor.Libraries
 {
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Editor.Components;
 
     public sealed class LibrariesCollection : IEngineLibraries
     {
+        private TextWindowLibrary textWindowLibrary = new TextWindowLibrary();
+
         public LibrariesCollection()
         {
             this.Array = new ArrayLibrary();
@@ -17,17 +20,17 @@ namespace SuperBasic.Editor.Libraries
             this.Dictionary = new DictionaryLibrary();
             this.File = new FileLibrary(null);
             this.Flickr = new FlickrLibrary();
-            this.GraphicsWindow = null;
+            this.GraphicsWindow = new GraphicsWindowLibrary(null, null);
             this.ImageList = new ImageListLibrary(null);
             this.Math = new MathLibrary();
-            this.Mouse = null;
+            this.Mouse = new MouseLibrary();
             this.Network = new NetworkLibrary(null, null);
             this.Program = new ProgramLibrary();
             this.Shapes = new ShapesLibrary(null, null);
             this.Sound = new SoundLibrary();
             this.Stack = new StackLibrary();
             this.Text = new TextLibrary();
-            this.TextWindow = new TextWindowLibrary(null, null);
+            this.TextWindow = this.textWindowLibrary;
             this.Timer = new TimerLibrary();
             this.Turtle = new TurtleLibrary(null);
         }
@@ -71,5 +74,9 @@ namespace SuperBasic.Editor.Libraries
         public ITimerLibrary Timer { get; private set; }
 
         public ITurtleLibrary Turtle { get; private set; }
+
+        internal void SetInputBuffer(string value) => this.textWindowLibrary.SetInputBuffer(value);
+
+        internal void TerminateTextDisplay() => this.textWindowLibrary.TerminateTextDisplay();
     }
 }
