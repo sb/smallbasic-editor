@@ -38,10 +38,12 @@ namespace SuperBasic.Editor.Libraries
 
             this.isPenDown = true;
 
+            /*
             this.Set_X(0);
             this.Set_Y(0);
             this.Set_Angle(0);
             this.Set_Speed(1);
+            */
         }
 
         public decimal Get_Angle() => this.plugin.Angle;

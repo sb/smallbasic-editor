@@ -175,7 +175,7 @@ namespace SuperBasic.Generators.Scanning
                 this.Line($"// Initialization code for method {library.Name}.{method.Name}:");
                 this.Brace();
 
-                this.Line($"{(method.IsAsync ? "async " : string.Empty)}Task execute(SuperBasicEngine engine)");
+                this.Line($"{(method.IsAsync && !method.ReturnType.IsDefault() ? "async " : string.Empty)}Task execute(SuperBasicEngine engine)");
                 this.Brace();
 
                 if (method.IsDeprecated)
@@ -195,7 +195,7 @@ namespace SuperBasic.Generators.Scanning
                     {
                         if (method.IsAsync)
                         {
-                            this.Line($"await engine.Libraries.{library.Name}.{method.Name}({arguments}).ConfigureAwait(false);");
+                            this.Line($"return engine.Libraries.{library.Name}.{method.Name}({arguments});");
                         }
                         else
                         {
@@ -306,7 +306,7 @@ namespace SuperBasic.Generators.Scanning
 
                 if (property.HasSetter)
                 {
-                    this.Line($"{(property.IsAsync ? "async " : string.Empty)}Task setter(SuperBasicEngine engine)");
+                    this.Line("Task setter(SuperBasicEngine engine)");
                     this.Brace();
 
                     if (property.IsDeprecated)
@@ -317,8 +317,8 @@ namespace SuperBasic.Generators.Scanning
                     {
                         if (property.IsAsync)
                         {
-                            this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()}");
-                            this.Line($"await engine.Libraries.{library.Name}.Set_{property.Name}(value).ConfigureAwait(false);");
+                            this.Line($"{property.Type.ToNativeType()} value = engine.EvaluationStack.Pop(){property.Type.ToNativeTypeConverter()};");
+                            this.Line($"return engine.Libraries.{library.Name}.Set_{property.Name}(value);");
                         }
                         else
                         {

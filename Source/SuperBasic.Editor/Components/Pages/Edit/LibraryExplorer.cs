@@ -16,8 +16,8 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    // TODO: show warning on deprecated types or members.
-    // TODO: show when member/library is desktop only.
+    // TODO-later: show warning on deprecated types or members.
+    // TODO-later: show when member/library is desktop only.
     public sealed class LibraryExplorer : SuperBasicComponent
     {
         private Method selectedMethod = default;

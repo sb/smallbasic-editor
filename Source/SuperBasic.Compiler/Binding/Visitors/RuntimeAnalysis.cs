@@ -13,9 +13,10 @@ namespace SuperBasic.Compiler.Binding
         public RuntimeAnalysis(SuperBasicCompilation compilation)
         {
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot analyze a compilation with errors.");
+            this.Compilation = compilation;
 
-            this.Visit(compilation.MainModule);
-            foreach (var subModule in compilation.SubModules.Values)
+            this.Visit(this.Compilation.MainModule);
+            foreach (var subModule in this.Compilation.SubModules.Values)
             {
                 this.Visit(subModule);
             }
@@ -25,6 +26,8 @@ namespace SuperBasic.Compiler.Binding
                 this.UsesTextWindow = true;
             }
         }
+
+        public SuperBasicCompilation Compilation { get; private set; }
 
         public bool UsesTextWindow { get; private set; }
 

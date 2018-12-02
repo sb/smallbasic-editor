@@ -12,10 +12,9 @@ namespace SuperBasic.Generators.Interop
     {
         protected override void Generate(InteropTypeCollection model)
         {
-            this.Blank();
-            this.Line("// TODO: Definition of this file is not published yet to somewhere we can consume. Declare for now:");
-            this.Line("// https://github.com/aspnet/Blazor/issues/1452");
-            this.Line("// https://github.com/aspnet/Blazor/blob/0.5.1/src/Microsoft.JSInterop/JavaScriptRuntime/src/Microsoft.JSInterop.ts");
+            // TODO-later: Definition of this file is not published yet to somewhere we can consume. Declare for now:
+            // https://github.com/aspnet/Blazor/issues/1452
+            // https://github.com/aspnet/Blazor/blob/0.5.1/src/Microsoft.JSInterop/JavaScriptRuntime/src/Microsoft.JSInterop.ts
             this.Line("export declare module DotNet {");
             this.Indent();
             this.Line("function invokeMethodAsync<T>(assemblyName: string, methodIdentifier: string, ...args: any[]): Promise<T>;");

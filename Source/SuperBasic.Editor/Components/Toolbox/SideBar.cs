@@ -132,11 +132,15 @@ namespace SuperBasic.Editor.Components.Toolbox
             });
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override Task OnAfterRenderAsync()
         {
             if (this.ShowScrollArrows)
             {
-                await JSInterop.Layout.AttachSideBarEvents(this.upButton, this.scrollContentsArea, this.downButton).ConfigureAwait(false);
+                return JSInterop.Layout.AttachSideBarEvents(this.upButton, this.scrollContentsArea, this.downButton);
+            }
+            else
+            {
+                return Task.CompletedTask;
             }
         }
 

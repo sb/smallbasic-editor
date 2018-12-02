@@ -43,9 +43,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "1=2;a")] // Char String
         [InlineData(@"ar", @"""False""", "1=2;False")] // Boolean
         [InlineData(@"ar", @"ar", "1=2;1=2;")] // Array
-        public async Task ItEvaluatesAdditionOperator(string left, string right, string result)
+        public Task ItEvaluatesAdditionOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} + {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} + {right}", result);
         }
 
         [Theory]
@@ -79,9 +79,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "0")] // Char String
         [InlineData(@"ar", @"""False""", "0")] // Boolean
         [InlineData(@"ar", @"ar", "0")] // Array
-        public async Task ItEvaluatesSubtractionOperator(string left, string right, string result)
+        public Task ItEvaluatesSubtractionOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} - {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} - {right}", result);
         }
 
         [Theory]
@@ -115,9 +115,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "0")] // Char String
         [InlineData(@"ar", @"""False""", "0")] // Boolean
         [InlineData(@"ar", @"ar", "0")] // Array
-        public async Task ItEvaluatesMultiplicationOperator(string left, string right, string result)
+        public Task ItEvaluatesMultiplicationOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} * {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} * {right}", result);
         }
 
         [Theory]
@@ -161,9 +161,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "0")] // Char String
         [InlineData(@"ar", @"""False""", "0")] // Boolean
         [InlineData(@"ar", @"ar", "0")] // Array
-        public async Task ItEvaluatesDivisionOperator(string left, string right, string result)
+        public Task ItEvaluatesDivisionOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} / {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} / {right}", result);
         }
 
         [Theory]
@@ -172,9 +172,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"""a""", @"0")] // Char string
         [InlineData(@"""True""", @"0")] // Boolean
         [InlineData(@"ar", @"0")] // Array
-        public async Task ItEvaluatesUnaryMinus(string expression, string result)
+        public Task ItEvaluatesUnaryMinus(string expression, string result)
         {
-            await EvaluateExpression($"-{expression}", result).ConfigureAwait(false);
+            return EvaluateExpression($"-{expression}", result);
         }
 
         [Theory]
@@ -214,9 +214,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "False")] // Char String
         [InlineData(@"ar", @"""False""", "False")] // Boolean
         [InlineData(@"ar", @"ar", "True")] // Array
-        public async Task ItEvaluatesEqualOperator(string left, string right, string result)
+        public Task ItEvaluatesEqualOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"({left} = {right})", result).ConfigureAwait(false);
+            return EvaluateExpression($"({left} = {right})", result);
         }
 
         [Theory]
@@ -256,9 +256,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "True")] // Char String
         [InlineData(@"ar", @"""False""", "True")] // Boolean
         [InlineData(@"ar", @"ar", "False")] // Array
-        public async Task ItEvaluatesNotEqualOperator(string left, string right, string result)
+        public Task ItEvaluatesNotEqualOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} <> {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} <> {right}", result);
         }
 
         [Theory]
@@ -324,9 +324,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "False")] // Char String
         [InlineData(@"ar", @"""False""", "False")] // Boolean
         [InlineData(@"ar", @"ar", "False")] // Array
-        public async Task ItEvaluatesLessThanOperator(string left, string right, string result)
+        public Task ItEvaluatesLessThanOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} < {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} < {right}", result);
         }
 
         [Theory]
@@ -392,9 +392,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "True")] // Char String
         [InlineData(@"ar", @"""False""", "True")] // Boolean
         [InlineData(@"ar", @"ar", "True")] // Array
-        public async Task ItEvaluatesLessThanOrEqualOperator(string left, string right, string result)
+        public Task ItEvaluatesLessThanOrEqualOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} <= {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} <= {right}", result);
         }
 
         [Theory]
@@ -460,9 +460,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "False")] // Char String
         [InlineData(@"ar", @"""False""", "False")] // Boolean
         [InlineData(@"ar", @"ar", "False")] // Array
-        public async Task ItEvaluatesGreaterThanOperator(string left, string right, string result)
+        public Task ItEvaluatesGreaterThanOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} > {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} > {right}", result);
         }
 
         [Theory]
@@ -528,9 +528,9 @@ namespace SuperBasic.Tests.Runtime
         [InlineData(@"ar", @"""a""", "True")] // Char String
         [InlineData(@"ar", @"""False""", "True")] // Boolean
         [InlineData(@"ar", @"ar", "True")] // Array
-        public async Task ItEvaluatesGreaterThanOrEqualOperator(string left, string right, string result)
+        public Task ItEvaluatesGreaterThanOrEqualOperator(string left, string right, string result)
         {
-            await EvaluateExpression($"{left} >= {right}", result).ConfigureAwait(false);
+            return EvaluateExpression($"{left} >= {right}", result);
         }
 
         [Theory]
@@ -579,13 +579,13 @@ namespace SuperBasic.Tests.Runtime
             await EvaluateExpression($"({right} or {left})", result).ConfigureAwait(false);
         }
 
-        private static async Task EvaluateExpression(string expression, string result)
+        private static Task EvaluateExpression(string expression, string result)
         {
-            await new SuperBasicCompilation($@"
+            return new SuperBasicCompilation($@"
 ar[1] = 2
 x = {expression}").VerifyRuntime(memoryContents: $@"
 ar = 1=2;
-x = {result}").ConfigureAwait(false);
+x = {result}");
         }
     }
 }

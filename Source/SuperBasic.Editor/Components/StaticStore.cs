@@ -6,6 +6,7 @@ namespace SuperBasic.Editor.Components
 {
     using System;
     using SuperBasic.Compiler;
+    using SuperBasic.Editor.Components.Display;
     using SuperBasic.Utilities;
 
     internal static class StaticStore
@@ -13,16 +14,22 @@ namespace SuperBasic.Editor.Components
         static StaticStore()
         {
             Compilation = new SuperBasicCompilation(
- @"' Below is a sample code to print 'Hello, World!' on the screen.
-' Press Run for output.
-TextWindow.WriteLine(""Hello, World!"")");
+ @"
+' A new Program!
+TextWindow.WriteLine(""What is your name?"")
+name = TextWindow.Read()
+TextWindow.WriteLine(""Hello "" + name + ""!"")");
         }
 
         public static event Action CodeChanged;
 
         public static SuperBasicCompilation Compilation { get; private set; }
 
-        public static void Update(string code)
+        public static TextDisplay TextDisplay { get; private set; }
+
+        public static GraphicsDisplay GraphicsDisplay { get; private set; }
+
+        public static void UpdateText(string code)
         {
             Compilation = new SuperBasicCompilation(code);
 
@@ -30,6 +37,16 @@ TextWindow.WriteLine(""Hello, World!"")");
             {
                 CodeChanged();
             }
+        }
+
+        public static void SetTextDisplay(TextDisplay display)
+        {
+            TextDisplay = display;
+        }
+
+        public static void SetGraphicsDisplay(GraphicsDisplay display)
+        {
+            GraphicsDisplay = display;
         }
     }
 }

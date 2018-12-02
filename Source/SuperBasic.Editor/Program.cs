@@ -12,7 +12,7 @@ namespace SuperBasic.Editor
 
     public static class Program
     {
-        // TODO: in all components overrides, call base: https://github.com/aspnet/Blazor/pull/1619
+        // TODO-later: in all components overrides, call base: https://github.com/aspnet/Blazor/pull/1619
         public static void Main()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-US");

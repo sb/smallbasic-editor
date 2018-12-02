@@ -50,6 +50,12 @@ export class MonacoInterop implements IMonacoInterop {
         });
     }
 
+    public async dispose(): Promise<void> {
+        if (this.activeEditor) {
+            this.activeEditor.dispose();
+        }
+    }
+
     public async selectRange(range: monaco.IRange): Promise<void> {
         this.activeEditor!.setSelection(range);
     }

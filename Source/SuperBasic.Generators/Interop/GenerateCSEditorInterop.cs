@@ -74,17 +74,17 @@ namespace SuperBasic.Generators.Interop
 
                     this.Blank();
                     this.Line($@"[JSInvokable(""CSIntrop.{type.Name}.{method.Name}"")]");
-                    this.Line($"public static async {returnType} {type.Name}_{method.Name}({method.Parameters.Select(p => $"{p.Type.ToCSharpType()} {p.Name}").Join(", ")})");
+                    this.Line($"public static {(method.ReturnType.IsDefault() ? "async " : string.Empty)}{returnType} {type.Name}_{method.Name}({method.Parameters.Select(p => $"{p.Type.ToCSharpType()} {p.Name}").Join(", ")})");
                     this.Brace();
 
                     if (method.ReturnType.IsDefault())
                     {
-                        this.Line($"await {type.Name}.{method.Name}({method.Parameters.Select(p => p.Name).Join(", ")});");
+                        this.Line($"await {type.Name}.{method.Name}({method.Parameters.Select(p => p.Name).Join(", ")}).ConfigureAwait(false);");
                         this.Line("return true;");
                     }
                     else
                     {
-                        this.Line($"return await {type.Name}.{method.Name}({method.Parameters.Select(p => p.Name).Join(", ")});");
+                        this.Line($"return {type.Name}.{method.Name}({method.Parameters.Select(p => p.Name).Join(", ")});");
                     }
 
                     this.Unbrace();

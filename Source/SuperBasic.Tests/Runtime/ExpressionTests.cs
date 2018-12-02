@@ -11,19 +11,19 @@ namespace SuperBasic.Tests.Runtime
     public sealed class ExpressionTests
     {
         [Fact]
-        public async Task NumericStringsAreTreatedAsNumbers()
+        public Task NumericStringsAreTreatedAsNumbers()
         {
-            await new SuperBasicCompilation(@"
+            return new SuperBasicCompilation(@"
 x = ""1"" + 1
 y = 4 + ""-1""").VerifyRuntime(memoryContents: @"
 x = 2
-y = 3").ConfigureAwait(false);
+y = 3");
         }
 
         [Fact]
-        public async Task ItEvaluatesArrayAccess()
+        public Task ItEvaluatesArrayAccess()
         {
-            await new SuperBasicCompilation(@"
+            return new SuperBasicCompilation(@"
 ar[0] = ""first""
 ar[1][0] = ""second""
 ar[1][2] = ""third""
@@ -40,7 +40,7 @@ found_first = first
 found_second = third
 not_found_ar = 
 not_found_first = 
-not_found_second = ").ConfigureAwait(false);
+not_found_second = ");
         }
     }
 }

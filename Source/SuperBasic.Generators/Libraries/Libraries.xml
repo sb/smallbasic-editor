@@ -916,7 +916,7 @@
       </Method>
     </Methods>
     <Properties>
-      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
+      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" IsAsync="true" />
       <Property Name="CursorLeft" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
       <Property Name="CursorTop" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
       <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />

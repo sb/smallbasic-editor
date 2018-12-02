@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="Actions_ClearEverythingConfirmation" xml:space="preserve">
     <value>This will clear the existing program. Are you sure?</value>
   </data>
@@ -191,5 +194,8 @@
   </data>
   <data name="SideBar_Libraries" xml:space="preserve">
     <value>Libraries</value>
+  </data>
+  <data name="TextDisplay_TerminateMessage" xml:space="preserve">
+    <value>Program has ended.</value>
   </data>
 </root>

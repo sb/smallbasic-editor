@@ -10,7 +10,7 @@ namespace SuperBasic.Tests.Compiler
     using SuperBasic.Compiler.Diagnostics;
     using Xunit;
 
-    // TODO: how to set timeout for all tests globally? they currently run indefinetely.
+    // TODO-later: how to set timeout for all tests globally? they currently run indefinetely.
     public sealed class BindingTests
     {
         [Fact]
@@ -491,30 +491,6 @@ File.DeleteFile(""a.txt"")", isRunningOnDesktop: false).VerifyDiagnostics(
                 // ^^^^^^^^^^^^^^^
                 // The library member 'File.DeleteFile' cannot be used in the online editor. Please download the desktop editor to use it.
                 new Diagnostic(DiagnosticCode.LibraryMemberNeedsDesktop, ((1, 0), (1, 14)), "File", "DeleteFile"));
-        }
-
-        [Fact]
-        public async Task ItDoesNotUseGraphicsWindowWhenNotNeeded()
-        {
-            var engine = await new SuperBasicCompilation("TextWindow.WriteLine(5)").VerifyRuntime().ConfigureAwait(false);
-            engine.Analysis.UsesTextWindow.Should().Be(true);
-            engine.Analysis.UsesGraphicsWindow.Should().Be(false);
-        }
-
-        [Fact]
-        public async Task ItUsesGraphicsWindowWhenNeeded()
-        {
-            var engine = await new SuperBasicCompilation("Controls.ShowControl(something)").VerifyRuntime().ConfigureAwait(false);
-            engine.Analysis.UsesTextWindow.Should().Be(false);
-            engine.Analysis.UsesGraphicsWindow.Should().Be(true);
-        }
-
-        [Fact]
-        public async Task ItUsesTextWindowWhenNothingIsNeeded()
-        {
-            var engine = await new SuperBasicCompilation("x = Math.Sin(5)").VerifyRuntime().ConfigureAwait(false);
-            engine.Analysis.UsesTextWindow.Should().Be(true);
-            engine.Analysis.UsesGraphicsWindow.Should().Be(false);
         }
     }
 }

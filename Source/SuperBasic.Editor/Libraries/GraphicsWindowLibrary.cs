@@ -59,7 +59,7 @@ namespace SuperBasic.Editor.Libraries
         void ShowMessage(string text, string title);
     }
 
-    internal sealed class GraphicsWindowLibrary
+    internal sealed class GraphicsWindowLibrary : IGraphicsWindowLibrary
     {
         private static readonly Regex HexColorRegex = new Regex("^#[0-9a-fA-F]{6}$");
         private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
@@ -72,6 +72,7 @@ namespace SuperBasic.Editor.Libraries
             this.graphicsWindowPlugin = graphicsWindowPlugin;
             this.settings = settings;
 
+            /*
             this.LastText = string.Empty;
             this.LastKey = string.Empty;
 
@@ -116,6 +117,7 @@ namespace SuperBasic.Editor.Libraries
                 this.MouseY = mouseY;
                 this.MouseUp();
             });
+            */
         }
 
         public event Action KeyDown;
@@ -247,11 +249,121 @@ namespace SuperBasic.Editor.Libraries
             {
                 case string hex when HexColorRegex.IsMatch(hex):
                     return hex;
-                case string name when ColorParser.HexFromName(name, out string result):
-                    return result;
+     //           case string name when ColorParser.HexFromName(name, out string result):
+       //             return result;
                 default:
                     return default;
             }
+        }
+
+        public string Get_BackgroundColor()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_BackgroundColor(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get_BrushColor()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_BrushColor(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Get_FontBold()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_FontBold(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Get_FontItalic()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_FontItalic(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get_FontName()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_FontName(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_FontSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_FontSize(decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_Height()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get_LastKey()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get_LastText()
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_MouseX()
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_MouseY()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get_PenColor()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_PenColor(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_PenWidth()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_PenWidth(decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_Width()
+        {
+            throw new NotImplementedException();
         }
     }
 }

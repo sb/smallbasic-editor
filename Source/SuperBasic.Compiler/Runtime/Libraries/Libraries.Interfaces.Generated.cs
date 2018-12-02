@@ -396,9 +396,9 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface ITextWindowLibrary
     {
-        string Get_BackgroundColor();
+        Task<string> Get_BackgroundColor();
 
-        void Set_BackgroundColor(string value);
+        Task Set_BackgroundColor(string value);
 
         string Get_ForegroundColor();
 

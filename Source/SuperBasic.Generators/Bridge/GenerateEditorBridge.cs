@@ -53,7 +53,7 @@ namespace SuperBasic.Generators.Bridge
 
                     string returnType = method.OutputType.IsDefault() ? "Task" : $"Task<{method.OutputType}>";
                     string parameters = method.InputType.IsDefault() ? string.Empty : $"{method.InputType} {method.InputName}";
-                    this.Line($"public static async {returnType} {method.Name}({parameters})");
+                    this.Line($"public static {(method.OutputType.IsDefault() ? "async " : string.Empty)}{returnType} {method.Name}({parameters})");
                     this.Brace();
 
                     string arguments = $@"""Bridge.{type.Name}.{method.Name}""";
@@ -64,11 +64,11 @@ namespace SuperBasic.Generators.Bridge
 
                     if (method.OutputType.IsDefault())
                     {
-                        this.Line($@"await JSRuntime.Current.InvokeAsync<bool>({arguments});");
+                        this.Line($@"await JSRuntime.Current.InvokeAsync<bool>({arguments}).ConfigureAwait(false);");
                     }
                     else
                     {
-                        this.Line($@"return await JSRuntime.Current.InvokeAsync<{method.OutputType}>({arguments});");
+                        this.Line($@"return JSRuntime.Current.InvokeAsync<{method.OutputType}>({arguments});");
                     }
 
                     this.Unbrace();

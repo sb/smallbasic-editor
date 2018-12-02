@@ -85,7 +85,7 @@ namespace SuperBasic.Generators.Scanning
 
                     if (property.IsAsync)
                     {
-                        this.Line($"return Task.CompletedResult;");
+                        this.Line($"return Task.CompletedTask;");
                     }
 
                     this.Unbrace();
@@ -107,7 +107,7 @@ namespace SuperBasic.Generators.Scanning
                 {
                     if (method.IsAsync)
                     {
-                        this.Line("return Task.CompletedResult;");
+                        this.Line("return Task.CompletedTask;");
                     }
                 }
                 else
