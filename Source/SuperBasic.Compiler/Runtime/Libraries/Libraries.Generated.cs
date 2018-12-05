@@ -472,13 +472,12 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Controls.AddMultiLineTextBox:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Libraries.Controls.AddMultiLineTextBox(left: left, top: top);
+                        string returnValue = await engine.Libraries.Controls.AddMultiLineTextBox(left: left, top: top).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("AddMultiLineTextBox", new Method(
@@ -498,13 +497,12 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Controls.AddTextBox:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Libraries.Controls.AddTextBox(left: left, top: top);
+                        string returnValue = await engine.Libraries.Controls.AddTextBox(left: left, top: top).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("AddTextBox", new Method(
@@ -575,8 +573,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.HideControl(controlName: controlName);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.HideControl(controlName: controlName);
                     }
 
                     methods.Add("HideControl", new Method(
@@ -600,8 +597,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string control = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.Move(control: control, x: x, y: y);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.Move(control: control, x: x, y: y);
                     }
 
                     methods.Add("Move", new Method(
@@ -625,8 +621,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.Remove(controlName: controlName);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.Remove(controlName: controlName);
                     }
 
                     methods.Add("Remove", new Method(
@@ -649,8 +644,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string caption = engine.EvaluationStack.Pop().ToString();
                         string buttonName = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
                     }
 
                     methods.Add("SetButtonCaption", new Method(
@@ -675,8 +669,7 @@ namespace SuperBasic.Compiler.Runtime
                         decimal height = engine.EvaluationStack.Pop().ToNumber();
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         string control = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.SetSize(control: control, width: width, height: height);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.SetSize(control: control, width: width, height: height);
                     }
 
                     methods.Add("SetSize", new Method(
@@ -701,8 +694,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
                         string textBoxName = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
                     }
 
                     methods.Add("SetTextBoxText", new Method(
@@ -725,8 +717,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Controls.ShowControl(controlName: controlName);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Controls.ShowControl(controlName: controlName);
                     }
 
                     methods.Add("ShowControl", new Method(
@@ -747,10 +738,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Controls.LastClickedButton:
                 {
-                    async Task getter(SuperBasicEngine engine)
+                    Task getter(SuperBasicEngine engine)
                     {
-                        string value = await engine.Libraries.Controls.Get_LastClickedButton().ConfigureAwait(false);
+                        string value = engine.Libraries.Controls.Get_LastClickedButton();
                         engine.EvaluationStack.Push(StringValue.Create(value));
+                        return Task.CompletedTask;
                     }
 
                     properties.Add("LastClickedButton", new Property("LastClickedButton", LibrariesResources.Controls_LastClickedButton, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
@@ -758,10 +750,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property Controls.LastTypedTextBox:
                 {
-                    async Task getter(SuperBasicEngine engine)
+                    Task getter(SuperBasicEngine engine)
                     {
-                        string value = await engine.Libraries.Controls.Get_LastTypedTextBox().ConfigureAwait(false);
+                        string value = engine.Libraries.Controls.Get_LastTypedTextBox();
                         engine.EvaluationStack.Push(StringValue.Create(value));
+                        return Task.CompletedTask;
                     }
 
                     properties.Add("LastTypedTextBox", new Property("LastTypedTextBox", LibrariesResources.Controls_LastTypedTextBox, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));

@@ -12,6 +12,7 @@ namespace SuperBasic.Editor.Components.Display
     using Microsoft.AspNetCore.Blazor;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
 
     internal enum AcceptedInputKind
@@ -21,6 +22,7 @@ namespace SuperBasic.Editor.Components.Display
         Strings
     }
 
+    // TODO-now: arrow presses not filtered.
     public sealed class TextDisplay : SuperBasicComponent, IDisposable
     {
         private ElementRef textDisplayRef;
@@ -33,10 +35,8 @@ namespace SuperBasic.Editor.Components.Display
         public TextDisplay()
         {
             this.AcceptedInput = AcceptedInputKind.None;
-            StaticStore.SetTextDisplay(this);
+            TextDisplayStore.SetDisplay(this);
         }
-
-        public event Action<string> InputReceived;
 
         internal AcceptedInputKind AcceptedInput { get; set; }
 
@@ -45,7 +45,7 @@ namespace SuperBasic.Editor.Components.Display
             JSInterop.TextDisplay.Dispose().ConfigureAwait(false);
         }
 
-        public void AcceptCharacter(string key)
+        public void AcceptInput(string key)
         {
             if (this.AcceptedInput == AcceptedInputKind.None)
             {
@@ -72,7 +72,7 @@ namespace SuperBasic.Editor.Components.Display
                             return;
                         }
 
-                        this.InputReceived(this.inputBuffer);
+                        TextDisplayStore.NotifyTextInput(this.inputBuffer);
                         this.outputChunks.Add(new OutputChunk(this.inputBuffer, "gray", appendNewLine: true));
                         this.inputBuffer = string.Empty;
                         break;

@@ -9,6 +9,7 @@ namespace SuperBasic.Generators.Parsing
     using System.Linq;
     using SuperBasic.Utilities;
 
+    // TODO-later: range shound be cached or pre-calculated (perf)
     public sealed class GenerateSyntaxNodes : BaseConverterTask<SyntaxNodeCollection>
     {
         protected override void Generate(SyntaxNodeCollection model)
@@ -275,7 +276,7 @@ namespace SuperBasic.Generators.Parsing
 
                 if (!returnedValue)
                 {
-                    this.Line(@"throw new InvalidOperationException(""Cannot calculate range for a node with no children"");");
+                    this.Line(@"return (0, 0);");
                 }
 
                 this.Unbrace();

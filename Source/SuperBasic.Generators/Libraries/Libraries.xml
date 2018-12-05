@@ -55,13 +55,13 @@
           <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddMultiLineTextBox" ReturnType="StringValue">
+      <Method Name="AddMultiLineTextBox" ReturnType="StringValue" IsAsync="true">
         <Parameters>
           <Parameter Name="left" Type="NumberValue" />
           <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddTextBox" ReturnType="StringValue">
+      <Method Name="AddTextBox" ReturnType="StringValue" IsAsync="true">
         <Parameters>
           <Parameter Name="left" Type="NumberValue" />
           <Parameter Name="top" Type="NumberValue" />
@@ -77,51 +77,51 @@
           <Parameter Name="textBoxName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="HideControl" ReturnsValue="false">
+      <Method Name="HideControl" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Move" ReturnsValue="false">
+      <Method Name="Move" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="control" Type="StringValue" />
           <Parameter Name="x" Type="NumberValue" />
           <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Remove" ReturnsValue="false">
+      <Method Name="Remove" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="SetButtonCaption" ReturnsValue="false">
+      <Method Name="SetButtonCaption" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="buttonName" Type="StringValue" />
           <Parameter Name="caption" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="SetSize" ReturnsValue="false">
+      <Method Name="SetSize" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="control" Type="StringValue" />
           <Parameter Name="width" Type="NumberValue" />
           <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="SetTextBoxText" ReturnsValue="false">
+      <Method Name="SetTextBoxText" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="textBoxName" Type="StringValue" />
           <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ShowControl" ReturnsValue="false">
+      <Method Name="ShowControl" ReturnsValue="false" IsAsync="true">
         <Parameters>
           <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="LastClickedButton" HasGetter="true" HasSetter="false" Type="StringValue" IsAsync="true" />
-      <Property Name="LastTypedTextBox" HasGetter="true" HasSetter="false" Type="StringValue" IsAsync="true" />
+      <Property Name="LastClickedButton" HasGetter="true" HasSetter="false" Type="StringValue" />
+      <Property Name="LastTypedTextBox" HasGetter="true" HasSetter="false" Type="StringValue" />
     </Properties>
     <Events>
       <Event Name="ButtonClicked" />

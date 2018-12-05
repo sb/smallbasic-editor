@@ -25,11 +25,20 @@ namespace SuperBasic.Editor.Interop
         Task AcceptInput(string key);
     }
 
+    internal interface IControlsInterop
+    {
+        Task ButtonClicked(string controlName);
+
+        Task TextBoxTyped(string controlName, string value);
+    }
+
     public static class CSInterop
     {
         private static readonly IMonacoInterop Monaco = new MonacoInterop();
 
         private static readonly ITextDisplayInterop TextDisplay = new TextDisplayInterop();
+
+        private static readonly IControlsInterop Controls = new ControlsInterop();
 
         [JSInvokable("CSIntrop.Monaco.UpdateDiagnostics")]
         public static Task<MonacoRange[]> Monaco_UpdateDiagnostics(string code)
@@ -53,6 +62,20 @@ namespace SuperBasic.Editor.Interop
         public static async Task<bool> TextDisplay_AcceptInput(string key)
         {
             await TextDisplay.AcceptInput(key).ConfigureAwait(false);
+            return true;
+        }
+
+        [JSInvokable("CSIntrop.Controls.ButtonClicked")]
+        public static async Task<bool> Controls_ButtonClicked(string controlName)
+        {
+            await Controls.ButtonClicked(controlName).ConfigureAwait(false);
+            return true;
+        }
+
+        [JSInvokable("CSIntrop.Controls.TextBoxTyped")]
+        public static async Task<bool> Controls_TextBoxTyped(string controlName, string value)
+        {
+            await Controls.TextBoxTyped(controlName, value).ConfigureAwait(false);
             return true;
         }
     }

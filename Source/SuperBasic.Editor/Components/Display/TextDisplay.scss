@@ -3,14 +3,16 @@
  */
 
 text-display {
-    flex-grow: 1;
+    flex: 1 0 50%;
     padding: 5px;
     box-sizing: border-box;
+    overflow-x: hidden;
     overflow-y: auto;
     word-break: break-all;
     font-size: 18px;
     font-family: Consolas, monospace, Hack;
     background-color: black;
+    border: 1px solid #656A72;
 
     input-field {
         color: gray;

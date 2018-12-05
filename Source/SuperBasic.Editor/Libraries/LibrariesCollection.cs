@@ -10,12 +10,13 @@ namespace SuperBasic.Editor.Libraries
     public sealed class LibrariesCollection : IEngineLibraries
     {
         private TextWindowLibrary textWindowLibrary = new TextWindowLibrary();
+        private ControlsLibrary controlsLibrary = new ControlsLibrary();
 
         public LibrariesCollection()
         {
             this.Array = new ArrayLibrary();
             this.Clock = new ClockLibrary();
-            this.Controls = new ControlsLibrary(null);
+            this.Controls = this.controlsLibrary;
             this.Desktop = new DesktopLibrary(null);
             this.Dictionary = new DictionaryLibrary();
             this.File = new FileLibrary(null);
@@ -74,9 +75,5 @@ namespace SuperBasic.Editor.Libraries
         public ITimerLibrary Timer { get; private set; }
 
         public ITurtleLibrary Turtle { get; private set; }
-
-        internal void SetInputBuffer(string value) => this.textWindowLibrary.SetInputBuffer(value);
-
-        internal void TerminateTextDisplay() => this.textWindowLibrary.TerminateTextDisplay();
     }
 }

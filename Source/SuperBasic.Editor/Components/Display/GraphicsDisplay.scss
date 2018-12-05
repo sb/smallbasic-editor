@@ -3,6 +3,33 @@
  */
 
 graphics-display {
-    background-color: aqua;
-    flex-grow: 1;
+    flex: 1 0 50%;
+    background-color: white;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border: 1px solid #656A72;
+    // Required to have "absolute" positioned children
+    position: relative;
+
+    button {
+        // Needs to have a "relative" parent
+        position: absolute;
+        font-family: Consolas, monospace, Hack;
+        font-size: 14px;
+    }
+
+    input {
+        // Needs to have a "relative" parent
+        position: absolute;
+        font-family: Consolas, monospace, Hack;
+        font-size: 14px;
+    }
+
+    textarea {
+        // Needs to have a "relative" parent
+        position: absolute;
+        font-family: Consolas, monospace, Hack;
+        font-size: 14px;
+        resize: none;
+    }
 }

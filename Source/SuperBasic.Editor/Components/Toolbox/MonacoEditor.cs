@@ -4,16 +4,13 @@
 
 namespace SuperBasic.Editor.Components.Toolbox
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor;
     using Microsoft.AspNetCore.Blazor.Components;
-    using SuperBasic.Compiler.Scanning;
-    using SuperBasic.Compiler.Services;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Interop;
-    using SuperBasic.Utilities;
+    using SuperBasic.Editor.Store;
 
     public sealed class MonacoEditor : SuperBasicComponent
     {
@@ -32,7 +29,7 @@ namespace SuperBasic.Editor.Components.Toolbox
 
         protected override Task OnAfterRenderAsync()
         {
-            return JSInterop.Monaco.Initialize(this.editorElement, StaticStore.Compilation.Text, this.IsReadOnly);
+            return JSInterop.Monaco.Initialize(this.editorElement, CompilationStore.Compilation.Text, this.IsReadOnly);
         }
 
         protected override void ComposeTree(TreeComposer composer)

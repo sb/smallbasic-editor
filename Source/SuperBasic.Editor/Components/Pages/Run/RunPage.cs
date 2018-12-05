@@ -17,6 +17,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
     using SuperBasic.Editor.Components.Toolbox;
     using SuperBasic.Editor.Interop;
     using SuperBasic.Editor.Libraries;
+    using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
@@ -38,13 +39,13 @@ namespace SuperBasic.Editor.Components.Pages.Run
 
         protected override void OnInit()
         {
-            if (StaticStore.Compilation.Diagnostics.Any())
+            if (CompilationStore.Compilation.Diagnostics.Any())
             {
                 this.UriHelper.NavigateTo("/edit");
                 return;
             }
 
-            this.analysis = new RuntimeAnalysis(StaticStore.Compilation);
+            this.analysis = new RuntimeAnalysis(CompilationStore.Compilation);
         }
 
         protected override void ComposeBody(TreeComposer composer)
@@ -71,43 +72,42 @@ namespace SuperBasic.Editor.Components.Pages.Run
                 this.isInitialized = true;
 
                 var libraries = new LibrariesCollection();
-                this.engine = new SuperBasicEngine(StaticStore.Compilation, this.analysis, libraries, isDebugging: false);
+                this.engine = new SuperBasicEngine(CompilationStore.Compilation, this.analysis, libraries, isDebugging: false);
+
+                TextDisplayStore.TextInput += value =>
+                {
+                    this.engine.InputReceived();
+                };
 
                 await Task.Run(async () =>
                 {
-                    StaticStore.TextDisplay.InputReceived += value =>
-                    {
-                        libraries.SetInputBuffer(value);
-                        this.engine.InputReceived();
-                    };
-
                     while (!this.isDisposed)
                     {
                         switch (this.engine.State)
                         {
                             case ExecutionState.Running:
-                                StaticStore.TextDisplay.AcceptedInput = AcceptedInputKind.None;
+                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
                                 await this.engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
-                                continue;
+                                break;
                             case ExecutionState.BlockedOnNumberInput:
-                                StaticStore.TextDisplay.AcceptedInput = AcceptedInputKind.Numbers;
-                                await Task.Delay(1).ConfigureAwait(false);
+                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.Numbers;
                                 break;
                             case ExecutionState.BlockedOnStringInput:
-                                StaticStore.TextDisplay.AcceptedInput = AcceptedInputKind.Strings;
-                                await Task.Delay(1).ConfigureAwait(false);
+                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.Strings;
                                 break;
                             case ExecutionState.Paused:
-                                StaticStore.TextDisplay.AcceptedInput = AcceptedInputKind.None;
-                                await Task.Delay(1).ConfigureAwait(false);
+                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
                                 break;
                             case ExecutionState.Terminated:
-                                StaticStore.TextDisplay.AcceptedInput = AcceptedInputKind.None;
-                                libraries.TerminateTextDisplay();
+                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
+                                libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage);
                                 return;
                             default:
                                 throw ExceptionUtilities.UnexpectedValue(this.engine.State);
                         }
+
+                        // Important to prevent th UI from freezing
+                        await Task.Delay(1).ConfigureAwait(false);
                     }
                 }).ConfigureAwait(false);
             }

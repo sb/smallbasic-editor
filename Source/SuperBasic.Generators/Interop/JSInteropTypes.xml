@@ -75,4 +75,76 @@
       </Method>
     </Methods>
   </InteropType>
+  <InteropType Name="Controls">
+    <Methods>
+      <Method Name="Initialize">
+        <Parameters>
+          <Parameter Name="graphicsDisplayElement" Type="HTMLElement" />
+        </Parameters>
+      </Method>
+      <Method Name="AddButton">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="caption" Type="string" />
+          <Parameter Name="left" Type="number" />
+          <Parameter Name="top" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="AddMultiLineTextBox">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="left" Type="number" />
+          <Parameter Name="top" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="AddTextBox">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="left" Type="number" />
+          <Parameter Name="top" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="HideControl">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="Move">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="x" Type="number" />
+          <Parameter Name="y" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="Remove">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="SetButtonCaption">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="caption" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="SetSize">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="width" Type="number" />
+          <Parameter Name="height" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="SetTextBoxText">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+          <Parameter Name="text" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="ShowControl">
+        <Parameters>
+          <Parameter Name="controlName" Type="string" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
 </root>

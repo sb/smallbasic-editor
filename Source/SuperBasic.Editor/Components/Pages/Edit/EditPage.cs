@@ -13,6 +13,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Components.Toolbox;
     using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Store;
     using SuperBasic.Utilities.Resources;
 
     [Route("/edit")]
@@ -76,14 +77,14 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
         protected override void OnInit()
         {
-            StaticStore.CodeChanged += this.StateHasChanged;
+            CompilationStore.CodeChanged += this.StateHasChanged;
         }
 
         protected override void ComposeTree(TreeComposer composer)
         {
-            if (StaticStore.Compilation.Diagnostics.Any())
+            if (CompilationStore.Compilation.Diagnostics.Any())
             {
-                string message = string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count, StaticStore.Compilation.Diagnostics.Count);
+                string message = string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count, CompilationStore.Compilation.Diagnostics.Count);
                 Actions.DisabledAction(composer, "run", EditorResources.Actions_Run, message: message);
                 Actions.DisabledAction(composer, "debug", EditorResources.Actions_Debug, message: message);
             }

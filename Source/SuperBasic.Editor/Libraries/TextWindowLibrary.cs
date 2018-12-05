@@ -11,6 +11,7 @@ namespace SuperBasic.Editor.Libraries
     using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Components.Display;
     using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
@@ -20,7 +21,15 @@ namespace SuperBasic.Editor.Libraries
         private string foregroundColorName = "White";
         private string inputBuffer = string.Empty;
 
-        public void Clear() => StaticStore.TextDisplay.Clear();
+        public TextWindowLibrary()
+        {
+            TextDisplayStore.TextInput += value =>
+            {
+                this.inputBuffer = value;
+            };
+        }
+
+        public void Clear() => TextDisplayStore.Display.Clear();
 
         public Task<string> Get_BackgroundColor() => Task.FromResult(this.backgroundColorName);
 
@@ -69,22 +78,12 @@ namespace SuperBasic.Editor.Libraries
 
         public void Write(string data)
         {
-            StaticStore.TextDisplay.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: false));
+            TextDisplayStore.Display.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: false));
         }
 
         public void WriteLine(string data)
         {
-            StaticStore.TextDisplay.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: true));
-        }
-
-        internal void SetInputBuffer(string value)
-        {
-            this.inputBuffer = value;
-        }
-
-        internal void TerminateTextDisplay()
-        {
-            StaticStore.TextDisplay.AppendOutput(new OutputChunk(EditorResources.TextDisplay_TerminateMessage, this.foregroundColorName, appendNewLine: true));
+            TextDisplayStore.Display.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: true));
         }
     }
 }

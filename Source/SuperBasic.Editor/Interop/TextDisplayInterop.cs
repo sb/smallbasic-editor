@@ -6,12 +6,13 @@ namespace SuperBasic.Editor.Interop
 {
     using System.Threading.Tasks;
     using SuperBasic.Editor.Components;
+    using SuperBasic.Editor.Store;
 
     public class TextDisplayInterop : ITextDisplayInterop
     {
         public Task AcceptInput(string key)
         {
-            StaticStore.TextDisplay.AcceptCharacter(key);
+            TextDisplayStore.Display.AcceptInput(key);
             return Task.CompletedTask;
         }
     }

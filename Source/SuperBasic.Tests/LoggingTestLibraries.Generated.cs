@@ -142,16 +142,16 @@ namespace SuperBasic.Tests
 
         public event Action TextTyped;
 
-        public Task<string> Get_LastClickedButton()
+        public string Get_LastClickedButton()
         {
             this.log.AppendLine($"Controls.Get_LastClickedButton()");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
-        public Task<string> Get_LastTypedTextBox()
+        public string Get_LastTypedTextBox()
         {
             this.log.AppendLine($"Controls.Get_LastTypedTextBox()");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
         public Task<string> AddButton(string caption, decimal left, decimal top)
@@ -160,16 +160,16 @@ namespace SuperBasic.Tests
             return Task.FromResult(string.Empty);
         }
 
-        public string AddMultiLineTextBox(decimal left, decimal top)
+        public Task<string> AddMultiLineTextBox(decimal left, decimal top)
         {
             this.log.AppendLine($"Controls.AddMultiLineTextBox(left: '{left}', top: '{top}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string AddTextBox(decimal left, decimal top)
+        public Task<string> AddTextBox(decimal left, decimal top)
         {
             this.log.AppendLine($"Controls.AddTextBox(left: '{left}', top: '{top}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
         public string GetButtonCaption(string buttonName)
@@ -184,39 +184,46 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
-        public void HideControl(string controlName)
+        public Task HideControl(string controlName)
         {
             this.log.AppendLine($"Controls.HideControl(controlName: '{controlName}')");
+            return Task.CompletedTask;
         }
 
-        public void Move(string control, decimal x, decimal y)
+        public Task Move(string control, decimal x, decimal y)
         {
             this.log.AppendLine($"Controls.Move(control: '{control}', x: '{x}', y: '{y}')");
+            return Task.CompletedTask;
         }
 
-        public void Remove(string controlName)
+        public Task Remove(string controlName)
         {
             this.log.AppendLine($"Controls.Remove(controlName: '{controlName}')");
+            return Task.CompletedTask;
         }
 
-        public void SetButtonCaption(string buttonName, string caption)
+        public Task SetButtonCaption(string buttonName, string caption)
         {
             this.log.AppendLine($"Controls.SetButtonCaption(buttonName: '{buttonName}', caption: '{caption}')");
+            return Task.CompletedTask;
         }
 
-        public void SetSize(string control, decimal width, decimal height)
+        public Task SetSize(string control, decimal width, decimal height)
         {
             this.log.AppendLine($"Controls.SetSize(control: '{control}', width: '{width}', height: '{height}')");
+            return Task.CompletedTask;
         }
 
-        public void SetTextBoxText(string textBoxName, string text)
+        public Task SetTextBoxText(string textBoxName, string text)
         {
             this.log.AppendLine($"Controls.SetTextBoxText(textBoxName: '{textBoxName}', text: '{text}')");
+            return Task.CompletedTask;
         }
 
-        public void ShowControl(string controlName)
+        public Task ShowControl(string controlName)
         {
             this.log.AppendLine($"Controls.ShowControl(controlName: '{controlName}')");
+            return Task.CompletedTask;
         }
     }
 

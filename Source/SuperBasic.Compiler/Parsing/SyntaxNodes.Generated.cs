@@ -332,7 +332,7 @@ namespace SuperBasic.Compiler.Parsing
                         return bodyChild.Range.Start;
                     }
 
-                    throw new InvalidOperationException("Cannot calculate range for a node with no children");
+                    return (0, 0);
                 }
 
                 TextPosition calculateEnd()
@@ -343,7 +343,7 @@ namespace SuperBasic.Compiler.Parsing
                         return bodyChild.Range.End;
                     }
 
-                    throw new InvalidOperationException("Cannot calculate range for a node with no children");
+                    return (0, 0);
                 }
             }
         }

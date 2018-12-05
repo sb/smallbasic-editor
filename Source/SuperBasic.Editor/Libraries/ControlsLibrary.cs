@@ -8,81 +8,61 @@ namespace SuperBasic.Editor.Libraries
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
-
-    public interface IControlsPlugin
-    {
-        void AddButton(string name, string caption, decimal left, decimal top, Action onClick);
-
-        void AddTextBox(string name, decimal left, decimal top, bool isMutliLine, Action<string> onTextChange);
-
-        void SetButtonCaption(string name, string caption);
-
-        void SetTextBoxText(string name, string text);
-
-        void SetSize(string name, decimal width, decimal height);
-
-        void Hide(string name);
-
-        void Show(string name);
-
-        void Move(string name, decimal x, decimal y);
-
-        void Remove(string name);
-    }
 
     internal sealed class ControlsLibrary : IControlsLibrary
     {
-        private readonly NamedCounter counters;
-        private readonly IControlsPlugin plugin;
+        private readonly NamedCounter counters = new NamedCounter();
+        private readonly Dictionary<string, string> buttons = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> textBoxes = new Dictionary<string, string>();
 
-        private readonly Dictionary<string, string> buttons;
-        private readonly Dictionary<string, string> textBoxes;
+        private string lastClickedButton = string.Empty;
+        private string lastTypedTextBox = string.Empty;
 
-        private string lastClickedButton;
-        private string lastTypedTextBox;
-
-        public ControlsLibrary(IControlsPlugin plugin)
+        public ControlsLibrary()
         {
-            this.counters = new NamedCounter();
-            this.plugin = plugin;
+            GraphicsDisplayStore.ButtonClicked += buttonName =>
+            {
+                this.lastClickedButton = buttonName;
+                this.ButtonClicked();
+            };
 
-            this.buttons = new Dictionary<string, string>();
-            this.textBoxes = new Dictionary<string, string>();
-
-            this.lastClickedButton = string.Empty;
-            this.lastTypedTextBox = string.Empty;
+            GraphicsDisplayStore.TextTyped += (textBoxName, text) =>
+            {
+                this.lastTypedTextBox = textBoxName;
+                this.textBoxes[textBoxName] = text;
+                this.TextTyped();
+            };
         }
 
         public event Action ButtonClicked;
 
         public event Action TextTyped;
 
-        public Task<string> Get_LastClickedButton() => Task.FromResult(this.lastClickedButton);
-
-        public Task<string> Get_LastTypedTextBox() => Task.FromResult(this.lastTypedTextBox);
-
-        public string AddButton(string caption, decimal left, decimal top)
+        public async Task<string> AddButton(string caption, decimal left, decimal top)
         {
             string name = this.counters.GetNext("Button");
-            this.plugin.AddButton(name, caption, left, top, () =>
-            {
-                this.lastClickedButton = name;
-                this.ButtonClicked();
-            });
-
             this.buttons.Add(name, caption);
+            await JSInterop.Controls.AddButton(name, caption, left, top).ConfigureAwait(false);
             return name;
         }
 
-        public string AddMultiLineTextBox(decimal left, decimal top)
+        public async Task<string> AddMultiLineTextBox(decimal left, decimal top)
         {
-            return this.AddTextBoxAux(left, top, isMultiLine: true);
+            string name = this.counters.GetNext("TextBox");
+            this.textBoxes.Add(name, string.Empty);
+            await JSInterop.Controls.AddMultiLineTextBox(name, left, top).ConfigureAwait(false);
+            return name;
         }
 
-        public string AddTextBox(decimal left, decimal top)
+        public async Task<string> AddTextBox(decimal left, decimal top)
         {
-            return this.AddTextBoxAux(left, top, isMultiLine: false);
+            string name = this.counters.GetNext("TextBox");
+            this.textBoxes.Add(name, string.Empty);
+            await JSInterop.Controls.AddTextBox(name, left, top).ConfigureAwait(false);
+            return name;
         }
 
         public string GetButtonCaption(string buttonName)
@@ -105,88 +85,86 @@ namespace SuperBasic.Editor.Libraries
             return string.Empty;
         }
 
-        public void HideControl(string controlName)
+        public string Get_LastClickedButton() => this.lastClickedButton;
+
+        public string Get_LastTypedTextBox() => this.lastTypedTextBox;
+
+        public Task HideControl(string controlName)
         {
             if (this.buttons.ContainsKey(controlName) || this.textBoxes.ContainsKey(controlName))
             {
-                this.plugin.Hide(controlName);
+                return JSInterop.Controls.HideControl(controlName);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void Move(string control, decimal x, decimal y)
+        public Task Move(string control, decimal x, decimal y)
         {
             if (this.buttons.ContainsKey(control) || this.textBoxes.ContainsKey(control))
             {
-                this.plugin.Move(control, x, y);
+                return JSInterop.Controls.Move(control, x, y);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void Remove(string controlName)
+        public Task Remove(string controlName)
         {
             if (this.buttons.ContainsKey(controlName))
             {
                 this.buttons.Remove(controlName);
-                this.plugin.Remove(controlName);
+                return JSInterop.Controls.Remove(controlName);
             }
             else if (this.textBoxes.ContainsKey(controlName))
             {
                 this.textBoxes.Remove(controlName);
-                this.plugin.Remove(controlName);
+                return JSInterop.Controls.Remove(controlName);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void SetButtonCaption(string buttonName, string caption)
+        public Task SetButtonCaption(string buttonName, string caption)
         {
             if (this.buttons.ContainsKey(buttonName))
             {
                 this.buttons[buttonName] = caption;
-                this.plugin.SetButtonCaption(buttonName, caption);
+                return JSInterop.Controls.SetButtonCaption(buttonName, caption);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void SetSize(string control, decimal width, decimal height)
+        public Task SetSize(string control, decimal width, decimal height)
         {
             if (this.buttons.ContainsKey(control) || this.textBoxes.ContainsKey(control))
             {
-                this.plugin.SetSize(control, width, height);
+                return JSInterop.Controls.SetSize(control, width, height);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void SetTextBoxText(string textBoxName, string text)
+        public Task SetTextBoxText(string textBoxName, string text)
         {
             if (this.textBoxes.ContainsKey(textBoxName))
             {
                 this.textBoxes[textBoxName] = text;
-                this.plugin.SetTextBoxText(textBoxName, text);
+                return JSInterop.Controls.SetTextBoxText(textBoxName, text);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void ShowControl(string controlName)
+        public Task ShowControl(string controlName)
         {
             if (this.buttons.ContainsKey(controlName) || this.textBoxes.ContainsKey(controlName))
             {
-                this.plugin.Show(controlName);
+                return JSInterop.Controls.ShowControl(controlName);
             }
-        }
 
-        Task<string> IControlsLibrary.AddButton(string caption, decimal left, decimal top)
-        {
-            throw new NotImplementedException();
-        }
-
-        private string AddTextBoxAux(decimal left, decimal top, bool isMultiLine)
-        {
-            string name = this.counters.GetNext("TextBox");
-            this.plugin.AddTextBox(name, left, top, isMultiLine, text =>
-            {
-                this.textBoxes[name] = text;
-
-                this.lastTypedTextBox = name;
-                this.TextTyped();
-            });
-
-            this.textBoxes.Add(name, string.Empty);
-            return name;
+            return Task.CompletedTask;
         }
     }
 }

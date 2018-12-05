@@ -31,4 +31,18 @@ export module CSIntrop {
             });
         }
     }
+
+    export module Controls {
+        export function buttonClicked(controlName: string): Promise<void> {
+            return DotNet.invokeMethodAsync<boolean>("SuperBasic.Editor", "CSIntrop.Controls.ButtonClicked", controlName).then(() => {
+                Promise.resolve();
+            });
+        }
+
+        export function textBoxTyped(controlName: string, value: string): Promise<void> {
+            return DotNet.invokeMethodAsync<boolean>("SuperBasic.Editor", "CSIntrop.Controls.TextBoxTyped", controlName, value).then(() => {
+                Promise.resolve();
+            });
+        }
+    }
 }

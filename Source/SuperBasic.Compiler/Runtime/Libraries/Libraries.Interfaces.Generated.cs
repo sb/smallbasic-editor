@@ -54,33 +54,33 @@ namespace SuperBasic.Compiler.Runtime
 
         event Action TextTyped;
 
-        Task<string> Get_LastClickedButton();
+        string Get_LastClickedButton();
 
-        Task<string> Get_LastTypedTextBox();
+        string Get_LastTypedTextBox();
 
         Task<string> AddButton(string caption, decimal left, decimal top);
 
-        string AddMultiLineTextBox(decimal left, decimal top);
+        Task<string> AddMultiLineTextBox(decimal left, decimal top);
 
-        string AddTextBox(decimal left, decimal top);
+        Task<string> AddTextBox(decimal left, decimal top);
 
         string GetButtonCaption(string buttonName);
 
         string GetTextBoxText(string textBoxName);
 
-        void HideControl(string controlName);
+        Task HideControl(string controlName);
 
-        void Move(string control, decimal x, decimal y);
+        Task Move(string control, decimal x, decimal y);
 
-        void Remove(string controlName);
+        Task Remove(string controlName);
 
-        void SetButtonCaption(string buttonName, string caption);
+        Task SetButtonCaption(string buttonName, string caption);
 
-        void SetSize(string control, decimal width, decimal height);
+        Task SetSize(string control, decimal width, decimal height);
 
-        void SetTextBoxText(string textBoxName, string text);
+        Task SetTextBoxText(string textBoxName, string text);
 
-        void ShowControl(string controlName);
+        Task ShowControl(string controlName);
     }
 
     public interface IDesktopLibrary

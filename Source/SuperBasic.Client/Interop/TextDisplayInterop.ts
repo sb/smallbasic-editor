@@ -19,9 +19,7 @@ export class TextDisplayInterop implements ITextDisplayInterop {
     }
 
     public async scrollTo(element: HTMLElement): Promise<void> {
-        element.scrollIntoView({
-            behavior: "smooth"
-        });
+        element.scrollIntoView();
     }
 
     public async setBackgroundColor(hexColor: string): Promise<void> {
