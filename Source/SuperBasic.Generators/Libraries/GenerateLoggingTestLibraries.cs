@@ -160,6 +160,7 @@ namespace SuperBasic.Generators.Scanning
                 case "NumberValue": return "0";
                 case "BooleanValue": return "false";
                 case "ArrayValue": return "new ArrayValue()";
+                case "BaseValue": return "StringValue.Create(string.Empty)";
                 default: throw ExceptionUtilities.UnexpectedValue(type);
             }
         }

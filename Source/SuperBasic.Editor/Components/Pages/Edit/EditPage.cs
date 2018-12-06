@@ -16,12 +16,16 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities.Resources;
 
-    [Route("/edit")]
     public sealed class EditPage : MainLayout, IDisposable
     {
         public void Dispose()
         {
             JSInterop.Monaco.Dispose().ConfigureAwait(false);
+        }
+
+        public static void Inject(TreeComposer composer)
+        {
+            composer.Inject<EditPage>();
         }
 
         protected override void ComposeBody(TreeComposer composer)
@@ -67,9 +71,6 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
     public sealed class ExeuctionActions : SuperBasicComponent
     {
-        [Inject]
-        private IUriHelper UriHelper { get; set; }
-
         internal static void Inject(TreeComposer composer)
         {
             composer.Inject<ExeuctionActions>();
@@ -92,7 +93,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             {
                 Actions.Action(composer, "run", EditorResources.Actions_Run, onClick: () =>
                 {
-                    this.UriHelper.NavigateTo("/run");
+                    NavigationStore.NagivateTo(NavigationStore.PageId.Run);
                     return Task.CompletedTask;
                 });
 

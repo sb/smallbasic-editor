@@ -130,15 +130,15 @@
   </Library>
   <Library Name="Desktop" ExplorerIcon="desktop">
     <Methods>
-      <Method Name="SetWallPaper" ReturnsValue="false" NeedsDesktop="true">
+      <Method Name="SetWallPaper" ReturnsValue="false" NeedsDesktop="true" IsDeprecated="true">
         <Parameters>
           <Parameter Name="fileOrUrl" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="Height" HasGetter="true" HasSetter="false" Type="NumberValue" NeedsDesktop="true" />
-      <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" NeedsDesktop="true" />
+      <Property Name="Height" HasGetter="true" HasSetter="false" Type="NumberValue" NeedsDesktop="true" IsDeprecated="true" />
+      <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" NeedsDesktop="true" IsDeprecated="true" />
     </Properties>
   </Library>
   <Library Name="Dictionary" ExplorerIcon="font">
@@ -237,70 +237,70 @@
   </Library>
   <Library Name="File" ExplorerIcon="file">
     <Methods>
-      <Method Name="AppendContents" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="AppendContents" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
           <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="CopyFile" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="CopyFile" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="sourceFilePath" Type="StringValue" />
           <Parameter Name="destinationFilePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="CreateDirectory" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="CreateDirectory" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="DeleteDirectory" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="DeleteDirectory" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="DeleteFile" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="DeleteFile" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetDirectories" ReturnType="ArrayValue" NeedsDesktop="true">
+      <Method Name="GetDirectories" ReturnType="BaseValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetFiles" ReturnType="ArrayValue" NeedsDesktop="true">
+      <Method Name="GetFiles" ReturnType="BaseValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="directoryPath" Type="StringValue" />
         </Parameters>
       </Method>
       <Method Name="GetSettingsFilePath" ReturnType="StringValue" IsDeprecated="true" NeedsDesktop="true" />
-      <Method Name="GetTemporaryFilePath" ReturnType="StringValue" NeedsDesktop="true" />
-      <Method Name="InsertLine" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="GetTemporaryFilePath" ReturnType="BaseValue" NeedsDesktop="true" IsAsync="true" />
+      <Method Name="InsertLine" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
           <Parameter Name="lineNumber" Type="NumberValue" />
           <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ReadContents" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="ReadContents" ReturnType="BaseValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ReadLine" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="ReadLine" ReturnType="BaseValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
           <Parameter Name="lineNumber" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="WriteContents" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="WriteContents" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
           <Parameter Name="contents" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="WriteLine" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="WriteLine" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="filePath" Type="StringValue" />
           <Parameter Name="lineNumber" Type="NumberValue" />

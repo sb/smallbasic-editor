@@ -26,6 +26,7 @@ namespace SuperBasic.Generators.Bridge
 
             this.Line("using System.Threading.Tasks;");
             this.Line("using Microsoft.JSInterop;");
+            this.Line("using SuperBasic.Utilities.Bridge;");
             this.Blank();
 
             this.GenerateInteropType(model);

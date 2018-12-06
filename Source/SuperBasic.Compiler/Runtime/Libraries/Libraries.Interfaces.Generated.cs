@@ -85,11 +85,6 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IDesktopLibrary
     {
-        decimal Get_Height();
-
-        decimal Get_Width();
-
-        void SetWallPaper(string fileOrUrl);
     }
 
     public interface IDictionaryLibrary
@@ -102,31 +97,31 @@ namespace SuperBasic.Compiler.Runtime
 
         void Set_LastError(string value);
 
-        string AppendContents(string filePath, string contents);
+        Task<string> AppendContents(string filePath, string contents);
 
-        string CopyFile(string sourceFilePath, string destinationFilePath);
+        Task<string> CopyFile(string sourceFilePath, string destinationFilePath);
 
-        string CreateDirectory(string directoryPath);
+        Task<string> CreateDirectory(string directoryPath);
 
-        string DeleteDirectory(string directoryPath);
+        Task<string> DeleteDirectory(string directoryPath);
 
-        string DeleteFile(string filePath);
+        Task<string> DeleteFile(string filePath);
 
-        ArrayValue GetDirectories(string directoryPath);
+        Task<BaseValue> GetDirectories(string directoryPath);
 
-        ArrayValue GetFiles(string directoryPath);
+        Task<BaseValue> GetFiles(string directoryPath);
 
-        string GetTemporaryFilePath();
+        Task<BaseValue> GetTemporaryFilePath();
 
-        string InsertLine(string filePath, decimal lineNumber, string contents);
+        Task<string> InsertLine(string filePath, decimal lineNumber, string contents);
 
-        string ReadContents(string filePath);
+        Task<BaseValue> ReadContents(string filePath);
 
-        string ReadLine(string filePath, decimal lineNumber);
+        Task<BaseValue> ReadLine(string filePath, decimal lineNumber);
 
-        string WriteContents(string filePath, string contents);
+        Task<string> WriteContents(string filePath, string contents);
 
-        string WriteLine(string filePath, decimal lineNumber, string contents);
+        Task<string> WriteLine(string filePath, decimal lineNumber, string contents);
     }
 
     public interface IFlickrLibrary

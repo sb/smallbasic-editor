@@ -21,16 +21,16 @@ namespace SuperBasic.Editor.Components.Pages.Run
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    [Route("/run")]
     public sealed class RunPage : MainLayout, IDisposable
     {
         private bool isInitialized = false;
         private bool isDisposed = false;
         private RuntimeAnalysis analysis;
-        private SuperBasicEngine engine;
 
-        [Inject]
-        private IUriHelper UriHelper { get; set; }
+        public static void Inject(TreeComposer composer)
+        {
+            composer.Inject<RunPage>();
+        }
 
         public void Dispose()
         {
@@ -41,7 +41,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
         {
             if (CompilationStore.Compilation.Diagnostics.Any())
             {
-                this.UriHelper.NavigateTo("/edit");
+                NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
         {
             Actions.Action(composer, "back", EditorResources.Actions_Back, () =>
             {
-                this.UriHelper.NavigateTo("/edit");
+                NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return Task.CompletedTask;
             });
         }
@@ -72,22 +72,25 @@ namespace SuperBasic.Editor.Components.Pages.Run
                 this.isInitialized = true;
 
                 var libraries = new LibrariesCollection();
-                this.engine = new SuperBasicEngine(CompilationStore.Compilation, this.analysis, libraries, isDebugging: false);
+                var engine = new SuperBasicEngine(CompilationStore.Compilation, this.analysis, libraries, isDebugging: false);
 
                 TextDisplayStore.TextInput += value =>
                 {
-                    this.engine.InputReceived();
+                    if (!this.isDisposed)
+                    {
+                        engine.InputReceived();
+                    }
                 };
 
                 await Task.Run(async () =>
                 {
                     while (!this.isDisposed)
                     {
-                        switch (this.engine.State)
+                        switch (engine.State)
                         {
                             case ExecutionState.Running:
                                 TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
-                                await this.engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
+                                await engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
                                 break;
                             case ExecutionState.BlockedOnNumberInput:
                                 TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.Numbers;
@@ -103,7 +106,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
                                 libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage);
                                 return;
                             default:
-                                throw ExceptionUtilities.UnexpectedValue(this.engine.State);
+                                throw ExceptionUtilities.UnexpectedValue(engine.State);
                         }
 
                         // Important to prevent th UI from freezing

@@ -7,17 +7,34 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using Microsoft.AspNetCore.Blazor.Components;
     using Microsoft.AspNetCore.Blazor.Services;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Components.Pages.Run;
+    using SuperBasic.Editor.Store;
+    using SuperBasic.Utilities;
 
     [Route("/")] // For browser entry
     [Route("/index.html")] // For electron entry
-    public sealed class IndexPage : MainLayout
+    public sealed class IndexPage : SuperBasicComponent
     {
-        [Inject]
         private IUriHelper UriHelper { get; set; }
 
         protected override void OnInit()
         {
-            this.UriHelper.NavigateTo("/edit");
+            NavigationStore.PageChanged += this.StateHasChanged;
+        }
+
+        protected override void ComposeTree(TreeComposer composer)
+        {
+            switch (NavigationStore.CurrentPage)
+            {
+                case NavigationStore.PageId.Edit:
+                    EditPage.Inject(composer);
+                    break;
+                case NavigationStore.PageId.Run:
+                    RunPage.Inject(composer);
+                    break;
+                default:
+                    throw ExceptionUtilities.UnexpectedValue(NavigationStore.CurrentPage);
+            }
         }
     }
 }

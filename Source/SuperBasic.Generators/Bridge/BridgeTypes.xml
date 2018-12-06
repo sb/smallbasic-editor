@@ -5,4 +5,21 @@
       <Method Name="OpenExternalLink" InputType="string" InputName="url" />
     </Methods>
   </BridgeType>
+  <BridgeType Name="File">
+    <Methods>
+      <Method Name="AppendContents" InputType="FileBridgeModels.PathAndContentsArgs" InputName="args" OutputType="FileBridgeModels.Result" />
+      <Method Name="CopyFile" InputType="FileBridgeModels.SourceAndDestinationArgs" InputName="args" OutputType="FileBridgeModels.Result" />
+      <Method Name="CreateDirectory" InputType="string" InputName="directoryPath" OutputType="FileBridgeModels.Result" />
+      <Method Name="DeleteDirectory" InputType="string" InputName="directoryPath" OutputType="FileBridgeModels.Result" />
+      <Method Name="DeleteFile" InputType="string" InputName="filePath" OutputType="FileBridgeModels.Result" />
+      <Method Name="GetDirectories" InputType="string" InputName="directoryPath" OutputType="FileBridgeModels.Result&lt;string[]&gt;" />
+      <Method Name="GetFiles" InputType="string" InputName="directoryPath" OutputType="FileBridgeModels.Result&lt;string[]&gt;" />
+      <Method Name="GetTemporaryFilePath" OutputType="FileBridgeModels.Result&lt;string&gt;" />
+      <Method Name="InsertLine" InputType="FileBridgeModels.PathAndLineAndContentsArgs" InputName="args" OutputType="FileBridgeModels.Result" />
+      <Method Name="ReadContents" InputType="string" InputName="filePath" OutputType="FileBridgeModels.Result&lt;string&gt;" />
+      <Method Name="ReadLine" InputType="FileBridgeModels.PathAndLineArgs" InputName="args" OutputType="FileBridgeModels.Result&lt;string&gt;" />
+      <Method Name="WriteContents" InputType="FileBridgeModels.PathAndContentsArgs" InputName="args" OutputType="FileBridgeModels.Result" />
+      <Method Name="WriteLine" InputType="FileBridgeModels.PathAndLineAndContentsArgs" InputName="args" OutputType="FileBridgeModels.Result" />
+    </Methods>
+  </BridgeType>
 </root>

@@ -8,11 +8,11 @@ let window: BrowserWindow | null = null;
 
 function createWindow(): void {
     window = new BrowserWindow({
-        width: 800,
-        height: 600
+        width: 1200,
+        height: 1100
     });
 
-    window.setMenu(null);
+    // window.setMenu(null);
     window.loadFile("index.html");
 
     window.on("closed", () => {

@@ -29,8 +29,6 @@
       <DistFolder>$([System.IO.Path]::GetFullPath($(OutputPath)\dist))</DistFolder>
     </PropertyGroup>
 
-    <Message Importance="high" Text="Copying electron files to $(DistFolder)" />
-
     <ItemGroup>
       <BridgeFiles Include="$(RootDirectory)\Source\SuperBasic.Bridge\bin\$(Configuration)\netcoreapp2.0\**\*.*" />
       <ElectronDependencies Include="wwwroot\**\*.*" />
@@ -41,6 +39,8 @@
     <Copy SourceFiles="@(BridgeFiles)" DestinationFiles="@(BridgeFiles->'$(DistFolder)\_bridge\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(ElectronDependencies)" DestinationFiles="@(ElectronDependencies->'$(DistFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
     <WriteLinesToFile File="$(DistFolder)\run-electron.cmd" Lines="$(DistFolder)\node_modules\electron\dist\electron.exe $(DistFolder)" Overwrite="true" />
+
+    <Message Importance="high" Text="Copying electron build to $(DistFolder)\run-electron.cmd" />
   </Target>
 
 </Project>

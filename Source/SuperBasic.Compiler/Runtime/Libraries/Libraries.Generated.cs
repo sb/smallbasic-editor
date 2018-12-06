@@ -777,9 +777,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        string fileOrUrl = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Desktop.SetWallPaper(fileOrUrl: fileOrUrl);
-                        return Task.CompletedTask;
+                        throw new InvalidOperationException("Library method 'Desktop.SetWallPaper' is deprecated.");
                     }
 
                     methods.Add("SetWallPaper", new Method(
@@ -791,7 +789,7 @@ namespace SuperBasic.Compiler.Runtime
                         {
                             { "fileOrUrl", new Parameter("fileOrUrl", LibrariesResources.Desktop_SetWallPaper_fileOrUrl) },
                         },
-                        isDeprecated: false,
+                        isDeprecated: true,
                         needsDesktop: true,
                         execute: execute));
                 }
@@ -802,24 +800,20 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Libraries.Desktop.Get_Height();
-                        engine.EvaluationStack.Push(new NumberValue(value));
-                        return Task.CompletedTask;
+                        throw new InvalidOperationException("Library property 'Desktop.Height' is deprecated.");
                     }
 
-                    properties.Add("Height", new Property("Height", LibrariesResources.Desktop_Height, isDeprecated: false, needsDesktop: true, getter: getter, setter: null));
+                    properties.Add("Height", new Property("Height", LibrariesResources.Desktop_Height, isDeprecated: true, needsDesktop: true, getter: getter, setter: null));
                 }
 
                 // Initialization code for property Desktop.Width:
                 {
                     Task getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Libraries.Desktop.Get_Width();
-                        engine.EvaluationStack.Push(new NumberValue(value));
-                        return Task.CompletedTask;
+                        throw new InvalidOperationException("Library property 'Desktop.Width' is deprecated.");
                     }
 
-                    properties.Add("Width", new Property("Width", LibrariesResources.Desktop_Width, isDeprecated: false, needsDesktop: true, getter: getter, setter: null));
+                    properties.Add("Width", new Property("Width", LibrariesResources.Desktop_Width, isDeprecated: true, needsDesktop: true, getter: getter, setter: null));
                 }
 
                 var events = new Dictionary<string, Event>();
@@ -1222,13 +1216,12 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.AppendContents:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string contents = engine.EvaluationStack.Pop().ToString();
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.AppendContents(filePath: filePath, contents: contents);
+                        string returnValue = await engine.Libraries.File.AppendContents(filePath: filePath, contents: contents).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("AppendContents", new Method(
@@ -1248,13 +1241,12 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.CopyFile:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string destinationFilePath = engine.EvaluationStack.Pop().ToString();
                         string sourceFilePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.CopyFile(sourceFilePath: sourceFilePath, destinationFilePath: destinationFilePath);
+                        string returnValue = await engine.Libraries.File.CopyFile(sourceFilePath: sourceFilePath, destinationFilePath: destinationFilePath).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("CopyFile", new Method(
@@ -1274,12 +1266,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.CreateDirectory:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string directoryPath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.CreateDirectory(directoryPath: directoryPath);
+                        string returnValue = await engine.Libraries.File.CreateDirectory(directoryPath: directoryPath).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("CreateDirectory", new Method(
@@ -1298,12 +1289,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.DeleteDirectory:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string directoryPath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.DeleteDirectory(directoryPath: directoryPath);
+                        string returnValue = await engine.Libraries.File.DeleteDirectory(directoryPath: directoryPath).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("DeleteDirectory", new Method(
@@ -1322,12 +1312,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.DeleteFile:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.DeleteFile(filePath: filePath);
+                        string returnValue = await engine.Libraries.File.DeleteFile(filePath: filePath).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("DeleteFile", new Method(
@@ -1346,12 +1335,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.GetDirectories:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string directoryPath = engine.EvaluationStack.Pop().ToString();
-                        ArrayValue returnValue = engine.Libraries.File.GetDirectories(directoryPath: directoryPath);
+                        BaseValue returnValue = await engine.Libraries.File.GetDirectories(directoryPath: directoryPath).ConfigureAwait(false);
                         engine.EvaluationStack.Push(returnValue);
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("GetDirectories", new Method(
@@ -1370,12 +1358,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.GetFiles:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string directoryPath = engine.EvaluationStack.Pop().ToString();
-                        ArrayValue returnValue = engine.Libraries.File.GetFiles(directoryPath: directoryPath);
+                        BaseValue returnValue = await engine.Libraries.File.GetFiles(directoryPath: directoryPath).ConfigureAwait(false);
                         engine.EvaluationStack.Push(returnValue);
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("GetFiles", new Method(
@@ -1412,11 +1399,10 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.GetTemporaryFilePath:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
-                        string returnValue = engine.Libraries.File.GetTemporaryFilePath();
-                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
+                        BaseValue returnValue = await engine.Libraries.File.GetTemporaryFilePath().ConfigureAwait(false);
+                        engine.EvaluationStack.Push(returnValue);
                     }
 
                     methods.Add("GetTemporaryFilePath", new Method(
@@ -1432,14 +1418,13 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.InsertLine:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string contents = engine.EvaluationStack.Pop().ToString();
                         decimal lineNumber = engine.EvaluationStack.Pop().ToNumber();
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.InsertLine(filePath: filePath, lineNumber: lineNumber, contents: contents);
+                        string returnValue = await engine.Libraries.File.InsertLine(filePath: filePath, lineNumber: lineNumber, contents: contents).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("InsertLine", new Method(
@@ -1460,12 +1445,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.ReadContents:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.ReadContents(filePath: filePath);
-                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
+                        BaseValue returnValue = await engine.Libraries.File.ReadContents(filePath: filePath).ConfigureAwait(false);
+                        engine.EvaluationStack.Push(returnValue);
                     }
 
                     methods.Add("ReadContents", new Method(
@@ -1484,13 +1468,12 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.ReadLine:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         decimal lineNumber = engine.EvaluationStack.Pop().ToNumber();
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.ReadLine(filePath: filePath, lineNumber: lineNumber);
-                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
+                        BaseValue returnValue = await engine.Libraries.File.ReadLine(filePath: filePath, lineNumber: lineNumber).ConfigureAwait(false);
+                        engine.EvaluationStack.Push(returnValue);
                     }
 
                     methods.Add("ReadLine", new Method(
@@ -1510,13 +1493,12 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.WriteContents:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string contents = engine.EvaluationStack.Pop().ToString();
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.WriteContents(filePath: filePath, contents: contents);
+                        string returnValue = await engine.Libraries.File.WriteContents(filePath: filePath, contents: contents).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("WriteContents", new Method(
@@ -1536,14 +1518,13 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method File.WriteLine:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string contents = engine.EvaluationStack.Pop().ToString();
                         decimal lineNumber = engine.EvaluationStack.Pop().ToNumber();
                         string filePath = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.File.WriteLine(filePath: filePath, lineNumber: lineNumber, contents: contents);
+                        string returnValue = await engine.Libraries.File.WriteLine(filePath: filePath, lineNumber: lineNumber, contents: contents).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("WriteLine", new Method(

@@ -8,18 +8,49 @@
 namespace SuperBasic.Bridge
 {
     using System.Diagnostics;
-    using System.IO;
     using Newtonsoft.Json;
     using SuperBasic.Utilities;
+    using SuperBasic.Utilities.Bridge;
 
     internal interface IProcessBridge
     {
         void OpenExternalLink(string url);
     }
 
+    internal interface IFileBridge
+    {
+        FileBridgeModels.Result AppendContents(FileBridgeModels.PathAndContentsArgs args);
+
+        FileBridgeModels.Result CopyFile(FileBridgeModels.SourceAndDestinationArgs args);
+
+        FileBridgeModels.Result CreateDirectory(string directoryPath);
+
+        FileBridgeModels.Result DeleteDirectory(string directoryPath);
+
+        FileBridgeModels.Result DeleteFile(string filePath);
+
+        FileBridgeModels.Result<string[]> GetDirectories(string directoryPath);
+
+        FileBridgeModels.Result<string[]> GetFiles(string directoryPath);
+
+        FileBridgeModels.Result<string> GetTemporaryFilePath();
+
+        FileBridgeModels.Result InsertLine(FileBridgeModels.PathAndLineAndContentsArgs args);
+
+        FileBridgeModels.Result<string> ReadContents(string filePath);
+
+        FileBridgeModels.Result<string> ReadLine(FileBridgeModels.PathAndLineArgs args);
+
+        FileBridgeModels.Result WriteContents(FileBridgeModels.PathAndContentsArgs args);
+
+        FileBridgeModels.Result WriteLine(FileBridgeModels.PathAndLineAndContentsArgs args);
+    }
+
     internal static class BridgeExecution
     {
         private static readonly IProcessBridge Process = new ProcessBridge();
+
+        private static readonly IFileBridge File = new FileBridge();
 
         public static void Run(string[] args)
         {
@@ -37,8 +68,124 @@ namespace SuperBasic.Bridge
                     {
                         case "OpenExternalLink":
                         {
-                            string input = JsonConvert.DeserializeObject<string>(File.ReadAllText(filePath));
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
                             Process.OpenExternalLink(input);
+                            break;
+                        }
+
+                        default:
+                        {
+                            throw ExceptionUtilities.UnexpectedValue(method);
+                        }
+                    }
+
+                    break;
+                }
+
+                case "File":
+                {
+                    switch (method)
+                    {
+                        case "AppendContents":
+                        {
+                            FileBridgeModels.PathAndContentsArgs input = JsonConvert.DeserializeObject<FileBridgeModels.PathAndContentsArgs>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.AppendContents(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "CopyFile":
+                        {
+                            FileBridgeModels.SourceAndDestinationArgs input = JsonConvert.DeserializeObject<FileBridgeModels.SourceAndDestinationArgs>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.CopyFile(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "CreateDirectory":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.CreateDirectory(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "DeleteDirectory":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.DeleteDirectory(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "DeleteFile":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.DeleteFile(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "GetDirectories":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result<string[]> output = File.GetDirectories(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "GetFiles":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result<string[]> output = File.GetFiles(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "GetTemporaryFilePath":
+                        {
+                            FileBridgeModels.Result<string> output = File.GetTemporaryFilePath();
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "InsertLine":
+                        {
+                            FileBridgeModels.PathAndLineAndContentsArgs input = JsonConvert.DeserializeObject<FileBridgeModels.PathAndLineAndContentsArgs>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.InsertLine(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "ReadContents":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result<string> output = File.ReadContents(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "ReadLine":
+                        {
+                            FileBridgeModels.PathAndLineArgs input = JsonConvert.DeserializeObject<FileBridgeModels.PathAndLineArgs>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result<string> output = File.ReadLine(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "WriteContents":
+                        {
+                            FileBridgeModels.PathAndContentsArgs input = JsonConvert.DeserializeObject<FileBridgeModels.PathAndContentsArgs>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.WriteContents(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "WriteLine":
+                        {
+                            FileBridgeModels.PathAndLineAndContentsArgs input = JsonConvert.DeserializeObject<FileBridgeModels.PathAndLineAndContentsArgs>(System.IO.File.ReadAllText(filePath));
+                            FileBridgeModels.Result output = File.WriteLine(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
                             break;
                         }
 

@@ -25,9 +25,9 @@ namespace SuperBasic.Generators.Bridge
             this.Brace();
 
             this.Line("using System.Diagnostics;");
-            this.Line("using System.IO;");
             this.Line("using Newtonsoft.Json;");
             this.Line("using SuperBasic.Utilities;");
+            this.Line("using SuperBasic.Utilities.Bridge;");
             this.Blank();
 
             this.GenerateBridgeInterfaces(model);
@@ -105,12 +105,12 @@ namespace SuperBasic.Generators.Bridge
                         else
                         {
                             this.Line($"{method.OutputType} output = {type.Name}.{method.Name}();");
-                            this.Line("File.WriteAllText(filePath, JsonConvert.SerializeObject(output));");
+                            this.Line("System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));");
                         }
                     }
                     else
                     {
-                        this.Line($"{method.InputType} input = JsonConvert.DeserializeObject<{method.InputType}>(File.ReadAllText(filePath));");
+                        this.Line($"{method.InputType} input = JsonConvert.DeserializeObject<{method.InputType}>(System.IO.File.ReadAllText(filePath));");
                         if (method.OutputType.IsDefault())
                         {
                             this.Line($"{type.Name}.{method.Name}(input);");
@@ -118,7 +118,7 @@ namespace SuperBasic.Generators.Bridge
                         else
                         {
                             this.Line($"{method.OutputType} output = {type.Name}.{method.Name}(input);");
-                            this.Line("File.WriteAllText(filePath, JsonConvert.SerializeObject(output));");
+                            this.Line("System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));");
                         }
                     }
 

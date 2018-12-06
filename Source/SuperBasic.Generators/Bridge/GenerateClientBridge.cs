@@ -18,7 +18,7 @@ namespace SuperBasic.Generators.Bridge
             this.Line($@"import * as child_process from ""child_process"";");
             this.Blank();
 
-            this.Line($@"const filePath = path.join(os.tmpdir(), `bridge-comm-${{Math.random().toString().split(""."")[1]}}.json`);");
+            this.Line($@"const communicationFilePath = path.join(os.tmpdir(), `bridge-comm-${{Math.random().toString().split(""."")[1]}}.json`);");
             this.Line(@"const bridgeBinaryPath = path.resolve(__dirname, ""_bridge"", ""SuperBasic.Bridge.dll"");");
             this.Blank();
 
@@ -50,22 +50,22 @@ namespace SuperBasic.Generators.Bridge
                         }
                         else
                         {
-                            this.Line($@"child_process.execFileSync(""dotnet"", [bridgeBinaryPath, ""{type.Name}"", ""{method.Name}"", filePath]);");
-                            this.Line(@"return JSON.parse(fs.readFileSync(filePath, ""utf8""));");
+                            this.Line($@"child_process.execFileSync(""dotnet"", [bridgeBinaryPath, ""{type.Name}"", ""{method.Name}"", communicationFilePath]);");
+                            this.Line(@"return JSON.parse(fs.readFileSync(communicationFilePath, ""utf8""));");
                         }
                     }
                     else
                     {
-                        this.Line($@"fs.writeFileSync(filePath, JSON.stringify({method.InputName.ToLowerFirstChar()}));");
+                        this.Line($@"fs.writeFileSync(communicationFilePath, JSON.stringify({method.InputName.ToLowerFirstChar()}));");
                         if (method.OutputType.IsDefault())
                         {
-                            this.Line($@"child_process.execFileSync(""dotnet"", [bridgeBinaryPath, ""{type.Name}"", ""{method.Name}"", filePath]);");
+                            this.Line($@"child_process.execFileSync(""dotnet"", [bridgeBinaryPath, ""{type.Name}"", ""{method.Name}"", communicationFilePath]);");
                             this.Line("return true;");
                         }
                         else
                         {
-                            this.Line($@"child_process.execFileSync(""dotnet"", [bridgeBinaryPath, ""{type.Name}"", ""{method.Name}"", filePath]);");
-                            this.Line(@"return JSON.parse(fs.readFileSync(filePath, ""utf8""));");
+                            this.Line($@"child_process.execFileSync(""dotnet"", [bridgeBinaryPath, ""{type.Name}"", ""{method.Name}"", communicationFilePath]);");
+                            this.Line(@"return JSON.parse(fs.readFileSync(communicationFilePath, ""utf8""));");
                         }
                     }
 

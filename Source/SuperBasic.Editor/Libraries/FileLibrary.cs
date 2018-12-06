@@ -7,162 +7,106 @@ namespace SuperBasic.Editor.Libraries
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
-
-    public interface IFilePlugin
-    {
-        void AppendContents(string filePath, string contents);
-
-        void CopyFile(string sourceFilePath, string destinationFilePath);
-
-        void CreateDirectory(string directoryPath);
-
-        void DeleteDirectory(string directoryPath);
-
-        void DeleteFile(string filePath);
-
-        string[] GetDirectories(string directoryPath);
-
-        string[] GetFiles(string directoryPath);
-
-        string GetTemporaryFilePath();
-
-        void InsertLine(string filePath, decimal lineNumber, string contents);
-
-        string ReadContents(string filePath);
-
-        string ReadLine(string filePath, decimal lineNumber);
-
-        void WriteContents(string filePath, string contents);
-
-        void WriteLine(string filePath, decimal lineNumber, string contents);
-    }
+    using SuperBasic.Utilities;
+    using SuperBasic.Utilities.Bridge;
 
     internal sealed class FileLibrary : IFileLibrary
     {
-        private readonly IFilePlugin plugin;
+        private const string SuccessResponse = "SUCCESS";
+        private const string FailedResponse = "FAILED";
 
-        private string lastError;
+        private string lastError = string.Empty;
 
-        public FileLibrary(IFilePlugin plugin)
+        public FileLibrary()
         {
-            this.plugin = plugin;
-            this.lastError = string.Empty;
         }
 
         public string Get_LastError() => this.lastError;
 
         public void Set_LastError(string value) => this.lastError = value;
 
-        public string AppendContents(string filePath, string contents)
-        {
-            return this.ProcessOperation(() => this.plugin.AppendContents(filePath, contents));
-        }
+        public Task<string> AppendContents(string filePath, string contents)
+            => this.Execute(Bridge.File.AppendContents(new FileBridgeModels.PathAndContentsArgs(filePath, contents)));
 
-        public string CopyFile(string sourceFilePath, string destinationFilePath)
-        {
-            return this.ProcessOperation(() => this.plugin.CopyFile(sourceFilePath, destinationFilePath));
-        }
+        public Task<string> CopyFile(string sourceFilePath, string destinationFilePath)
+            => this.Execute(Bridge.File.CopyFile(new FileBridgeModels.SourceAndDestinationArgs(sourceFilePath, destinationFilePath)));
 
-        public string CreateDirectory(string directoryPath)
-        {
-            return this.ProcessOperation(() => this.CreateDirectory(directoryPath));
-        }
+        public Task<string> CreateDirectory(string directoryPath)
+            => this.Execute(Bridge.File.CreateDirectory(directoryPath));
 
-        public string DeleteDirectory(string directoryPath)
-        {
-            return this.ProcessOperation(() => this.plugin.DeleteDirectory(directoryPath));
-        }
+        public Task<string> DeleteDirectory(string directoryPath)
+            => this.Execute(Bridge.File.DeleteDirectory(directoryPath));
 
-        public string DeleteFile(string filePath)
-        {
-            return this.ProcessOperation(() => this.plugin.DeleteFile(filePath));
-        }
+        public Task<string> DeleteFile(string filePath)
+            => this.Execute(Bridge.File.DeleteFile(filePath));
 
-        public ArrayValue GetDirectories(string directoryPath)
-        {
-            return this.ProcessOperation(() =>
+        public Task<BaseValue> GetDirectories(string directoryPath) => this.Execute(
+            Bridge.File.GetDirectories(directoryPath),
+            directories =>
             {
                 int i = 1;
-                string[] directories = this.plugin.GetDirectories(directoryPath);
-
                 return new ArrayValue(directories.ToDictionary(
                     value => (i++).ToString(CultureInfo.CurrentCulture),
                     value => StringValue.Create(value)));
-            }) ?? new ArrayValue();
-        }
+            });
 
-        public ArrayValue GetFiles(string directoryPath)
-        {
-            return this.ProcessOperation(() =>
+        public Task<BaseValue> GetFiles(string directoryPath) => this.Execute(
+            Bridge.File.GetFiles(directoryPath),
+            files =>
             {
                 int i = 1;
-                string[] files = this.plugin.GetFiles(directoryPath);
-
                 return new ArrayValue(files.ToDictionary(
                     value => (i++).ToString(CultureInfo.CurrentCulture),
                     value => StringValue.Create(value)));
-            }) ?? new ArrayValue();
-        }
+            });
 
-        public string GetTemporaryFilePath()
+        public Task<BaseValue> GetTemporaryFilePath()
+            => this.Execute(Bridge.File.GetTemporaryFilePath(), StringValue.Create);
+
+        public Task<string> InsertLine(string filePath, decimal lineNumber, string contents)
+            => this.Execute(Bridge.File.InsertLine(new FileBridgeModels.PathAndLineAndContentsArgs(filePath, lineNumber, contents)));
+
+        public Task<BaseValue> ReadContents(string filePath)
+            => this.Execute(Bridge.File.ReadContents(filePath), StringValue.Create);
+
+        public Task<BaseValue> ReadLine(string filePath, decimal lineNumber)
+            => this.Execute(Bridge.File.ReadLine(new FileBridgeModels.PathAndLineArgs(filePath, lineNumber)), StringValue.Create);
+
+        public Task<string> WriteContents(string filePath, string contents)
+            => this.Execute(Bridge.File.WriteContents(new FileBridgeModels.PathAndContentsArgs(filePath, contents)));
+
+        public Task<string> WriteLine(string filePath, decimal lineNumber, string contents)
+            => this.Execute(Bridge.File.WriteLine(new FileBridgeModels.PathAndLineAndContentsArgs(filePath, lineNumber, contents)));
+
+        private async Task<string> Execute(Task<FileBridgeModels.Result> action)
         {
-            return this.ProcessOperation(() => this.plugin.GetTemporaryFilePath()) ?? string.Empty;
-        }
-
-        public string InsertLine(string filePath, decimal lineNumber, string contents)
-        {
-            return this.ProcessOperation(() => this.plugin.InsertLine(filePath, lineNumber, contents));
-        }
-
-        public string ReadContents(string filePath)
-        {
-            return this.ProcessOperation(() => this.plugin.ReadContents(filePath)) ?? string.Empty;
-        }
-
-        public string ReadLine(string filePath, decimal lineNumber)
-        {
-            return this.ProcessOperation(() => this.plugin.ReadLine(filePath, lineNumber)) ?? string.Empty;
-        }
-
-        public string WriteContents(string filePath, string contents)
-        {
-            return this.ProcessOperation(() => this.plugin.WriteContents(filePath, contents));
-        }
-
-        public string WriteLine(string filePath, decimal lineNumber, string contents)
-        {
-            return this.ProcessOperation(() => this.plugin.WriteLine(filePath, lineNumber, contents));
-        }
-
-        private string ProcessOperation(Action operation)
-        {
-            this.lastError = string.Empty;
-
-            try
+            var result = await action.ConfigureAwait(false);
+            if (result.Success)
             {
-                operation();
-                return "SUCCESS";
+                this.lastError = string.Empty;
+                return SuccessResponse;
             }
-            catch (Exception ex)
+            else
             {
-                this.lastError = ex.Message;
-                return "FAILED";
+                this.lastError = result.Error;
+                return FailedResponse;
             }
         }
 
-        private TResult ProcessOperation<TResult>(Func<TResult> operation)
+        private async Task<BaseValue> Execute<T>(Task<FileBridgeModels.Result<T>> action, Func<T, BaseValue> converter)
         {
-            this.lastError = string.Empty;
-
-            try
+            var result = await action.ConfigureAwait(false);
+            if (result.Success)
             {
-                return operation();
+                this.lastError = string.Empty;
+                return converter(result.Value);
             }
-            catch (Exception ex)
+            else
             {
-                this.lastError = ex.Message;
-                return default;
+                this.lastError = result.Error;
+                return StringValue.Create(FailedResponse);
             }
         }
     }

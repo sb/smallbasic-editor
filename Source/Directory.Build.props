@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <DisabledWarnings Include="CA1016" Comment="Mark assemblies with assembly version (blazor complains for some reason, even though the assembly is stamped correctly)." />
+    <DisabledWarnings Include="CA1034" Comment="Nested types should not be visible." />
     <DisabledWarnings Include="CA1054" Comment="Uri parameters should not be strings (conflicts with library definitions)." />
     <DisabledWarnings Include="CA1055" Comment="Uri return values should not be strings." />
     <DisabledWarnings Include="CA1710" Comment="Rename '{0}' to end in '{1}' (for IReadOnly collections)." />

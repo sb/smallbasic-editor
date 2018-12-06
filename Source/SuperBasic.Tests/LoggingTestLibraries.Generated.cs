@@ -235,23 +235,6 @@ namespace SuperBasic.Tests
         {
             this.log = log;
         }
-
-        public decimal Get_Height()
-        {
-            this.log.AppendLine($"Desktop.Get_Height()");
-            return 0;
-        }
-
-        public decimal Get_Width()
-        {
-            this.log.AppendLine($"Desktop.Get_Width()");
-            return 0;
-        }
-
-        public void SetWallPaper(string fileOrUrl)
-        {
-            this.log.AppendLine($"Desktop.SetWallPaper(fileOrUrl: '{fileOrUrl}')");
-        }
     }
 
     internal sealed class LoggingDictionaryLibrary : IDictionaryLibrary
@@ -284,82 +267,82 @@ namespace SuperBasic.Tests
             this.log.AppendLine($"File.Set_LastError('{value}')");
         }
 
-        public string AppendContents(string filePath, string contents)
+        public Task<string> AppendContents(string filePath, string contents)
         {
             this.log.AppendLine($"File.AppendContents(filePath: '{filePath}', contents: '{contents}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string CopyFile(string sourceFilePath, string destinationFilePath)
+        public Task<string> CopyFile(string sourceFilePath, string destinationFilePath)
         {
             this.log.AppendLine($"File.CopyFile(sourceFilePath: '{sourceFilePath}', destinationFilePath: '{destinationFilePath}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string CreateDirectory(string directoryPath)
+        public Task<string> CreateDirectory(string directoryPath)
         {
             this.log.AppendLine($"File.CreateDirectory(directoryPath: '{directoryPath}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string DeleteDirectory(string directoryPath)
+        public Task<string> DeleteDirectory(string directoryPath)
         {
             this.log.AppendLine($"File.DeleteDirectory(directoryPath: '{directoryPath}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string DeleteFile(string filePath)
+        public Task<string> DeleteFile(string filePath)
         {
             this.log.AppendLine($"File.DeleteFile(filePath: '{filePath}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public ArrayValue GetDirectories(string directoryPath)
+        public Task<BaseValue> GetDirectories(string directoryPath)
         {
             this.log.AppendLine($"File.GetDirectories(directoryPath: '{directoryPath}')");
-            return new ArrayValue();
+            return Task.FromResult(StringValue.Create(string.Empty));
         }
 
-        public ArrayValue GetFiles(string directoryPath)
+        public Task<BaseValue> GetFiles(string directoryPath)
         {
             this.log.AppendLine($"File.GetFiles(directoryPath: '{directoryPath}')");
-            return new ArrayValue();
+            return Task.FromResult(StringValue.Create(string.Empty));
         }
 
-        public string GetTemporaryFilePath()
+        public Task<BaseValue> GetTemporaryFilePath()
         {
             this.log.AppendLine($"File.GetTemporaryFilePath()");
-            return string.Empty;
+            return Task.FromResult(StringValue.Create(string.Empty));
         }
 
-        public string InsertLine(string filePath, decimal lineNumber, string contents)
+        public Task<string> InsertLine(string filePath, decimal lineNumber, string contents)
         {
             this.log.AppendLine($"File.InsertLine(filePath: '{filePath}', lineNumber: '{lineNumber}', contents: '{contents}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string ReadContents(string filePath)
+        public Task<BaseValue> ReadContents(string filePath)
         {
             this.log.AppendLine($"File.ReadContents(filePath: '{filePath}')");
-            return string.Empty;
+            return Task.FromResult(StringValue.Create(string.Empty));
         }
 
-        public string ReadLine(string filePath, decimal lineNumber)
+        public Task<BaseValue> ReadLine(string filePath, decimal lineNumber)
         {
             this.log.AppendLine($"File.ReadLine(filePath: '{filePath}', lineNumber: '{lineNumber}')");
-            return string.Empty;
+            return Task.FromResult(StringValue.Create(string.Empty));
         }
 
-        public string WriteContents(string filePath, string contents)
+        public Task<string> WriteContents(string filePath, string contents)
         {
             this.log.AppendLine($"File.WriteContents(filePath: '{filePath}', contents: '{contents}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string WriteLine(string filePath, decimal lineNumber, string contents)
+        public Task<string> WriteLine(string filePath, decimal lineNumber, string contents)
         {
             this.log.AppendLine($"File.WriteLine(filePath: '{filePath}', lineNumber: '{lineNumber}', contents: '{contents}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
     }
 
