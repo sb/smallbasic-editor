@@ -4,6 +4,7 @@
 
 namespace SuperBasic.Editor.Components.Pages.Edit
 {
+    using System;
     using Microsoft.AspNetCore.Blazor.Components;
     using Microsoft.AspNetCore.Blazor.Services;
     using SuperBasic.Editor.Components.Layout;
@@ -13,9 +14,14 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
     [Route("/")] // For browser entry
     [Route("/index.html")] // For electron entry
-    public sealed class IndexPage : SuperBasicComponent
+    public sealed class IndexPage : SuperBasicComponent, IDisposable
     {
         private IUriHelper UriHelper { get; set; }
+
+        public void Dispose()
+        {
+            NavigationStore.PageChanged -= this.StateHasChanged;
+        }
 
         protected override void OnInit()
         {

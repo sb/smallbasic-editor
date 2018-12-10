@@ -7,28 +7,13 @@ namespace SuperBasic.Editor.Components.Toolbox
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Blazor;
 
     internal static class Micro
     {
-        public static void Clickable(TreeComposer composer, Action onClick, Action body)
-        {
-            composer.Element("clickable", body: body, attributes: new Dictionary<string, object>
-            {
-                { "onclick", onClick }
-            });
-        }
-
-        public static void ClickableAsync(TreeComposer composer, Func<Task> onClick, Action body)
-        {
-            composer.Element("clickable", body: body, attributes: new Dictionary<string, object>
-            {
-                { "onclick", onClick }
-            });
-        }
-
         public static void FontAwesome(TreeComposer composer, string iconName)
         {
-            composer.Element(name: "font-awesome-icon", attributes: new Dictionary<string, object>
+            composer.Element(name: "font-awesome-icon", attributes: new Dictionary<string, string>
             {
                 { "class", $"fas fa-{iconName}" }
             });

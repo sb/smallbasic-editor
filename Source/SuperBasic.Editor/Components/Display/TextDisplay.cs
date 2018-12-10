@@ -10,44 +10,118 @@ namespace SuperBasic.Editor.Components.Display
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor;
+    using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Interop;
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
 
-    internal enum AcceptedInputKind
+    internal enum AcceptedInputMode
     {
         None,
         Numbers,
         Strings
     }
 
-    // TODO-now: arrow presses not filtered.
-    public sealed class TextDisplay : SuperBasicComponent, IDisposable
+    public sealed class TextDisplay : SuperBasicComponent
     {
-        private ElementRef textDisplayRef;
-        private ElementRef inputFieldRef;
+        private readonly List<OutputChunk> outputChunks = new List<OutputChunk>();
 
-        private bool isInitialized = false;
+        private ElementRef inputFieldRef;
         private string inputBuffer = string.Empty;
-        private List<OutputChunk> outputChunks = new List<OutputChunk>();
+        private string backgroundColor = "black";
+        private AcceptedInputMode mode = AcceptedInputMode.None;
 
         public TextDisplay()
         {
-            this.AcceptedInput = AcceptedInputKind.None;
+            this.mode = AcceptedInputMode.None;
             TextDisplayStore.SetDisplay(this);
         }
 
-        internal AcceptedInputKind AcceptedInput { get; set; }
-
-        public void Dispose()
+        internal async Task AppendOutput(OutputChunk chunk)
         {
-            JSInterop.TextDisplay.Dispose().ConfigureAwait(false);
+            this.outputChunks.Add(chunk);
+            await JSInterop.Layout.ScrollIntoView(this.inputFieldRef).ConfigureAwait(false);
+            this.StateHasChanged();
         }
 
-        public void AcceptInput(string key)
+        internal void Clear()
         {
-            if (this.AcceptedInput == AcceptedInputKind.None)
+            this.outputChunks.Clear();
+            this.StateHasChanged();
+        }
+
+        internal void SetInputMode(AcceptedInputMode mode)
+        {
+            this.mode = mode;
+            this.StateHasChanged();
+        }
+
+        internal void SetBackgroundColor(string hexColor)
+        {
+            this.backgroundColor = hexColor;
+            this.StateHasChanged();
+        }
+
+        internal static void Inject(TreeComposer composer)
+        {
+            composer.Inject<TextDisplay>();
+        }
+
+        protected override void ComposeTree(TreeComposer composer)
+        {
+            composer.Element(
+                name: "text-display",
+                styles: new Dictionary<string, string>
+                {
+                    { "background-color", this.backgroundColor }
+                },
+                attributes: new Dictionary<string, string>
+                {
+                    { "tabindex", "0" }, // required to receive focus
+                },
+                events: new TreeComposer.Events
+                {
+                    OnKeyDownAsync = args => this.AcceptInput(args.Key)
+                },
+                body: () =>
+                {
+                    foreach (var chunk in this.outputChunks)
+                    {
+                        composer.Element(
+                            name: "span",
+                            body: () => composer.Text(chunk.Text),
+                            styles: new Dictionary<string, string>
+                            {
+                                { "color", chunk.HexColor }
+                            });
+
+                        if (chunk.AppendNewLine)
+                        {
+                            composer.Element("br");
+                        }
+                    }
+
+                    composer.Element("input-field", capture: element => this.inputFieldRef = element, body: () =>
+                    {
+                        if (this.mode != AcceptedInputMode.None)
+                        {
+                            composer.Element("span", body: () => composer.Text(this.inputBuffer));
+                            composer.Element(name: "span", body: () =>
+                            {
+                                composer.Element("cursor", body: () =>
+                                {
+                                    composer.Text("&#x2588;");
+                                });
+                            });
+                        }
+                    });
+                });
+        }
+
+        private async Task AcceptInput(string key)
+        {
+            if (this.mode == AcceptedInputMode.None)
             {
                 return;
             }
@@ -73,101 +147,42 @@ namespace SuperBasic.Editor.Components.Display
                         }
 
                         TextDisplayStore.NotifyTextInput(this.inputBuffer);
-                        this.outputChunks.Add(new OutputChunk(this.inputBuffer, "gray", appendNewLine: true));
+                        await this.AppendOutput(new OutputChunk(this.inputBuffer, "gray", appendNewLine: true)).ConfigureAwait(false);
                         this.inputBuffer = string.Empty;
                         break;
                     }
 
                 default:
                     {
-                        Debug.Assert(key.Length == 1, "Forgot to handle another key?");
-                        char ch = key[0];
-
-                        switch (this.AcceptedInput)
+                        if (key.Length == 1)
                         {
-                            case AcceptedInputKind.Numbers:
-                                if (!char.IsDigit(ch) || !decimal.TryParse(this.inputBuffer + key, out _))
-                                {
-                                    return;
-                                }
+                            char ch = key[0];
 
-                                break;
+                            switch (this.mode)
+                            {
+                                case AcceptedInputMode.Numbers:
+                                    if (!char.IsDigit(ch) || !decimal.TryParse(this.inputBuffer + key, out _))
+                                    {
+                                        return;
+                                    }
 
-                            case AcceptedInputKind.Strings:
-                                break;
+                                    break;
 
-                            default:
-                                throw ExceptionUtilities.UnexpectedValue(this.AcceptedInput);
+                                case AcceptedInputMode.Strings:
+                                    break;
+
+                                default:
+                                    throw ExceptionUtilities.UnexpectedValue(this.mode);
+                            }
+
+                            this.inputBuffer += key;
                         }
 
-                        this.inputBuffer += key;
                         break;
                     }
             }
 
             this.StateHasChanged();
-        }
-
-        public void AppendOutput(OutputChunk chunk)
-        {
-            this.outputChunks.Add(chunk);
-            this.StateHasChanged();
-        }
-
-        public void Clear()
-        {
-            this.outputChunks.Clear();
-            this.StateHasChanged();
-        }
-
-        internal static void Inject(TreeComposer composer)
-        {
-            composer.Inject<TextDisplay>();
-        }
-
-        protected override async Task OnAfterRenderAsync()
-        {
-            if (!this.isInitialized)
-            {
-                await JSInterop.TextDisplay.Initialize(this.textDisplayRef).ConfigureAwait(false);
-                this.isInitialized = true;
-            }
-
-            await JSInterop.TextDisplay.ScrollTo(this.inputFieldRef).ConfigureAwait(false);
-        }
-
-        protected override void ComposeTree(TreeComposer composer)
-        {
-            composer.Element("text-display", capture: element => this.textDisplayRef = element, body: () =>
-            {
-                foreach (var chunk in this.outputChunks)
-                {
-                    composer.Element("span", body: () => composer.Text(chunk.Text), attributes: new Dictionary<string, object>
-                    {
-                        { "style", $"color: {chunk.HexColor}" }
-                    });
-
-                    if (chunk.AppendNewLine)
-                    {
-                        composer.Element("br");
-                    }
-                }
-
-                composer.Element("input-field", capture: element => this.inputFieldRef = element, body: () =>
-                {
-                    if (this.AcceptedInput != AcceptedInputKind.None)
-                    {
-                        composer.Element("span", body: () => composer.Text(this.inputBuffer));
-                        composer.Element(name: "span", body: () =>
-                        {
-                            composer.Element("cursor", body: () =>
-                            {
-                                composer.Text("&#x2588;");
-                            });
-                        });
-                    }
-                });
-            });
         }
     }
 

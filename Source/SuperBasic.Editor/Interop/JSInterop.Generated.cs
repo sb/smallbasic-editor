@@ -26,9 +26,24 @@ namespace SuperBasic.Editor.Interop
                 await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Layout.openExternalLink", url).ConfigureAwait(false);
             }
 
-            public static async Task AttachSideBarEvents(ElementRef upButton, ElementRef scrollContentsArea, ElementRef downButton)
+            public static async Task ShowMessage(string title, string text)
             {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Layout.attachSideBarEvents", upButton, scrollContentsArea, downButton).ConfigureAwait(false);
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Layout.showMessage", title, text).ConfigureAwait(false);
+            }
+
+            public static Task<decimal> GetElementHeight(ElementRef element)
+            {
+                return JSRuntime.Current.InvokeAsync<decimal>("JSInterop.Layout.getElementHeight", element);
+            }
+
+            public static Task<decimal> GetElementWidth(ElementRef element)
+            {
+                return JSRuntime.Current.InvokeAsync<decimal>("JSInterop.Layout.getElementWidth", element);
+            }
+
+            public static async Task ScrollIntoView(ElementRef element)
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Layout.scrollIntoView", element).ConfigureAwait(false);
             }
         }
 
@@ -87,87 +102,6 @@ namespace SuperBasic.Editor.Interop
             public static async Task Redo()
             {
                 await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.redo").ConfigureAwait(false);
-            }
-        }
-
-        public static class TextDisplay
-        {
-            public static async Task Initialize(ElementRef textDisplayElement)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.TextDisplay.initialize", textDisplayElement).ConfigureAwait(false);
-            }
-
-            public static async Task Dispose()
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.TextDisplay.dispose").ConfigureAwait(false);
-            }
-
-            public static async Task ScrollTo(ElementRef element)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.TextDisplay.scrollTo", element).ConfigureAwait(false);
-            }
-
-            public static async Task SetBackgroundColor(string hexColor)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.TextDisplay.setBackgroundColor", hexColor).ConfigureAwait(false);
-            }
-        }
-
-        public static class Controls
-        {
-            public static async Task Initialize(ElementRef graphicsDisplayElement)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.initialize", graphicsDisplayElement).ConfigureAwait(false);
-            }
-
-            public static async Task AddButton(string controlName, string caption, decimal left, decimal top)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.addButton", controlName, caption, left, top).ConfigureAwait(false);
-            }
-
-            public static async Task AddMultiLineTextBox(string controlName, decimal left, decimal top)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.addMultiLineTextBox", controlName, left, top).ConfigureAwait(false);
-            }
-
-            public static async Task AddTextBox(string controlName, decimal left, decimal top)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.addTextBox", controlName, left, top).ConfigureAwait(false);
-            }
-
-            public static async Task HideControl(string controlName)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.hideControl", controlName).ConfigureAwait(false);
-            }
-
-            public static async Task Move(string controlName, decimal x, decimal y)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.move", controlName, x, y).ConfigureAwait(false);
-            }
-
-            public static async Task Remove(string controlName)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.remove", controlName).ConfigureAwait(false);
-            }
-
-            public static async Task SetButtonCaption(string controlName, string caption)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.setButtonCaption", controlName, caption).ConfigureAwait(false);
-            }
-
-            public static async Task SetSize(string controlName, decimal width, decimal height)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.setSize", controlName, width, height).ConfigureAwait(false);
-            }
-
-            public static async Task SetTextBoxText(string controlName, string text)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.setTextBoxText", controlName, text).ConfigureAwait(false);
-            }
-
-            public static async Task ShowControl(string controlName)
-            {
-                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Controls.showControl", controlName).ConfigureAwait(false);
             }
         }
     }

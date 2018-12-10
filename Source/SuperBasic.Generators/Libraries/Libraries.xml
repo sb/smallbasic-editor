@@ -48,20 +48,20 @@
   </Library>
   <Library Name="Controls" ExplorerIcon="sliders-h" UsesGraphicsWindow="true">
     <Methods>
-      <Method Name="AddButton" ReturnType="StringValue" IsAsync="true">
+      <Method Name="AddButton" ReturnType="StringValue">
         <Parameters>
           <Parameter Name="caption" Type="StringValue" />
           <Parameter Name="left" Type="NumberValue" />
           <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddMultiLineTextBox" ReturnType="StringValue" IsAsync="true">
+      <Method Name="AddMultiLineTextBox" ReturnType="StringValue">
         <Parameters>
           <Parameter Name="left" Type="NumberValue" />
           <Parameter Name="top" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="AddTextBox" ReturnType="StringValue" IsAsync="true">
+      <Method Name="AddTextBox" ReturnType="StringValue">
         <Parameters>
           <Parameter Name="left" Type="NumberValue" />
           <Parameter Name="top" Type="NumberValue" />
@@ -77,43 +77,43 @@
           <Parameter Name="textBoxName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="HideControl" ReturnsValue="false" IsAsync="true">
+      <Method Name="HideControl" ReturnsValue="false">
         <Parameters>
           <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Move" ReturnsValue="false" IsAsync="true">
+      <Method Name="Move" ReturnsValue="false">
         <Parameters>
           <Parameter Name="control" Type="StringValue" />
           <Parameter Name="x" Type="NumberValue" />
           <Parameter Name="y" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Remove" ReturnsValue="false" IsAsync="true">
+      <Method Name="Remove" ReturnsValue="false">
         <Parameters>
           <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="SetButtonCaption" ReturnsValue="false" IsAsync="true">
+      <Method Name="SetButtonCaption" ReturnsValue="false">
         <Parameters>
           <Parameter Name="buttonName" Type="StringValue" />
           <Parameter Name="caption" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="SetSize" ReturnsValue="false" IsAsync="true">
+      <Method Name="SetSize" ReturnsValue="false">
         <Parameters>
           <Parameter Name="control" Type="StringValue" />
           <Parameter Name="width" Type="NumberValue" />
           <Parameter Name="height" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="SetTextBoxText" ReturnsValue="false" IsAsync="true">
+      <Method Name="SetTextBoxText" ReturnsValue="false">
         <Parameters>
           <Parameter Name="textBoxName" Type="StringValue" />
           <Parameter Name="text" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="ShowControl" ReturnsValue="false" IsAsync="true">
+      <Method Name="ShowControl" ReturnsValue="false">
         <Parameters>
           <Parameter Name="controlName" Type="StringValue" />
         </Parameters>
@@ -423,7 +423,7 @@
           <Parameter Name="blue" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="GetPixel" ReturnType="StringValue">
+      <Method Name="GetPixel" ReturnType="StringValue" IsDeprecated="true">
         <Parameters>
           <Parameter Name="x" Type="NumberValue" />
           <Parameter Name="y" Type="NumberValue" />
@@ -431,7 +431,7 @@
       </Method>
       <Method Name="GetRandomColor" ReturnType="StringValue" />
       <Method Name="Hide" IsDeprecated="true" />
-      <Method Name="SetPixel">
+      <Method Name="SetPixel" IsDeprecated="true">
         <Parameters>
           <Parameter Name="x" Type="NumberValue" />
           <Parameter Name="y" Type="NumberValue" />
@@ -439,7 +439,7 @@
         </Parameters>
       </Method>
       <Method Name="Show" IsDeprecated="true" />
-      <Method Name="ShowMessage">
+      <Method Name="ShowMessage" IsAsync="true">
         <Parameters>
           <Parameter Name="text" Type="StringValue" />
           <Parameter Name="title" Type="StringValue" />
@@ -454,7 +454,7 @@
       <Property Name="FontItalic" HasGetter="true" HasSetter="true" Type="BooleanValue" />
       <Property Name="FontName" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="FontSize" HasGetter="true" HasSetter="true" Type="NumberValue" />
-      <Property Name="Height" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Height" HasGetter="true" HasSetter="false" Type="NumberValue" IsAsync="true" />
       <Property Name="LastKey" HasGetter="true" HasSetter="false" Type="StringValue" />
       <Property Name="LastText" HasGetter="true" HasSetter="false" Type="StringValue" />
       <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
@@ -464,7 +464,7 @@
       <Property Name="PenWidth" HasGetter="true" HasSetter="true" Type="NumberValue" />
       <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" IsDeprecated="true" />
       <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
-      <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" IsAsync="true" />
     </Properties>
     <Events>
       <Event Name="KeyDown" />
@@ -904,19 +904,19 @@
       <Method Name="Read" ReturnType="StringValue" />
       <Method Name="ReadNumber" ReturnType="NumberValue" />
       <Method Name="Show" IsDeprecated="true" />
-      <Method Name="Write">
+      <Method Name="Write" IsAsync="true">
         <Parameters>
           <Parameter Name="data" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="WriteLine">
+      <Method Name="WriteLine" IsAsync="true">
         <Parameters>
           <Parameter Name="data" Type="StringValue" />
         </Parameters>
       </Method>
     </Methods>
     <Properties>
-      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" IsAsync="true" />
+      <Property Name="BackgroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="CursorLeft" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
       <Property Name="CursorTop" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
       <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />

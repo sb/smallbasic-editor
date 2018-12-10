@@ -4,18 +4,15 @@
 
 namespace SuperBasic.Editor.Libraries
 {
+    using System;
     using System.Globalization;
     using System.Threading.Tasks;
-    using SuperBasic.Compiler;
     using SuperBasic.Compiler.Runtime;
-    using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Components.Display;
-    using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Libraries.Utilities;
     using SuperBasic.Editor.Store;
-    using SuperBasic.Utilities;
-    using SuperBasic.Utilities.Resources;
 
-    internal sealed class TextWindowLibrary : ITextWindowLibrary
+    internal sealed class TextWindowLibrary : ITextWindowLibrary, IDisposable
     {
         private string backgroundColorName = "Black";
         private string foregroundColorName = "White";
@@ -23,15 +20,17 @@ namespace SuperBasic.Editor.Libraries
 
         public TextWindowLibrary()
         {
-            TextDisplayStore.TextInput += value =>
-            {
-                this.inputBuffer = value;
-            };
+            TextDisplayStore.TextInput += this.OnTextInput;
         }
 
-        public void Clear() => TextDisplayStore.Display.Clear();
+        public void Dispose()
+        {
+            TextDisplayStore.TextInput -= this.OnTextInput;
+        }
 
-        public Task<string> Get_BackgroundColor() => Task.FromResult(this.backgroundColorName);
+        public void Clear() => TextDisplayStore.Clear();
+
+        public string Get_BackgroundColor() => this.backgroundColorName;
 
         public string Get_ForegroundColor() => this.foregroundColorName;
 
@@ -39,51 +38,69 @@ namespace SuperBasic.Editor.Libraries
 
         public decimal ReadNumber() => decimal.Parse(this.inputBuffer, CultureInfo.CurrentCulture);
 
-        public Task Set_BackgroundColor(string value)
+        public void Set_BackgroundColor(string value)
         {
-            if (ColorParser.TryGetNameFromNumber(value, out string name))
+            if (decimal.TryParse(value, out decimal number) && TryGetColorName(number, out string name) && PredefinedColors.TryGetHexColor(name, out string hexColor))
             {
                 this.backgroundColorName = name;
+                TextDisplayStore.SetBackgroundColor(hexColor);
             }
-            else if (ColorParser.TryGetHexFromName(value, out _))
+            else if (PredefinedColors.TryGetHexColor(value, out string hex))
             {
                 this.backgroundColorName = value;
-            }
-            else
-            {
-                return Task.CompletedTask;
-            }
-
-            if (ColorParser.TryGetHexFromName(this.backgroundColorName, out string hexColor))
-            {
-                return JSInterop.TextDisplay.SetBackgroundColor(hexColor);
-            }
-            else
-            {
-                throw ExceptionUtilities.UnexpectedValue(this.backgroundColorName);
+                TextDisplayStore.SetBackgroundColor(hex);
             }
         }
 
         public void Set_ForegroundColor(string value)
         {
-            if (ColorParser.TryGetNameFromNumber(value, out string name))
+            if (decimal.TryParse(value, out decimal number) && TryGetColorName(number, out string name))
             {
                 this.foregroundColorName = name;
             }
-            else if (ColorParser.TryGetHexFromName(value, out _))
+            else if (PredefinedColors.ContainsName(value))
             {
                 this.foregroundColorName = value;
             }
         }
 
-        public void Write(string data)
+        public Task Write(string data)
         {
-            TextDisplayStore.Display.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: false));
+            return TextDisplayStore.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: false));
         }
 
-        public void WriteLine(string data)
+        public Task WriteLine(string data)
         {
-            TextDisplayStore.Display.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: true));
+            return TextDisplayStore.AppendOutput(new OutputChunk(data, this.foregroundColorName, appendNewLine: true));
+        }
+
+        private void OnTextInput(string text)
+        {
+            this.inputBuffer = text;
+        }
+
+        private static bool TryGetColorName(decimal number, out string result)
+        {
+            switch (number)
+            {
+                case 0: result = "Black"; return true;
+                case 1: result = "DarkBlue"; return true;
+                case 2: result = "DarkGreen"; return true;
+                case 3: result = "DarkCyan"; return true;
+                case 4: result = "DarkRed"; return true;
+                case 5: result = "DarkMagenta"; return true;
+                case 6: result = "DarkYellow"; return true;
+                case 7: result = "Gray"; return true;
+                case 8: result = "DarkGray"; return true;
+                case 9: result = "Blue"; return true;
+                case 10: result = "Green"; return true;
+                case 11: result = "Cyan"; return true;
+                case 12: result = "Red"; return true;
+                case 13: result = "Magenta"; return true;
+                case 14: result = "Yellow"; return true;
+                case 15: result = "White"; return true;
+                default: result = default; return false;
+            }
         }
     }
 }

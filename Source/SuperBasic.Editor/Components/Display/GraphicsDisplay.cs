@@ -5,20 +5,28 @@
 namespace SuperBasic.Editor.Components.Display
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Blazor;
     using SuperBasic.Editor.Components.Layout;
-    using SuperBasic.Editor.Interop;
     using SuperBasic.Editor.Store;
+    using SuperBasic.Utilities;
 
     public sealed class GraphicsDisplay : SuperBasicComponent
     {
-        private bool isInitialized = false;
-        private ElementRef graphicsElementRef;
-
         public GraphicsDisplay()
         {
             GraphicsDisplayStore.SetDisplay(this);
+        }
+
+        public ElementRef RenderArea { get; private set; }
+
+        public Action<TreeComposer> ControlsLibraryComposer { get; set; }
+
+        public Action<TreeComposer> GraphicsLibraryComposer { get; set; }
+
+        public void Update()
+        {
+            this.StateHasChanged();
         }
 
         internal static void Inject(TreeComposer composer)
@@ -28,16 +36,43 @@ namespace SuperBasic.Editor.Components.Display
 
         protected override void ComposeTree(TreeComposer composer)
         {
-            composer.Element("graphics-display", capture: element => this.graphicsElementRef = element);
-        }
+            composer.Element(
+                name: "graphics-display",
+                attributes: new Dictionary<string, string>
+                {
+                    { "tabindex", "0" }, // required to receive focus
+                },
+                body: () =>
+                {
+                    composer.Element(
+                        name: "svg",
+                        capture: element => this.RenderArea = element,
+                        attributes: new Dictionary<string, string>
+                        {
+                            { "height", "100%" },
+                            { "width", "100%" },
+                        },
+                        events: new TreeComposer.Events
+                        {
+                            OnMouseDown = args => GraphicsDisplayStore.NotifyMouseDown(args.ClientX, args.ClientY),
+                            OnMouseUp = args => GraphicsDisplayStore.NotifyMouseUp(args.ClientX, args.ClientY),
+                            OnMouseMove = args => GraphicsDisplayStore.NotifyMouseMove(args.ClientX, args.ClientY),
+                            OnKeyDown = args => GraphicsDisplayStore.NotifyKeyDown(args.Key),
+                            OnKeyUp = args => GraphicsDisplayStore.NotifyKeyUp(args.Key),
+                        },
+                        body: () =>
+                        {
+                            if (!this.GraphicsLibraryComposer.IsDefault())
+                            {
+                                this.GraphicsLibraryComposer(composer);
+                            }
+                        });
 
-        protected override async Task OnAfterRenderAsync()
-        {
-            if (!this.isInitialized)
-            {
-                await JSInterop.Controls.Initialize(this.graphicsElementRef).ConfigureAwait(false);
-                this.isInitialized = true;
-            }
+                    if (!this.ControlsLibraryComposer.IsDefault())
+                    {
+                        this.ControlsLibraryComposer(composer);
+                    }
+                });
         }
     }
 }

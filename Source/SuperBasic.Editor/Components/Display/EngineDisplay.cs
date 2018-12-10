@@ -4,34 +4,26 @@
 
 namespace SuperBasic.Editor.Components.Display
 {
-    using System.Collections.Generic;
-    using Microsoft.AspNetCore.Blazor.Components;
-    using SuperBasic.Compiler.Binding;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Store;
 
     public sealed class EngineDisplay : SuperBasicComponent
     {
-        [Parameter]
-        private RuntimeAnalysis Analysis { get; set; }
-
-        internal static void Inject(TreeComposer composer, RuntimeAnalysis analysis)
+        internal static void Inject(TreeComposer composer)
         {
-            composer.Inject<EngineDisplay>(new Dictionary<string, object>
-            {
-                { nameof(EngineDisplay.Analysis), analysis },
-            });
+            composer.Inject<EngineDisplay>();
         }
 
         protected override void ComposeTree(TreeComposer composer)
         {
             composer.Element("engine-display", body: () =>
             {
-                if (this.Analysis.UsesTextWindow)
+                if (CompilationStore.Compilation.Analysis.UsesTextWindow)
                 {
                     TextDisplay.Inject(composer);
                 }
 
-                if (this.Analysis.UsesGraphicsWindow)
+                if (CompilationStore.Compilation.Analysis.UsesGraphicsWindow)
                 {
                     GraphicsDisplay.Inject(composer);
                 }

@@ -5,6 +5,7 @@
 namespace SuperBasic.Editor.Store
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
     using SuperBasic.Editor.Components.Display;
     using SuperBasic.Utilities;
 
@@ -16,15 +17,6 @@ namespace SuperBasic.Editor.Store
 
         public static event TextInputEventSignature TextInput;
 
-        public static TextDisplay Display
-        {
-            get
-            {
-                Debug.Assert(!display.IsDefault(), "Display instance not set.");
-                return display;
-            }
-        }
-
         public static void SetDisplay(TextDisplay instance)
         {
             display = instance;
@@ -35,6 +27,40 @@ namespace SuperBasic.Editor.Store
             if (!TextInput.IsDefault())
             {
                 TextInput(text);
+            }
+        }
+
+        public static Task AppendOutput(OutputChunk chunk)
+        {
+            if (!display.IsDefault())
+            {
+                return display.AppendOutput(chunk);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public static void SetInputMode(AcceptedInputMode mode)
+        {
+            if (!display.IsDefault())
+            {
+                display.SetInputMode(mode);
+            }
+        }
+
+        public static void Clear()
+        {
+            if (!display.IsDefault())
+            {
+                display.Clear();
+            }
+        }
+
+        public static void SetBackgroundColor(string hexColor)
+        {
+            if (!display.IsDefault())
+            {
+                display.SetBackgroundColor(hexColor);
             }
         }
     }

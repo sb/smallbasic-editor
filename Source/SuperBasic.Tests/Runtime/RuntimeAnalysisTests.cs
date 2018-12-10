@@ -15,27 +15,24 @@ namespace SuperBasic.Tests.Runtime
         public void ItDoesNotUseGraphicsWindowWhenNotNeeded()
         {
             var compilation = new SuperBasicCompilation("TextWindow.WriteLine(5)");
-            var analysis = new RuntimeAnalysis(compilation);
-            analysis.UsesTextWindow.Should().Be(true);
-            analysis.UsesGraphicsWindow.Should().Be(false);
+            compilation.Analysis.UsesTextWindow.Should().Be(true);
+            compilation.Analysis.UsesGraphicsWindow.Should().Be(false);
         }
 
         [Fact]
         public void ItUsesGraphicsWindowWhenNeeded()
         {
             var compilation = new SuperBasicCompilation("GraphicsWindow.Clear()");
-            var analysis = new RuntimeAnalysis(compilation);
-            analysis.UsesTextWindow.Should().Be(false);
-            analysis.UsesGraphicsWindow.Should().Be(true);
+            compilation.Analysis.UsesTextWindow.Should().Be(false);
+            compilation.Analysis.UsesGraphicsWindow.Should().Be(true);
         }
 
         [Fact]
         public void ItUsesTextWindowWhenNothingIsNeeded()
         {
             var compilation = new SuperBasicCompilation("x = 1");
-            var analysis = new RuntimeAnalysis(compilation);
-            analysis.UsesTextWindow.Should().Be(true);
-            analysis.UsesGraphicsWindow.Should().Be(false);
+            compilation.Analysis.UsesTextWindow.Should().Be(true);
+            compilation.Analysis.UsesGraphicsWindow.Should().Be(false);
         }
     }
 }

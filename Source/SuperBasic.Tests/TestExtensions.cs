@@ -34,8 +34,7 @@ namespace SuperBasic.Tests
             compilation.VerifyDiagnostics();
 
             StringBuilder log = new StringBuilder();
-            RuntimeAnalysis analysis = new RuntimeAnalysis(compilation);
-            SuperBasicEngine engine = new SuperBasicEngine(compilation, analysis, new LoggingEngineLibraries(log));
+            SuperBasicEngine engine = new SuperBasicEngine(compilation, new LoggingEngineLibraries(log));
 
             while (engine.State != ExecutionState.Terminated)
             {

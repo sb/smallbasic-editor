@@ -24,8 +24,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
     public sealed class RunPage : MainLayout, IDisposable
     {
         private bool isInitialized = false;
-        private bool isDisposed = false;
-        private RuntimeAnalysis analysis;
+        private bool shouldTerminate = false;
 
         public static void Inject(TreeComposer composer)
         {
@@ -34,7 +33,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
 
         public void Dispose()
         {
-            this.isDisposed = true;
+            this.shouldTerminate = true;
         }
 
         protected override void OnInit()
@@ -44,15 +43,13 @@ namespace SuperBasic.Editor.Components.Pages.Run
                 NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return;
             }
-
-            this.analysis = new RuntimeAnalysis(CompilationStore.Compilation);
         }
 
         protected override void ComposeBody(TreeComposer composer)
         {
             composer.Element("run-page", body: () =>
             {
-                EngineDisplay.Inject(composer, this.analysis);
+                EngineDisplay.Inject(composer);
             });
         }
 
@@ -60,6 +57,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
         {
             Actions.Action(composer, "back", EditorResources.Actions_Back, () =>
             {
+                this.shouldTerminate = true;
                 NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return Task.CompletedTask;
             });
@@ -70,47 +68,52 @@ namespace SuperBasic.Editor.Components.Pages.Run
             if (!this.isInitialized)
             {
                 this.isInitialized = true;
-
-                var libraries = new LibrariesCollection();
-                var engine = new SuperBasicEngine(CompilationStore.Compilation, this.analysis, libraries, isDebugging: false);
-
-                TextDisplayStore.TextInput += value =>
-                {
-                    if (!this.isDisposed)
-                    {
-                        engine.InputReceived();
-                    }
-                };
-
                 await Task.Run(async () =>
                 {
-                    while (!this.isDisposed)
+                    using (var libraries = new LibrariesCollection())
                     {
-                        switch (engine.State)
+                        var engine = new SuperBasicEngine(CompilationStore.Compilation, libraries, isDebugging: false);
+
+                        void onTextInput(string text)
                         {
-                            case ExecutionState.Running:
-                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
-                                await engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
-                                break;
-                            case ExecutionState.BlockedOnNumberInput:
-                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.Numbers;
-                                break;
-                            case ExecutionState.BlockedOnStringInput:
-                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.Strings;
-                                break;
-                            case ExecutionState.Paused:
-                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
-                                break;
-                            case ExecutionState.Terminated:
-                                TextDisplayStore.Display.AcceptedInput = AcceptedInputKind.None;
-                                libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage);
-                                return;
-                            default:
-                                throw ExceptionUtilities.UnexpectedValue(engine.State);
+                            engine.InputReceived();
                         }
 
-                        // Important to prevent th UI from freezing
-                        await Task.Delay(1).ConfigureAwait(false);
+                        TextDisplayStore.TextInput += onTextInput;
+
+                        while (!this.shouldTerminate)
+                        {
+                            switch (engine.State)
+                            {
+                                case ExecutionState.Running:
+                                    TextDisplayStore.SetInputMode(AcceptedInputMode.None);
+                                    await engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
+                                    break;
+                                case ExecutionState.BlockedOnNumberInput:
+                                    TextDisplayStore.SetInputMode(AcceptedInputMode.Numbers);
+                                    break;
+                                case ExecutionState.BlockedOnStringInput:
+                                    TextDisplayStore.SetInputMode(AcceptedInputMode.Strings);
+                                    break;
+                                case ExecutionState.Paused:
+                                    TextDisplayStore.SetInputMode(AcceptedInputMode.None);
+                                    break;
+                                case ExecutionState.Terminated:
+                                    TextDisplayStore.SetInputMode(AcceptedInputMode.None);
+                                    await libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage).ConfigureAwait(false);
+                                    TextDisplayStore.TextInput -= onTextInput;
+                                    this.shouldTerminate = true;
+                                    break;
+                                default:
+                                    throw ExceptionUtilities.UnexpectedValue(engine.State);
+                            }
+
+                            // Libraries should not call this, so that we actually refresh the UI once every batch
+                            GraphicsDisplayStore.UpdateDisplay();
+
+                            // Important to prevent th UI from freezing
+                            await Task.Delay(1).ConfigureAwait(false);
+                        }
                     }
                 }).ConfigureAwait(false);
             }

@@ -7,13 +7,14 @@
 /// </summary>
 import { LayoutInterop } from "./LayoutInterop";
 import { MonacoInterop } from "./MonacoInterop";
-import { TextDisplayInterop } from "./TextDisplayInterop";
-import { ControlsInterop } from "./ControlsInterop";
 
 export interface ILayoutInterop {
     initializeWebView(locale: string, title: string): Promise<void>;
     openExternalLink(url: string): Promise<void>;
-    attachSideBarEvents(upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement): Promise<void>;
+    showMessage(title: string, text: string): Promise<void>;
+    getElementHeight(element: HTMLElement): Promise<number>;
+    getElementWidth(element: HTMLElement): Promise<number>;
+    scrollIntoView(element: HTMLElement): Promise<void>;
 }
 
 export interface IMonacoInterop {
@@ -30,40 +31,15 @@ export interface IMonacoInterop {
     redo(): Promise<void>;
 }
 
-export interface ITextDisplayInterop {
-    initialize(textDisplayElement: HTMLElement): Promise<void>;
-    dispose(): Promise<void>;
-    scrollTo(element: HTMLElement): Promise<void>;
-    setBackgroundColor(hexColor: string): Promise<void>;
-}
-
-export interface IControlsInterop {
-    initialize(graphicsDisplayElement: HTMLElement): Promise<void>;
-    addButton(controlName: string, caption: string, left: number, top: number): Promise<void>;
-    addMultiLineTextBox(controlName: string, left: number, top: number): Promise<void>;
-    addTextBox(controlName: string, left: number, top: number): Promise<void>;
-    hideControl(controlName: string): Promise<void>;
-    move(controlName: string, x: number, y: number): Promise<void>;
-    remove(controlName: string): Promise<void>;
-    setButtonCaption(controlName: string, caption: string): Promise<void>;
-    setSize(controlName: string, width: number, height: number): Promise<void>;
-    setTextBoxText(controlName: string, text: string): Promise<void>;
-    showControl(controlName: string): Promise<void>;
-}
-
 declare global {
     export module JSInterop {
         export const Layout: ILayoutInterop;
         export const Monaco: IMonacoInterop;
-        export const TextDisplay: ITextDisplayInterop;
-        export const Controls: IControlsInterop;
     }
 }
 
 const layout: ILayoutInterop = new LayoutInterop();
 const monaco: IMonacoInterop = new MonacoInterop();
-const textDisplay: ITextDisplayInterop = new TextDisplayInterop();
-const controls: IControlsInterop = new ControlsInterop();
 
 (<any>global).JSInterop = {
     Layout: {
@@ -75,8 +51,18 @@ const controls: IControlsInterop = new ControlsInterop();
             await layout.openExternalLink(url);
             return true;
         },
-        attachSideBarEvents: async (upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement) : Promise<boolean> => {
-            await layout.attachSideBarEvents(upButton, scrollContentsArea, downButton);
+        showMessage: async (title: string, text: string) : Promise<boolean> => {
+            await layout.showMessage(title, text);
+            return true;
+        },
+        getElementHeight: async (element: HTMLElement) : Promise<number> => {
+            return await layout.getElementHeight(element);
+        },
+        getElementWidth: async (element: HTMLElement) : Promise<number> => {
+            return await layout.getElementWidth(element);
+        },
+        scrollIntoView: async (element: HTMLElement) : Promise<boolean> => {
+            await layout.scrollIntoView(element);
             return true;
         }
     },
@@ -123,70 +109,6 @@ const controls: IControlsInterop = new ControlsInterop();
         },
         redo: async () : Promise<boolean> => {
             await monaco.redo();
-            return true;
-        }
-    },
-    TextDisplay: {
-        initialize: async (textDisplayElement: HTMLElement) : Promise<boolean> => {
-            await textDisplay.initialize(textDisplayElement);
-            return true;
-        },
-        dispose: async () : Promise<boolean> => {
-            await textDisplay.dispose();
-            return true;
-        },
-        scrollTo: async (element: HTMLElement) : Promise<boolean> => {
-            await textDisplay.scrollTo(element);
-            return true;
-        },
-        setBackgroundColor: async (hexColor: string) : Promise<boolean> => {
-            await textDisplay.setBackgroundColor(hexColor);
-            return true;
-        }
-    },
-    Controls: {
-        initialize: async (graphicsDisplayElement: HTMLElement) : Promise<boolean> => {
-            await controls.initialize(graphicsDisplayElement);
-            return true;
-        },
-        addButton: async (controlName: string, caption: string, left: number, top: number) : Promise<boolean> => {
-            await controls.addButton(controlName, caption, left, top);
-            return true;
-        },
-        addMultiLineTextBox: async (controlName: string, left: number, top: number) : Promise<boolean> => {
-            await controls.addMultiLineTextBox(controlName, left, top);
-            return true;
-        },
-        addTextBox: async (controlName: string, left: number, top: number) : Promise<boolean> => {
-            await controls.addTextBox(controlName, left, top);
-            return true;
-        },
-        hideControl: async (controlName: string) : Promise<boolean> => {
-            await controls.hideControl(controlName);
-            return true;
-        },
-        move: async (controlName: string, x: number, y: number) : Promise<boolean> => {
-            await controls.move(controlName, x, y);
-            return true;
-        },
-        remove: async (controlName: string) : Promise<boolean> => {
-            await controls.remove(controlName);
-            return true;
-        },
-        setButtonCaption: async (controlName: string, caption: string) : Promise<boolean> => {
-            await controls.setButtonCaption(controlName, caption);
-            return true;
-        },
-        setSize: async (controlName: string, width: number, height: number) : Promise<boolean> => {
-            await controls.setSize(controlName, width, height);
-            return true;
-        },
-        setTextBoxText: async (controlName: string, text: string) : Promise<boolean> => {
-            await controls.setTextBoxText(controlName, text);
-            return true;
-        },
-        showControl: async (controlName: string) : Promise<boolean> => {
-            await controls.showControl(controlName);
             return true;
         }
     }

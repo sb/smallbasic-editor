@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
-namespace SuperBasic.Utilities
+namespace SuperBasic.Editor.Libraries.Utilities
 {
     using System.Collections.Generic;
 
@@ -12,8 +12,7 @@ namespace SuperBasic.Utilities
 
         public string GetNext(string name)
         {
-            int value;
-            if (!this.counters.TryGetValue(name, out value))
+            if (!this.counters.TryGetValue(name, out int value))
             {
                 value = 0;
             }

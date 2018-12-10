@@ -43,7 +43,7 @@ namespace SuperBasic.Tests
         public decimal GetItemCount(ArrayValue array)
         {
             this.log.AppendLine($"Array.GetItemCount(array: '{array.ToDisplayString()}')");
-            return 0;
+            return 0m;
         }
 
         public bool IsArray(BaseValue array)
@@ -71,43 +71,43 @@ namespace SuperBasic.Tests
         public decimal Get_Day()
         {
             this.log.AppendLine($"Clock.Get_Day()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_ElapsedMilliseconds()
         {
             this.log.AppendLine($"Clock.Get_ElapsedMilliseconds()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_Hour()
         {
             this.log.AppendLine($"Clock.Get_Hour()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_Millisecond()
         {
             this.log.AppendLine($"Clock.Get_Millisecond()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_Minute()
         {
             this.log.AppendLine($"Clock.Get_Minute()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_Month()
         {
             this.log.AppendLine($"Clock.Get_Month()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_Second()
         {
             this.log.AppendLine($"Clock.Get_Second()");
-            return 0;
+            return 0m;
         }
 
         public string Get_Time()
@@ -125,7 +125,7 @@ namespace SuperBasic.Tests
         public decimal Get_Year()
         {
             this.log.AppendLine($"Clock.Get_Year()");
-            return 0;
+            return 0m;
         }
     }
 
@@ -154,22 +154,22 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
-        public Task<string> AddButton(string caption, decimal left, decimal top)
+        public string AddButton(string caption, decimal left, decimal top)
         {
             this.log.AppendLine($"Controls.AddButton(caption: '{caption}', left: '{left}', top: '{top}')");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
-        public Task<string> AddMultiLineTextBox(decimal left, decimal top)
+        public string AddMultiLineTextBox(decimal left, decimal top)
         {
             this.log.AppendLine($"Controls.AddMultiLineTextBox(left: '{left}', top: '{top}')");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
-        public Task<string> AddTextBox(decimal left, decimal top)
+        public string AddTextBox(decimal left, decimal top)
         {
             this.log.AppendLine($"Controls.AddTextBox(left: '{left}', top: '{top}')");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
         public string GetButtonCaption(string buttonName)
@@ -184,46 +184,39 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
-        public Task HideControl(string controlName)
+        public void HideControl(string controlName)
         {
             this.log.AppendLine($"Controls.HideControl(controlName: '{controlName}')");
-            return Task.CompletedTask;
         }
 
-        public Task Move(string control, decimal x, decimal y)
+        public void Move(string control, decimal x, decimal y)
         {
             this.log.AppendLine($"Controls.Move(control: '{control}', x: '{x}', y: '{y}')");
-            return Task.CompletedTask;
         }
 
-        public Task Remove(string controlName)
+        public void Remove(string controlName)
         {
             this.log.AppendLine($"Controls.Remove(controlName: '{controlName}')");
-            return Task.CompletedTask;
         }
 
-        public Task SetButtonCaption(string buttonName, string caption)
+        public void SetButtonCaption(string buttonName, string caption)
         {
             this.log.AppendLine($"Controls.SetButtonCaption(buttonName: '{buttonName}', caption: '{caption}')");
-            return Task.CompletedTask;
         }
 
-        public Task SetSize(string control, decimal width, decimal height)
+        public void SetSize(string control, decimal width, decimal height)
         {
             this.log.AppendLine($"Controls.SetSize(control: '{control}', width: '{width}', height: '{height}')");
-            return Task.CompletedTask;
         }
 
-        public Task SetTextBoxText(string textBoxName, string text)
+        public void SetTextBoxText(string textBoxName, string text)
         {
             this.log.AppendLine($"Controls.SetTextBoxText(textBoxName: '{textBoxName}', text: '{text}')");
-            return Task.CompletedTask;
         }
 
-        public Task ShowControl(string controlName)
+        public void ShowControl(string controlName)
         {
             this.log.AppendLine($"Controls.ShowControl(controlName: '{controlName}')");
-            return Task.CompletedTask;
         }
     }
 
@@ -435,7 +428,7 @@ namespace SuperBasic.Tests
         public decimal Get_FontSize()
         {
             this.log.AppendLine($"GraphicsWindow.Get_FontSize()");
-            return 0;
+            return 0m;
         }
 
         public void Set_FontSize(decimal value)
@@ -443,10 +436,10 @@ namespace SuperBasic.Tests
             this.log.AppendLine($"GraphicsWindow.Set_FontSize('{value}')");
         }
 
-        public decimal Get_Height()
+        public Task<decimal> Get_Height()
         {
             this.log.AppendLine($"GraphicsWindow.Get_Height()");
-            return 0;
+            return Task.FromResult(0m);
         }
 
         public string Get_LastKey()
@@ -464,13 +457,13 @@ namespace SuperBasic.Tests
         public decimal Get_MouseX()
         {
             this.log.AppendLine($"GraphicsWindow.Get_MouseX()");
-            return 0;
+            return 0m;
         }
 
         public decimal Get_MouseY()
         {
             this.log.AppendLine($"GraphicsWindow.Get_MouseY()");
-            return 0;
+            return 0m;
         }
 
         public string Get_PenColor()
@@ -487,7 +480,7 @@ namespace SuperBasic.Tests
         public decimal Get_PenWidth()
         {
             this.log.AppendLine($"GraphicsWindow.Get_PenWidth()");
-            return 0;
+            return 0m;
         }
 
         public void Set_PenWidth(decimal value)
@@ -495,10 +488,10 @@ namespace SuperBasic.Tests
             this.log.AppendLine($"GraphicsWindow.Set_PenWidth('{value}')");
         }
 
-        public decimal Get_Width()
+        public Task<decimal> Get_Width()
         {
             this.log.AppendLine($"GraphicsWindow.Get_Width()");
-            return 0;
+            return Task.FromResult(0m);
         }
 
         public void Clear()
@@ -567,26 +560,16 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
-        public string GetPixel(decimal x, decimal y)
-        {
-            this.log.AppendLine($"GraphicsWindow.GetPixel(x: '{x}', y: '{y}')");
-            return string.Empty;
-        }
-
         public string GetRandomColor()
         {
             this.log.AppendLine($"GraphicsWindow.GetRandomColor()");
             return string.Empty;
         }
 
-        public void SetPixel(decimal x, decimal y, string color)
-        {
-            this.log.AppendLine($"GraphicsWindow.SetPixel(x: '{x}', y: '{y}', color: '{color}')");
-        }
-
-        public void ShowMessage(string text, string title)
+        public Task ShowMessage(string text, string title)
         {
             this.log.AppendLine($"GraphicsWindow.ShowMessage(text: '{text}', title: '{title}')");
+            return Task.CompletedTask;
         }
     }
 
@@ -602,13 +585,13 @@ namespace SuperBasic.Tests
         public decimal GetHeightOfImage(string imageName)
         {
             this.log.AppendLine($"ImageList.GetHeightOfImage(imageName: '{imageName}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetWidthOfImage(string imageName)
         {
             this.log.AppendLine($"ImageList.GetWidthOfImage(imageName: '{imageName}')");
-            return 0;
+            return 0m;
         }
 
         public string LoadImage(string fileNameOrUrl)
@@ -630,127 +613,127 @@ namespace SuperBasic.Tests
         public decimal Get_Pi()
         {
             this.log.AppendLine($"Math.Get_Pi()");
-            return 0;
+            return 0m;
         }
 
         public decimal Abs(decimal number)
         {
             this.log.AppendLine($"Math.Abs(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal ArcCos(decimal cosValue)
         {
             this.log.AppendLine($"Math.ArcCos(cosValue: '{cosValue}')");
-            return 0;
+            return 0m;
         }
 
         public decimal ArcSin(decimal sinValue)
         {
             this.log.AppendLine($"Math.ArcSin(sinValue: '{sinValue}')");
-            return 0;
+            return 0m;
         }
 
         public decimal ArcTan(decimal tanValue)
         {
             this.log.AppendLine($"Math.ArcTan(tanValue: '{tanValue}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Ceiling(decimal number)
         {
             this.log.AppendLine($"Math.Ceiling(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Cos(decimal angle)
         {
             this.log.AppendLine($"Math.Cos(angle: '{angle}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Floor(decimal number)
         {
             this.log.AppendLine($"Math.Floor(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetDegrees(decimal angle)
         {
             this.log.AppendLine($"Math.GetDegrees(angle: '{angle}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetRadians(decimal angle)
         {
             this.log.AppendLine($"Math.GetRadians(angle: '{angle}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetRandomNumber(decimal maxNumber)
         {
             this.log.AppendLine($"Math.GetRandomNumber(maxNumber: '{maxNumber}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Log(decimal number)
         {
             this.log.AppendLine($"Math.Log(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Max(decimal number1, decimal number2)
         {
             this.log.AppendLine($"Math.Max(number1: '{number1}', number2: '{number2}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Min(decimal number1, decimal number2)
         {
             this.log.AppendLine($"Math.Min(number1: '{number1}', number2: '{number2}')");
-            return 0;
+            return 0m;
         }
 
         public decimal NaturalLog(decimal number)
         {
             this.log.AppendLine($"Math.NaturalLog(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Power(decimal baseNumber, decimal exponent)
         {
             this.log.AppendLine($"Math.Power(baseNumber: '{baseNumber}', exponent: '{exponent}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Remainder(decimal dividend, decimal divisor)
         {
             this.log.AppendLine($"Math.Remainder(dividend: '{dividend}', divisor: '{divisor}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Round(decimal number)
         {
             this.log.AppendLine($"Math.Round(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Sin(decimal angle)
         {
             this.log.AppendLine($"Math.Sin(angle: '{angle}')");
-            return 0;
+            return 0m;
         }
 
         public decimal SquareRoot(decimal number)
         {
             this.log.AppendLine($"Math.SquareRoot(number: '{number}')");
-            return 0;
+            return 0m;
         }
 
         public decimal Tan(decimal angle)
         {
             this.log.AppendLine($"Math.Tan(angle: '{angle}')");
-            return 0;
+            return 0m;
         }
     }
 
@@ -778,7 +761,7 @@ namespace SuperBasic.Tests
         public decimal Get_MouseX()
         {
             this.log.AppendLine($"Mouse.Get_MouseX()");
-            return 0;
+            return 0m;
         }
 
         public void Set_MouseX(decimal value)
@@ -789,7 +772,7 @@ namespace SuperBasic.Tests
         public decimal Get_MouseY()
         {
             this.log.AppendLine($"Mouse.Get_MouseY()");
-            return 0;
+            return 0m;
         }
 
         public void Set_MouseY(decimal value)
@@ -908,19 +891,19 @@ namespace SuperBasic.Tests
         public decimal GetLeft(string shapeName)
         {
             this.log.AppendLine($"Shapes.GetLeft(shapeName: '{shapeName}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetOpacity(string shapeName)
         {
             this.log.AppendLine($"Shapes.GetOpacity(shapeName: '{shapeName}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetTop(string shapeName)
         {
             this.log.AppendLine($"Shapes.GetTop(shapeName: '{shapeName}')");
-            return 0;
+            return 0m;
         }
 
         public void HideShape(string shapeName)
@@ -986,7 +969,7 @@ namespace SuperBasic.Tests
         public decimal GetCount(string stackName)
         {
             this.log.AppendLine($"Stack.GetCount(stackName: '{stackName}')");
-            return 0;
+            return 0m;
         }
 
         public string PopValue(string stackName)
@@ -1043,19 +1026,19 @@ namespace SuperBasic.Tests
         public decimal GetCharacterCode(string character)
         {
             this.log.AppendLine($"Text.GetCharacterCode(character: '{character}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetIndexOf(string text, string subText)
         {
             this.log.AppendLine($"Text.GetIndexOf(text: '{text}', subText: '{subText}')");
-            return 0;
+            return 0m;
         }
 
         public decimal GetLength(string text)
         {
             this.log.AppendLine($"Text.GetLength(text: '{text}')");
-            return 0;
+            return 0m;
         }
 
         public string GetSubText(string text, decimal start, decimal length)
@@ -1092,16 +1075,15 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public Task<string> Get_BackgroundColor()
+        public string Get_BackgroundColor()
         {
             this.log.AppendLine($"TextWindow.Get_BackgroundColor()");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
-        public Task Set_BackgroundColor(string value)
+        public void Set_BackgroundColor(string value)
         {
             this.log.AppendLine($"TextWindow.Set_BackgroundColor('{value}')");
-            return Task.CompletedTask;
         }
 
         public string Get_ForegroundColor()
@@ -1129,17 +1111,19 @@ namespace SuperBasic.Tests
         public decimal ReadNumber()
         {
             this.log.AppendLine($"TextWindow.ReadNumber()");
-            return 0;
+            return 0m;
         }
 
-        public void Write(string data)
+        public Task Write(string data)
         {
             this.log.AppendLine($"TextWindow.Write(data: '{data}')");
+            return Task.CompletedTask;
         }
 
-        public void WriteLine(string data)
+        public Task WriteLine(string data)
         {
             this.log.AppendLine($"TextWindow.WriteLine(data: '{data}')");
+            return Task.CompletedTask;
         }
     }
 
@@ -1157,7 +1141,7 @@ namespace SuperBasic.Tests
         public decimal Get_Interval()
         {
             this.log.AppendLine($"Timer.Get_Interval()");
-            return 0;
+            return 0m;
         }
 
         public void Set_Interval(decimal value)
@@ -1188,7 +1172,7 @@ namespace SuperBasic.Tests
         public decimal Get_Angle()
         {
             this.log.AppendLine($"Turtle.Get_Angle()");
-            return 0;
+            return 0m;
         }
 
         public void Set_Angle(decimal value)
@@ -1199,7 +1183,7 @@ namespace SuperBasic.Tests
         public decimal Get_Speed()
         {
             this.log.AppendLine($"Turtle.Get_Speed()");
-            return 0;
+            return 0m;
         }
 
         public void Set_Speed(decimal value)
@@ -1210,7 +1194,7 @@ namespace SuperBasic.Tests
         public decimal Get_X()
         {
             this.log.AppendLine($"Turtle.Get_X()");
-            return 0;
+            return 0m;
         }
 
         public void Set_X(decimal value)
@@ -1221,7 +1205,7 @@ namespace SuperBasic.Tests
         public decimal Get_Y()
         {
             this.log.AppendLine($"Turtle.Get_Y()");
-            return 0;
+            return 0m;
         }
 
         public void Set_Y(decimal value)

@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.6.0" />
-    <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
+    <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.7.0" />
   </ItemGroup>
 
   <Target Name="CopyElectronFiles" AfterTargets="Build" Condition="'$(IsBuildingForDesktop)' == 'True'">

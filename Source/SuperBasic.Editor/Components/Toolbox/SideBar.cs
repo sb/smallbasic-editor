@@ -16,11 +16,11 @@ namespace SuperBasic.Editor.Components.Toolbox
 
     public sealed class SideBar : SuperBasicComponent
     {
-        private Descriptor selectedItem = default;
+        private ElementRef scrollArea = default;
+        private ElementRef scrollAreaContents = default;
 
-        private ElementRef upButton = default;
-        private ElementRef scrollContentsArea = default;
-        private ElementRef downButton = default;
+        private double currentScrollMargin = 0;
+        private Descriptor selectedItem = default;
 
         [Parameter]
         private string Title { get; set; }
@@ -47,64 +47,97 @@ namespace SuperBasic.Editor.Components.Toolbox
             {
                 composer.Element("navigation-area", body: () =>
                 {
-                    Micro.Clickable(
-                        composer,
-                        onClick: () =>
+                    composer.Element(
+                        name: "logo-area",
+                        events: new TreeComposer.Events
                         {
-                            if (this.selectedItem.IsDefault())
+                            OnClick = args =>
                             {
-                                this.selectedItem = this.Items.First();
-                            }
-                            else
-                            {
-                                this.selectedItem = default;
+                                if (this.selectedItem.IsDefault())
+                                {
+                                    this.selectedItem = this.Items.First();
+                                }
+                                else
+                                {
+                                    this.selectedItem = default;
+                                }
                             }
                         },
                         body: () =>
                         {
-                            composer.Element("logo-area", body: () =>
-                            {
-                                composer.Element("logo");
-                            });
+                            composer.Element("logo");
                         });
 
                     if (this.ShowScrollArrows)
                     {
-                        composer.Element("scroll-button", body: () =>
-                        {
-                            composer.Element("scroll-up", capture: element => this.upButton = element);
-                        });
+                        composer.Element(
+                            name: "scroll-button",
+                            events: new TreeComposer.Events
+                            {
+                                OnClick = args => this.ScrollUp(200)
+                            },
+                            body: () =>
+                            {
+                                composer.Element("scroll-up");
+                            });
                     }
 
-                    composer.Element("scroll-area", body: () =>
+                    composer.Element("scroll-area", capture: element => this.scrollArea = element, body: () =>
                     {
                         composer.Element(
                             name: "scroll-area-contents",
-                            capture: element => this.scrollContentsArea = element,
+                            capture: element => this.scrollAreaContents = element,
+                            styles: new Dictionary<string, string>
+                            {
+                                { "margin-top", $"{this.currentScrollMargin}px" }
+                            },
+                            events: new TreeComposer.Events
+                            {
+                                OnMouseWheelAsync = async args =>
+                                {
+                                    if (args.DeltaY < 0)
+                                    {
+                                        this.ScrollUp(-args.DeltaY);
+                                    }
+                                    else
+                                    {
+                                        await this.ScrollDown(args.DeltaY).ConfigureAwait(false);
+                                    }
+                                }
+                            },
                             body: () =>
                             {
                                 foreach (var item in this.Items)
                                 {
-                                    Micro.Clickable(composer, onClick: () => this.selectedItem = item, body: () =>
-                                    {
-                                        composer.Element(name: this.selectedItem?.Title == item.Title ? "side-bar-item-selected" : "side-bar-item", body: () =>
+                                    composer.Element(
+                                        name: this.selectedItem?.Title == item.Title ? "side-bar-item-selected" : "side-bar-item",
+                                        events: new TreeComposer.Events
+                                        {
+                                            OnClick = args => this.selectedItem = item
+                                        },
+                                        body: () =>
                                         {
                                             composer.Element("icon", body: () => Micro.FontAwesome(composer, item.IconName));
                                             composer.Element(
                                                 name: item.Title.Length > 10 ? "long-name" : "short-name",
                                                 body: () => composer.Text(item.Title));
                                         });
-                                    });
                                 }
                             });
                     });
 
                     if (this.ShowScrollArrows)
                     {
-                        composer.Element("scroll-button", body: () =>
-                        {
-                            composer.Element("scroll-down", capture: element => this.downButton = element);
-                        });
+                        composer.Element(
+                            name: "scroll-button",
+                            events: new TreeComposer.Events
+                            {
+                                OnClick = async args => await this.ScrollDown(200).ConfigureAwait(false)
+                            },
+                            body: () =>
+                            {
+                                composer.Element("scroll-down");
+                            });
                     }
                 });
 
@@ -118,13 +151,16 @@ namespace SuperBasic.Editor.Components.Toolbox
                     composer.Element("header", body: () =>
                     {
                         composer.Element("content-title", body: () => composer.Text(this.Title));
-                        composer.Element("minimize-button", body: () =>
-                        {
-                            Micro.Clickable(composer, onClick: () => this.selectedItem = null, body: () =>
+                        composer.Element(
+                            name: "minimize-button",
+                            events: new TreeComposer.Events
+                            {
+                                OnClick = args => this.selectedItem = null
+                            },
+                            body: () =>
                             {
                                 composer.Element("angle-left");
                             });
-                        });
                     });
 
                     composer.Element("content", body: () => this.selectedItem.Body(composer));
@@ -132,15 +168,25 @@ namespace SuperBasic.Editor.Components.Toolbox
             });
         }
 
-        protected override Task OnAfterRenderAsync()
+        private void ScrollUp(double amount)
         {
-            if (this.ShowScrollArrows)
+            if (this.currentScrollMargin != 0)
             {
-                return JSInterop.Layout.AttachSideBarEvents(this.upButton, this.scrollContentsArea, this.downButton);
+                this.currentScrollMargin = Math.Min(0, this.currentScrollMargin + amount);
+                this.StateHasChanged();
             }
-            else
+        }
+
+        private async Task ScrollDown(double amount)
+        {
+            double areaHeight = (double)await JSInterop.Layout.GetElementHeight(this.scrollArea).ConfigureAwait(false);
+            double contentsHeight = (double)await JSInterop.Layout.GetElementHeight(this.scrollAreaContents).ConfigureAwait(false);
+
+            double hiddenOffset = Math.Max(0, contentsHeight + this.currentScrollMargin - areaHeight);
+            if (hiddenOffset != 0)
             {
-                return Task.CompletedTask;
+                this.currentScrollMargin = this.currentScrollMargin - Math.Min(hiddenOffset, amount);
+                this.StateHasChanged();
             }
         }
 

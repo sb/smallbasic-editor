@@ -13,11 +13,25 @@
           <Parameter Name="url" Type="string" />
         </Parameters>
       </Method>
-      <Method Name="AttachSideBarEvents">
+      <Method Name="ShowMessage">
         <Parameters>
-          <Parameter Name="upButton" Type="HTMLElement" />
-          <Parameter Name="scrollContentsArea" Type="HTMLElement" />
-          <Parameter Name="downButton" Type="HTMLElement" />
+          <Parameter Name="title" Type="string" />
+          <Parameter Name="text" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="GetElementHeight" ReturnType="number">
+        <Parameters>
+          <Parameter Name="element" Type="HTMLElement" />
+        </Parameters>
+      </Method>
+      <Method Name="GetElementWidth" ReturnType="number">
+        <Parameters>
+          <Parameter Name="element" Type="HTMLElement" />
+        </Parameters>
+      </Method>
+      <Method Name="ScrollIntoView">
+        <Parameters>
+          <Parameter Name="element" Type="HTMLElement" />
         </Parameters>
       </Method>
     </Methods>
@@ -53,98 +67,6 @@
       <Method Name="Paste" />
       <Method Name="Undo" />
       <Method Name="Redo" />
-    </Methods>
-  </InteropType>
-  <InteropType Name="TextDisplay">
-    <Methods>
-      <Method Name="Initialize">
-        <Parameters>
-          <Parameter Name="textDisplayElement" Type="HTMLElement" />
-        </Parameters>
-      </Method>
-      <Method Name="Dispose" />
-      <Method Name="ScrollTo">
-        <Parameters>
-          <Parameter Name="element" Type="HTMLElement" />
-        </Parameters>
-      </Method>
-      <Method Name="SetBackgroundColor">
-        <Parameters>
-          <Parameter Name="hexColor" Type="string" />
-        </Parameters>
-      </Method>
-    </Methods>
-  </InteropType>
-  <InteropType Name="Controls">
-    <Methods>
-      <Method Name="Initialize">
-        <Parameters>
-          <Parameter Name="graphicsDisplayElement" Type="HTMLElement" />
-        </Parameters>
-      </Method>
-      <Method Name="AddButton">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="caption" Type="string" />
-          <Parameter Name="left" Type="number" />
-          <Parameter Name="top" Type="number" />
-        </Parameters>
-      </Method>
-      <Method Name="AddMultiLineTextBox">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="left" Type="number" />
-          <Parameter Name="top" Type="number" />
-        </Parameters>
-      </Method>
-      <Method Name="AddTextBox">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="left" Type="number" />
-          <Parameter Name="top" Type="number" />
-        </Parameters>
-      </Method>
-      <Method Name="HideControl">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-        </Parameters>
-      </Method>
-      <Method Name="Move">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="x" Type="number" />
-          <Parameter Name="y" Type="number" />
-        </Parameters>
-      </Method>
-      <Method Name="Remove">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-        </Parameters>
-      </Method>
-      <Method Name="SetButtonCaption">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="caption" Type="string" />
-        </Parameters>
-      </Method>
-      <Method Name="SetSize">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="width" Type="number" />
-          <Parameter Name="height" Type="number" />
-        </Parameters>
-      </Method>
-      <Method Name="SetTextBoxText">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-          <Parameter Name="text" Type="string" />
-        </Parameters>
-      </Method>
-      <Method Name="ShowControl">
-        <Parameters>
-          <Parameter Name="controlName" Type="string" />
-        </Parameters>
-      </Method>
     </Methods>
   </InteropType>
 </root>

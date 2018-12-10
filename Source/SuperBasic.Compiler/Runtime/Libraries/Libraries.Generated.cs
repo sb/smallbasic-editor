@@ -445,13 +445,14 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Controls.AddButton:
                 {
-                    async Task execute(SuperBasicEngine engine)
+                    Task execute(SuperBasicEngine engine)
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
                         string caption = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = await engine.Libraries.Controls.AddButton(caption: caption, left: left, top: top).ConfigureAwait(false);
+                        string returnValue = engine.Libraries.Controls.AddButton(caption: caption, left: left, top: top);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("AddButton", new Method(
@@ -472,12 +473,13 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Controls.AddMultiLineTextBox:
                 {
-                    async Task execute(SuperBasicEngine engine)
+                    Task execute(SuperBasicEngine engine)
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = await engine.Libraries.Controls.AddMultiLineTextBox(left: left, top: top).ConfigureAwait(false);
+                        string returnValue = engine.Libraries.Controls.AddMultiLineTextBox(left: left, top: top);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("AddMultiLineTextBox", new Method(
@@ -497,12 +499,13 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Controls.AddTextBox:
                 {
-                    async Task execute(SuperBasicEngine engine)
+                    Task execute(SuperBasicEngine engine)
                     {
                         decimal top = engine.EvaluationStack.Pop().ToNumber();
                         decimal left = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = await engine.Libraries.Controls.AddTextBox(left: left, top: top).ConfigureAwait(false);
+                        string returnValue = engine.Libraries.Controls.AddTextBox(left: left, top: top);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("AddTextBox", new Method(
@@ -573,7 +576,8 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.HideControl(controlName: controlName);
+                        engine.Libraries.Controls.HideControl(controlName: controlName);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("HideControl", new Method(
@@ -597,7 +601,8 @@ namespace SuperBasic.Compiler.Runtime
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
                         string control = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.Move(control: control, x: x, y: y);
+                        engine.Libraries.Controls.Move(control: control, x: x, y: y);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("Move", new Method(
@@ -621,7 +626,8 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.Remove(controlName: controlName);
+                        engine.Libraries.Controls.Remove(controlName: controlName);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("Remove", new Method(
@@ -644,7 +650,8 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string caption = engine.EvaluationStack.Pop().ToString();
                         string buttonName = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
+                        engine.Libraries.Controls.SetButtonCaption(buttonName: buttonName, caption: caption);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("SetButtonCaption", new Method(
@@ -669,7 +676,8 @@ namespace SuperBasic.Compiler.Runtime
                         decimal height = engine.EvaluationStack.Pop().ToNumber();
                         decimal width = engine.EvaluationStack.Pop().ToNumber();
                         string control = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.SetSize(control: control, width: width, height: height);
+                        engine.Libraries.Controls.SetSize(control: control, width: width, height: height);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("SetSize", new Method(
@@ -694,7 +702,8 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string text = engine.EvaluationStack.Pop().ToString();
                         string textBoxName = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
+                        engine.Libraries.Controls.SetTextBoxText(textBoxName: textBoxName, text: text);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("SetTextBoxText", new Method(
@@ -717,7 +726,8 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string controlName = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.Controls.ShowControl(controlName: controlName);
+                        engine.Libraries.Controls.ShowControl(controlName: controlName);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("ShowControl", new Method(
@@ -1999,11 +2009,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        decimal y = engine.EvaluationStack.Pop().ToNumber();
-                        decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        string returnValue = engine.Libraries.GraphicsWindow.GetPixel(x: x, y: y);
-                        engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
+                        throw new InvalidOperationException("Library method 'GraphicsWindow.GetPixel' is deprecated.");
                     }
 
                     methods.Add("GetPixel", new Method(
@@ -2016,7 +2022,7 @@ namespace SuperBasic.Compiler.Runtime
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_GetPixel_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_GetPixel_y) },
                         },
-                        isDeprecated: false,
+                        isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
                 }
@@ -2063,11 +2069,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        string color = engine.EvaluationStack.Pop().ToString();
-                        decimal y = engine.EvaluationStack.Pop().ToNumber();
-                        decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.GraphicsWindow.SetPixel(x: x, y: y, color: color);
-                        return Task.CompletedTask;
+                        throw new InvalidOperationException("Library method 'GraphicsWindow.SetPixel' is deprecated.");
                     }
 
                     methods.Add("SetPixel", new Method(
@@ -2081,7 +2083,7 @@ namespace SuperBasic.Compiler.Runtime
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_y) },
                             { "color", new Parameter("color", LibrariesResources.GraphicsWindow_SetPixel_color) },
                         },
-                        isDeprecated: false,
+                        isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
                 }
@@ -2110,8 +2112,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         string title = engine.EvaluationStack.Pop().ToString();
                         string text = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.GraphicsWindow.ShowMessage(text: text, title: title);
-                        return Task.CompletedTask;
+                        return engine.Libraries.GraphicsWindow.ShowMessage(text: text, title: title);
                     }
 
                     methods.Add("ShowMessage", new Method(
@@ -2262,11 +2263,10 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property GraphicsWindow.Height:
                 {
-                    Task getter(SuperBasicEngine engine)
+                    async Task getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Libraries.GraphicsWindow.Get_Height();
+                        decimal value = await engine.Libraries.GraphicsWindow.Get_Height().ConfigureAwait(false);
                         engine.EvaluationStack.Push(new NumberValue(value));
-                        return Task.CompletedTask;
                     }
 
                     properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
@@ -2405,11 +2405,10 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property GraphicsWindow.Width:
                 {
-                    Task getter(SuperBasicEngine engine)
+                    async Task getter(SuperBasicEngine engine)
                     {
-                        decimal value = engine.Libraries.GraphicsWindow.Get_Width();
+                        decimal value = await engine.Libraries.GraphicsWindow.Get_Width().ConfigureAwait(false);
                         engine.EvaluationStack.Push(new NumberValue(value));
-                        return Task.CompletedTask;
                     }
 
                     properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
@@ -4596,8 +4595,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string data = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.TextWindow.Write(data: data);
-                        return Task.CompletedTask;
+                        return engine.Libraries.TextWindow.Write(data: data);
                     }
 
                     methods.Add("Write", new Method(
@@ -4619,8 +4617,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         string data = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.TextWindow.WriteLine(data: data);
-                        return Task.CompletedTask;
+                        return engine.Libraries.TextWindow.WriteLine(data: data);
                     }
 
                     methods.Add("WriteLine", new Method(
@@ -4641,16 +4638,18 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for property TextWindow.BackgroundColor:
                 {
-                    async Task getter(SuperBasicEngine engine)
+                    Task getter(SuperBasicEngine engine)
                     {
-                        string value = await engine.Libraries.TextWindow.Get_BackgroundColor().ConfigureAwait(false);
+                        string value = engine.Libraries.TextWindow.Get_BackgroundColor();
                         engine.EvaluationStack.Push(StringValue.Create(value));
+                        return Task.CompletedTask;
                     }
 
                     Task setter(SuperBasicEngine engine)
                     {
                         string value = engine.EvaluationStack.Pop().ToString();
-                        return engine.Libraries.TextWindow.Set_BackgroundColor(value);
+                        engine.Libraries.TextWindow.Set_BackgroundColor(value);
+                        return Task.CompletedTask;
                     }
 
                     properties.Add("BackgroundColor", new Property("BackgroundColor", LibrariesResources.TextWindow_BackgroundColor, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));

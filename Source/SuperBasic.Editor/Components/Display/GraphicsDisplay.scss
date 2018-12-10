@@ -11,6 +11,11 @@ graphics-display {
     // Required to have "absolute" positioned children
     position: relative;
 
+    svg {
+        // Needs to have a "relative" parent
+        position: absolute;
+    }
+
     button {
         // Needs to have a "relative" parent
         position: absolute;

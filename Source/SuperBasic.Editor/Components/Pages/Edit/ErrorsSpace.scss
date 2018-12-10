@@ -9,6 +9,7 @@ errors-space {
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
+    cursor: pointer;
 
     title-row {
         flex-shrink: 0;
@@ -29,7 +30,7 @@ errors-space {
         errors-count {
             flex-grow: 1;
             font-size: 20px;
-            font-weight: 700;
+            font-weight: bold;
             color: #E7E8EA;
             margin-left: 15px;
         }
@@ -77,7 +78,7 @@ errors-space {
         height: 32px;
         background-color: #232528;
         color: #E7E8EA;
-        font-weight: 500;
+        font-weight: normal;
     }
 
     errors-list {
@@ -95,6 +96,7 @@ errors-space {
             @extend data-line;
             height: 32px;
             color: #232528;
+            cursor: pointer;
         }
 
         error-line:hover {

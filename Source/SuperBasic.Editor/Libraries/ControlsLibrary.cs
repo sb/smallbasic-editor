@@ -7,69 +7,59 @@ namespace SuperBasic.Editor.Libraries
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Blazor;
+    using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Libraries.Controls;
+    using SuperBasic.Editor.Libraries.Utilities;
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
 
     internal sealed class ControlsLibrary : IControlsLibrary
     {
         private readonly NamedCounter counters = new NamedCounter();
-        private readonly Dictionary<string, string> buttons = new Dictionary<string, string>();
-        private readonly Dictionary<string, string> textBoxes = new Dictionary<string, string>();
+        private readonly Dictionary<string, BaseControl> controls = new Dictionary<string, BaseControl>();
 
         private string lastClickedButton = string.Empty;
         private string lastTypedTextBox = string.Empty;
 
         public ControlsLibrary()
         {
-            GraphicsDisplayStore.ButtonClicked += buttonName =>
-            {
-                this.lastClickedButton = buttonName;
-                this.ButtonClicked();
-            };
-
-            GraphicsDisplayStore.TextTyped += (textBoxName, text) =>
-            {
-                this.lastTypedTextBox = textBoxName;
-                this.textBoxes[textBoxName] = text;
-                this.TextTyped();
-            };
+            GraphicsDisplayStore.SetControlsComposer(this.ComposeTree);
         }
 
         public event Action ButtonClicked;
 
         public event Action TextTyped;
 
-        public async Task<string> AddButton(string caption, decimal left, decimal top)
+        public string AddButton(string caption, decimal left, decimal top)
         {
             string name = this.counters.GetNext("Button");
-            this.buttons.Add(name, caption);
-            await JSInterop.Controls.AddButton(name, caption, left, top).ConfigureAwait(false);
+            this.controls.Add(name, new ButtonControl(name, caption, left, top, width: 80, height: 30));
             return name;
         }
 
-        public async Task<string> AddMultiLineTextBox(decimal left, decimal top)
+        public string AddMultiLineTextBox(decimal left, decimal top)
         {
             string name = this.counters.GetNext("TextBox");
-            this.textBoxes.Add(name, string.Empty);
-            await JSInterop.Controls.AddMultiLineTextBox(name, left, top).ConfigureAwait(false);
+            this.controls.Add(name, new MultilineTextBoxControl(name, left, top, width: 200, height: 50));
             return name;
         }
 
-        public async Task<string> AddTextBox(decimal left, decimal top)
+        public string AddTextBox(decimal left, decimal top)
         {
             string name = this.counters.GetNext("TextBox");
-            this.textBoxes.Add(name, string.Empty);
-            await JSInterop.Controls.AddTextBox(name, left, top).ConfigureAwait(false);
+            this.controls.Add(name, new TextBoxControl(name, left, top, width: 200, height: 20));
             return name;
         }
 
         public string GetButtonCaption(string buttonName)
         {
-            if (this.buttons.TryGetValue(buttonName, out string caption))
+            if (this.controls.TryGetValue(buttonName, out BaseControl control) && control is ButtonControl button)
             {
-                return caption;
+                return button.Caption;
             }
 
             return string.Empty;
@@ -77,9 +67,16 @@ namespace SuperBasic.Editor.Libraries
 
         public string GetTextBoxText(string textBoxName)
         {
-            if (this.textBoxes.TryGetValue(textBoxName, out string text))
+            if (this.controls.TryGetValue(textBoxName, out BaseControl control))
             {
-                return text;
+                if (control is TextBoxControl textBox)
+                {
+                    return textBox.Text;
+                }
+                else if (control is MultilineTextBoxControl multilineTextBox)
+                {
+                    return multilineTextBox.Text;
+                }
             }
 
             return string.Empty;
@@ -89,82 +86,98 @@ namespace SuperBasic.Editor.Libraries
 
         public string Get_LastTypedTextBox() => this.lastTypedTextBox;
 
-        public Task HideControl(string controlName)
+        public void HideControl(string controlName)
         {
-            if (this.buttons.ContainsKey(controlName) || this.textBoxes.ContainsKey(controlName))
+            if (this.controls.TryGetValue(controlName, out BaseControl control))
             {
-                return JSInterop.Controls.HideControl(controlName);
+                control.Visible = false;
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task Move(string control, decimal x, decimal y)
+        public void Move(string control, decimal x, decimal y)
         {
-            if (this.buttons.ContainsKey(control) || this.textBoxes.ContainsKey(control))
+            if (this.controls.TryGetValue(control, out BaseControl controlObj))
             {
-                return JSInterop.Controls.Move(control, x, y);
+                controlObj.Left = x;
+                controlObj.Top = y;
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task Remove(string controlName)
+        public void Remove(string controlName)
         {
-            if (this.buttons.ContainsKey(controlName))
+            if (this.controls.ContainsKey(controlName))
             {
-                this.buttons.Remove(controlName);
-                return JSInterop.Controls.Remove(controlName);
+                this.controls.Remove(controlName);
             }
-            else if (this.textBoxes.ContainsKey(controlName))
-            {
-                this.textBoxes.Remove(controlName);
-                return JSInterop.Controls.Remove(controlName);
-            }
-
-            return Task.CompletedTask;
         }
 
-        public Task SetButtonCaption(string buttonName, string caption)
+        public void SetButtonCaption(string buttonName, string caption)
         {
-            if (this.buttons.ContainsKey(buttonName))
+            if (this.controls.TryGetValue(buttonName, out BaseControl control) && control is ButtonControl button)
             {
-                this.buttons[buttonName] = caption;
-                return JSInterop.Controls.SetButtonCaption(buttonName, caption);
+                button.Caption = caption;
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task SetSize(string control, decimal width, decimal height)
+        public void SetSize(string control, decimal width, decimal height)
         {
-            if (this.buttons.ContainsKey(control) || this.textBoxes.ContainsKey(control))
+            if (this.controls.TryGetValue(control, out BaseControl controlObj))
             {
-                return JSInterop.Controls.SetSize(control, width, height);
+                controlObj.Width = width;
+                controlObj.Height = height;
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task SetTextBoxText(string textBoxName, string text)
+        public void SetTextBoxText(string textBoxName, string text)
         {
-            if (this.textBoxes.ContainsKey(textBoxName))
+            if (this.controls.TryGetValue(textBoxName, out BaseControl control))
             {
-                this.textBoxes[textBoxName] = text;
-                return JSInterop.Controls.SetTextBoxText(textBoxName, text);
+                if (control is TextBoxControl textBox)
+                {
+                    textBox.Text = text;
+                }
+                else if (control is MultilineTextBoxControl multilineTextBox)
+                {
+                    multilineTextBox.Text = text;
+                }
+                else
+                {
+                    return;
+                }
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task ShowControl(string controlName)
+        public void ShowControl(string controlName)
         {
-            if (this.buttons.ContainsKey(controlName) || this.textBoxes.ContainsKey(controlName))
+            if (this.controls.TryGetValue(controlName, out BaseControl control))
             {
-                return JSInterop.Controls.ShowControl(controlName);
+                control.Visible = true;
             }
+        }
 
-            return Task.CompletedTask;
+        internal void NotifyButtonClicked(string buttonName)
+        {
+            this.lastClickedButton = buttonName;
+            this.ButtonClicked();
+        }
+
+        internal void NotifyTextTyped(string textBoxName)
+        {
+            this.lastTypedTextBox = textBoxName;
+            this.TextTyped();
+        }
+
+        internal void Clear()
+        {
+            this.controls.Clear();
+        }
+
+        private void ComposeTree(TreeComposer composer)
+        {
+            foreach (var control in this.controls.Values)
+            {
+                control.ComposeTree(this, composer);
+            }
         }
     }
 }

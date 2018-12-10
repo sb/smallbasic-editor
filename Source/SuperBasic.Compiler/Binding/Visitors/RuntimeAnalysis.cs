@@ -10,7 +10,7 @@ namespace SuperBasic.Compiler.Binding
 
     public sealed class RuntimeAnalysis : BaseBoundNodeVisitor
     {
-        public RuntimeAnalysis(SuperBasicCompilation compilation)
+        internal RuntimeAnalysis(SuperBasicCompilation compilation)
         {
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot analyze a compilation with errors.");
             this.Compilation = compilation;

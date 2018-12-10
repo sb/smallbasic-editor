@@ -5,119 +5,66 @@
 namespace SuperBasic.Editor.Libraries
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Editor.Components;
+    using SuperBasic.Editor.Interop;
+    using SuperBasic.Editor.Libraries.Graphics;
+    using SuperBasic.Editor.Libraries.Utilities;
+    using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
 
-    public interface IGraphicsWindowPlugin
+    internal sealed class GraphicsWindowLibrary : IGraphicsWindowLibrary, IDisposable
     {
-        int Height { get; }
+        private readonly LibrariesCollection libraries;
+        private readonly List<BaseGraphicsObject> graphics = new List<BaseGraphicsObject>();
 
-        int Width { get; }
-
-        void SetTextInputCallback(Action<decimal> callback);
-
-        void SetKeyDownCallback(Action<decimal> callback);
-
-        void SetKeyUpCallback(Action<decimal> callback);
-
-        void SetMouseDownCallback(Action<decimal, decimal> callback);
-
-        void SetMouseMoveCallback(Action<decimal, decimal> callback);
-
-        void SetMouseUpCallback(Action<decimal, decimal> callback);
-
-        void Clear();
-
-        void DrawBoundText(decimal x, decimal y, decimal width, string text);
-
-        void DrawEllipse(decimal x, decimal y, decimal width, decimal height);
-
-        void DrawImage(string imageName, decimal x, decimal y);
-
-        void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2);
-
-        void DrawRectangle(decimal x, decimal y, decimal width, decimal height);
-
-        void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height);
-
-        void DrawText(decimal x, decimal y, string text);
-
-        void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3);
-
-        void FillEllipse(decimal x, decimal y, decimal width, decimal height);
-
-        void FillRectangle(decimal x, decimal y, decimal width, decimal height);
-
-        void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3);
-
-        string GetPixel(decimal x, decimal y);
-
-        void SetPixel(decimal x, decimal y, string color);
-
-        void ShowMessage(string text, string title);
-    }
-
-    internal sealed class GraphicsWindowLibrary : IGraphicsWindowLibrary
-    {
-        private static readonly Regex HexColorRegex = new Regex("^#[0-9a-fA-F]{6}$");
-        private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
-
-        private readonly IGraphicsWindowPlugin graphicsWindowPlugin;
-        private readonly StylesSettings settings;
-
-        public GraphicsWindowLibrary(IGraphicsWindowPlugin graphicsWindowPlugin, StylesSettings settings)
+        private static readonly Random RandomInstance = new Random((int)DateTime.Now.Ticks);
+        private static readonly Regex HexColorRegex = new Regex("^#[0-9A-Fa-f]{6}$");
+        private static readonly IReadOnlyList<string> PredefinedFonts = new List<string>
         {
-            this.graphicsWindowPlugin = graphicsWindowPlugin;
-            this.settings = settings;
+            "Roboto",
+            "Arial",
+            "Helvetica",
+            "Times New Roman",
+            "Times",
+            "Courier New",
+            "Courier",
+            "Consolas"
+        };
 
-            /*
-            this.LastText = string.Empty;
-            this.LastKey = string.Empty;
+        private string backgroundColor = PredefinedColors.GetHexColor("White");
 
-            this.MouseX = 0;
-            this.MouseY = 0;
+        private string lastKey = string.Empty;
+        private string lastText = string.Empty;
 
-            this.graphicsWindowPlugin.SetTextInputCallback(keyCode =>
-            {
-                this.LastKey = ((char)keyCode).ToString(CultureInfo.CurrentCulture);
-                this.TextInput();
-            });
+        private decimal mouseX = 0;
+        private decimal mouseY = 0;
 
-            this.graphicsWindowPlugin.SetKeyDownCallback(keyCode =>
-            {
-                this.LastKey = ((char)keyCode).ToString(CultureInfo.CurrentCulture);
-                this.KeyDown();
-            });
+        private GraphicsWindowStyles styles = new GraphicsWindowStyles(
+            penWidth: 2,
+            penColor: PredefinedColors.GetHexColor("Black"),
+            brushColor: PredefinedColors.GetHexColor("SlateBlue"),
+            fontBold: false,
+            fontItalic: false,
+            fontName: "Roboto",
+            fontSize: 12);
 
-            this.graphicsWindowPlugin.SetKeyUpCallback(keyCode =>
-            {
-                this.LastKey = ((char)keyCode).ToString(CultureInfo.CurrentCulture);
-                this.KeyUp();
-            });
+        public GraphicsWindowLibrary(LibrariesCollection libraries)
+        {
+            this.libraries = libraries;
 
-            this.graphicsWindowPlugin.SetMouseDownCallback((mouseX, mouseY) =>
-            {
-                this.MouseX = mouseX;
-                this.MouseY = mouseY;
-                this.MouseDown();
-            });
+            GraphicsDisplayStore.SetGraphicsComposer(this.ComposeTree);
 
-            this.graphicsWindowPlugin.SetMouseMoveCallback((mouseX, mouseY) =>
-            {
-                this.MouseX = mouseX;
-                this.MouseY = mouseY;
-                this.MouseMove();
-            });
-
-            this.graphicsWindowPlugin.SetMouseUpCallback((mouseX, mouseY) =>
-            {
-                this.MouseX = mouseX;
-                this.MouseY = mouseY;
-                this.MouseUp();
-            });
-            */
+            GraphicsDisplayStore.KeyDown += this.KeyDownCallback;
+            GraphicsDisplayStore.KeyUp += this.KeyUpCallback;
+            GraphicsDisplayStore.MouseUp += this.MouseUpCallback;
+            GraphicsDisplayStore.MouseDown += this.MouseDownCallback;
+            GraphicsDisplayStore.MouseMove += this.MouseMoveCallback;
         }
 
         public event Action KeyDown;
@@ -132,238 +79,211 @@ namespace SuperBasic.Editor.Libraries
 
         public event Action TextInput;
 
-        public string LastKey { get; private set; }
-
-        public string LastText { get; private set; }
-
-        public decimal MouseX { get; private set; }
-
-        public decimal MouseY { get; private set; }
-
-        public string BackgroundColor
+        public void Dispose()
         {
-            get => this.settings.BackgroundColor;
-            set => this.settings.BackgroundColor = GetColorHexOpt(value) ?? this.settings.BackgroundColor;
+            GraphicsDisplayStore.KeyDown -= this.KeyDownCallback;
+            GraphicsDisplayStore.KeyUp -= this.KeyUpCallback;
+            GraphicsDisplayStore.MouseUp -= this.MouseUpCallback;
+            GraphicsDisplayStore.MouseDown -= this.MouseDownCallback;
+            GraphicsDisplayStore.MouseMove -= this.MouseMoveCallback;
         }
 
-        public string BrushColor
+        public void Clear()
         {
-            get => this.settings.BrushColor;
-            set => this.settings.BrushColor = GetColorHexOpt(value) ?? this.settings.BrushColor;
+            this.graphics.Clear();
+            this.libraries.ClearControls();
+            this.libraries.ClearShapes();
         }
 
-        public string PenColor
+        public void DrawBoundText(decimal x, decimal y, decimal width, string text)
+            => this.graphics.Add(new TextGraphicsObject(x, y, text, width, this.styles));
+
+        public void DrawEllipse(decimal x, decimal y, decimal width, decimal height)
+            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+
+        public void DrawImage(string imageName, decimal x, decimal y)
         {
-            get => this.settings.PenColor;
-            set => this.settings.PenColor = GetColorHexOpt(value) ?? this.settings.PenColor;
+            // TODO-now: implement after imagelist is implemented
         }
 
-        public decimal PenWidth
+        public void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2)
+            => this.graphics.Add(new LineGraphicsObject(x1, y1, x2, y2, this.styles));
+
+        public void DrawRectangle(decimal x, decimal y, decimal width, decimal height)
+            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+
+        public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height)
         {
-            get => this.settings.PenWidth;
-            set => this.settings.PenWidth = value;
+            // TODO-now: implement after imagelist is implemented
         }
 
-        public bool FontBold
-        {
-            get => this.settings.FontBold;
-            set => this.settings.FontBold = value;
-        }
+        public void DrawText(decimal x, decimal y, string text)
+            => this.graphics.Add(new TextGraphicsObject(x, y, text, width: default, this.styles));
 
-        public bool FontItalic
-        {
-            get => this.settings.FontItalic;
-            set => this.settings.FontItalic = value;
-        }
+        public void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
+            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.styles.With(brushColor: PredefinedColors.TransparentHexColor)));
 
-        public string FontName
-        {
-            get => this.settings.FontName;
-            set => this.settings.FontName = value;
-        }
+        public void FillEllipse(decimal x, decimal y, decimal width, decimal height)
+            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.styles.With(penColor: PredefinedColors.TransparentHexColor)));
 
-        public decimal FontSize
-        {
-            get => this.settings.FontSize;
-            set => this.settings.FontSize = value;
-        }
+        public void FillRectangle(decimal x, decimal y, decimal width, decimal height)
+            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.styles.With(penColor: PredefinedColors.TransparentHexColor)));
 
-        public decimal Height => this.graphicsWindowPlugin.Height;
-
-        public decimal Width => this.graphicsWindowPlugin.Width;
-
-        public void Clear() => this.graphicsWindowPlugin.Clear();
-
-        public void DrawBoundText(decimal x, decimal y, decimal width, string text) => this.graphicsWindowPlugin.DrawBoundText(x, y, width, text);
-
-        public void DrawEllipse(decimal x, decimal y, decimal width, decimal height) => this.graphicsWindowPlugin.DrawEllipse(x, y, width, height);
-
-        public void DrawImage(string imageName, decimal x, decimal y) => this.graphicsWindowPlugin.DrawImage(imageName, x, y);
-
-        public void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2) => this.graphicsWindowPlugin.DrawLine(x1, y1, x2, y2);
-
-        public void DrawRectangle(decimal x, decimal y, decimal width, decimal height) => this.graphicsWindowPlugin.DrawRectangle(x, y, width, height);
-
-        public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height) => this.graphicsWindowPlugin.DrawResizedImage(imageName, x, y, width, height);
-
-        public void DrawText(decimal x, decimal y, string text) => this.graphicsWindowPlugin.DrawText(x, y, text);
-
-        public void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3) => this.graphicsWindowPlugin.DrawTriangle(x1, y1, x2, y2, x3, y3);
-
-        public void FillEllipse(decimal x, decimal y, decimal width, decimal height) => this.graphicsWindowPlugin.FillEllipse(x, y, width, height);
-
-        public void FillRectangle(decimal x, decimal y, decimal width, decimal height) => this.graphicsWindowPlugin.FillRectangle(x, y, width, height);
-
-        public void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3) => this.graphicsWindowPlugin.FillTriangle(x1, y1, x2, y2, x3, y3);
+        public void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
+            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.styles.With(penColor: PredefinedColors.TransparentHexColor)));
 
         public string GetColorFromRGB(decimal red, decimal green, decimal blue) => string.Format(
-                CultureInfo.CurrentCulture,
-                "#{0:X2}{1:X2}{2:X2}",
-                Math.Min(byte.MaxValue, Math.Max(byte.MinValue, red)),
-                Math.Min(byte.MaxValue, Math.Max(byte.MinValue, green)),
-                Math.Min(byte.MaxValue, Math.Max(byte.MinValue, blue)));
-
-        public string GetPixel(decimal x, decimal y) => this.graphicsWindowPlugin.GetPixel(x, y);
+            CultureInfo.CurrentCulture,
+            "#{0:X2}{1:X2}{2:X2}",
+            Math.Min(byte.MaxValue, Math.Max(byte.MinValue, red)),
+            Math.Min(byte.MaxValue, Math.Max(byte.MinValue, green)),
+            Math.Min(byte.MaxValue, Math.Max(byte.MinValue, blue)));
 
         public string GetRandomColor() => string.Format(
-                CultureInfo.CurrentCulture,
-                "#{0:X2}{1:X2}{2:X2}",
-                Random.Next(byte.MinValue, byte.MaxValue + 1),
-                Random.Next(byte.MinValue, byte.MaxValue + 1),
-                Random.Next(byte.MinValue, byte.MaxValue + 1));
+            CultureInfo.CurrentCulture,
+            "#{0:X2}{1:X2}{2:X2}",
+            RandomInstance.Next(byte.MinValue, byte.MaxValue + 1),
+            RandomInstance.Next(byte.MinValue, byte.MaxValue + 1),
+            RandomInstance.Next(byte.MinValue, byte.MaxValue + 1));
 
-        public void SetPixel(decimal x, decimal y, string color)
-        {
-            color = GetColorHexOpt(color);
-            if (!color.IsDefault())
-            {
-                this.graphicsWindowPlugin.SetPixel(x, y, color);
-            }
-        }
+        public string Get_BackgroundColor() => this.backgroundColor;
 
-        public void ShowMessage(string text, string title) => this.graphicsWindowPlugin.ShowMessage(text, title);
+        public string Get_BrushColor() => this.styles.BrushColor;
 
-        private static string GetColorHexOpt(string userInput)
-        {
-            switch (userInput.Trim().ToUpper(CultureInfo.CurrentCulture))
-            {
-                case string hex when HexColorRegex.IsMatch(hex):
-                    return hex;
-     //           case string name when ColorParser.HexFromName(name, out string result):
-       //             return result;
-                default:
-                    return default;
-            }
-        }
+        public bool Get_FontBold() => this.styles.FontBold;
 
-        public string Get_BackgroundColor()
-        {
-            throw new NotImplementedException();
-        }
+        public bool Get_FontItalic() => this.styles.FontItalic;
+
+        public string Get_FontName() => this.styles.FontName;
+
+        public decimal Get_FontSize() => this.styles.FontSize;
+
+        public Task<decimal> Get_Height() => JSInterop.Layout.GetElementHeight(GraphicsDisplayStore.RenderArea);
+
+        public string Get_LastKey() => this.lastKey;
+
+        public string Get_LastText() => this.lastText;
+
+        public decimal Get_MouseX() => this.mouseX;
+
+        public decimal Get_MouseY() => this.mouseY;
+
+        public string Get_PenColor() => this.styles.PenColor;
+
+        public decimal Get_PenWidth() => this.styles.PenWidth;
+
+        public Task<decimal> Get_Width() => JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
 
         public void Set_BackgroundColor(string value)
         {
-            throw new NotImplementedException();
-        }
-
-        public string Get_BrushColor()
-        {
-            throw new NotImplementedException();
+            value = value.Trim();
+            if (PredefinedColors.TryGetHexColor(value, out string hexColor))
+            {
+                this.backgroundColor = hexColor;
+            }
+            else if (HexColorRegex.IsMatch(value))
+            {
+                this.backgroundColor = hexColor;
+            }
         }
 
         public void Set_BrushColor(string value)
         {
-            throw new NotImplementedException();
+            value = value.Trim();
+            if (PredefinedColors.TryGetHexColor(value, out string hexColor))
+            {
+                this.styles = this.styles.With(brushColor: hexColor);
+            }
+            else if (HexColorRegex.IsMatch(value))
+            {
+                this.styles = this.styles.With(brushColor: hexColor);
+            }
         }
 
-        public bool Get_FontBold()
-        {
-            throw new NotImplementedException();
-        }
+        public void Set_FontBold(bool value) => this.styles = this.styles.With(fontBold: value);
 
-        public void Set_FontBold(bool value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Get_FontItalic()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Set_FontItalic(bool value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Get_FontName()
-        {
-            throw new NotImplementedException();
-        }
+        public void Set_FontItalic(bool value) => this.styles = this.styles.With(fontItalic: value);
 
         public void Set_FontName(string value)
         {
-            throw new NotImplementedException();
+            string fontName = PredefinedFonts.SingleOrDefault(supported => string.Compare(supported, value.Trim(), StringComparison.CurrentCultureIgnoreCase) == 0);
+            if (!fontName.IsDefault())
+            {
+                this.styles = this.styles.With(fontName: fontName);
+            }
         }
 
-        public decimal Get_FontSize()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Set_FontSize(decimal value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public decimal Get_Height()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Get_LastKey()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Get_LastText()
-        {
-            throw new NotImplementedException();
-        }
-
-        public decimal Get_MouseX()
-        {
-            throw new NotImplementedException();
-        }
-
-        public decimal Get_MouseY()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Get_PenColor()
-        {
-            throw new NotImplementedException();
-        }
+        public void Set_FontSize(decimal value) => this.styles = this.styles.With(fontSize: value);
 
         public void Set_PenColor(string value)
         {
-            throw new NotImplementedException();
+            value = value.Trim();
+            if (PredefinedColors.TryGetHexColor(value, out string hexColor))
+            {
+                this.styles = this.styles.With(penColor: hexColor);
+            }
+            else if (HexColorRegex.IsMatch(value))
+            {
+                this.styles = this.styles.With(penColor: hexColor);
+            }
         }
 
-        public decimal Get_PenWidth()
+        public void Set_PenWidth(decimal value) => this.styles = this.styles.With(penWidth: value);
+
+        public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
+
+        private void KeyDownCallback(string key)
         {
-            throw new NotImplementedException();
+            this.lastKey = key;
+            this.KeyDown();
+
+            if (key.Length == 1)
+            {
+                this.lastText = key;
+                this.TextInput();
+            }
         }
 
-        public void Set_PenWidth(decimal value)
+        private void KeyUpCallback(string key)
         {
-            throw new NotImplementedException();
+            this.lastKey = key;
+            this.KeyUp();
         }
 
-        public decimal Get_Width()
+        private void MouseDownCallback(decimal x, decimal y)
         {
-            throw new NotImplementedException();
+            this.mouseX = x;
+            this.mouseY = y;
+            this.MouseDown();
+        }
+
+        private void MouseUpCallback(decimal x, decimal y)
+        {
+            this.mouseX = x;
+            this.mouseY = y;
+            this.MouseUp();
+        }
+
+        private void MouseMoveCallback(decimal x, decimal y)
+        {
+            this.mouseX = x;
+            this.mouseY = y;
+            this.MouseMove();
+        }
+
+        private void ComposeTree(TreeComposer composer)
+        {
+            composer.Element(name: "rect", attributes: new Dictionary<string, string>
+            {
+                { "width", "100%" },
+                { "height", "100%" },
+                { "fill", this.backgroundColor }
+            });
+
+            foreach (var graphics in this.graphics)
+            {
+                graphics.ComposeTree(composer);
+            }
         }
     }
 }

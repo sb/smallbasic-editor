@@ -157,7 +157,7 @@ namespace SuperBasic.Generators.Scanning
             switch (type)
             {
                 case "StringValue": return "string.Empty";
-                case "NumberValue": return "0";
+                case "NumberValue": return "0m";
                 case "BooleanValue": return "false";
                 case "ArrayValue": return "new ArrayValue()";
                 case "BaseValue": return "StringValue.Create(string.Empty)";

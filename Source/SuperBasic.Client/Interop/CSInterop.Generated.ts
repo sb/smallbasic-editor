@@ -23,26 +23,4 @@ export module CSIntrop {
             return DotNet.invokeMethodAsync<string[]>("SuperBasic.Editor", "CSIntrop.Monaco.ProvideHover", code, position);
         }
     }
-
-    export module TextDisplay {
-        export function acceptInput(key: string): Promise<void> {
-            return DotNet.invokeMethodAsync<boolean>("SuperBasic.Editor", "CSIntrop.TextDisplay.AcceptInput", key).then(() => {
-                Promise.resolve();
-            });
-        }
-    }
-
-    export module Controls {
-        export function buttonClicked(controlName: string): Promise<void> {
-            return DotNet.invokeMethodAsync<boolean>("SuperBasic.Editor", "CSIntrop.Controls.ButtonClicked", controlName).then(() => {
-                Promise.resolve();
-            });
-        }
-
-        export function textBoxTyped(controlName: string, value: string): Promise<void> {
-            return DotNet.invokeMethodAsync<boolean>("SuperBasic.Editor", "CSIntrop.Controls.TextBoxTyped", controlName, value).then(() => {
-                Promise.resolve();
-            });
-        }
-    }
 }

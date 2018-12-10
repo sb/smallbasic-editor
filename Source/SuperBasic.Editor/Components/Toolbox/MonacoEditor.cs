@@ -4,6 +4,7 @@
 
 namespace SuperBasic.Editor.Components.Toolbox
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor;
@@ -12,7 +13,7 @@ namespace SuperBasic.Editor.Components.Toolbox
     using SuperBasic.Editor.Interop;
     using SuperBasic.Editor.Store;
 
-    public sealed class MonacoEditor : SuperBasicComponent
+    public sealed class MonacoEditor : SuperBasicComponent, IDisposable
     {
         private ElementRef editorElement = default;
 
@@ -25,6 +26,11 @@ namespace SuperBasic.Editor.Components.Toolbox
             {
                 { nameof(MonacoEditor.IsReadOnly), isReadOnly },
             });
+        }
+
+        public void Dispose()
+        {
+            JSInterop.Monaco.Dispose().ConfigureAwait(false);
         }
 
         protected override Task OnAfterRenderAsync()

@@ -39,13 +39,16 @@ namespace SuperBasic.Editor.Components.Layout
                     {
                         foreach (var pair in HeaderLinks)
                         {
-                            composer.Element("header-link", body: () =>
-                            {
-                                Micro.ClickableAsync(composer, () => OpenExtrernalLink(pair.Value), body: () =>
+                            composer.Element(
+                                name: "header-link",
+                                events: new TreeComposer.Events
+                                {
+                                    OnClickAsync = args => OpenExtrernalLink(pair.Value)
+                                },
+                                body: () =>
                                 {
                                     composer.Text(pair.Key);
                                 });
-                            });
                         }
                     });
                 });

@@ -58,29 +58,29 @@ namespace SuperBasic.Compiler.Runtime
 
         string Get_LastTypedTextBox();
 
-        Task<string> AddButton(string caption, decimal left, decimal top);
+        string AddButton(string caption, decimal left, decimal top);
 
-        Task<string> AddMultiLineTextBox(decimal left, decimal top);
+        string AddMultiLineTextBox(decimal left, decimal top);
 
-        Task<string> AddTextBox(decimal left, decimal top);
+        string AddTextBox(decimal left, decimal top);
 
         string GetButtonCaption(string buttonName);
 
         string GetTextBoxText(string textBoxName);
 
-        Task HideControl(string controlName);
+        void HideControl(string controlName);
 
-        Task Move(string control, decimal x, decimal y);
+        void Move(string control, decimal x, decimal y);
 
-        Task Remove(string controlName);
+        void Remove(string controlName);
 
-        Task SetButtonCaption(string buttonName, string caption);
+        void SetButtonCaption(string buttonName, string caption);
 
-        Task SetSize(string control, decimal width, decimal height);
+        void SetSize(string control, decimal width, decimal height);
 
-        Task SetTextBoxText(string textBoxName, string text);
+        void SetTextBoxText(string textBoxName, string text);
 
-        Task ShowControl(string controlName);
+        void ShowControl(string controlName);
     }
 
     public interface IDesktopLibrary
@@ -166,7 +166,7 @@ namespace SuperBasic.Compiler.Runtime
 
         void Set_FontSize(decimal value);
 
-        decimal Get_Height();
+        Task<decimal> Get_Height();
 
         string Get_LastKey();
 
@@ -184,7 +184,7 @@ namespace SuperBasic.Compiler.Runtime
 
         void Set_PenWidth(decimal value);
 
-        decimal Get_Width();
+        Task<decimal> Get_Width();
 
         void Clear();
 
@@ -212,13 +212,9 @@ namespace SuperBasic.Compiler.Runtime
 
         string GetColorFromRGB(decimal red, decimal green, decimal blue);
 
-        string GetPixel(decimal x, decimal y);
-
         string GetRandomColor();
 
-        void SetPixel(decimal x, decimal y, string color);
-
-        void ShowMessage(string text, string title);
+        Task ShowMessage(string text, string title);
     }
 
     public interface IImageListLibrary
@@ -391,9 +387,9 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface ITextWindowLibrary
     {
-        Task<string> Get_BackgroundColor();
+        string Get_BackgroundColor();
 
-        Task Set_BackgroundColor(string value);
+        void Set_BackgroundColor(string value);
 
         string Get_ForegroundColor();
 
@@ -405,9 +401,9 @@ namespace SuperBasic.Compiler.Runtime
 
         decimal ReadNumber();
 
-        void Write(string data);
+        Task Write(string data);
 
-        void WriteLine(string data);
+        Task WriteLine(string data);
     }
 
     public interface ITimerLibrary

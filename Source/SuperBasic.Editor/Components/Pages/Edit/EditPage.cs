@@ -16,13 +16,8 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities.Resources;
 
-    public sealed class EditPage : MainLayout, IDisposable
+    public sealed class EditPage : MainLayout
     {
-        public void Dispose()
-        {
-            JSInterop.Monaco.Dispose().ConfigureAwait(false);
-        }
-
         public static void Inject(TreeComposer composer)
         {
             composer.Inject<EditPage>();
@@ -69,8 +64,13 @@ namespace SuperBasic.Editor.Components.Pages.Edit
         }
     }
 
-    public sealed class ExeuctionActions : SuperBasicComponent
+    public sealed class ExeuctionActions : SuperBasicComponent, IDisposable
     {
+        public void Dispose()
+        {
+            CompilationStore.CodeChanged -= this.StateHasChanged;
+        }
+
         internal static void Inject(TreeComposer composer)
         {
             composer.Inject<ExeuctionActions>();

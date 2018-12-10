@@ -4,6 +4,7 @@
 
 namespace SuperBasic.Compiler
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using SuperBasic.Compiler.Binding;
@@ -15,10 +16,14 @@ namespace SuperBasic.Compiler
 
     public sealed class SuperBasicCompilation
     {
+        private readonly DiagnosticBag diagnostics;
+        private readonly bool isRunningOnDesktop;
+
         private readonly Scanner scanner;
         private readonly Parser parser;
         private readonly Binder binder;
-        private readonly DiagnosticBag diagnostics;
+
+        private readonly Lazy<RuntimeAnalysis> lazyAnalysis;
 
         public SuperBasicCompilation(string text)
 #if IsBuildingForDesktop
@@ -31,15 +36,21 @@ namespace SuperBasic.Compiler
 
         public SuperBasicCompilation(string text, bool isRunningOnDesktop)
         {
-            this.Text = text;
             this.diagnostics = new DiagnosticBag();
+            this.isRunningOnDesktop = isRunningOnDesktop;
+
+            this.Text = text;
 
             this.scanner = new Scanner(this.Text, this.diagnostics);
             this.parser = new Parser(this.scanner.Tokens, this.diagnostics);
             this.binder = new Binder(this.parser.SyntaxTree, this.diagnostics, isRunningOnDesktop);
+
+            this.lazyAnalysis = new Lazy<RuntimeAnalysis>(() => new RuntimeAnalysis(this));
         }
 
         public string Text { get; private set; }
+
+        public RuntimeAnalysis Analysis => this.lazyAnalysis.Value;
 
         public IReadOnlyList<Diagnostic> Diagnostics => this.diagnostics.Contents;
 

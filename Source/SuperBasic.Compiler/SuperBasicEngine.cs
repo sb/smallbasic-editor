@@ -24,16 +24,14 @@ namespace SuperBasic.Compiler
     public sealed class SuperBasicEngine
     {
         private readonly bool isDebugging;
-        private readonly RuntimeAnalysis analysis;
         private readonly SuperBasicCompilation compilation;
         private readonly Dictionary<(string library, string eventName), string> eventCallbacks;
 
         private int currentSourceLine;
 
-        public SuperBasicEngine(SuperBasicCompilation compilation, RuntimeAnalysis analyis, IEngineLibraries libraries, bool isDebugging = false)
+        public SuperBasicEngine(SuperBasicCompilation compilation, IEngineLibraries libraries, bool isDebugging = false)
         {
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
-            Debug.Assert(object.ReferenceEquals(compilation, analyis.Compilation), "Analysis must be done on the same compilation.");
 
             this.isDebugging = isDebugging;
             this.compilation = compilation;
@@ -42,7 +40,6 @@ namespace SuperBasic.Compiler
             this.currentSourceLine = 0;
 
             this.State = ExecutionState.Running;
-            this.analysis = analyis;
             this.ExecutionStack = new LinkedList<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
             this.Memory = new Dictionary<string, BaseValue>();
@@ -91,7 +88,7 @@ namespace SuperBasic.Compiler
             {
                 if (this.ExecutionStack.Count == 0)
                 {
-                    if (!this.analysis.ListensToEvents)
+                    if (!this.compilation.Analysis.ListensToEvents)
                     {
                         this.State = ExecutionState.Terminated;
                     }

@@ -167,25 +167,26 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             {
                 composer.Element("member", body: () =>
                 {
-                    Micro.Clickable(composer, onClick: this.OnHeaderClick, body: () =>
-                    {
-                        composer.Element(
-                            name: this.IsSelected ? "member-header-selected" : "member-header",
-                            body: () =>
+                    composer.Element(
+                        name: this.IsSelected ? "member-header-selected" : "member-header",
+                        events: new TreeComposer.Events
+                        {
+                            OnClick = arg => this.OnHeaderClick()
+                        },
+                        body: () =>
+                        {
+                            composer.Element("member-title", body: () =>
                             {
-                                composer.Element("member-title", body: () =>
+                                composer.Element("caret", body: () =>
                                 {
-                                    composer.Element("caret", body: () =>
-                                    {
-                                        Micro.FontAwesome(composer, this.IsSelected ? "caret-down" : "caret-right");
-                                    });
-
-                                    composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{this.Method.Name}()"));
+                                    Micro.FontAwesome(composer, this.IsSelected ? "caret-down" : "caret-right");
                                 });
 
-                                composer.Element("member-description", body: () => composer.Text(this.Method.Description));
+                                composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{this.Method.Name}()"));
                             });
-                    });
+
+                            composer.Element("member-description", body: () => composer.Text(this.Method.Description));
+                        });
 
                     if (this.IsSelected)
                     {

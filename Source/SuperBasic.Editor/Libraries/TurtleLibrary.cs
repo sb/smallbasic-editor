@@ -5,117 +5,95 @@
 namespace SuperBasic.Editor.Libraries
 {
     using System;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
-
-    public interface ITurtlePlugin
-    {
-        decimal Angle { get; set; }
-
-        decimal Speed { get; set; }
-
-        decimal X { get; set; }
-
-        decimal Y { get; set; }
-
-        void Hide();
-
-        void Show();
-
-        void MoveTo(decimal x, decimal y, bool isPenDown);
-
-        void RotateTo(decimal angle);
-    }
+    using SuperBasic.Editor.Interop;
 
     internal sealed class TurtleLibrary : ITurtleLibrary
     {
-        private readonly ITurtlePlugin plugin;
-
-        private bool isPenDown;
-
-        public TurtleLibrary(ITurtlePlugin plugin)
+        public decimal Get_Angle()
         {
-            this.plugin = plugin;
-
-            this.isPenDown = true;
-
-            /*
-            this.Set_X(0);
-            this.Set_Y(0);
-            this.Set_Angle(0);
-            this.Set_Speed(1);
-            */
+            throw new NotImplementedException();
         }
 
-        public decimal Get_Angle() => this.plugin.Angle;
-
-        public void Set_Angle(decimal value) => this.plugin.Angle = value;
-
-        public decimal Get_Speed() => this.plugin.Speed;
-
-        public void Set_Speed(decimal value) => this.plugin.Speed = value;
-
-        public decimal Get_X() => this.plugin.X;
-
-        public void Set_X(decimal value) => this.plugin.X = value;
-
-        public decimal Get_Y() => this.plugin.Y;
-
-        public void Set_Y(decimal value) => this.plugin.Y = value;
-
-        public void Hide() => this.plugin.Hide();
-
-        public void Show() => this.plugin.Show();
-
-        public void PenDown() => this.isPenDown = true;
-
-        public void PenUp() => this.isPenDown = false;
-
-        public void TurnLeft() => this.Turn(-90);
-
-        public void TurnRight() => this.Turn(90);
-
-        public void Turn(decimal angle)
+        public decimal Get_Speed()
         {
-            decimal newAngle = this.Get_Angle() + angle;
-            this.plugin.RotateTo(newAngle);
-            this.Set_Angle(newAngle);
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_X()
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal Get_Y()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Hide()
+        {
+            throw new NotImplementedException();
         }
 
         public void Move(decimal distance)
         {
-            double distanceDouble = (double)distance;
-            double degrees = (double)this.Get_Angle() / 180 * Math.PI;
-            decimal newX = this.Get_X() + (decimal)(distanceDouble * Math.Sin(degrees));
-            decimal newY = this.Get_Y() - (decimal)(distanceDouble * Math.Cos(degrees));
-
-            this.plugin.MoveTo(newY, newY, this.isPenDown);
-            this.Set_X(newX);
-            this.Set_Y(newY);
+            throw new NotImplementedException();
         }
 
         public void MoveTo(decimal x, decimal y)
         {
-            decimal currentX = this.Get_X();
-            decimal currentY = this.Get_Y();
-            double distanceSquared = (double)(((x - currentX) * (x - currentX)) + ((y - currentY) * (y - currentY)));
-            if (distanceSquared > 0)
-            {
-                double distance = Math.Sqrt(distanceSquared);
-                double degrees = Math.Acos((double)(currentY - y) / distance) * 180 / Math.PI;
-                if (x < currentX)
-                {
-                    degrees = 360 - degrees;
-                }
+            throw new NotImplementedException();
+        }
 
-                degrees -= (double)this.Get_Angle() % 360;
-                if (degrees > 180)
-                {
-                    degrees -= 360;
-                }
+        public void PenDown()
+        {
+            throw new NotImplementedException();
+        }
 
-                this.Turn((decimal)degrees);
-                this.Move((decimal)distance);
-            }
+        public void PenUp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_Angle(decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_Speed(decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_X(decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set_Y(decimal value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Show()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Turn(decimal angle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TurnLeft()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TurnRight()
+        {
+            throw new NotImplementedException();
         }
     }
 }

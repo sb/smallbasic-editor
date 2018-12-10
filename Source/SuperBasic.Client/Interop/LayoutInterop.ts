@@ -3,7 +3,6 @@
  */
 
 import { ILayoutInterop } from "./JSInterop.Generated";
-import { ScrollAreaContentsUtils } from "../Utility/ScrollAreaContentsUtils";
 
 export class LayoutInterop implements ILayoutInterop {
     public async initializeWebView(locale: string, title: string): Promise<void> {
@@ -15,22 +14,20 @@ export class LayoutInterop implements ILayoutInterop {
         window.open(url, "_blank");
     }
 
-    public async attachSideBarEvents(upButton: HTMLElement, scrollContentsArea: HTMLElement, downButton: HTMLElement): Promise<void> {
-        upButton.addEventListener("click", () => {
-            ScrollAreaContentsUtils.scrollUp(scrollContentsArea, 200);
-        });
+    public async getElementHeight(element: HTMLElement): Promise<number> {
+        return element.getBoundingClientRect().height;
+    }
 
-        downButton.addEventListener("click", () => {
-            ScrollAreaContentsUtils.scrollDown(scrollContentsArea, 200);
-        });
+    public async getElementWidth(element: HTMLElement): Promise<number> {
+        return element.getBoundingClientRect().width;
+    }
 
-        scrollContentsArea.addEventListener("wheel", event => {
-            if (event.wheelDeltaY < 0) {
-                ScrollAreaContentsUtils.scrollDown(scrollContentsArea, -event.wheelDeltaY);
-            } else {
-                ScrollAreaContentsUtils.scrollUp(scrollContentsArea, event.wheelDeltaY);
-            }
-            event.preventDefault();
-        });
+    public async scrollIntoView(element: HTMLElement): Promise<void> {
+        element.scrollIntoView();
+    }
+
+    public async showMessage(text: string, title: string): Promise<void> {
+        // second parameter will do nothing in web, but will display the title in electron
+        (<any>alert)(text, title);
     }
 }

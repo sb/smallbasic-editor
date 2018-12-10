@@ -5,29 +5,39 @@
 namespace SuperBasic.Editor.Store
 {
     using System;
-    using System.Diagnostics;
+    using Microsoft.AspNetCore.Blazor;
+    using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Components.Display;
-    using SuperBasic.Editor.Libraries;
     using SuperBasic.Utilities;
 
-    internal delegate void ButtonClickedEventSignature(string buttonName);
+    internal delegate void KeyEventSignature(string key);
 
-    internal delegate void TextTypedEventSignature(string textBoxName, string text);
+    internal delegate void MouseEventSignature(decimal x, decimal y);
 
     internal static class GraphicsDisplayStore
     {
         private static GraphicsDisplay display;
 
-        public static event ButtonClickedEventSignature ButtonClicked;
+        public static event KeyEventSignature KeyDown;
 
-        public static event TextTypedEventSignature TextTyped;
+        public static event KeyEventSignature KeyUp;
 
-        public static GraphicsDisplay Display
+        public static event MouseEventSignature MouseDown;
+
+        public static event MouseEventSignature MouseMove;
+
+        public static event MouseEventSignature MouseUp;
+
+        public static ElementRef RenderArea
         {
             get
             {
-                Debug.Assert(!display.IsDefault(), "Display instance not set.");
-                return display;
+                if (display.IsDefault() || display.RenderArea.IsDefault())
+                {
+                    throw new NullReferenceException("Graphics display is not initialized yet");
+                }
+
+                return display.RenderArea;
             }
         }
 
@@ -36,19 +46,67 @@ namespace SuperBasic.Editor.Store
             display = instance;
         }
 
-        public static void NotifyButtonClicked(string buttonName)
+        public static void SetControlsComposer(Action<TreeComposer> composer)
         {
-            if (!ButtonClicked.IsDefault())
+            if (!display.IsDefault())
             {
-                ButtonClicked(buttonName);
+                display.ControlsLibraryComposer = composer;
             }
         }
 
-        public static void NotifyTextTyped(string textBoxName, string text)
+        public static void SetGraphicsComposer(Action<TreeComposer> composer)
         {
-            if (!TextTyped.IsDefault())
+            if (!display.IsDefault())
             {
-                TextTyped(textBoxName, text);
+                display.GraphicsLibraryComposer = composer;
+            }
+        }
+
+        public static void UpdateDisplay()
+        {
+            if (!display.IsDefault())
+            {
+                display.Update();
+            }
+        }
+
+        public static void NotifyKeyDown(string key)
+        {
+            if (!KeyDown.IsDefault())
+            {
+                KeyDown(key);
+            }
+        }
+
+        public static void NotifyKeyUp(string key)
+        {
+            if (!KeyUp.IsDefault())
+            {
+                KeyUp(key);
+            }
+        }
+
+        public static void NotifyMouseMove(decimal x, decimal y)
+        {
+            if (!MouseMove.IsDefault())
+            {
+                MouseMove(x, y);
+            }
+        }
+
+        public static void NotifyMouseUp(decimal x, decimal y)
+        {
+            if (!MouseUp.IsDefault())
+            {
+                MouseUp(x, y);
+            }
+        }
+
+        public static void NotifyMouseDown(decimal x, decimal y)
+        {
+            if (!MouseDown.IsDefault())
+            {
+                MouseDown(x, y);
             }
         }
     }

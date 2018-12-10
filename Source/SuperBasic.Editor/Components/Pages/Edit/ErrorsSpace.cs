@@ -4,6 +4,7 @@
 
 namespace SuperBasic.Editor.Components.Pages.Edit
 {
+    using System;
     using System.Globalization;
     using System.Linq;
     using SuperBasic.Editor.Components.Layout;
@@ -12,9 +13,14 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities.Resources;
 
-    public sealed class ErrorsSpace : SuperBasicComponent
+    public sealed class ErrorsSpace : SuperBasicComponent, IDisposable
     {
         private bool areErrorsExpanded = false;
+
+        public void Dispose()
+        {
+            CompilationStore.CodeChanged -= this.StateHasChanged;
+        }
 
         internal static void Inject(TreeComposer composer)
         {
@@ -35,9 +41,13 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
             composer.Element("errors-space", body: () =>
             {
-                Micro.Clickable(composer, onClick: () => this.areErrorsExpanded = !this.areErrorsExpanded, body: () =>
-                {
-                    composer.Element("title-row", body: () =>
+                composer.Element(
+                    name: "title-row",
+                    events: new TreeComposer.Events
+                    {
+                        OnClick = args => this.areErrorsExpanded = !this.areErrorsExpanded
+                    },
+                    body: () =>
                     {
                         composer.Element("icon");
 
@@ -48,7 +58,6 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
                         composer.Element(this.areErrorsExpanded ? "caret-opened" : "caret-closed");
                     });
-                });
 
                 if (!this.areErrorsExpanded)
                 {
@@ -67,16 +76,16 @@ namespace SuperBasic.Editor.Components.Pages.Edit
                     {
                         var range = error.Range.ToMonacoRange();
 
-                        Micro.ClickableAsync(
-                            composer,
-                            onClick: () => JSInterop.Monaco.SelectRange(range),
+                        composer.Element(
+                            name: "error-line",
+                            events: new TreeComposer.Events
+                            {
+                                OnClickAsync = args => JSInterop.Monaco.SelectRange(range)
+                            },
                             body: () =>
                             {
-                                composer.Element("error-line", body: () =>
-                                {
-                                    composer.Element("line-number", body: () => composer.Text(range.startLineNumber.ToString(CultureInfo.CurrentCulture)));
-                                    composer.Element("description", body: () => composer.Text(error.ToDisplayString()));
-                                });
+                                composer.Element("line-number", body: () => composer.Text(range.startLineNumber.ToString(CultureInfo.CurrentCulture)));
+                                composer.Element("description", body: () => composer.Text(error.ToDisplayString()));
                             });
                     }
                 });
