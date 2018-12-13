@@ -7,33 +7,25 @@ namespace SuperBasic.Editor.Components.Pages.Run
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Blazor;
-    using Microsoft.AspNetCore.Blazor.Components;
-    using Microsoft.AspNetCore.Blazor.Services;
     using SuperBasic.Compiler;
-    using SuperBasic.Compiler.Binding;
     using SuperBasic.Editor.Components.Display;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Components.Toolbox;
-    using SuperBasic.Editor.Interop;
     using SuperBasic.Editor.Libraries;
+    using SuperBasic.Editor.Libraries.Utilities;
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    public sealed class RunPage : MainLayout, IDisposable
+    public sealed class RunPage : MainLayout
     {
-        private bool isInitialized = false;
-        private bool shouldTerminate = false;
+        private readonly AsyncEngine engine = new AsyncEngine(isDebugging: false);
+
+        private bool isInitialized;
 
         public static void Inject(TreeComposer composer)
         {
             composer.Inject<RunPage>();
-        }
-
-        public void Dispose()
-        {
-            this.shouldTerminate = true;
         }
 
         protected override void OnInit()
@@ -57,7 +49,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
         {
             Actions.Action(composer, "back", EditorResources.Actions_Back, () =>
             {
-                this.shouldTerminate = true;
+                this.engine.Stop();
                 NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return Task.CompletedTask;
             });
@@ -68,54 +60,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
             if (!this.isInitialized)
             {
                 this.isInitialized = true;
-                await Task.Run(async () =>
-                {
-                    using (var libraries = new LibrariesCollection())
-                    {
-                        var engine = new SuperBasicEngine(CompilationStore.Compilation, libraries, isDebugging: false);
-
-                        void onTextInput(string text)
-                        {
-                            engine.InputReceived();
-                        }
-
-                        TextDisplayStore.TextInput += onTextInput;
-
-                        while (!this.shouldTerminate)
-                        {
-                            switch (engine.State)
-                            {
-                                case ExecutionState.Running:
-                                    TextDisplayStore.SetInputMode(AcceptedInputMode.None);
-                                    await engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
-                                    break;
-                                case ExecutionState.BlockedOnNumberInput:
-                                    TextDisplayStore.SetInputMode(AcceptedInputMode.Numbers);
-                                    break;
-                                case ExecutionState.BlockedOnStringInput:
-                                    TextDisplayStore.SetInputMode(AcceptedInputMode.Strings);
-                                    break;
-                                case ExecutionState.Paused:
-                                    TextDisplayStore.SetInputMode(AcceptedInputMode.None);
-                                    break;
-                                case ExecutionState.Terminated:
-                                    TextDisplayStore.SetInputMode(AcceptedInputMode.None);
-                                    await libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage).ConfigureAwait(false);
-                                    TextDisplayStore.TextInput -= onTextInput;
-                                    this.shouldTerminate = true;
-                                    break;
-                                default:
-                                    throw ExceptionUtilities.UnexpectedValue(engine.State);
-                            }
-
-                            // Libraries should not call this, so that we actually refresh the UI once every batch
-                            GraphicsDisplayStore.UpdateDisplay();
-
-                            // Important to prevent th UI from freezing
-                            await Task.Delay(1).ConfigureAwait(false);
-                        }
-                    }
-                }).ConfigureAwait(false);
+                await Task.Run(() => this.engine.Start()).ConfigureAwait(false);
             }
         }
     }

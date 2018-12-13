@@ -62,6 +62,14 @@ namespace SuperBasic.Editor.Store
             }
         }
 
+        public static void SetShapesComposer(Action<TreeComposer> composer)
+        {
+            if (!display.IsDefault())
+            {
+                display.ShapesLibraryComposer = composer;
+            }
+        }
+
         public static void UpdateDisplay()
         {
             if (!display.IsDefault())

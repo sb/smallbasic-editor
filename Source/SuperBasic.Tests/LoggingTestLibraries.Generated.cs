@@ -566,6 +566,11 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
+        public void SetPixel(decimal x, decimal y, string color)
+        {
+            this.log.AppendLine($"GraphicsWindow.SetPixel(x: '{x}', y: '{y}', color: '{color}')");
+        }
+
         public Task ShowMessage(string text, string title)
         {
             this.log.AppendLine($"GraphicsWindow.ShowMessage(text: '{text}', title: '{title}')");
@@ -881,11 +886,6 @@ namespace SuperBasic.Tests
         {
             this.log.AppendLine($"Shapes.AddTriangle(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}', x3: '{x3}', y3: '{y3}')");
             return string.Empty;
-        }
-
-        public void Animate(string shapeName, decimal x, decimal y, decimal duration)
-        {
-            this.log.AppendLine($"Shapes.Animate(shapeName: '{shapeName}', x: '{x}', y: '{y}', duration: '{duration}')");
         }
 
         public decimal GetLeft(string shapeName)

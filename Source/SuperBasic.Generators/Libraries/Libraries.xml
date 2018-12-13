@@ -431,7 +431,7 @@
       </Method>
       <Method Name="GetRandomColor" ReturnType="StringValue" />
       <Method Name="Hide" IsDeprecated="true" />
-      <Method Name="SetPixel" IsDeprecated="true">
+      <Method Name="SetPixel">
         <Parameters>
           <Parameter Name="x" Type="NumberValue" />
           <Parameter Name="y" Type="NumberValue" />
@@ -693,7 +693,7 @@
           <Parameter Name="y3" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Animate">
+      <Method Name="Animate" IsDeprecated="true">
         <Parameters>
           <Parameter Name="shapeName" Type="StringValue" />
           <Parameter Name="x" Type="NumberValue" />

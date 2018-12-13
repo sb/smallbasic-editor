@@ -6,20 +6,15 @@ namespace SuperBasic.Editor.Libraries
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Blazor;
-    using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Editor.Components;
-    using SuperBasic.Editor.Interop;
     using SuperBasic.Editor.Libraries.Controls;
     using SuperBasic.Editor.Libraries.Utilities;
     using SuperBasic.Editor.Store;
-    using SuperBasic.Utilities;
 
     internal sealed class ControlsLibrary : IControlsLibrary
     {
-        private readonly NamedCounter counters = new NamedCounter();
+        private readonly NamedCounter counter = new NamedCounter();
         private readonly Dictionary<string, BaseControl> controls = new Dictionary<string, BaseControl>();
 
         private string lastClickedButton = string.Empty;
@@ -36,21 +31,21 @@ namespace SuperBasic.Editor.Libraries
 
         public string AddButton(string caption, decimal left, decimal top)
         {
-            string name = this.counters.GetNext("Button");
+            string name = this.counter.GetNext("Button");
             this.controls.Add(name, new ButtonControl(name, caption, left, top, width: 80, height: 30));
             return name;
         }
 
         public string AddMultiLineTextBox(decimal left, decimal top)
         {
-            string name = this.counters.GetNext("TextBox");
+            string name = this.counter.GetNext("TextBox");
             this.controls.Add(name, new MultilineTextBoxControl(name, left, top, width: 200, height: 50));
             return name;
         }
 
         public string AddTextBox(decimal left, decimal top)
         {
-            string name = this.counters.GetNext("TextBox");
+            string name = this.counter.GetNext("TextBox");
             this.controls.Add(name, new TextBoxControl(name, left, top, width: 200, height: 20));
             return name;
         }

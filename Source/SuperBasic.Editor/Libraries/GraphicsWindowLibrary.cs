@@ -45,15 +45,6 @@ namespace SuperBasic.Editor.Libraries
         private decimal mouseX = 0;
         private decimal mouseY = 0;
 
-        private GraphicsWindowStyles styles = new GraphicsWindowStyles(
-            penWidth: 2,
-            penColor: PredefinedColors.GetHexColor("Black"),
-            brushColor: PredefinedColors.GetHexColor("SlateBlue"),
-            fontBold: false,
-            fontItalic: false,
-            fontName: "Roboto",
-            fontSize: 12);
-
         public GraphicsWindowLibrary(LibrariesCollection libraries)
         {
             this.libraries = libraries;
@@ -93,13 +84,14 @@ namespace SuperBasic.Editor.Libraries
             this.graphics.Clear();
             this.libraries.ClearControls();
             this.libraries.ClearShapes();
+            this.libraries.ClearTurtle();
         }
 
         public void DrawBoundText(decimal x, decimal y, decimal width, string text)
-            => this.graphics.Add(new TextGraphicsObject(x, y, text, width, this.styles));
+            => this.graphics.Add(new TextGraphicsObject(x, y, text, width, this.libraries.Styles));
 
         public void DrawEllipse(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
 
         public void DrawImage(string imageName, decimal x, decimal y)
         {
@@ -107,10 +99,10 @@ namespace SuperBasic.Editor.Libraries
         }
 
         public void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2)
-            => this.graphics.Add(new LineGraphicsObject(x1, y1, x2, y2, this.styles));
+            => this.graphics.Add(new LineGraphicsObject(x1, y1, x2, y2, this.libraries.Styles));
 
         public void DrawRectangle(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
 
         public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height)
         {
@@ -118,19 +110,41 @@ namespace SuperBasic.Editor.Libraries
         }
 
         public void DrawText(decimal x, decimal y, string text)
-            => this.graphics.Add(new TextGraphicsObject(x, y, text, width: default, this.styles));
+            => this.graphics.Add(new TextGraphicsObject(x, y, text, width: default, this.libraries.Styles));
 
         public void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
-            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
 
         public void FillEllipse(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.styles.With(penColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(penColor: PredefinedColors.TransparentHexColor)));
 
         public void FillRectangle(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.styles.With(penColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.libraries.Styles.With(penColor: PredefinedColors.TransparentHexColor)));
 
         public void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
-            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.styles.With(penColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.libraries.Styles.With(penColor: PredefinedColors.TransparentHexColor)));
+
+        public void SetPixel(decimal x, decimal y, string color)
+        {
+            color = color.Trim();
+            if (PredefinedColors.TryGetHexColor(color, out string hexColor))
+            {
+                color = hexColor;
+            }
+            else if (!HexColorRegex.IsMatch(color))
+            {
+                return;
+            }
+
+            this.graphics.Add(new LineGraphicsObject(x, y, x + 1, y, new GraphicsWindowStyles(
+                penWidth: 1,
+                penColor: color,
+                brushColor: PredefinedColors.TransparentHexColor,
+                fontBold: false,
+                fontItalic: false,
+                fontName: string.Empty,
+                fontSize: 0)));
+        }
 
         public string GetColorFromRGB(decimal red, decimal green, decimal blue) => string.Format(
             CultureInfo.CurrentCulture,
@@ -148,15 +162,15 @@ namespace SuperBasic.Editor.Libraries
 
         public string Get_BackgroundColor() => this.backgroundColor;
 
-        public string Get_BrushColor() => this.styles.BrushColor;
+        public string Get_BrushColor() => this.libraries.Styles.BrushColor;
 
-        public bool Get_FontBold() => this.styles.FontBold;
+        public bool Get_FontBold() => this.libraries.Styles.FontBold;
 
-        public bool Get_FontItalic() => this.styles.FontItalic;
+        public bool Get_FontItalic() => this.libraries.Styles.FontItalic;
 
-        public string Get_FontName() => this.styles.FontName;
+        public string Get_FontName() => this.libraries.Styles.FontName;
 
-        public decimal Get_FontSize() => this.styles.FontSize;
+        public decimal Get_FontSize() => this.libraries.Styles.FontSize;
 
         public Task<decimal> Get_Height() => JSInterop.Layout.GetElementHeight(GraphicsDisplayStore.RenderArea);
 
@@ -168,9 +182,9 @@ namespace SuperBasic.Editor.Libraries
 
         public decimal Get_MouseY() => this.mouseY;
 
-        public string Get_PenColor() => this.styles.PenColor;
+        public string Get_PenColor() => this.libraries.Styles.PenColor;
 
-        public decimal Get_PenWidth() => this.styles.PenWidth;
+        public decimal Get_PenWidth() => this.libraries.Styles.PenWidth;
 
         public Task<decimal> Get_Width() => JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
 
@@ -192,43 +206,43 @@ namespace SuperBasic.Editor.Libraries
             value = value.Trim();
             if (PredefinedColors.TryGetHexColor(value, out string hexColor))
             {
-                this.styles = this.styles.With(brushColor: hexColor);
+                this.libraries.Styles = this.libraries.Styles.With(brushColor: hexColor);
             }
             else if (HexColorRegex.IsMatch(value))
             {
-                this.styles = this.styles.With(brushColor: hexColor);
+                this.libraries.Styles = this.libraries.Styles.With(brushColor: hexColor);
             }
         }
 
-        public void Set_FontBold(bool value) => this.styles = this.styles.With(fontBold: value);
+        public void Set_FontBold(bool value) => this.libraries.Styles = this.libraries.Styles.With(fontBold: value);
 
-        public void Set_FontItalic(bool value) => this.styles = this.styles.With(fontItalic: value);
+        public void Set_FontItalic(bool value) => this.libraries.Styles = this.libraries.Styles.With(fontItalic: value);
 
         public void Set_FontName(string value)
         {
             string fontName = PredefinedFonts.SingleOrDefault(supported => string.Compare(supported, value.Trim(), StringComparison.CurrentCultureIgnoreCase) == 0);
             if (!fontName.IsDefault())
             {
-                this.styles = this.styles.With(fontName: fontName);
+                this.libraries.Styles = this.libraries.Styles.With(fontName: fontName);
             }
         }
 
-        public void Set_FontSize(decimal value) => this.styles = this.styles.With(fontSize: value);
+        public void Set_FontSize(decimal value) => this.libraries.Styles = this.libraries.Styles.With(fontSize: value);
 
         public void Set_PenColor(string value)
         {
             value = value.Trim();
             if (PredefinedColors.TryGetHexColor(value, out string hexColor))
             {
-                this.styles = this.styles.With(penColor: hexColor);
+                this.libraries.Styles = this.libraries.Styles.With(penColor: hexColor);
             }
             else if (HexColorRegex.IsMatch(value))
             {
-                this.styles = this.styles.With(penColor: hexColor);
+                this.libraries.Styles = this.libraries.Styles.With(penColor: hexColor);
             }
         }
 
-        public void Set_PenWidth(decimal value) => this.styles = this.styles.With(penWidth: value);
+        public void Set_PenWidth(decimal value) => this.libraries.Styles = this.libraries.Styles.With(penWidth: value);
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 

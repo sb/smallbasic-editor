@@ -12,12 +12,12 @@ namespace SuperBasic.Editor.Libraries.Graphics
     internal sealed class TextGraphicsObject : BaseGraphicsObject
     {
         public TextGraphicsObject(decimal x, decimal y, string text, decimal? width, GraphicsWindowStyles styles)
+            : base(styles)
         {
             this.X = x;
             this.Y = y;
             this.Text = text;
             this.Width = width;
-            this.Styles = styles;
         }
 
         public decimal X { get; set; }
@@ -27,8 +27,6 @@ namespace SuperBasic.Editor.Libraries.Graphics
         public string Text { get; set; }
 
         public decimal? Width { get; set; }
-
-        public GraphicsWindowStyles Styles { get; set; }
 
         public override void ComposeTree(TreeComposer composer)
         {

@@ -24,6 +24,8 @@ namespace SuperBasic.Editor.Components.Display
 
         public Action<TreeComposer> GraphicsLibraryComposer { get; set; }
 
+        public Action<TreeComposer> ShapesLibraryComposer { get; set; }
+
         public void Update()
         {
             this.StateHasChanged();
@@ -62,9 +64,15 @@ namespace SuperBasic.Editor.Components.Display
                         },
                         body: () =>
                         {
+                            // compose graphics first, since it sets the background
                             if (!this.GraphicsLibraryComposer.IsDefault())
                             {
                                 this.GraphicsLibraryComposer(composer);
+                            }
+
+                            if (!this.ShapesLibraryComposer.IsDefault())
+                            {
+                                this.ShapesLibraryComposer(composer);
                             }
                         });
 

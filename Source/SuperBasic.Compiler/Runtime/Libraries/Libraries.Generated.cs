@@ -2069,7 +2069,11 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'GraphicsWindow.SetPixel' is deprecated.");
+                        string color = engine.EvaluationStack.Pop().ToString();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.GraphicsWindow.SetPixel(x: x, y: y, color: color);
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("SetPixel", new Method(
@@ -2083,7 +2087,7 @@ namespace SuperBasic.Compiler.Runtime
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_y) },
                             { "color", new Parameter("color", LibrariesResources.GraphicsWindow_SetPixel_color) },
                         },
-                        isDeprecated: true,
+                        isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
@@ -3476,12 +3480,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        decimal duration = engine.EvaluationStack.Pop().ToNumber();
-                        decimal y = engine.EvaluationStack.Pop().ToNumber();
-                        decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        string shapeName = engine.EvaluationStack.Pop().ToString();
-                        engine.Libraries.Shapes.Animate(shapeName: shapeName, x: x, y: y, duration: duration);
-                        return Task.CompletedTask;
+                        throw new InvalidOperationException("Library method 'Shapes.Animate' is deprecated.");
                     }
 
                     methods.Add("Animate", new Method(
@@ -3496,7 +3495,7 @@ namespace SuperBasic.Compiler.Runtime
                             { "y", new Parameter("y", LibrariesResources.Shapes_Animate_y) },
                             { "duration", new Parameter("duration", LibrariesResources.Shapes_Animate_duration) },
                         },
-                        isDeprecated: false,
+                        isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
                 }

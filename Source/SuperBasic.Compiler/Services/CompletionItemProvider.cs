@@ -12,6 +12,7 @@ namespace SuperBasic.Compiler.Services
     using SuperBasic.Compiler.Scanning;
     using SuperBasic.Utilities;
 
+    // TODO-later: add variables as well
     internal static class CompletionItemProvider
     {
         public static MonacoCompletionItem[] Provide(Parser parser, TextPosition position)

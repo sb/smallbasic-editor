@@ -54,6 +54,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             Actions.Action(composer, "undo", EditorResources.Actions_Undo, onClick: JSInterop.Monaco.Undo);
             Actions.Action(composer, "redo", EditorResources.Actions_Redo, onClick: JSInterop.Monaco.Redo);
             Actions.Separator(composer);
+            // TODO-later: implement import/publish when service is available
             Actions.DisabledAction(composer, "import", EditorResources.Actions_Import, message: EditorResources.Actions_DisabledMessage_ComingSoon);
             Actions.DisabledAction(composer, "publish", EditorResources.Actions_Publish, message: EditorResources.Actions_DisabledMessage_ComingSoon);
         }

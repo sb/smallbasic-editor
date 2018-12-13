@@ -11,6 +11,7 @@ namespace SuperBasic.Editor.Libraries.Graphics
     internal sealed class TriangleGraphicsObject : BaseGraphicsObject
     {
         public TriangleGraphicsObject(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3, GraphicsWindowStyles styles)
+            : base(styles)
         {
             this.X1 = x1;
             this.Y1 = y1;
@@ -18,7 +19,6 @@ namespace SuperBasic.Editor.Libraries.Graphics
             this.Y2 = y2;
             this.X3 = x3;
             this.Y3 = y3;
-            this.Styles = styles;
         }
 
         public decimal X1 { get; set; }
@@ -32,8 +32,6 @@ namespace SuperBasic.Editor.Libraries.Graphics
         public decimal X3 { get; set; }
 
         public decimal Y3 { get; set; }
-
-        public GraphicsWindowStyles Styles { get; set; }
 
         public override void ComposeTree(TreeComposer composer)
         {

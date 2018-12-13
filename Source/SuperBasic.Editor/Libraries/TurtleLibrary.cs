@@ -95,5 +95,10 @@ namespace SuperBasic.Editor.Libraries
         {
             throw new NotImplementedException();
         }
+
+        internal void Clear()
+        {
+            // TODO-now clear
+        }
     }
 }

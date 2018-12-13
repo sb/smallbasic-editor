@@ -214,6 +214,8 @@ namespace SuperBasic.Compiler.Runtime
 
         string GetRandomColor();
 
+        void SetPixel(decimal x, decimal y, string color);
+
         Task ShowMessage(string text, string title);
     }
 
@@ -319,8 +321,6 @@ namespace SuperBasic.Compiler.Runtime
         string AddText(string text);
 
         string AddTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3);
-
-        void Animate(string shapeName, decimal x, decimal y, decimal duration);
 
         decimal GetLeft(string shapeName);
 
