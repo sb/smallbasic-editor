@@ -5,42 +5,68 @@
 namespace SuperBasic.Editor.Libraries
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
-
-    public interface IImageListPlugin
-    {
-        decimal GetHeightOfImage(string imageName);
-
-        decimal GetWidthOfImage(string imageName);
-
-        string LoadImageFromFile(string filePath);
-
-        string LoadImageFromUrl(string url);
-    }
+    using SuperBasic.Editor.Components;
+    using SuperBasic.Editor.Libraries.Utilities;
+    using SuperBasic.Utilities.Bridge;
 
     internal sealed class ImageListLibrary : IImageListLibrary
     {
-        private readonly IImageListPlugin plugin;
+        private readonly LibrariesCollection libraries;
+        private readonly NamedCounter counter = new NamedCounter();
+        private readonly Dictionary<string, ImageListBridgeModels.ImageData> images = new Dictionary<string, ImageListBridgeModels.ImageData>();
 
-        public ImageListLibrary(IImageListPlugin plugin)
+        public ImageListLibrary(LibrariesCollection libraries)
         {
-            this.plugin = plugin;
+            this.libraries = libraries;
         }
 
-        public decimal GetHeightOfImage(string imageName) => this.plugin.GetHeightOfImage(imageName);
-
-        public decimal GetWidthOfImage(string imageName) => this.plugin.GetWidthOfImage(imageName);
-
-        public string LoadImage(string fileNameOrUrl)
+        public decimal GetHeightOfImage(string imageName)
         {
-            if (new Uri(fileNameOrUrl).IsFile)
+            if (this.images.TryGetValue(imageName, out ImageListBridgeModels.ImageData image))
             {
-                return this.plugin.LoadImageFromFile(fileNameOrUrl);
+                return image.Height;
             }
-            else
+
+            return 0;
+        }
+
+        public decimal GetWidthOfImage(string imageName)
+        {
+            if (this.images.TryGetValue(imageName, out ImageListBridgeModels.ImageData image))
             {
-                return this.plugin.LoadImageFromUrl(fileNameOrUrl);
+                return image.Width;
             }
+
+            return 0;
+        }
+
+        public async Task<string> LoadImage(string fileNameOrUrl)
+        {
+            var name = this.counter.GetNext("ImageList");
+            var data = await Bridge.ImageList.LoadImage(fileNameOrUrl).ConfigureAwait(false);
+            this.images.Add(name, data);
+            return name;
+        }
+
+        internal void EmbedImages(TreeComposer composer)
+        {
+            composer.Element(name: "defs", body: () =>
+            {
+                foreach (var pair in this.images)
+                {
+                    composer.Element("image", attributes: new Dictionary<string, string>
+                    {
+                        { "id", pair.Key },
+                        { "width", pair.Value.Width.ToString(CultureInfo.CurrentCulture) },
+                        { "height", pair.Value.Height.ToString(CultureInfo.CurrentCulture) },
+                        { "href", $"data:image/image;base64,{pair.Value.Base64Contents}" }
+                    });
+                }
+            });
         }
     }
 }

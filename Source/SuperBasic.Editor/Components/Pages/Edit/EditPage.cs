@@ -44,8 +44,12 @@ namespace SuperBasic.Editor.Components.Pages.Edit
         protected override void ComposeLeftActions(TreeComposer composer)
         {
             Actions.Action(composer, "new", EditorResources.Actions_New, onClick: () => JSInterop.Monaco.ClearEditor(EditorResources.Actions_ClearEverythingConfirmation));
+            Actions.Separator(composer);
             Actions.Action(composer, "save", EditorResources.Actions_Save, onClick: JSInterop.Monaco.SaveToFile);
             Actions.Action(composer, "open", EditorResources.Actions_Open, onClick: () => JSInterop.Monaco.OpenFile(EditorResources.Actions_ClearEverythingConfirmation));
+            // TODO-later: implement import/publish when service is available
+            Actions.DisabledAction(composer, "import", EditorResources.Actions_Import, message: EditorResources.Actions_DisabledMessage_ComingSoon);
+            Actions.DisabledAction(composer, "publish", EditorResources.Actions_Publish, message: EditorResources.Actions_DisabledMessage_ComingSoon);
             Actions.Separator(composer);
             Actions.Action(composer, "cut", EditorResources.Actions_Cut, onClick: JSInterop.Monaco.Cut);
             Actions.Action(composer, "copy", EditorResources.Actions_Copy, onClick: JSInterop.Monaco.Copy);
@@ -53,10 +57,6 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             Actions.Separator(composer);
             Actions.Action(composer, "undo", EditorResources.Actions_Undo, onClick: JSInterop.Monaco.Undo);
             Actions.Action(composer, "redo", EditorResources.Actions_Redo, onClick: JSInterop.Monaco.Redo);
-            Actions.Separator(composer);
-            // TODO-later: implement import/publish when service is available
-            Actions.DisabledAction(composer, "import", EditorResources.Actions_Import, message: EditorResources.Actions_DisabledMessage_ComingSoon);
-            Actions.DisabledAction(composer, "publish", EditorResources.Actions_Publish, message: EditorResources.Actions_DisabledMessage_ComingSoon);
         }
 
         protected override void ComposeRightActions(TreeComposer composer)
@@ -87,18 +87,17 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             if (CompilationStore.Compilation.Diagnostics.Any())
             {
                 string message = string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count, CompilationStore.Compilation.Diagnostics.Count);
-                Actions.DisabledAction(composer, "run", EditorResources.Actions_Run, message: message);
                 Actions.DisabledAction(composer, "debug", EditorResources.Actions_Debug, message: message);
+                Actions.DisabledAction(composer, "run", EditorResources.Actions_Run, message: message);
             }
             else
             {
+                Actions.Action(composer, "debug", EditorResources.Actions_Debug, onClick: null);
                 Actions.Action(composer, "run", EditorResources.Actions_Run, onClick: () =>
                 {
                     NavigationStore.NagivateTo(NavigationStore.PageId.Run);
                     return Task.CompletedTask;
                 });
-
-                Actions.Action(composer, "debug", EditorResources.Actions_Debug, onClick: null);
             }
         }
     }

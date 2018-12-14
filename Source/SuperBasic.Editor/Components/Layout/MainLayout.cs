@@ -26,6 +26,7 @@ namespace SuperBasic.Editor.Components.Layout
 
         protected sealed override void ComposeTree(TreeComposer composer)
         {
+            // TODO-now: hide header when on desktop
             composer.Element("main-layout", body: () =>
             {
                 composer.Element("header-row", body: () =>

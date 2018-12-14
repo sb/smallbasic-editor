@@ -88,5 +88,13 @@ namespace SuperBasic.Editor
                 return JSRuntime.Current.InvokeAsync<FileBridgeModels.Result>("Bridge.File.WriteLine", args);
             }
         }
+
+        public static class ImageList
+        {
+            public static Task<ImageListBridgeModels.ImageData> LoadImage(string fileNameOrUrl)
+            {
+                return JSRuntime.Current.InvokeAsync<ImageListBridgeModels.ImageData>("Bridge.ImageList.LoadImage", fileNameOrUrl);
+            }
+        }
     }
 }

@@ -21,8 +21,6 @@ namespace SuperBasic.Editor.Libraries
         public ShapesLibrary(LibrariesCollection libraries)
         {
             this.libraries = libraries;
-
-            GraphicsDisplayStore.SetShapesComposer(this.ComposeTree);
         }
 
         public string AddEllipse(decimal width, decimal height)
@@ -34,8 +32,9 @@ namespace SuperBasic.Editor.Libraries
 
         public string AddImage(string imageName)
         {
-            // TODO-now: implement after implementing images
-            return string.Empty;
+            string name = this.counter.GetNext("Image");
+            this.shapes.Add(name, new ImageShape(imageName, this.libraries.Styles));
+            return name;
         }
 
         public string AddLine(decimal x1, decimal y1, decimal x2, decimal y2)
@@ -70,7 +69,7 @@ namespace SuperBasic.Editor.Libraries
         {
             if (this.shapes.TryGetValue(shapeName, out BaseShape shape))
             {
-                return shape.Left;
+                return shape.Left + shape.TranslateX;
             }
 
             return 0;
@@ -90,7 +89,7 @@ namespace SuperBasic.Editor.Libraries
         {
             if (this.shapes.TryGetValue(shapeName, out BaseShape shape))
             {
-                return shape.Top;
+                return shape.Top + shape.TranslateY;
             }
 
             return 0;
@@ -125,7 +124,7 @@ namespace SuperBasic.Editor.Libraries
         {
             if (this.shapes.TryGetValue(shapeName, out BaseShape shape))
             {
-                shape.Angle = angle;
+                shape.Angle = angle % 360;
             }
         }
 
@@ -167,7 +166,7 @@ namespace SuperBasic.Editor.Libraries
             this.shapes.Clear();
         }
 
-        private void ComposeTree(TreeComposer composer)
+        internal void ComposeTree(TreeComposer composer)
         {
             foreach (var shape in this.shapes.Values)
             {

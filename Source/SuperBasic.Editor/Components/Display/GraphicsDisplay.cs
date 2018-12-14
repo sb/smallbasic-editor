@@ -8,6 +8,7 @@ namespace SuperBasic.Editor.Components.Display
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Blazor;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Libraries;
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
 
@@ -20,11 +21,7 @@ namespace SuperBasic.Editor.Components.Display
 
         public ElementRef RenderArea { get; private set; }
 
-        public Action<TreeComposer> ControlsLibraryComposer { get; set; }
-
-        public Action<TreeComposer> GraphicsLibraryComposer { get; set; }
-
-        public Action<TreeComposer> ShapesLibraryComposer { get; set; }
+        public LibrariesCollection Libraries { get; set; }
 
         public void Update()
         {
@@ -64,21 +61,17 @@ namespace SuperBasic.Editor.Components.Display
                         },
                         body: () =>
                         {
-                            // compose graphics first, since it sets the background
-                            if (!this.GraphicsLibraryComposer.IsDefault())
+                            if (!this.Libraries.IsDefault())
                             {
-                                this.GraphicsLibraryComposer(composer);
-                            }
-
-                            if (!this.ShapesLibraryComposer.IsDefault())
-                            {
-                                this.ShapesLibraryComposer(composer);
+                                this.Libraries.ImageList.EmbedImages(composer);
+                                this.Libraries.GraphicsWindow.ComposeTree(composer);
+                                this.Libraries.Shapes.ComposeTree(composer);
                             }
                         });
 
-                    if (!this.ControlsLibraryComposer.IsDefault())
+                    if (!this.Libraries.IsDefault())
                     {
-                        this.ControlsLibraryComposer(composer);
+                        this.Libraries.Controls.ComposeTree(composer);
                     }
                 });
         }

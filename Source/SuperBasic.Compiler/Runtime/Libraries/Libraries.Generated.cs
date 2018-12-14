@@ -2485,12 +2485,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method ImageList.LoadImage:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string fileNameOrUrl = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.ImageList.LoadImage(fileNameOrUrl: fileNameOrUrl);
+                        string returnValue = await engine.Libraries.ImageList.LoadImage(fileNameOrUrl: fileNameOrUrl).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("LoadImage", new Method(
@@ -3204,8 +3203,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         decimal milliSeconds = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.Program.Delay(milliSeconds: milliSeconds);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Program.Delay(milliSeconds: milliSeconds);
                     }
 
                     methods.Add("Delay", new Method(

@@ -225,7 +225,7 @@ namespace SuperBasic.Compiler.Runtime
 
         decimal GetWidthOfImage(string imageName);
 
-        string LoadImage(string fileNameOrUrl);
+        Task<string> LoadImage(string fileNameOrUrl);
     }
 
     public interface IMathLibrary
@@ -301,7 +301,7 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface IProgramLibrary
     {
-        void Delay(decimal milliSeconds);
+        Task Delay(decimal milliSeconds);
 
         void End();
 

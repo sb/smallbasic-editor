@@ -7,30 +7,11 @@ namespace SuperBasic.Editor.Libraries
     using System;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Editor.Libraries.Utilities;
+    using SuperBasic.Editor.Store;
 
+    // TODO-now: review all obsolete libraries
     public sealed class LibrariesCollection : IEngineLibraries, IDisposable
     {
-        private readonly ArrayLibrary array;
-        private readonly ClockLibrary clock;
-        private readonly ControlsLibrary controls;
-        private readonly DesktopLibrary desktop;
-        private readonly DictionaryLibrary dictionary;
-        private readonly FileLibrary file;
-        private readonly FlickrLibrary flickr;
-        private readonly GraphicsWindowLibrary graphicsWindow;
-        private readonly ImageListLibrary imageList;
-        private readonly MathLibrary math;
-        private readonly MouseLibrary mouse;
-        private readonly NetworkLibrary network;
-        private readonly ProgramLibrary program;
-        private readonly ShapesLibrary shapes;
-        private readonly SoundLibrary sound;
-        private readonly StackLibrary stack;
-        private readonly TextLibrary text;
-        private readonly TextWindowLibrary textWindow;
-        private readonly TimerLibrary timer;
-        private readonly TurtleLibrary turtle;
-
         public LibrariesCollection()
         {
             this.Styles = new GraphicsWindowStyles(
@@ -42,81 +23,117 @@ namespace SuperBasic.Editor.Libraries
                 fontName: "Roboto",
                 fontSize: 12);
 
-            this.array = new ArrayLibrary();
-            this.clock = new ClockLibrary();
-            this.controls = new ControlsLibrary();
-            this.desktop = new DesktopLibrary();
-            this.dictionary = new DictionaryLibrary();
-            this.file = new FileLibrary();
-            this.flickr = new FlickrLibrary();
-            this.graphicsWindow = new GraphicsWindowLibrary(this);
-            this.imageList = new ImageListLibrary(null);
-            this.math = new MathLibrary();
-            this.mouse = new MouseLibrary();
-            this.network = new NetworkLibrary();
-            this.program = new ProgramLibrary();
-            this.shapes = new ShapesLibrary(this);
-            this.sound = new SoundLibrary();
-            this.stack = new StackLibrary();
-            this.text = new TextLibrary();
-            this.textWindow = new TextWindowLibrary();
-            this.timer = new TimerLibrary();
-            this.turtle = new TurtleLibrary();
+            this.Array = new ArrayLibrary();
+            this.Clock = new ClockLibrary();
+            this.Controls = new ControlsLibrary();
+            this.Desktop = new DesktopLibrary();
+            this.Dictionary = new DictionaryLibrary();
+            this.File = new FileLibrary();
+            this.Flickr = new FlickrLibrary();
+            this.GraphicsWindow = new GraphicsWindowLibrary(this);
+            this.ImageList = new ImageListLibrary(this);
+            this.Math = new MathLibrary();
+            this.Mouse = new MouseLibrary();
+            this.Network = new NetworkLibrary();
+            this.Program = new ProgramLibrary();
+            this.Shapes = new ShapesLibrary(this);
+            this.Sound = new SoundLibrary();
+            this.Stack = new StackLibrary();
+            this.Text = new TextLibrary();
+            this.TextWindow = new TextWindowLibrary();
+            this.Timer = new TimerLibrary();
+            this.Turtle = new TurtleLibrary();
+
+            GraphicsDisplayStore.SetLibraries(this);
         }
 
-        public IArrayLibrary Array => this.array;
+        IArrayLibrary IEngineLibraries.Array => this.Array;
 
-        public IClockLibrary Clock => this.clock;
+        IClockLibrary IEngineLibraries.Clock => this.Clock;
 
-        public IControlsLibrary Controls => this.controls;
+        IControlsLibrary IEngineLibraries.Controls => this.Controls;
 
-        public IDesktopLibrary Desktop => this.desktop;
+        IDesktopLibrary IEngineLibraries.Desktop => this.Desktop;
 
-        public IDictionaryLibrary Dictionary => this.dictionary;
+        IDictionaryLibrary IEngineLibraries.Dictionary => this.Dictionary;
 
-        public IFileLibrary File => this.file;
+        IFileLibrary IEngineLibraries.File => this.File;
 
-        public IFlickrLibrary Flickr => this.flickr;
+        IFlickrLibrary IEngineLibraries.Flickr => this.Flickr;
 
-        public IGraphicsWindowLibrary GraphicsWindow => this.graphicsWindow;
+        IGraphicsWindowLibrary IEngineLibraries.GraphicsWindow => this.GraphicsWindow;
 
-        public IImageListLibrary ImageList => this.imageList;
+        IImageListLibrary IEngineLibraries.ImageList => this.ImageList;
 
-        public IMathLibrary Math => this.math;
+        IMathLibrary IEngineLibraries.Math => this.Math;
 
-        public IMouseLibrary Mouse => this.mouse;
+        IMouseLibrary IEngineLibraries.Mouse => this.Mouse;
 
-        public INetworkLibrary Network => this.network;
+        INetworkLibrary IEngineLibraries.Network => this.Network;
 
-        public IProgramLibrary Program => this.program;
+        IProgramLibrary IEngineLibraries.Program => this.Program;
 
-        public IShapesLibrary Shapes => this.shapes;
+        IShapesLibrary IEngineLibraries.Shapes => this.Shapes;
 
-        public ISoundLibrary Sound => this.sound;
+        ISoundLibrary IEngineLibraries.Sound => this.Sound;
 
-        public IStackLibrary Stack => this.stack;
+        IStackLibrary IEngineLibraries.Stack => this.Stack;
 
-        public ITextLibrary Text => this.text;
+        ITextLibrary IEngineLibraries.Text => this.Text;
 
-        public ITextWindowLibrary TextWindow => this.textWindow;
+        ITextWindowLibrary IEngineLibraries.TextWindow => this.TextWindow;
 
-        public ITimerLibrary Timer => this.timer;
+        ITimerLibrary IEngineLibraries.Timer => this.Timer;
 
-        public ITurtleLibrary Turtle => this.turtle;
+        ITurtleLibrary IEngineLibraries.Turtle => this.Turtle;
 
         internal GraphicsWindowStyles Styles { get; set; }
 
+        internal ArrayLibrary Array { get; private set; }
+
+        internal ClockLibrary Clock { get; private set; }
+
+        internal ControlsLibrary Controls { get; private set; }
+
+        internal DesktopLibrary Desktop { get; private set; }
+
+        internal DictionaryLibrary Dictionary { get; private set; }
+
+        internal FileLibrary File { get; private set; }
+
+        internal FlickrLibrary Flickr { get; private set; }
+
+        internal GraphicsWindowLibrary GraphicsWindow { get; private set; }
+
+        internal ImageListLibrary ImageList { get; private set; }
+
+        internal MathLibrary Math { get; private set; }
+
+        internal MouseLibrary Mouse { get; private set; }
+
+        internal NetworkLibrary Network { get; private set; }
+
+        internal ProgramLibrary Program { get; private set; }
+
+        internal ShapesLibrary Shapes { get; private set; }
+
+        internal SoundLibrary Sound { get; private set; }
+
+        internal StackLibrary Stack { get; private set; }
+
+        internal TextLibrary Text { get; private set; }
+
+        internal TextWindowLibrary TextWindow { get; private set; }
+
+        internal TimerLibrary Timer { get; private set; }
+
+        internal TurtleLibrary Turtle { get; private set; }
+
         public void Dispose()
         {
-            this.graphicsWindow.Dispose();
-            this.textWindow.Dispose();
-            this.timer.Dispose();
+            this.GraphicsWindow.Dispose();
+            this.TextWindow.Dispose();
+            this.Timer.Dispose();
         }
-
-        internal void ClearShapes() => this.shapes.Clear();
-
-        internal void ClearControls() => this.controls.Clear();
-
-        internal void ClearTurtle() => this.turtle.Clear();
     }
 }

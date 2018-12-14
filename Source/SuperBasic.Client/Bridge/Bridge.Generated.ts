@@ -15,75 +15,82 @@ const bridgeBinaryPath = path.resolve(__dirname, "_bridge", "SuperBasic.Bridge.d
 
 (<any>global).Bridge = {
     Process: {
-        OpenExternalLink: (url: object): boolean => {
+        OpenExternalLink: async (url: object): Promise<boolean> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(url));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "Process", "OpenExternalLink", communicationFilePath]);
             return true;
         }
     },
     File: {
-        AppendContents: (args: object): object => {
+        AppendContents: async (args: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(args));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "AppendContents", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        CopyFile: (args: object): object => {
+        CopyFile: async (args: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(args));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "CopyFile", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        CreateDirectory: (directoryPath: object): object => {
+        CreateDirectory: async (directoryPath: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(directoryPath));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "CreateDirectory", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        DeleteDirectory: (directoryPath: object): object => {
+        DeleteDirectory: async (directoryPath: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(directoryPath));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "DeleteDirectory", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        DeleteFile: (filePath: object): object => {
+        DeleteFile: async (filePath: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(filePath));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "DeleteFile", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        GetDirectories: (directoryPath: object): object => {
+        GetDirectories: async (directoryPath: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(directoryPath));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "GetDirectories", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        GetFiles: (directoryPath: object): object => {
+        GetFiles: async (directoryPath: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(directoryPath));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "GetFiles", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        GetTemporaryFilePath: (): object => {
+        GetTemporaryFilePath: async (): Promise<object> => {
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "GetTemporaryFilePath", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        InsertLine: (args: object): object => {
+        InsertLine: async (args: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(args));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "InsertLine", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        ReadContents: (filePath: object): object => {
+        ReadContents: async (filePath: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(filePath));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "ReadContents", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        ReadLine: (args: object): object => {
+        ReadLine: async (args: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(args));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "ReadLine", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        WriteContents: (args: object): object => {
+        WriteContents: async (args: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(args));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "WriteContents", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         },
-        WriteLine: (args: object): object => {
+        WriteLine: async (args: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(args));
             child_process.execFileSync("dotnet", [bridgeBinaryPath, "File", "WriteLine", communicationFilePath]);
+            return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
+        }
+    },
+    ImageList: {
+        LoadImage: async (fileNameOrUrl: object): Promise<object> => {
+            fs.writeFileSync(communicationFilePath, JSON.stringify(fileNameOrUrl));
+            child_process.execFileSync("dotnet", [bridgeBinaryPath, "ImageList", "LoadImage", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         }
     }

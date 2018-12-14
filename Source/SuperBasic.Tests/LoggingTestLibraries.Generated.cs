@@ -599,10 +599,10 @@ namespace SuperBasic.Tests
             return 0m;
         }
 
-        public string LoadImage(string fileNameOrUrl)
+        public Task<string> LoadImage(string fileNameOrUrl)
         {
             this.log.AppendLine($"ImageList.LoadImage(fileNameOrUrl: '{fileNameOrUrl}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
     }
 
@@ -827,9 +827,10 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public void Delay(decimal milliSeconds)
+        public Task Delay(decimal milliSeconds)
         {
             this.log.AppendLine($"Program.Delay(milliSeconds: '{milliSeconds}')");
+            return Task.CompletedTask;
         }
 
         public void End()

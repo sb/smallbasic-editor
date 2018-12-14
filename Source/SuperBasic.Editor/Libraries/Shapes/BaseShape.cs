@@ -61,16 +61,12 @@ namespace SuperBasic.Editor.Libraries.Shapes
                 return;
             }
 
-            this.Angle %= 360;
-            string opacityValue = (this.Opacity / 100).ToString(CultureInfo.CurrentCulture);
-
             composer.Element(
                 name: "g",
                 attributes: new Dictionary<string, string>
                 {
                     { "transform", $"translate({this.TranslateX}, {this.TranslateY}) scale({this.ScaleX}, {this.ScaleY}) rotate({this.Angle})" },
-                    { "stroke-opacity", opacityValue },
-                    { "fill-opacity", opacityValue },
+                    { "opacity", (this.Opacity / 100).ToString(CultureInfo.CurrentCulture) },
                 },
                 styles: new Dictionary<string, string>
                 {

@@ -46,11 +46,18 @@ namespace SuperBasic.Bridge
         FileBridgeModels.Result WriteLine(FileBridgeModels.PathAndLineAndContentsArgs args);
     }
 
+    internal interface IImageListBridge
+    {
+        ImageListBridgeModels.ImageData LoadImage(string fileNameOrUrl);
+    }
+
     internal static class BridgeExecution
     {
         private static readonly IProcessBridge Process = new ProcessBridge();
 
         private static readonly IFileBridge File = new FileBridge();
+
+        private static readonly IImageListBridge ImageList = new ImageListBridge();
 
         public static void Run(string[] args)
         {
@@ -185,6 +192,27 @@ namespace SuperBasic.Bridge
                         {
                             FileBridgeModels.PathAndLineAndContentsArgs input = JsonConvert.DeserializeObject<FileBridgeModels.PathAndLineAndContentsArgs>(System.IO.File.ReadAllText(filePath));
                             FileBridgeModels.Result output = File.WriteLine(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        default:
+                        {
+                            throw ExceptionUtilities.UnexpectedValue(method);
+                        }
+                    }
+
+                    break;
+                }
+
+                case "ImageList":
+                {
+                    switch (method)
+                    {
+                        case "LoadImage":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            ImageListBridgeModels.ImageData output = ImageList.LoadImage(input);
                             System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
                             break;
                         }

@@ -22,7 +22,6 @@ namespace SuperBasic.Editor.Libraries
 
         public ControlsLibrary()
         {
-            GraphicsDisplayStore.SetControlsComposer(this.ComposeTree);
         }
 
         public event Action ButtonClicked;
@@ -167,7 +166,7 @@ namespace SuperBasic.Editor.Libraries
             this.controls.Clear();
         }
 
-        private void ComposeTree(TreeComposer composer)
+        internal void ComposeTree(TreeComposer composer)
         {
             foreach (var control in this.controls.Values)
             {

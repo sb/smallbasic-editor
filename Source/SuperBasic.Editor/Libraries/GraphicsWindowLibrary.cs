@@ -49,8 +49,6 @@ namespace SuperBasic.Editor.Libraries
         {
             this.libraries = libraries;
 
-            GraphicsDisplayStore.SetGraphicsComposer(this.ComposeTree);
-
             GraphicsDisplayStore.KeyDown += this.KeyDownCallback;
             GraphicsDisplayStore.KeyUp += this.KeyUpCallback;
             GraphicsDisplayStore.MouseUp += this.MouseUpCallback;
@@ -82,9 +80,9 @@ namespace SuperBasic.Editor.Libraries
         public void Clear()
         {
             this.graphics.Clear();
-            this.libraries.ClearControls();
-            this.libraries.ClearShapes();
-            this.libraries.ClearTurtle();
+            this.libraries.Controls.Clear();
+            this.libraries.Shapes.Clear();
+            this.libraries.Turtle.Clear();
         }
 
         public void DrawBoundText(decimal x, decimal y, decimal width, string text)
@@ -94,9 +92,7 @@ namespace SuperBasic.Editor.Libraries
             => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
 
         public void DrawImage(string imageName, decimal x, decimal y)
-        {
-            // TODO-now: implement after imagelist is implemented
-        }
+            => this.graphics.Add(new ImageGraphicsObject(x, y, scaleX: 1, scaleY: 1, imageName, this.libraries.Styles));
 
         public void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2)
             => this.graphics.Add(new LineGraphicsObject(x1, y1, x2, y2, this.libraries.Styles));
@@ -106,7 +102,14 @@ namespace SuperBasic.Editor.Libraries
 
         public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height)
         {
-            // TODO-now: implement after imagelist is implemented
+            if (width == 0 || height == 0)
+            {
+                return;
+            }
+
+            decimal scaleX = this.libraries.ImageList.GetWidthOfImage(imageName) / width;
+            decimal scaleY = this.libraries.ImageList.GetHeightOfImage(imageName) / height;
+            this.graphics.Add(new ImageGraphicsObject(x, y, scaleX, scaleY, imageName, this.libraries.Styles));
         }
 
         public void DrawText(decimal x, decimal y, string text)
@@ -246,6 +249,21 @@ namespace SuperBasic.Editor.Libraries
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 
+        internal void ComposeTree(TreeComposer composer)
+        {
+            composer.Element(name: "rect", attributes: new Dictionary<string, string>
+            {
+                { "width", "100%" },
+                { "height", "100%" },
+                { "fill", this.backgroundColor }
+            });
+
+            foreach (var graphics in this.graphics)
+            {
+                graphics.ComposeTree(composer);
+            }
+        }
+
         private void KeyDownCallback(string key)
         {
             this.lastKey = key;
@@ -283,21 +301,6 @@ namespace SuperBasic.Editor.Libraries
             this.mouseX = x;
             this.mouseY = y;
             this.MouseMove();
-        }
-
-        private void ComposeTree(TreeComposer composer)
-        {
-            composer.Element(name: "rect", attributes: new Dictionary<string, string>
-            {
-                { "width", "100%" },
-                { "height", "100%" },
-                { "fill", this.backgroundColor }
-            });
-
-            foreach (var graphics in this.graphics)
-            {
-                graphics.ComposeTree(composer);
-            }
         }
     }
 }

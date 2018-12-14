@@ -487,7 +487,7 @@
           <Parameter Name="imageName" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="LoadImage" ReturnType="StringValue" NeedsDesktop="true">
+      <Method Name="LoadImage" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="fileNameOrUrl" Type="StringValue" />
         </Parameters>
@@ -633,7 +633,7 @@
   </Library>
   <Library Name="Program" ExplorerIcon="laptop-code">
     <Methods>
-      <Method Name="Delay">
+      <Method Name="Delay" IsAsync="true">
         <Parameters>
           <Parameter Name="milliSeconds" Type="NumberValue" />
         </Parameters>

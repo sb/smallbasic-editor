@@ -38,7 +38,7 @@ namespace SuperBasic.Generators.Bridge
                     string parameter = method.InputType.IsDefault() ? string.Empty : $"{method.InputName.ToLowerFirstChar()}: object";
                     string outputType = method.OutputType.IsDefault() ? "boolean" : "object";
 
-                    this.Line($"{method.Name}: ({parameter}): {outputType} => {{");
+                    this.Line($"{method.Name}: async ({parameter}): Promise<{outputType}> => {{");
                     this.Indent();
 
                     if (method.InputType.IsDefault())

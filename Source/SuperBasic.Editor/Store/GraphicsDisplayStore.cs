@@ -8,6 +8,7 @@ namespace SuperBasic.Editor.Store
     using Microsoft.AspNetCore.Blazor;
     using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Components.Display;
+    using SuperBasic.Editor.Libraries;
     using SuperBasic.Utilities;
 
     internal delegate void KeyEventSignature(string key);
@@ -46,27 +47,11 @@ namespace SuperBasic.Editor.Store
             display = instance;
         }
 
-        public static void SetControlsComposer(Action<TreeComposer> composer)
+        public static void SetLibraries(LibrariesCollection libraries)
         {
             if (!display.IsDefault())
             {
-                display.ControlsLibraryComposer = composer;
-            }
-        }
-
-        public static void SetGraphicsComposer(Action<TreeComposer> composer)
-        {
-            if (!display.IsDefault())
-            {
-                display.GraphicsLibraryComposer = composer;
-            }
-        }
-
-        public static void SetShapesComposer(Action<TreeComposer> composer)
-        {
-            if (!display.IsDefault())
-            {
-                display.ShapesLibraryComposer = composer;
+                display.Libraries = libraries;
             }
         }
 

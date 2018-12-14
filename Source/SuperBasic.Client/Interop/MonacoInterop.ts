@@ -58,6 +58,7 @@ export class MonacoInterop implements IMonacoInterop {
 
     public async selectRange(range: monaco.IRange): Promise<void> {
         this.activeEditor!.setSelection(range);
+        this.activeEditor!.revealLineInCenter(range.startLineNumber);
     }
 
     public async saveToFile(): Promise<void> {
