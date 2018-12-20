@@ -26,11 +26,7 @@ namespace SuperBasic.Compiler
         private readonly Lazy<RuntimeAnalysis> lazyAnalysis;
 
         public SuperBasicCompilation(string text)
-#if IsBuildingForDesktop
-           : this(text, isRunningOnDesktop: true)
-#else
-           : this(text, isRunningOnDesktop: false)
-#endif
+           : this(text, SuperBasicEnv.IsBuildingForDesktop)
         {
         }
 

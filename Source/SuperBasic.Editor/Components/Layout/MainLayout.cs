@@ -9,6 +9,7 @@ namespace SuperBasic.Editor.Components.Layout
     using System.Threading.Tasks;
     using SuperBasic.Editor.Components.Toolbox;
     using SuperBasic.Editor.Interop;
+    using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
     public abstract class MainLayout : SuperBasicComponent
@@ -26,7 +27,6 @@ namespace SuperBasic.Editor.Components.Layout
 
         protected sealed override void ComposeTree(TreeComposer composer)
         {
-            // TODO-now: hide header when on desktop
             composer.Element("main-layout", body: () =>
             {
                 composer.Element("header-row", body: () =>
@@ -77,11 +77,14 @@ namespace SuperBasic.Editor.Components.Layout
 
         private static Task OpenExtrernalLink(string url)
         {
-#if IsBuildingForDesktop
-            return Bridge.Process.OpenExternalLink(url);
-#else
-            return JSInterop.Layout.OpenExternalLink(url);
-#endif
+            if (SuperBasicEnv.IsBuildingForDesktop)
+            {
+                return Bridge.Process.OpenExternalLink(url);
+            }
+            else
+            {
+                return JSInterop.Layout.OpenExternalLink(url);
+            }
         }
     }
 }

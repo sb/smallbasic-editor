@@ -63,6 +63,24 @@ namespace SuperBasic.Editor.Store
             }
         }
 
+        public static void Show()
+        {
+            if (!display.IsDefault())
+            {
+                display.IsVisible = true;
+                display.Update();
+            }
+        }
+
+        public static void Hide()
+        {
+            if (!display.IsDefault())
+            {
+                display.IsVisible = false;
+                display.Update();
+            }
+        }
+
         public static void NotifyKeyDown(string key)
         {
             if (!KeyDown.IsDefault())

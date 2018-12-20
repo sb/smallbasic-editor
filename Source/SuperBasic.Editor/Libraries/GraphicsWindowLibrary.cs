@@ -249,6 +249,10 @@ namespace SuperBasic.Editor.Libraries
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 
+        public void Hide() => GraphicsDisplayStore.Hide();
+
+        public void Show() => GraphicsDisplayStore.Show();
+
         internal void ComposeTree(TreeComposer composer)
         {
             composer.Element(name: "rect", attributes: new Dictionary<string, string>

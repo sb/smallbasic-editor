@@ -430,7 +430,7 @@
         </Parameters>
       </Method>
       <Method Name="GetRandomColor" ReturnType="StringValue" />
-      <Method Name="Hide" IsDeprecated="true" />
+      <Method Name="Hide" />
       <Method Name="SetPixel">
         <Parameters>
           <Parameter Name="x" Type="NumberValue" />
@@ -438,7 +438,7 @@
           <Parameter Name="color" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="Show" IsDeprecated="true" />
+      <Method Name="Show" />
       <Method Name="ShowMessage" IsAsync="true">
         <Parameters>
           <Parameter Name="text" Type="StringValue" />

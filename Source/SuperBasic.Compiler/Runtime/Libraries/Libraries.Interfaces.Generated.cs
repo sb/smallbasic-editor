@@ -214,7 +214,11 @@ namespace SuperBasic.Compiler.Runtime
 
         string GetRandomColor();
 
+        void Hide();
+
         void SetPixel(decimal x, decimal y, string color);
+
+        void Show();
 
         Task ShowMessage(string text, string title);
     }

@@ -7,16 +7,28 @@ namespace SuperBasic.Editor.Libraries
     using System;
     using System.Threading;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Utilities;
 
     internal sealed class TimerLibrary : ITimerLibrary, IDisposable
     {
+        private const int MaxInterval = 100000000;
+
         private readonly Timer timer;
+
         private int interval;
 
         public TimerLibrary()
         {
-            this.timer = new Timer((object state) => this.Tick());
-            this.interval = 100000000;
+            this.timer = new Timer((object state) =>
+            {
+                if (!this.Tick.IsDefault())
+                {
+                    this.Tick();
+                }
+            });
+
+            this.interval = MaxInterval;
+            this.Pause();
         }
 
         public event Action Tick;
@@ -25,7 +37,7 @@ namespace SuperBasic.Editor.Libraries
 
         public void Set_Interval(decimal value)
         {
-            this.interval = Math.Max(Math.Min((int)value, 1), 100000000);
+            this.interval = Math.Max(Math.Min((int)value, MaxInterval), 10);
             this.timer.Change(this.interval, this.interval);
         }
 

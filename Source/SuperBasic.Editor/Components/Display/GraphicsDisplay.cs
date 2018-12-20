@@ -16,6 +16,7 @@ namespace SuperBasic.Editor.Components.Display
     {
         public GraphicsDisplay()
         {
+            this.IsVisible = true;
             GraphicsDisplayStore.SetDisplay(this);
         }
 
@@ -23,10 +24,9 @@ namespace SuperBasic.Editor.Components.Display
 
         public LibrariesCollection Libraries { get; set; }
 
-        public void Update()
-        {
-            this.StateHasChanged();
-        }
+        public bool IsVisible { get; set; }
+
+        public void Update() => this.StateHasChanged();
 
         internal static void Inject(TreeComposer composer)
         {
@@ -35,6 +35,11 @@ namespace SuperBasic.Editor.Components.Display
 
         protected override void ComposeTree(TreeComposer composer)
         {
+            if (!this.IsVisible)
+            {
+                return;
+            }
+
             composer.Element(
                 name: "graphics-display",
                 attributes: new Dictionary<string, string>

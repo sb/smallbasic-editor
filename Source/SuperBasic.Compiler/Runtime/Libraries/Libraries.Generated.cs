@@ -2051,7 +2051,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'GraphicsWindow.Hide' is deprecated.");
+                        engine.Libraries.GraphicsWindow.Hide();
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("Hide", new Method(
@@ -2060,7 +2061,7 @@ namespace SuperBasic.Compiler.Runtime
                         returnsValue: false,
                         returnValueDescription: null,
                         parameters: new Dictionary<string, Parameter>(),
-                        isDeprecated: true,
+                        isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
@@ -2096,7 +2097,8 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'GraphicsWindow.Show' is deprecated.");
+                        engine.Libraries.GraphicsWindow.Show();
+                        return Task.CompletedTask;
                     }
 
                     methods.Add("Show", new Method(
@@ -2105,7 +2107,7 @@ namespace SuperBasic.Compiler.Runtime
                         returnsValue: false,
                         returnValueDescription: null,
                         parameters: new Dictionary<string, Parameter>(),
-                        isDeprecated: true,
+                        isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }

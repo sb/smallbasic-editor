@@ -566,9 +566,19 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
+        public void Hide()
+        {
+            this.log.AppendLine($"GraphicsWindow.Hide()");
+        }
+
         public void SetPixel(decimal x, decimal y, string color)
         {
             this.log.AppendLine($"GraphicsWindow.SetPixel(x: '{x}', y: '{y}', color: '{color}')");
+        }
+
+        public void Show()
+        {
+            this.log.AppendLine($"GraphicsWindow.Show()");
         }
 
         public Task ShowMessage(string text, string title)
