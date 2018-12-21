@@ -51,6 +51,19 @@ namespace SuperBasic.Editor.Store
             }
         }
 
+        public static TimeSpan NextAnimationTime
+        {
+            get
+            {
+                if (display.IsDefault())
+                {
+                    return default;
+                }
+
+                return display.NextAnimationTime;
+            }
+        }
+
         public static void SetDisplay(GraphicsDisplay instance)
         {
             display = instance;

@@ -6,6 +6,7 @@ namespace SuperBasic.Editor.Libraries
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Libraries.Shapes;
@@ -33,14 +34,16 @@ namespace SuperBasic.Editor.Libraries
         public string AddImage(string imageName)
         {
             string name = this.counter.GetNext("Image");
-            this.shapes.Add(name, new ImageShape(imageName, this.libraries.Styles));
+            decimal width = this.libraries.ImageList.GetWidthOfImage(imageName);
+            decimal height = this.libraries.ImageList.GetHeightOfImage(imageName);
+            this.shapes.Add(name, new ImageShape(imageName, width, height, this.libraries.Styles));
             return name;
         }
 
         public string AddLine(decimal x1, decimal y1, decimal x2, decimal y2)
         {
             string name = this.counter.GetNext("Line");
-            this.shapes.Add(name, new LineShape(x1, y2, x2, y2, this.libraries.Styles));
+            this.shapes.Add(name, new LineShape(x1, y1, x2, y2, this.libraries.Styles));
             return name;
         }
 
@@ -65,11 +68,21 @@ namespace SuperBasic.Editor.Libraries
             return name;
         }
 
+        public Task Animate(string shapeName, decimal x, decimal y, decimal duration)
+        {
+            if (this.shapes.TryGetValue(shapeName, out BaseShape shape))
+            {
+                return shape.AnimateTranslation(x, y, duration);
+            }
+
+            return Task.CompletedTask;
+        }
+
         public decimal GetLeft(string shapeName)
         {
             if (this.shapes.TryGetValue(shapeName, out BaseShape shape))
             {
-                return shape.Left + shape.TranslateX;
+                return shape.TranslateX;
             }
 
             return 0;
@@ -89,7 +102,7 @@ namespace SuperBasic.Editor.Libraries
         {
             if (this.shapes.TryGetValue(shapeName, out BaseShape shape))
             {
-                return shape.Top + shape.TranslateY;
+                return shape.TranslateY;
             }
 
             return 0;

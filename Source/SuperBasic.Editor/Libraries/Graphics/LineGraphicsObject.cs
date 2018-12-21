@@ -7,11 +7,15 @@ namespace SuperBasic.Editor.Libraries.Graphics
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
     using SuperBasic.Editor.Components;
     using SuperBasic.Editor.Libraries.Utilities;
+    using SuperBasic.Editor.Store;
 
     internal sealed class LineGraphicsObject : BaseGraphicsObject
     {
+        private (decimal x2, decimal y2, decimal duration, double start)? animation;
+
         public LineGraphicsObject(decimal x1, decimal y1, decimal x2, decimal y2, GraphicsWindowStyles styles)
             : base(styles)
         {
@@ -29,6 +33,16 @@ namespace SuperBasic.Editor.Libraries.Graphics
 
         public decimal Y2 { get; set; }
 
+        public async Task Animate(decimal x2, decimal y2, decimal duration)
+        {
+            this.animation = (x2, y2, duration, GraphicsDisplayStore.NextAnimationTime.TotalSeconds);
+            await Task.Delay((int)duration).ConfigureAwait(false);
+
+            this.X2 = x2;
+            this.Y2 = y2;
+            this.animation = default;
+        }
+
         public override void ComposeTree(TreeComposer composer)
         {
             composer.Element(
@@ -40,7 +54,27 @@ namespace SuperBasic.Editor.Libraries.Graphics
                 },
                 attributes: new Dictionary<string, string>
                 {
-                    { "points", $"{this.X1},{this.Y1} {this.X2},{this.Y2}" },
+                    { "points", this.animation.HasValue ? string.Empty : $"{this.X1},{this.Y1} {this.X2},{this.Y2}" },
+                },
+                body: () =>
+                {
+                    if (this.animation.HasValue)
+                    {
+                        (decimal x2, decimal y2, decimal duration, double start) = this.animation.Value;
+
+                        composer.Element(
+                            name: "animate",
+                            attributes: new Dictionary<string, string>
+                            {
+                                { "attributeName", "points" },
+                                { "from", $"{this.X1},{this.Y1} {this.X2},{this.Y2}" },
+                                { "to",  $"{this.X1},{this.Y1} {x2},{y2}" },
+                                { "begin", $"{start}s" },
+                                { "dur", $"{duration / 1000}s" },
+                                { "fill", "freeze" },
+                                { "additive", "sum" },
+                            });
+                    }
                 });
         }
     }

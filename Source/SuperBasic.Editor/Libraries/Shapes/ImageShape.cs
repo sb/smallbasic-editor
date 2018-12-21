@@ -10,13 +10,18 @@ namespace SuperBasic.Editor.Libraries.Shapes
 
     internal sealed class ImageShape : BaseShape<ImageGraphicsObject>
     {
-        public ImageShape(string imageName, GraphicsWindowStyles styles)
+        private readonly decimal width;
+        private readonly decimal height;
+
+        public ImageShape(string imageName, decimal width, decimal height, GraphicsWindowStyles styles)
             : base(new ImageGraphicsObject(x: 0, y: 0, scaleX: 1, scaleY: 1, imageName, styles))
         {
+            this.width = width;
+            this.height = height;
         }
 
-        public override decimal Left => this.Graphics.X;
+        public override decimal Height => this.height;
 
-        public override decimal Top => this.Graphics.Y;
+        public override decimal Width => this.width;
     }
 }

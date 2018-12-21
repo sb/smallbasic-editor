@@ -693,7 +693,7 @@
           <Parameter Name="y3" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="Animate" IsDeprecated="true">
+      <Method Name="Animate" IsAsync="true">
         <Parameters>
           <Parameter Name="shapeName" Type="StringValue" />
           <Parameter Name="x" Type="NumberValue" />
@@ -940,12 +940,12 @@
   <Library Name="Turtle" ExplorerIcon="pen-alt" UsesGraphicsWindow="true">
     <Methods>
       <Method Name="Hide" />
-      <Method Name="Move">
+      <Method Name="Move" IsAsync="true">
         <Parameters>
           <Parameter Name="distance" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="MoveTo">
+      <Method Name="MoveTo" IsAsync="true">
         <Parameters>
           <Parameter Name="x" Type="NumberValue" />
           <Parameter Name="y" Type="NumberValue" />
@@ -954,13 +954,13 @@
       <Method Name="PenDown" />
       <Method Name="PenUp" />
       <Method Name="Show" />
-      <Method Name="Turn">
+      <Method Name="Turn" IsAsync="true">
         <Parameters>
           <Parameter Name="angle" Type="NumberValue" />
         </Parameters>
       </Method>
-      <Method Name="TurnLeft" />
-      <Method Name="TurnRight" />
+      <Method Name="TurnLeft" IsAsync="true" />
+      <Method Name="TurnRight" IsAsync="true" />
     </Methods>
     <Properties>
       <Property Name="Angle" HasGetter="true" HasSetter="true" Type="NumberValue" />

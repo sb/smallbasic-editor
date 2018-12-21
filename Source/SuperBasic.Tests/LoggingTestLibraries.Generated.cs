@@ -889,6 +889,12 @@ namespace SuperBasic.Tests
             return string.Empty;
         }
 
+        public Task Animate(string shapeName, decimal x, decimal y, decimal duration)
+        {
+            this.log.AppendLine($"Shapes.Animate(shapeName: '{shapeName}', x: '{x}', y: '{y}', duration: '{duration}')");
+            return Task.CompletedTask;
+        }
+
         public decimal GetLeft(string shapeName)
         {
             this.log.AppendLine($"Shapes.GetLeft(shapeName: '{shapeName}')");
@@ -1219,14 +1225,16 @@ namespace SuperBasic.Tests
             this.log.AppendLine($"Turtle.Hide()");
         }
 
-        public void Move(decimal distance)
+        public Task Move(decimal distance)
         {
             this.log.AppendLine($"Turtle.Move(distance: '{distance}')");
+            return Task.CompletedTask;
         }
 
-        public void MoveTo(decimal x, decimal y)
+        public Task MoveTo(decimal x, decimal y)
         {
             this.log.AppendLine($"Turtle.MoveTo(x: '{x}', y: '{y}')");
+            return Task.CompletedTask;
         }
 
         public void PenDown()
@@ -1244,19 +1252,22 @@ namespace SuperBasic.Tests
             this.log.AppendLine($"Turtle.Show()");
         }
 
-        public void Turn(decimal angle)
+        public Task Turn(decimal angle)
         {
             this.log.AppendLine($"Turtle.Turn(angle: '{angle}')");
+            return Task.CompletedTask;
         }
 
-        public void TurnLeft()
+        public Task TurnLeft()
         {
             this.log.AppendLine($"Turtle.TurnLeft()");
+            return Task.CompletedTask;
         }
 
-        public void TurnRight()
+        public Task TurnRight()
         {
             this.log.AppendLine($"Turtle.TurnRight()");
+            return Task.CompletedTask;
         }
     }
 

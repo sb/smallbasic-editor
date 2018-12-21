@@ -7,6 +7,7 @@ import * as path from "path";
 import * as webpack from "webpack";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
+import * as CopyWebpackPlugin from "copy-webpack-plugin";
 
 interface IEnvArguments {
     readonly watch: "True" | null;
@@ -124,7 +125,10 @@ export default function (env: IEnvArguments): webpack.Configuration[] {
                     favicon: path.join(__dirname, "Images", "favicon.ico"),
                     showErrors: true,
                     inject: false
-                })
+                }),
+                new CopyWebpackPlugin([
+                    { from: "Images/Turtle.svg" }
+                ])
             ]
         })
     ];

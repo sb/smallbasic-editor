@@ -25,6 +25,7 @@
 
     <DisabledWarnings Include="SA1005" Comment="Single line comment must begin with a space (tests assertions)." />
     <DisabledWarnings Include="SA1008" Comment="Opening parenthesis must be spaced correctly (has a bug with tuples)." />
+    <DisabledWarnings Include="SA1009" Comment="Closing parenthesis must be spaced correctly (has a bug with tuples)." />
     <DisabledWarnings Include="SA1114" Comment="Parameter list must follow declaration (tests assertions)." />
     <DisabledWarnings Include="SA1115" Comment="The parameter must begin on the line after the previous parameter (tests assertions)." />
     <DisabledWarnings Include="SA1116" Comment="Split parameters must start on line after declaration (tests assertions)." />

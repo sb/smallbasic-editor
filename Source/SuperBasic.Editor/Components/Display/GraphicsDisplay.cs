@@ -14,12 +14,16 @@ namespace SuperBasic.Editor.Components.Display
 
     public sealed class GraphicsDisplay : SuperBasicComponent
     {
+        private readonly DateTime animationStartTime = DateTime.Now;
+
         public GraphicsDisplay()
         {
             this.IsVisible = true;
             this.IsMouseVisible = true;
             GraphicsDisplayStore.SetDisplay(this);
         }
+
+        public TimeSpan NextAnimationTime => DateTime.Now - this.animationStartTime;
 
         public ElementRef RenderArea { get; private set; }
 
@@ -78,6 +82,7 @@ namespace SuperBasic.Editor.Components.Display
                                 this.Libraries.ImageList.EmbedImages(composer);
                                 this.Libraries.GraphicsWindow.ComposeTree(composer);
                                 this.Libraries.Shapes.ComposeTree(composer);
+                                this.Libraries.Turtle.ComposeTree(composer);
                             }
                         });
 

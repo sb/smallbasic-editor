@@ -9,7 +9,6 @@ namespace SuperBasic.Editor.Libraries
     using SuperBasic.Editor.Libraries.Utilities;
     using SuperBasic.Editor.Store;
 
-    // TODO-now: review all obsolete libraries
     public sealed class LibrariesCollection : IEngineLibraries, IDisposable
     {
         public LibrariesCollection()
@@ -42,7 +41,7 @@ namespace SuperBasic.Editor.Libraries
             this.Text = new TextLibrary();
             this.TextWindow = new TextWindowLibrary();
             this.Timer = new TimerLibrary();
-            this.Turtle = new TurtleLibrary();
+            this.Turtle = new TurtleLibrary(this);
 
             GraphicsDisplayStore.SetLibraries(this);
         }

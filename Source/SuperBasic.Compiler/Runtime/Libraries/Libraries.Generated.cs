@@ -3464,7 +3464,11 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library method 'Shapes.Animate' is deprecated.");
+                        decimal duration = engine.EvaluationStack.Pop().ToNumber();
+                        decimal y = engine.EvaluationStack.Pop().ToNumber();
+                        decimal x = engine.EvaluationStack.Pop().ToNumber();
+                        string shapeName = engine.EvaluationStack.Pop().ToString();
+                        return engine.Libraries.Shapes.Animate(shapeName: shapeName, x: x, y: y, duration: duration);
                     }
 
                     methods.Add("Animate", new Method(
@@ -3479,7 +3483,7 @@ namespace SuperBasic.Compiler.Runtime
                             { "y", new Parameter("y", LibrariesResources.Shapes_Animate_y) },
                             { "duration", new Parameter("duration", LibrariesResources.Shapes_Animate_duration) },
                         },
-                        isDeprecated: true,
+                        isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
@@ -4836,8 +4840,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         decimal distance = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.Turtle.Move(distance: distance);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Turtle.Move(distance: distance);
                     }
 
                     methods.Add("Move", new Method(
@@ -4860,8 +4863,7 @@ namespace SuperBasic.Compiler.Runtime
                     {
                         decimal y = engine.EvaluationStack.Pop().ToNumber();
                         decimal x = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.Turtle.MoveTo(x: x, y: y);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Turtle.MoveTo(x: x, y: y);
                     }
 
                     methods.Add("MoveTo", new Method(
@@ -4941,8 +4943,7 @@ namespace SuperBasic.Compiler.Runtime
                     Task execute(SuperBasicEngine engine)
                     {
                         decimal angle = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.Turtle.Turn(angle: angle);
-                        return Task.CompletedTask;
+                        return engine.Libraries.Turtle.Turn(angle: angle);
                     }
 
                     methods.Add("Turn", new Method(
@@ -4963,8 +4964,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        engine.Libraries.Turtle.TurnLeft();
-                        return Task.CompletedTask;
+                        return engine.Libraries.Turtle.TurnLeft();
                     }
 
                     methods.Add("TurnLeft", new Method(
@@ -4982,8 +4982,7 @@ namespace SuperBasic.Compiler.Runtime
                 {
                     Task execute(SuperBasicEngine engine)
                     {
-                        engine.Libraries.Turtle.TurnRight();
-                        return Task.CompletedTask;
+                        return engine.Libraries.Turtle.TurnRight();
                     }
 
                     methods.Add("TurnRight", new Method(

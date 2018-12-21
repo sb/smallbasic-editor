@@ -7,6 +7,7 @@ namespace SuperBasic.Editor.Libraries.Shapes
     using SuperBasic.Editor.Libraries.Graphics;
     using SuperBasic.Editor.Libraries.Utilities;
 
+    // TODO-later: now to calculate height and width from pen size?
     internal sealed class TextShape : BaseShape<TextGraphicsObject>
     {
         public TextShape(string text, GraphicsWindowStyles styles)
@@ -14,8 +15,8 @@ namespace SuperBasic.Editor.Libraries.Shapes
         {
         }
 
-        public override decimal Left => this.Graphics.X;
+        public override decimal Height => 20;
 
-        public override decimal Top => this.Graphics.Y;
+        public override decimal Width => this.Graphics.Width ?? 200;
     }
 }

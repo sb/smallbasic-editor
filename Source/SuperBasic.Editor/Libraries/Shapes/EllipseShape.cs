@@ -14,8 +14,8 @@ namespace SuperBasic.Editor.Libraries.Shapes
         {
         }
 
-        public override decimal Left => this.Graphics.X;
+        public override decimal Height => this.Graphics.Height;
 
-        public override decimal Top => this.Graphics.Y;
+        public override decimal Width => this.Graphics.Width;
     }
 }

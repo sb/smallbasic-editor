@@ -15,8 +15,8 @@ namespace SuperBasic.Editor.Libraries.Shapes
         {
         }
 
-        public override decimal Left => Math.Min(this.Graphics.X1, this.Graphics.X2);
+        public override decimal Height => Math.Abs(this.Graphics.Y1 - this.Graphics.Y2);
 
-        public override decimal Top => Math.Min(this.Graphics.Y1, this.Graphics.Y2);
+        public override decimal Width => Math.Abs(this.Graphics.X1 - this.Graphics.X2);
     }
 }

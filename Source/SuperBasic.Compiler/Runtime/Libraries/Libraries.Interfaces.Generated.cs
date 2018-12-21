@@ -322,6 +322,8 @@ namespace SuperBasic.Compiler.Runtime
 
         string AddTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3);
 
+        Task Animate(string shapeName, decimal x, decimal y, decimal duration);
+
         decimal GetLeft(string shapeName);
 
         decimal GetOpacity(string shapeName);
@@ -439,9 +441,9 @@ namespace SuperBasic.Compiler.Runtime
 
         void Hide();
 
-        void Move(decimal distance);
+        Task Move(decimal distance);
 
-        void MoveTo(decimal x, decimal y);
+        Task MoveTo(decimal x, decimal y);
 
         void PenDown();
 
@@ -449,11 +451,11 @@ namespace SuperBasic.Compiler.Runtime
 
         void Show();
 
-        void Turn(decimal angle);
+        Task Turn(decimal angle);
 
-        void TurnLeft();
+        Task TurnLeft();
 
-        void TurnRight();
+        Task TurnRight();
     }
 
     public interface IEngineLibraries
