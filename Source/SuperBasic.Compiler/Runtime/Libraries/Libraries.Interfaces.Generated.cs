@@ -294,9 +294,9 @@ namespace SuperBasic.Compiler.Runtime
 
     public interface INetworkLibrary
     {
-        string DownloadFile(string url);
+        Task<string> DownloadFile(string url);
 
-        string GetWebPageContents(string url);
+        Task<string> GetWebPageContents(string url);
     }
 
     public interface IProgramLibrary

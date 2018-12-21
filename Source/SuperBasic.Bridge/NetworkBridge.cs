@@ -1,4 +1,4 @@
-﻿//<copyright file = "ImageListBridge.cs" company="2018 Omar Tawfik">
+﻿//<copyright file = "NetworkBridge.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
@@ -10,7 +10,7 @@ namespace SuperBasic.Bridge
     using System.Net;
     using SuperBasic.Utilities.Bridge;
 
-    internal class ImageListBridge : IImageListBridge
+    internal class NetworkBridge : INetworkBridge
     {
         public ImageListBridgeModels.ImageData LoadImage(string fileNameOrUrl)
         {
@@ -24,6 +24,38 @@ namespace SuperBasic.Bridge
                 {
                     return CreateImage(() => client.DownloadData(fileNameOrUrl));
                 }
+            }
+        }
+
+        public string DownloadFile(string url)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    string path = Path.GetTempFileName();
+                    File.WriteAllText(path, client.DownloadString(url));
+                    return path;
+                }
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        public string GetWebPageContents(string url)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    return client.DownloadString(url);
+                }
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
 

@@ -22,9 +22,11 @@
       <Method Name="WriteLine" InputType="FileBridgeModels.PathAndLineAndContentsArgs" InputName="args" OutputType="FileBridgeModels.Result" />
     </Methods>
   </BridgeType>
-  <BridgeType Name="ImageList">
+  <BridgeType Name="Network">
     <Methods>
       <Method Name="LoadImage" InputType="string" InputName="fileNameOrUrl" OutputType="ImageListBridgeModels.ImageData" />
+      <Method Name="DownloadFile" InputType="string" InputName="url" OutputType="string" />
+      <Method Name="GetWebPageContents" InputType="string" InputName="url" OutputType="string" />
     </Methods>
   </BridgeType>
 </root>

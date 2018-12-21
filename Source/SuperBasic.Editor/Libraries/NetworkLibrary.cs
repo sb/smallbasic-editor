@@ -4,19 +4,15 @@
 
 namespace SuperBasic.Editor.Libraries
 {
-    using System;
+    using System.Threading.Tasks;
     using SuperBasic.Compiler.Runtime;
 
     internal sealed class NetworkLibrary : INetworkLibrary
     {
-        public string DownloadFile(string url)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<string> DownloadFile(string url)
+            => Bridge.Network.DownloadFile(url);
 
-        public string GetWebPageContents(string url)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<string> GetWebPageContents(string url)
+            => Bridge.Network.GetWebPageContents(url);
     }
 }

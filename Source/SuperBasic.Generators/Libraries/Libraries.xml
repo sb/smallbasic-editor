@@ -619,12 +619,12 @@
   </Library>
   <Library Name="Network" ExplorerIcon="network-wired">
     <Methods>
-      <Method Name="DownloadFile" ReturnType="StringValue">
+      <Method Name="DownloadFile" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="url" Type="StringValue" />
         </Parameters>
       </Method>
-      <Method Name="GetWebPageContents" ReturnType="StringValue">
+      <Method Name="GetWebPageContents" ReturnType="StringValue" NeedsDesktop="true" IsAsync="true">
         <Parameters>
           <Parameter Name="url" Type="StringValue" />
         </Parameters>

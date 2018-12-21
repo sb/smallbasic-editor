@@ -89,11 +89,21 @@ namespace SuperBasic.Editor
             }
         }
 
-        public static class ImageList
+        public static class Network
         {
             public static Task<ImageListBridgeModels.ImageData> LoadImage(string fileNameOrUrl)
             {
-                return JSRuntime.Current.InvokeAsync<ImageListBridgeModels.ImageData>("Bridge.ImageList.LoadImage", fileNameOrUrl);
+                return JSRuntime.Current.InvokeAsync<ImageListBridgeModels.ImageData>("Bridge.Network.LoadImage", fileNameOrUrl);
+            }
+
+            public static Task<string> DownloadFile(string url)
+            {
+                return JSRuntime.Current.InvokeAsync<string>("Bridge.Network.DownloadFile", url);
+            }
+
+            public static Task<string> GetWebPageContents(string url)
+            {
+                return JSRuntime.Current.InvokeAsync<string>("Bridge.Network.GetWebPageContents", url);
             }
         }
     }

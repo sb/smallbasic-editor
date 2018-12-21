@@ -25,6 +25,8 @@
   </ItemGroup>
 
   <Target Name="CopyElectronFiles" AfterTargets="Build" Condition="'$(IsBuildingForDesktop)' == 'True'">
+    <MSBuild Projects="$(RootDirectory)\Source\SuperBasic.Bridge\SuperBasic.Bridge.csproj"/>  
+
     <PropertyGroup>
       <DistFolder>$([System.IO.Path]::GetFullPath($(OutputPath)\dist))</DistFolder>
     </PropertyGroup>
@@ -34,6 +36,7 @@
       <ElectronDependencies Include="wwwroot\**\*.*" />
       <ElectronDependencies Include="$(RootDirectory)\Source\SuperBasic.Client\package.json" />
       <ElectronDependencies Include="$(RootDirectory)\Source\SuperBasic.Client\node_modules*\**\*.*" />
+      <ElectronDependencies Remove="$(RootDirectory)\Source\SuperBasic.Client\node_modules*\.cache\**\*.*" />
     </ItemGroup>
 
     <Copy SourceFiles="@(BridgeFiles)" DestinationFiles="@(BridgeFiles->'$(DistFolder)\_bridge\%(RecursiveDir)%(Filename)%(Extension)')" />

@@ -77,14 +77,11 @@ namespace SuperBasic.Editor.Components.Layout
 
         private static Task OpenExtrernalLink(string url)
         {
-            if (SuperBasicEnv.IsBuildingForDesktop)
-            {
-                return Bridge.Process.OpenExternalLink(url);
-            }
-            else
-            {
-                return JSInterop.Layout.OpenExternalLink(url);
-            }
+#if IsBuildingForDesktop
+            return Bridge.Process.OpenExternalLink(url);
+#else
+            return JSInterop.Layout.OpenExternalLink(url);
+#endif
         }
     }
 }

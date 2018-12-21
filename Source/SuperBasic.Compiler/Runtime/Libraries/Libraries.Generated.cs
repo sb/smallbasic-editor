@@ -3129,12 +3129,11 @@ namespace SuperBasic.Compiler.Runtime
 
                 // Initialization code for method Network.DownloadFile:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string url = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.Network.DownloadFile(url: url);
+                        string returnValue = await engine.Libraries.Network.DownloadFile(url: url).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("DownloadFile", new Method(
@@ -3147,18 +3146,17 @@ namespace SuperBasic.Compiler.Runtime
                             { "url", new Parameter("url", LibrariesResources.Network_DownloadFile_url) },
                         },
                         isDeprecated: false,
-                        needsDesktop: false,
+                        needsDesktop: true,
                         execute: execute));
                 }
 
                 // Initialization code for method Network.GetWebPageContents:
                 {
-                    Task execute(SuperBasicEngine engine)
+                    async Task execute(SuperBasicEngine engine)
                     {
                         string url = engine.EvaluationStack.Pop().ToString();
-                        string returnValue = engine.Libraries.Network.GetWebPageContents(url: url);
+                        string returnValue = await engine.Libraries.Network.GetWebPageContents(url: url).ConfigureAwait(false);
                         engine.EvaluationStack.Push(StringValue.Create(returnValue));
-                        return Task.CompletedTask;
                     }
 
                     methods.Add("GetWebPageContents", new Method(
@@ -3171,7 +3169,7 @@ namespace SuperBasic.Compiler.Runtime
                             { "url", new Parameter("url", LibrariesResources.Network_GetWebPageContents_url) },
                         },
                         isDeprecated: false,
-                        needsDesktop: false,
+                        needsDesktop: true,
                         execute: execute));
                 }
 

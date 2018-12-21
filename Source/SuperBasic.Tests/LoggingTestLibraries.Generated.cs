@@ -805,16 +805,16 @@ namespace SuperBasic.Tests
             this.log = log;
         }
 
-        public string DownloadFile(string url)
+        public Task<string> DownloadFile(string url)
         {
             this.log.AppendLine($"Network.DownloadFile(url: '{url}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
 
-        public string GetWebPageContents(string url)
+        public Task<string> GetWebPageContents(string url)
         {
             this.log.AppendLine($"Network.GetWebPageContents(url: '{url}')");
-            return string.Empty;
+            return Task.FromResult(string.Empty);
         }
     }
 

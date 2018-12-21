@@ -46,9 +46,13 @@ namespace SuperBasic.Bridge
         FileBridgeModels.Result WriteLine(FileBridgeModels.PathAndLineAndContentsArgs args);
     }
 
-    internal interface IImageListBridge
+    internal interface INetworkBridge
     {
         ImageListBridgeModels.ImageData LoadImage(string fileNameOrUrl);
+
+        string DownloadFile(string url);
+
+        string GetWebPageContents(string url);
     }
 
     internal static class BridgeExecution
@@ -57,7 +61,7 @@ namespace SuperBasic.Bridge
 
         private static readonly IFileBridge File = new FileBridge();
 
-        private static readonly IImageListBridge ImageList = new ImageListBridge();
+        private static readonly INetworkBridge Network = new NetworkBridge();
 
         public static void Run(string[] args)
         {
@@ -205,14 +209,30 @@ namespace SuperBasic.Bridge
                     break;
                 }
 
-                case "ImageList":
+                case "Network":
                 {
                     switch (method)
                     {
                         case "LoadImage":
                         {
                             string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
-                            ImageListBridgeModels.ImageData output = ImageList.LoadImage(input);
+                            ImageListBridgeModels.ImageData output = Network.LoadImage(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "DownloadFile":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            string output = Network.DownloadFile(input);
+                            System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
+                            break;
+                        }
+
+                        case "GetWebPageContents":
+                        {
+                            string input = JsonConvert.DeserializeObject<string>(System.IO.File.ReadAllText(filePath));
+                            string output = Network.GetWebPageContents(input);
                             System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(output));
                             break;
                         }

@@ -87,10 +87,20 @@ const bridgeBinaryPath = path.resolve(__dirname, "_bridge", "SuperBasic.Bridge.d
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         }
     },
-    ImageList: {
+    Network: {
         LoadImage: async (fileNameOrUrl: object): Promise<object> => {
             fs.writeFileSync(communicationFilePath, JSON.stringify(fileNameOrUrl));
-            child_process.execFileSync("dotnet", [bridgeBinaryPath, "ImageList", "LoadImage", communicationFilePath]);
+            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Network", "LoadImage", communicationFilePath]);
+            return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
+        },
+        DownloadFile: async (url: object): Promise<object> => {
+            fs.writeFileSync(communicationFilePath, JSON.stringify(url));
+            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Network", "DownloadFile", communicationFilePath]);
+            return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
+        },
+        GetWebPageContents: async (url: object): Promise<object> => {
+            fs.writeFileSync(communicationFilePath, JSON.stringify(url));
+            child_process.execFileSync("dotnet", [bridgeBinaryPath, "Network", "GetWebPageContents", communicationFilePath]);
             return JSON.parse(fs.readFileSync(communicationFilePath, "utf8"));
         }
     }

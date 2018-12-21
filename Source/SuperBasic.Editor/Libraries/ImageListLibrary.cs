@@ -47,7 +47,7 @@ namespace SuperBasic.Editor.Libraries
         public async Task<string> LoadImage(string fileNameOrUrl)
         {
             var name = this.counter.GetNext("ImageList");
-            var data = await Bridge.ImageList.LoadImage(fileNameOrUrl).ConfigureAwait(false);
+            var data = await Bridge.Network.LoadImage(fileNameOrUrl).ConfigureAwait(false);
             this.images.Add(name, data);
             return name;
         }
