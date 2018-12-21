@@ -613,8 +613,8 @@
     <Properties>
       <Property Name="IsLeftButtonDown" HasGetter="true" HasSetter="false" Type="BooleanValue" />
       <Property Name="IsRightButtonDown" HasGetter="true" HasSetter="false" Type="BooleanValue" />
-      <Property Name="MouseX" HasGetter="true" HasSetter="true" Type="NumberValue" />
-      <Property Name="MouseY" HasGetter="true" HasSetter="true" Type="NumberValue" />
+      <Property Name="MouseX" HasGetter="true" HasSetter="false" Type="NumberValue" />
+      <Property Name="MouseY" HasGetter="true" HasSetter="false" Type="NumberValue" />
     </Properties>
   </Library>
   <Library Name="Network" ExplorerIcon="network-wired">

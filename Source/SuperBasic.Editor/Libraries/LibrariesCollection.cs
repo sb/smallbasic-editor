@@ -33,7 +33,7 @@ namespace SuperBasic.Editor.Libraries
             this.GraphicsWindow = new GraphicsWindowLibrary(this);
             this.ImageList = new ImageListLibrary(this);
             this.Math = new MathLibrary();
-            this.Mouse = new MouseLibrary();
+            this.Mouse = new MouseLibrary(this);
             this.Network = new NetworkLibrary();
             this.Program = new ProgramLibrary();
             this.Shapes = new ShapesLibrary(this);
@@ -133,6 +133,7 @@ namespace SuperBasic.Editor.Libraries
         {
             this.GraphicsWindow.Dispose();
             this.TextWindow.Dispose();
+            this.Mouse.Dispose();
             this.Timer.Dispose();
         }
     }

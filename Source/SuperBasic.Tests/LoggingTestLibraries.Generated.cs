@@ -779,20 +779,10 @@ namespace SuperBasic.Tests
             return 0m;
         }
 
-        public void Set_MouseX(decimal value)
-        {
-            this.log.AppendLine($"Mouse.Set_MouseX('{value}')");
-        }
-
         public decimal Get_MouseY()
         {
             this.log.AppendLine($"Mouse.Get_MouseY()");
             return 0m;
-        }
-
-        public void Set_MouseY(decimal value)
-        {
-            this.log.AppendLine($"Mouse.Set_MouseY('{value}')");
         }
 
         public void HideCursor()

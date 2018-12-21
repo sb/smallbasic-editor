@@ -3103,14 +3103,7 @@ namespace SuperBasic.Compiler.Runtime
                         return Task.CompletedTask;
                     }
 
-                    Task setter(SuperBasicEngine engine)
-                    {
-                        decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.Mouse.Set_MouseX(value);
-                        return Task.CompletedTask;
-                    }
-
-                    properties.Add("MouseX", new Property("MouseX", LibrariesResources.Mouse_MouseX, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
+                    properties.Add("MouseX", new Property("MouseX", LibrariesResources.Mouse_MouseX, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
                 // Initialization code for property Mouse.MouseY:
@@ -3122,14 +3115,7 @@ namespace SuperBasic.Compiler.Runtime
                         return Task.CompletedTask;
                     }
 
-                    Task setter(SuperBasicEngine engine)
-                    {
-                        decimal value = engine.EvaluationStack.Pop().ToNumber();
-                        engine.Libraries.Mouse.Set_MouseY(value);
-                        return Task.CompletedTask;
-                    }
-
-                    properties.Add("MouseY", new Property("MouseY", LibrariesResources.Mouse_MouseY, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
+                    properties.Add("MouseY", new Property("MouseY", LibrariesResources.Mouse_MouseY, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
                 var events = new Dictionary<string, Event>();

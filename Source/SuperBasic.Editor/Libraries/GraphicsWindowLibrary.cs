@@ -249,9 +249,9 @@ namespace SuperBasic.Editor.Libraries
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 
-        public void Hide() => GraphicsDisplayStore.Hide();
+        public void Hide() => GraphicsDisplayStore.SetVisibility(false);
 
-        public void Show() => GraphicsDisplayStore.Show();
+        public void Show() => GraphicsDisplayStore.SetVisibility(true);
 
         internal void ComposeTree(TreeComposer composer)
         {
@@ -286,14 +286,14 @@ namespace SuperBasic.Editor.Libraries
             this.KeyUp();
         }
 
-        private void MouseDownCallback(decimal x, decimal y)
+        private void MouseDownCallback(decimal x, decimal y, MouseButton button)
         {
             this.mouseX = x;
             this.mouseY = y;
             this.MouseDown();
         }
 
-        private void MouseUpCallback(decimal x, decimal y)
+        private void MouseUpCallback(decimal x, decimal y, MouseButton button)
         {
             this.mouseX = x;
             this.mouseY = y;

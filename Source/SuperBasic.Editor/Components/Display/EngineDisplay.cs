@@ -4,6 +4,7 @@
 
 namespace SuperBasic.Editor.Components.Display
 {
+    using System.Collections.Generic;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Store;
 
@@ -16,18 +17,25 @@ namespace SuperBasic.Editor.Components.Display
 
         protected override void ComposeTree(TreeComposer composer)
         {
-            composer.Element("engine-display", body: () =>
-            {
-                if (CompilationStore.Compilation.Analysis.UsesTextWindow)
+            composer.Element(
+                name: "engine-display",
+                attributes: new Dictionary<string, string>
                 {
-                    TextDisplay.Inject(composer);
-                }
+                    // Important to prevent the right-click menu
+                    { "oncontextmenu", "return false;" }
+                },
+                body: () =>
+                {
+                    if (CompilationStore.Compilation.Analysis.UsesTextWindow)
+                    {
+                        TextDisplay.Inject(composer);
+                    }
 
-                if (CompilationStore.Compilation.Analysis.UsesGraphicsWindow)
-                {
-                    GraphicsDisplay.Inject(composer);
-                }
-            });
+                    if (CompilationStore.Compilation.Analysis.UsesGraphicsWindow)
+                    {
+                        GraphicsDisplay.Inject(composer);
+                    }
+                });
         }
     }
 }

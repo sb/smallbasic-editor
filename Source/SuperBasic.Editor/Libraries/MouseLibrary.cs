@@ -4,48 +4,68 @@
 
 namespace SuperBasic.Editor.Libraries
 {
+    using System;
     using SuperBasic.Compiler.Runtime;
+    using SuperBasic.Editor.Store;
 
-    internal sealed class MouseLibrary : IMouseLibrary
+    internal sealed class MouseLibrary : IMouseLibrary, IDisposable
     {
-        public bool Get_IsLeftButtonDown()
+        private readonly LibrariesCollection libraries;
+
+        private bool isLeftButtonDown;
+        private bool isRightButtonDown;
+
+        public MouseLibrary(LibrariesCollection libraries)
         {
-            throw new System.NotImplementedException();
+            this.libraries = libraries;
+            this.isLeftButtonDown = false;
+            this.isRightButtonDown = false;
+            GraphicsDisplayStore.MouseUp += this.MouseUpCallback;
+            GraphicsDisplayStore.MouseDown += this.MouseDownCallback;
         }
 
-        public bool Get_IsRightButtonDown()
+        public void Dispose()
         {
-            throw new System.NotImplementedException();
+            GraphicsDisplayStore.MouseUp -= this.MouseUpCallback;
+            GraphicsDisplayStore.MouseDown -= this.MouseDownCallback;
         }
 
-        public decimal Get_MouseX()
+        public bool Get_IsLeftButtonDown() => this.isLeftButtonDown;
+
+        public bool Get_IsRightButtonDown() => this.isRightButtonDown;
+
+        public decimal Get_MouseX() => this.libraries.GraphicsWindow.Get_MouseX();
+
+        public decimal Get_MouseY() => this.libraries.GraphicsWindow.Get_MouseY();
+
+        public void HideCursor() => GraphicsDisplayStore.SetMouseVisibility(false);
+
+        public void ShowCursor() => GraphicsDisplayStore.SetMouseVisibility(true);
+
+        private void MouseDownCallback(decimal x, decimal y, MouseButton button)
         {
-            throw new System.NotImplementedException();
+            switch (button)
+            {
+                case MouseButton.Left:
+                    this.isLeftButtonDown = true;
+                    break;
+                case MouseButton.Right:
+                    this.isRightButtonDown = true;
+                    break;
+            }
         }
 
-        public decimal Get_MouseY()
+        private void MouseUpCallback(decimal x, decimal y, MouseButton button)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void HideCursor()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Set_MouseX(decimal value)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Set_MouseY(decimal value)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void ShowCursor()
-        {
-            throw new System.NotImplementedException();
+            switch (button)
+            {
+                case MouseButton.Left:
+                    this.isLeftButtonDown = false;
+                    break;
+                case MouseButton.Right:
+                    this.isRightButtonDown = false;
+                    break;
+            }
         }
     }
 }

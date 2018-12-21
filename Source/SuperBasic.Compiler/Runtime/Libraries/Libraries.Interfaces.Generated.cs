@@ -285,11 +285,7 @@ namespace SuperBasic.Compiler.Runtime
 
         decimal Get_MouseX();
 
-        void Set_MouseX(decimal value);
-
         decimal Get_MouseY();
-
-        void Set_MouseY(decimal value);
 
         void HideCursor();
 

@@ -17,6 +17,7 @@ namespace SuperBasic.Editor.Components.Display
         public GraphicsDisplay()
         {
             this.IsVisible = true;
+            this.IsMouseVisible = true;
             GraphicsDisplayStore.SetDisplay(this);
         }
 
@@ -25,6 +26,8 @@ namespace SuperBasic.Editor.Components.Display
         public LibrariesCollection Libraries { get; set; }
 
         public bool IsVisible { get; set; }
+
+        public bool IsMouseVisible { get; set; }
 
         public void Update() => this.StateHasChanged();
 
@@ -46,6 +49,10 @@ namespace SuperBasic.Editor.Components.Display
                 {
                     { "tabindex", "0" }, // required to receive focus
                 },
+                styles: new Dictionary<string, string>
+                {
+                    { "cursor", this.IsMouseVisible ? "initial" : "none" }
+                },
                 body: () =>
                 {
                     composer.Element(
@@ -58,8 +65,8 @@ namespace SuperBasic.Editor.Components.Display
                         },
                         events: new TreeComposer.Events
                         {
-                            OnMouseDown = args => GraphicsDisplayStore.NotifyMouseDown(args.ClientX, args.ClientY),
-                            OnMouseUp = args => GraphicsDisplayStore.NotifyMouseUp(args.ClientX, args.ClientY),
+                            OnMouseDown = args => GraphicsDisplayStore.NotifyMouseDown(args.ClientX, args.ClientY, GetMouseButton(args.Button)),
+                            OnMouseUp = args => GraphicsDisplayStore.NotifyMouseUp(args.ClientX, args.ClientY, GetMouseButton(args.Button)),
                             OnMouseMove = args => GraphicsDisplayStore.NotifyMouseMove(args.ClientX, args.ClientY),
                             OnKeyDown = args => GraphicsDisplayStore.NotifyKeyDown(args.Key),
                             OnKeyUp = args => GraphicsDisplayStore.NotifyKeyUp(args.Key),
@@ -79,6 +86,17 @@ namespace SuperBasic.Editor.Components.Display
                         this.Libraries.Controls.ComposeTree(composer);
                     }
                 });
+        }
+
+        private static MouseButton GetMouseButton(long buttonNumber)
+        {
+            switch (buttonNumber)
+            {
+                case 0: return MouseButton.Left;
+                case 1: return MouseButton.Middle;
+                case 2: return MouseButton.Right;
+                default: throw ExceptionUtilities.UnexpectedValue(buttonNumber);
+            }
         }
     }
 }
