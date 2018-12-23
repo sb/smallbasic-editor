@@ -23,7 +23,7 @@ namespace SuperBasic.Compiler.Binding
         {
             this.diagnostics = diagnostics;
             this.isRunningOnDesktop = isRunningOnDesktop;
-            this.definedSubModules = new SubModuleNamesCollector(this.diagnostics, syntaxTree).Names;
+            this.definedSubModules = new SubModuleNamesCollector(syntaxTree).Names;
 
             var mainModule = new List<BaseBoundStatement>();
             var subModules = new Dictionary<string, BoundSubModule>();

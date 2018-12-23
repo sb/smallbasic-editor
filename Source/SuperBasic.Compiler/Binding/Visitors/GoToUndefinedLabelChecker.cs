@@ -8,7 +8,7 @@ namespace SuperBasic.Compiler.Binding
     using System.Linq;
     using SuperBasic.Compiler.Diagnostics;
 
-    internal class GoToUndefinedLabelChecker : BaseBoundNodeVisitor
+    internal sealed class GoToUndefinedLabelChecker : BaseBoundNodeVisitor
     {
         private readonly DiagnosticBag diagnostics;
         private readonly IReadOnlyCollection<string> labels = new HashSet<string>();

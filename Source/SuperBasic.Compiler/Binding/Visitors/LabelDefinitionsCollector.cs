@@ -9,7 +9,7 @@ namespace SuperBasic.Compiler.Binding
     using SuperBasic.Compiler.Parsing;
     using SuperBasic.Utilities;
 
-    internal class LabelDefinitionsCollector : BaseBoundNodeVisitor
+    internal sealed class LabelDefinitionsCollector : BaseBoundNodeVisitor
     {
         private readonly DiagnosticBag diagnostics;
         private readonly HashSet<string> labels = new HashSet<string>();

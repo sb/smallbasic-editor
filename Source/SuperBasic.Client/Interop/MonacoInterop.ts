@@ -22,10 +22,12 @@ export class MonacoInterop implements IMonacoInterop {
             value: initialValue,
             language: "sb",
             scrollBeyondLastLine: false,
+            autoIndent: true,
             readOnly: isReadOnly,
             fontFamily: "Consolas, monospace, Hack",
             fontSize: 18,
             glyphMargin: true,
+            theme: "super-basic",
             minimap: {
                 enabled: false
             }

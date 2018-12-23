@@ -8,19 +8,33 @@ namespace SuperBasic.Compiler.Services
 
     public enum MonacoCompletionItemKind
     {
-        Class = 4, /* monaco.lanaguages.CompletionItemKind.Variable */
         Method = 1, /* monaco.lanaguages.CompletionItemKind.Function */
-        Property = 9, /* monaco.lanaguages.CompletionItemKind.Property */
+        Class = 4, /* monaco.lanaguages.CompletionItemKind.Variable */
         Event = 7, /* monaco.lanaguages.CompletionItemKind.Interface */
+        Property = 9, /* monaco.lanaguages.CompletionItemKind.Property */
+        Snippet = 12, /* monaco.lanaguages.CompletionItemKind.Unit */
+        Variable = 13, /* monaco.lanaguages.CompletionItemKind.Value */
+    }
+
+    public class MonacoCompletionItemText
+    {
+        public MonacoCompletionItemText(string value)
+        {
+            this.value = value;
+        }
+
+#pragma warning disable SA1300 // Element must begin with upper-case letter
+        public string value { get; set; }
+#pragma warning restore SA1300 // Element must begin with upper-case letter
     }
 
     public class MonacoCompletionItem
     {
-        public MonacoCompletionItem(MonacoCompletionItemKind kind, string name, string description)
+        public MonacoCompletionItem(MonacoCompletionItemKind kind, string label, string description, string insertText = default)
         {
             this.kind = kind;
-            this.label = name;
-            this.insertText = name;
+            this.label = label;
+            this.insertText = new MonacoCompletionItemText(insertText ?? label);
             this.detail = description;
         }
 
@@ -29,7 +43,7 @@ namespace SuperBasic.Compiler.Services
 
         public string label { get; set; }
 
-        public string insertText { get; set; }
+        public MonacoCompletionItemText insertText { get; set; }
 
         public string detail { get; set; }
 #pragma warning restore SA1300 // Element must begin with upper-case letter

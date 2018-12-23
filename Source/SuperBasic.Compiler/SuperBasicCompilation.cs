@@ -58,7 +58,7 @@ namespace SuperBasic.Compiler
 
         internal IReadOnlyDictionary<string, BoundSubModule> SubModules => this.binder.SubModules;
 
-        public MonacoCompletionItem[] ProvideCompletionItems(TextPosition position) => CompletionItemProvider.Provide(this.parser, position);
+        public MonacoCompletionItem[] ProvideCompletionItems(TextPosition position) => CompletionItemProvider.Provide(this.parser, this.binder, position);
 
         public string[] ProvideHover(TextPosition position) => HoverProvider.Provide(this.diagnostics, this.parser, position);
     }

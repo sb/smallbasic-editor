@@ -7,14 +7,12 @@ namespace SuperBasic.Compiler.Parsing
     using System.Collections.Generic;
     using SuperBasic.Compiler.Diagnostics;
 
-    internal class SubModuleNamesCollector : BaseSyntaxNodeVisitor
+    internal sealed class SubModuleNamesCollector : BaseSyntaxNodeVisitor
     {
-        private readonly DiagnosticBag diagnostics;
         private readonly HashSet<string> names = new HashSet<string>();
 
-        public SubModuleNamesCollector(DiagnosticBag diagnostics, StatementBlockSyntax syntaxTree)
+        public SubModuleNamesCollector(StatementBlockSyntax syntaxTree)
         {
-            this.diagnostics = diagnostics;
             this.Visit(syntaxTree);
         }
 

@@ -47,3 +47,21 @@ monaco.languages.registerHoverProvider("sb", {
         });
     }
 });
+
+monaco.languages.setLanguageConfiguration("sb", {
+    indentationRules: {
+        increaseIndentPattern: /^\s*(If|ElseIf|Else|While|For|Sub)/i,
+        decreaseIndentPattern: /(ElseIf|Else|EndIf|EndWhile|EndFor|EndSub)\s*$/i
+    }
+});
+
+// Reference: https://github.com/Microsoft/monaco-editor/blob/master/test/playground.generated/customizing-the-appearence-exposed-colors.html
+monaco.editor.defineTheme("super-basic", {
+    base: "vs",
+    inherit: true,
+    rules: [],
+    colors: {
+        "editorWidget.background": "#E7E8EA",
+        "editorWidget.border": "#656A72"
+    }
+});
