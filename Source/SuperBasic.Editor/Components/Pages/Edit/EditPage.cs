@@ -61,11 +61,11 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
         protected override void ComposeRightActions(TreeComposer composer)
         {
-            ExeuctionActions.Inject(composer);
+            EditPageExeuctionActions.Inject(composer);
         }
     }
 
-    public sealed class ExeuctionActions : SuperBasicComponent, IDisposable
+    public sealed class EditPageExeuctionActions : SuperBasicComponent, IDisposable
     {
         public void Dispose()
         {
@@ -74,7 +74,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
         internal static void Inject(TreeComposer composer)
         {
-            composer.Inject<ExeuctionActions>();
+            composer.Inject<EditPageExeuctionActions>();
         }
 
         protected override void OnInit()
@@ -92,7 +92,12 @@ namespace SuperBasic.Editor.Components.Pages.Edit
             }
             else
             {
-                Actions.Action(composer, "debug", EditorResources.Actions_Debug, onClick: null);
+                Actions.Action(composer, "debug", EditorResources.Actions_Debug, onClick: () =>
+                {
+                    NavigationStore.NagivateTo(NavigationStore.PageId.Debug);
+                    return Task.CompletedTask;
+                });
+
                 Actions.Action(composer, "run", EditorResources.Actions_Run, onClick: () =>
                 {
                     NavigationStore.NagivateTo(NavigationStore.PageId.Run);

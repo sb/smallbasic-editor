@@ -111,7 +111,7 @@ namespace SuperBasic.Editor.Components.Display
                             {
                                 composer.Element("cursor", body: () =>
                                 {
-                                    composer.Text("&#x2588;");
+                                    composer.Markup("&#x2588;");
                                 });
                             });
                         }

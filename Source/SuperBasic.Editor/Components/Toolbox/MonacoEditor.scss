@@ -19,5 +19,9 @@
             margin-left: 24px;
             @include set-background-image("SideBars/Error.svg", 20px, 20px);
         }
+
+        .debugger-line-highlight {
+            background: #FEF849;
+        }
     }
 }

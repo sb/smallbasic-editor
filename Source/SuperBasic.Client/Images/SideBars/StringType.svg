@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 87</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="17" height="17" rx="2"></rect>
+        <filter x="-20.6%" y="-14.7%" width="141.2%" height="141.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.137254902   0 0 0 0 0.145098039   0 0 0 0 0.156862745  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-87" transform="translate(2.000000, 1.000000)">
+            <g id="Rectangle-Copy-33" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <rect stroke="#232528" stroke-width="0.5" stroke-linejoin="square" fill="#0AADF9" fill-rule="evenodd" x="0.25" y="0.25" width="16.5" height="16.5" rx="2"></rect>
+            </g>
+            <text id="“st”" font-family="Roboto-Regular, Roboto" font-size="9" font-weight="normal" line-spacing="9" letter-spacing="-0.600000024" fill="#232528">
+                <tspan x="1.5" y="12">“</tspan>
+                <tspan x="6.13198826" y="12.1363678" font-family="MavenPro-Medium, Maven Pro" font-weight="400">st</tspan>
+                <tspan x="11.7406406" y="12">”</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

@@ -39,7 +39,7 @@ namespace SuperBasic.Tests
             while (engine.State != ExecutionState.Terminated)
             {
                 engine.State.Should().Be(ExecutionState.Running, "loggers cannot move to another state");
-                await engine.Execute(pauseAtNextStatement: false).ConfigureAwait(false);
+                await engine.Execute().ConfigureAwait(false);
             }
 
             DebuggerSnapshot snapshot = engine.GetSnapshot();

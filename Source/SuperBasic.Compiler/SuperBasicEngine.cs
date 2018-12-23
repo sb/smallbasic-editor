@@ -12,6 +12,13 @@ namespace SuperBasic.Compiler
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Utilities;
 
+    public enum ExecutionMode
+    {
+        RunToEnd,
+        Debug,
+        NextLine
+    }
+
     public enum ExecutionState
     {
         Running,
@@ -23,22 +30,19 @@ namespace SuperBasic.Compiler
 
     public sealed class SuperBasicEngine
     {
-        private readonly bool isDebugging;
         private readonly SuperBasicCompilation compilation;
         private readonly Dictionary<(string library, string eventName), string> eventCallbacks;
 
-        private int currentSourceLine;
-
-        public SuperBasicEngine(SuperBasicCompilation compilation, IEngineLibraries libraries, bool isDebugging = false)
+        public SuperBasicEngine(SuperBasicCompilation compilation, IEngineLibraries libraries)
         {
             Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
 
-            this.isDebugging = isDebugging;
             this.compilation = compilation;
             this.eventCallbacks = new Dictionary<(string library, string eventName), string>();
 
-            this.currentSourceLine = 0;
+            this.CurrentSourceLine = 0;
 
+            this.Mode = ExecutionMode.RunToEnd;
             this.State = ExecutionState.Running;
             this.ExecutionStack = new LinkedList<Frame>();
             this.EvaluationStack = new Stack<BaseValue>();
@@ -57,7 +61,11 @@ namespace SuperBasic.Compiler
             this.ExecutionStack.AddLast(new Frame(mainModule));
         }
 
+        public ExecutionMode Mode { get; set; }
+
         public ExecutionState State { get; private set; }
+
+        public int CurrentSourceLine { get; private set; }
 
         internal LinkedList<Frame> ExecutionStack { get; private set; }
 
@@ -71,18 +79,12 @@ namespace SuperBasic.Compiler
 
         public DebuggerSnapshot GetSnapshot()
         {
-            return new DebuggerSnapshot(this.currentSourceLine, this.ExecutionStack, this.Memory);
+            return new DebuggerSnapshot(this.CurrentSourceLine, this.ExecutionStack, this.Memory);
         }
 
-        public async Task Execute(bool pauseAtNextStatement = false)
+        public async Task Execute()
         {
-            Debug.Assert(this.isDebugging || !pauseAtNextStatement, $"Cannot {nameof(pauseAtNextStatement)} if not debugging.");
             Debug.Assert(this.State == ExecutionState.Running || this.State == ExecutionState.Paused, "Engine is not in a executable state.");
-
-            if (this.State == ExecutionState.Paused)
-            {
-                this.State = ExecutionState.Running;
-            }
 
             while (this.State == ExecutionState.Running)
             {
@@ -90,7 +92,7 @@ namespace SuperBasic.Compiler
                 {
                     if (!this.compilation.Analysis.ListensToEvents)
                     {
-                        this.State = ExecutionState.Terminated;
+                        this.Terminate();
                     }
 
                     break;
@@ -106,8 +108,8 @@ namespace SuperBasic.Compiler
                 BaseInstruction instruction = frame.Module.Instructions[frame.InstructionIndex];
                 int instructionLine = instruction.Range.Start.Line;
 
-                bool shouldPause = pauseAtNextStatement && this.State == ExecutionState.Running && this.currentSourceLine != instructionLine;
-                this.currentSourceLine = instructionLine;
+                bool shouldPause = this.Mode == ExecutionMode.NextLine && this.CurrentSourceLine != instructionLine;
+                this.CurrentSourceLine = instructionLine;
 
                 if (shouldPause)
                 {
@@ -134,6 +136,28 @@ namespace SuperBasic.Compiler
             }
         }
 
+        public void Pause()
+        {
+            if (this.Mode != ExecutionMode.RunToEnd)
+            {
+                this.State = ExecutionState.Paused;
+            }
+        }
+
+        public void Continue()
+        {
+            if (this.Mode != ExecutionMode.RunToEnd)
+            {
+                this.State = ExecutionState.Running;
+            }
+        }
+
+        public void Terminate()
+        {
+            this.State = ExecutionState.Terminated;
+            this.ExecutionStack.Clear();
+        }
+
         internal void SetEventCallback(string library, string eventName, string subModule)
         {
             this.eventCallbacks[(library, eventName)] = subModule;
@@ -147,31 +171,13 @@ namespace SuperBasic.Compiler
             }
         }
 
-        internal void Pause()
-        {
-            Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be paused.");
-            if (this.isDebugging)
-            {
-                this.State = ExecutionState.Paused;
-            }
-        }
-
-        internal void Terminate()
-        {
-            Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be terminated.");
-            this.State = ExecutionState.Terminated;
-            this.ExecutionStack.Clear();
-        }
-
         internal void BlockOnStringInput()
         {
-            Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be blocked.");
             this.State = ExecutionState.BlockedOnStringInput;
         }
 
         internal void BlockOnNumberInput()
         {
-            Debug.Assert(this.State == ExecutionState.Running, "Engine is not running to be blocked.");
             this.State = ExecutionState.BlockedOnNumberInput;
         }
 

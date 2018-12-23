@@ -17,7 +17,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    public sealed class RunPage : MainLayout
+    public sealed class RunPage : MainLayout, IDisposable
     {
         private readonly AsyncEngine engine = new AsyncEngine(isDebugging: false);
 
@@ -26,6 +26,11 @@ namespace SuperBasic.Editor.Components.Pages.Run
         public static void Inject(TreeComposer composer)
         {
             composer.Inject<RunPage>();
+        }
+
+        public void Dispose()
+        {
+            this.engine.Dispose();
         }
 
         protected override void OnInit()
@@ -49,7 +54,6 @@ namespace SuperBasic.Editor.Components.Pages.Run
         {
             Actions.Action(composer, "back", EditorResources.Actions_Back, () =>
             {
-                this.engine.Stop();
                 NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return Task.CompletedTask;
             });
@@ -60,7 +64,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
             if (!this.isInitialized)
             {
                 this.isInitialized = true;
-                await Task.Run(() => this.engine.Start()).ConfigureAwait(false);
+                await Task.Run(() => this.engine.StartLoop()).ConfigureAwait(false);
             }
         }
     }

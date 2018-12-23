@@ -9,6 +9,7 @@ import { CSIntrop } from "./CSInterop.Generated";
 
 export class MonacoInterop implements IMonacoInterop {
     private clipboard: string = "";
+    private decorations: string[] = [];
     private outerContainer: HTMLElement | null = null;
     private activeEditor: monaco.editor.IStandaloneCodeEditor | null = null;
 
@@ -27,6 +28,7 @@ export class MonacoInterop implements IMonacoInterop {
             fontFamily: "Consolas, monospace, Hack",
             fontSize: 18,
             glyphMargin: true,
+            contextmenu: false,
             theme: "super-basic",
             minimap: {
                 enabled: false
@@ -36,11 +38,10 @@ export class MonacoInterop implements IMonacoInterop {
         this.setLayout();
         elementResizeEvent(this.outerContainer, this.setLayout.bind(this));
 
-        let decorations: string[] = [];
         this.activeEditor.onDidChangeModelContent(async () => {
             const code = this.activeEditor!.getModel()!.getValue();
             const ranges = await CSIntrop.Monaco.updateDiagnostics(code);
-            decorations = this.activeEditor!.deltaDecorations(decorations, ranges.map(range => {
+            this.decorations = this.activeEditor!.deltaDecorations(this.decorations, ranges.map(range => {
                 return {
                     range: range,
                     options: {
@@ -61,6 +62,26 @@ export class MonacoInterop implements IMonacoInterop {
     public async selectRange(range: monaco.IRange): Promise<void> {
         this.activeEditor!.setSelection(range);
         this.activeEditor!.revealLineInCenter(range.startLineNumber);
+    }
+
+    public async highlightLine(line: number): Promise<void> {
+        this.decorations = this.activeEditor!.deltaDecorations(this.decorations, [{
+            range: {
+                startLineNumber: line,
+                startColumn: 0,
+                endLineNumber: line,
+                endColumn: Number.MAX_SAFE_INTEGER
+            },
+            options: {
+                className: "debugger-line-highlight"
+            }
+        }]);
+
+        this.activeEditor!.revealLineInCenter(line);
+    }
+
+    public async removeDecorations(): Promise<void> {
+        this.decorations = this.activeEditor!.deltaDecorations(this.decorations, []);
     }
 
     public async saveToFile(): Promise<void> {

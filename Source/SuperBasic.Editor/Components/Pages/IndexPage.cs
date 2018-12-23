@@ -8,6 +8,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
     using Microsoft.AspNetCore.Blazor.Components;
     using Microsoft.AspNetCore.Blazor.Services;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Components.Pages.Debug;
     using SuperBasic.Editor.Components.Pages.Run;
     using SuperBasic.Editor.Store;
     using SuperBasic.Utilities;
@@ -37,6 +38,9 @@ namespace SuperBasic.Editor.Components.Pages.Edit
                     break;
                 case NavigationStore.PageId.Run:
                     RunPage.Inject(composer);
+                    break;
+                case NavigationStore.PageId.Debug:
+                    DebugPage.Inject(composer);
                     break;
                 default:
                     throw ExceptionUtilities.UnexpectedValue(NavigationStore.CurrentPage);

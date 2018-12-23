@@ -51,6 +51,12 @@
           <Parameter Name="range" Type="monaco.IRange" />
         </Parameters>
       </Method>
+      <Method Name="HighlightLine">
+        <Parameters>
+          <Parameter Name="line" Type="number" />
+        </Parameters>
+      </Method>
+      <Method Name="RemoveDecorations" />
       <Method Name="SaveToFile" />
       <Method Name="OpenFile">
         <Parameters>

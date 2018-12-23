@@ -21,6 +21,8 @@ export interface IMonacoInterop {
     initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): Promise<void>;
     dispose(): Promise<void>;
     selectRange(range: monaco.IRange): Promise<void>;
+    highlightLine(line: number): Promise<void>;
+    removeDecorations(): Promise<void>;
     saveToFile(): Promise<void>;
     openFile(confirmationMessage: string): Promise<void>;
     clearEditor(confirmationMessage: string): Promise<void>;
@@ -77,6 +79,14 @@ const monaco: IMonacoInterop = new MonacoInterop();
         },
         selectRange: async (range: monaco.IRange) : Promise<boolean> => {
             await monaco.selectRange(range);
+            return true;
+        },
+        highlightLine: async (line: number) : Promise<boolean> => {
+            await monaco.highlightLine(line);
+            return true;
+        },
+        removeDecorations: async () : Promise<boolean> => {
+            await monaco.removeDecorations();
             return true;
         },
         saveToFile: async () : Promise<boolean> => {

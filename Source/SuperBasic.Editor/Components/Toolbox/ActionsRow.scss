@@ -50,9 +50,8 @@ actions-row {
     }
 
     disabled-action-container {
-        cursor: not-allowed;
-
         action {
+            cursor: not-allowed;
             filter: opacity(50%);
         }
     }
@@ -108,6 +107,7 @@ actions-row {
     @include create-action-button("run", "Actions/Run.svg");
 
     @include create-action-button("back", "Actions/Back.svg");
+    @include create-action-button("pause", "Actions/Pause.svg");
     @include create-action-button("continue", "Actions/Continue.svg");
     @include create-action-button("nextline", "Actions/NextLine.svg");
 }

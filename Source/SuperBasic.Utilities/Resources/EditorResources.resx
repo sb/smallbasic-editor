@@ -123,6 +123,9 @@
   <data name="Actions_ClearEverythingConfirmation" xml:space="preserve">
     <value>This will clear the existing program. Are you sure?</value>
   </data>
+  <data name="Actions_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
   <data name="Actions_Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -141,11 +144,17 @@
   <data name="Actions_New" xml:space="preserve">
     <value>New</value>
   </data>
+  <data name="Actions_NextLine" xml:space="preserve">
+    <value>Next Line</value>
+  </data>
   <data name="Actions_Open" xml:space="preserve">
     <value>Open</value>
   </data>
   <data name="Actions_Paste" xml:space="preserve">
     <value>Paste</value>
+  </data>
+  <data name="Actions_Pause" xml:space="preserve">
+    <value>Pause</value>
   </data>
   <data name="Actions_Publish" xml:space="preserve">
     <value>Publish</value>

@@ -19,6 +19,7 @@ namespace SuperBasic.Editor.Store
         {
             Edit,
             Run,
+            Debug,
         }
 
         public static PageId CurrentPage { get; private set; }

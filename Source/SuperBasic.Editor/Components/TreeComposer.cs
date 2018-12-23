@@ -71,7 +71,12 @@ namespace SuperBasic.Editor.Components
 
         public void Text(string value)
         {
-            this.builder.AddContent(this.sequence++, textContent: value);
+            this.builder.AddContent(this.sequence++, value);
+        }
+
+        public void Markup(string value)
+        {
+            this.builder.AddMarkupContent(this.sequence++, value);
         }
 
         public void Inject<TComponent>(Dictionary<string, object> parameters = null)

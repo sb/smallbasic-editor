@@ -64,6 +64,16 @@ namespace SuperBasic.Editor.Interop
                 await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.selectRange", range).ConfigureAwait(false);
             }
 
+            public static async Task HighlightLine(decimal line)
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.highlightLine", line).ConfigureAwait(false);
+            }
+
+            public static async Task RemoveDecorations()
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.removeDecorations").ConfigureAwait(false);
+            }
+
             public static async Task SaveToFile()
             {
                 await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Monaco.saveToFile").ConfigureAwait(false);

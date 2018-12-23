@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <Target Name="CopyElectronFiles" AfterTargets="Build" Condition="'$(IsBuildingForDesktop)' == 'True'">
-    <MSBuild Projects="$(RootDirectory)\Source\SuperBasic.Bridge\SuperBasic.Bridge.csproj"/>  
+    <MSBuild Projects="$(RootDirectory)\Source\SuperBasic.Bridge\SuperBasic.Bridge.csproj" />  
 
     <PropertyGroup>
       <DistFolder>$([System.IO.Path]::GetFullPath($(OutputPath)\dist))</DistFolder>

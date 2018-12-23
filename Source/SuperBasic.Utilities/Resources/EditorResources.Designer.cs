@@ -79,6 +79,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        public static string Actions_Continue {
+            get {
+                return ResourceManager.GetString("Actions_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Actions_Copy {
@@ -133,6 +142,15 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Line.
+        /// </summary>
+        public static string Actions_NextLine {
+            get {
+                return ResourceManager.GetString("Actions_NextLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string Actions_Open {
@@ -147,6 +165,15 @@ namespace SuperBasic.Utilities.Resources {
         public static string Actions_Paste {
             get {
                 return ResourceManager.GetString("Actions_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause.
+        /// </summary>
+        public static string Actions_Pause {
+            get {
+                return ResourceManager.GetString("Actions_Pause", resourceCulture);
             }
         }
         
