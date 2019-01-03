@@ -184,7 +184,7 @@ namespace SuperBasic.Compiler
         private RuntimeModule EmitAndSaveModule(string name, BoundStatementBlock body)
         {
             ModuleEmitter emitter = new ModuleEmitter(body);
-            RuntimeModule module = new RuntimeModule(name, emitter.Instructions);
+            RuntimeModule module = new RuntimeModule(name, emitter.Instructions, body.Syntax);
 
             this.Modules.Add(module.Name, module);
             return module;

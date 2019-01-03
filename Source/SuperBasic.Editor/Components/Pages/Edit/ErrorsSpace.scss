@@ -23,7 +23,7 @@ errors-space {
 
         icon {
             flex-shrink: 0;
-            @include set-background-image("SideBars/Error.svg", 32px, 32px);
+            @include set-background-image("EditPage/Error.svg", 32px, 32px);
             margin-left: 40px;
         }
 
@@ -38,7 +38,7 @@ errors-space {
         caret {
             flex-shrink: 0;
             margin-right: 40px;
-            @include set-background-image("SideBars/Caret.svg", 18px, 28px);
+            @include set-background-image("Caret.svg", 18px, 28px);
         }
 
         caret-closed {

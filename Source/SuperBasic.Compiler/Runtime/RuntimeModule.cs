@@ -5,17 +5,21 @@
 namespace SuperBasic.Compiler.Runtime
 {
     using System.Collections.Generic;
+    using SuperBasic.Compiler.Parsing;
 
     public sealed class RuntimeModule
     {
-        internal RuntimeModule(string name, IReadOnlyList<BaseInstruction> instructions)
+        internal RuntimeModule(string name, IReadOnlyList<BaseInstruction> instructions, StatementBlockSyntax syntax)
         {
             this.Name = name;
             this.Instructions = instructions;
+            this.Syntax = syntax;
         }
 
         public string Name { get; private set; }
 
         internal IReadOnlyList<BaseInstruction> Instructions { get; private set; }
+
+        internal StatementBlockSyntax Syntax { get; private set; }
     }
 }

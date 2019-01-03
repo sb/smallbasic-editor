@@ -7,6 +7,7 @@ namespace SuperBasic.Editor.Libraries.Utilities
     using System;
     using System.Threading.Tasks;
     using SuperBasic.Compiler;
+    using SuperBasic.Compiler.Runtime;
     using SuperBasic.Compiler.Scanning;
     using SuperBasic.Editor.Components.Display;
     using SuperBasic.Editor.Store;
@@ -40,6 +41,8 @@ namespace SuperBasic.Editor.Libraries.Utilities
 
         public int CurrentSourceLine => this.engine.CurrentSourceLine;
 
+        public DebuggerSnapshot GetSnapshot() => this.engine.GetSnapshot();
+
         public void Pause() => this.engine.Pause();
 
         public void Continue(bool pauseAtNextLine)
@@ -66,6 +69,7 @@ namespace SuperBasic.Editor.Libraries.Utilities
                     case ExecutionState.Running:
                         TextDisplayStore.SetInputMode(AcceptedInputMode.None);
                         await this.engine.Execute().ConfigureAwait(false);
+                        this.ExecutedStep?.Invoke();
                         break;
                     case ExecutionState.BlockedOnNumberInput:
                         TextDisplayStore.SetInputMode(AcceptedInputMode.Numbers);
@@ -79,15 +83,11 @@ namespace SuperBasic.Editor.Libraries.Utilities
                     case ExecutionState.Terminated:
                         TextDisplayStore.SetInputMode(AcceptedInputMode.None);
                         await this.libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage).ConfigureAwait(false);
+                        this.ExecutedStep?.Invoke();
                         TextDisplayStore.TextInput -= onTextInput;
                         return;
                     default:
                         throw ExceptionUtilities.UnexpectedValue(this.engine.State);
-                }
-
-                if (!this.ExecutedStep.IsDefault())
-                {
-                    this.ExecutedStep();
                 }
 
                 // Libraries should not call this, so that we actually refresh the UI once every batch

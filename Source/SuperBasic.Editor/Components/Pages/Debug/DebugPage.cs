@@ -35,6 +35,7 @@ namespace SuperBasic.Editor.Components.Pages.Debug
 
         public void Dispose()
         {
+            this.engine.ExecutedStep -= this.ExecutedStep;
             this.engine.Dispose();
         }
 
@@ -45,13 +46,16 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                 NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return;
             }
+
+            this.engine.ExecutedStep += this.ExecutedStep;
         }
 
         protected override void ComposeBody(TreeComposer composer)
         {
             composer.Element("debug-page", body: () =>
             {
-                // LibraryExplorer.Inject(composer);
+                MemoryExplorer.Inject(composer, this.engine);
+
                 composer.Element("main-space", body: () =>
                 {
                     composer.Element("editor-space", body: () =>
@@ -86,6 +90,15 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                 await Task.Run(() => this.engine.StartLoop()).ConfigureAwait(false);
             }
         }
+
+        private void ExecutedStep()
+        {
+            if (this.engine.State == ExecutionState.Paused)
+            {
+                // Adding one because monaco is one based.
+                Task.Run(() => JSInterop.Monaco.HighlightLine(this.engine.CurrentSourceLine + 1));
+            }
+        }
     }
 
     public sealed class DebugPageExeuctionActions : SuperBasicComponent
@@ -115,8 +128,7 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                         Actions.Action(composer, "nextline", EditorResources.Actions_NextLine, () =>
                         {
                             this.Engine.Continue(pauseAtNextLine: true);
-                            // Adding one because monaco is one based.
-                            return JSInterop.Monaco.HighlightLine(this.Engine.CurrentSourceLine + 1);
+                            return Task.CompletedTask;
                         });
 
                         Actions.Action(composer, "continue", EditorResources.Actions_Continue, () =>
@@ -133,8 +145,7 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                         Actions.Action(composer, "pause", EditorResources.Actions_Pause, () =>
                         {
                             this.Engine.Pause();
-                            // Adding one because monaco is one based.
-                            return JSInterop.Monaco.HighlightLine(this.Engine.CurrentSourceLine + 1);
+                            return Task.CompletedTask;
                         });
 
                         break;

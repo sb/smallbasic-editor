@@ -30,5 +30,20 @@ namespace SuperBasic.Compiler.Runtime
                 this.index = value;
             }
         }
+
+        public int CurrentSourceLine
+        {
+            get
+            {
+                if (this.index < this.Module.Instructions.Count)
+                {
+                    return this.Module.Instructions[this.index].Range.Start.Line;
+                }
+                else
+                {
+                    return this.Module.Syntax.Range.End.Line;
+                }
+            }
+        }
     }
 }

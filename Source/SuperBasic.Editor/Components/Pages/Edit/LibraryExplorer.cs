@@ -6,21 +6,24 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Blazor;
     using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Compiler.Runtime;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Components.Toolbox;
+    using SuperBasic.Editor.Interop;
     using SuperBasic.Utilities;
     using SuperBasic.Utilities.Resources;
 
-    // TODO-later: show warning on deprecated types or members.
-    // TODO-later: show when member/library is desktop only.
     public sealed class LibraryExplorer : SuperBasicComponent
     {
-        private Method selectedMethod = default;
+        private ElementRef scrollArea = default;
+        private ElementRef scrollAreaContents = default;
+
+        private double currentScrollMargin = 0;
+        private Library selectedLibrary = default;
 
         internal static void Inject(TreeComposer composer)
         {
@@ -29,213 +32,142 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
         protected override void ComposeTree(TreeComposer composer)
         {
-            SideBar.Inject(
-                composer,
-                title: EditorResources.SideBar_Libraries,
-                showScrollArrows: true,
-                items: Libraries.Types.Values.Select(library => new SideBar.Descriptor(
-                    iconName: library.ExplorerIcon,
-                    title: library.Name,
-                    body: bodyComposer => this.ComposeLibraryBody(bodyComposer, library))));
-        }
-
-        private void ComposeLibraryBody(TreeComposer composer, Library library)
-        {
-            composer.Element("library-body", body: () =>
+            composer.Element("library-explorer", body: () =>
             {
-                composer.Element("library-title", body: () =>
+                composer.Element("navigation-area", body: () =>
                 {
-                    composer.Element("icon", body: () => Micro.FontAwesome(composer, library.ExplorerIcon));
-                    composer.Element("name", body: () => composer.Text(library.Name));
+                    composer.Element(
+                        name: "logo-area",
+                        events: new TreeComposer.Events
+                        {
+                            OnClick = args =>
+                            {
+                                if (this.selectedLibrary.IsDefault())
+                                {
+                                    this.selectedLibrary = Libraries.Types.Values.First();
+                                }
+                                else
+                                {
+                                    this.selectedLibrary = default;
+                                }
+                            }
+                        },
+                        body: () =>
+                        {
+                            composer.Element("logo");
+                        });
+
+                    composer.Element(
+                        name: "scroll-button",
+                        events: new TreeComposer.Events
+                        {
+                            OnClick = args => this.ScrollUp(200)
+                        },
+                        body: () =>
+                        {
+                            composer.Element("scroll-up");
+                        });
+
+                    composer.Element("scroll-area", capture: element => this.scrollArea = element, body: () =>
+                    {
+                        composer.Element(
+                            name: "scroll-area-contents",
+                            capture: element => this.scrollAreaContents = element,
+                            styles: new Dictionary<string, string>
+                            {
+                                { "margin-top", $"{this.currentScrollMargin}px" }
+                            },
+                            events: new TreeComposer.Events
+                            {
+                                OnMouseWheelAsync = async args =>
+                                {
+                                    if (args.DeltaY < 0)
+                                    {
+                                        this.ScrollUp(-args.DeltaY);
+                                    }
+                                    else
+                                    {
+                                        await this.ScrollDown(args.DeltaY).ConfigureAwait(false);
+                                    }
+                                }
+                            },
+                            body: () =>
+                            {
+                                foreach (var library in Libraries.Types.Values)
+                                {
+                                    composer.Element(
+                                        name: this.selectedLibrary?.Name == library.Name ? "library-explorer-item-selected" : "library-explorer-item",
+                                        events: new TreeComposer.Events
+                                        {
+                                            OnClick = args => this.selectedLibrary = library
+                                        },
+                                        body: () =>
+                                        {
+                                            composer.Element("icon", body: () => Micro.FontAwesome(composer, library.ExplorerIcon));
+                                            composer.Element(
+                                                name: library.Name.Length > 10 ? "long-name" : "short-name",
+                                                body: () => composer.Text(library.Name));
+                                        });
+                                }
+                            });
+                    });
+
+                    composer.Element(
+                        name: "scroll-button",
+                        events: new TreeComposer.Events
+                        {
+                            OnClick = async args => await this.ScrollDown(200).ConfigureAwait(false)
+                        },
+                        body: () =>
+                        {
+                            composer.Element("scroll-down");
+                        });
                 });
 
-                composer.Element("library-description", body: () => composer.Text(library.Description));
-
-                if (library.Methods.Any())
+                if (!this.selectedLibrary.IsDefault())
                 {
-                    composer.Element("group-title", body: () =>
+                    composer.Element("content-area", body: () =>
                     {
-                        composer.Element("icon", body: () => Micro.FontAwesome(composer, "cube"));
-                        composer.Element("name", body: () => composer.Text(EditorResources.LibraryExplorer_Methods));
-                    });
-
-                    foreach (var method in library.Methods.Values)
-                    {
-                        LibraryMethod.Inject(
-                            composer,
-                            isSelected: method == this.selectedMethod,
-                            library: library,
-                            method: method,
-                            onHeaderClick: () => this.OnMethodHeaderClick(method));
-                    }
-                }
-
-                if (library.Properties.Any())
-                {
-                    composer.Element("group-title", body: () =>
-                    {
-                        composer.Element("icon", body: () => Micro.FontAwesome(composer, "wrench"));
-                        composer.Element("name", body: () => composer.Text(EditorResources.LibraryExplorer_Properties));
-                    });
-
-                    foreach (var property in library.Properties.Values)
-                    {
-                        composer.Element("member", body: () =>
+                        composer.Element("header", body: () =>
                         {
-                            composer.Element(name: "member-header-selected", body: () =>
-                            {
-                                composer.Element("member-title", body: () =>
+                            composer.Element("content-title", body: () => composer.Text(EditorResources.LibraryExplorer_Title));
+                            composer.Element(
+                                name: "minimize-button",
+                                events: new TreeComposer.Events
                                 {
-                                    composer.Element("caret");
-                                    composer.Element("name", body: () => composer.Text($"{library.Name}.{property.Name}"));
+                                    OnClick = args => this.selectedLibrary = default
+                                },
+                                body: () =>
+                                {
+                                    composer.Element("angle-left");
                                 });
-
-                                composer.Element("member-description", body: () => composer.Text(property.Description));
-                            });
                         });
-                    }
-                }
 
-                if (library.Events.Any())
-                {
-                    composer.Element("group-title", body: () =>
-                    {
-                        composer.Element("icon", body: () => Micro.FontAwesome(composer, "neuter"));
-                        composer.Element("name", body: () => composer.Text(EditorResources.LibraryExplorer_Events));
+                        composer.Element("content", body: () => LibraryBody.Inject(composer, this.selectedLibrary));
                     });
-
-                    foreach (var @event in library.Events.Values)
-                    {
-                        composer.Element("member", body: () =>
-                        {
-                            composer.Element(name: "member-header-selected", body: () =>
-                            {
-                                composer.Element("member-title", body: () =>
-                                {
-                                    composer.Element("caret");
-                                    composer.Element("name", body: () => composer.Text($"{library.Name}.{@event.Name}"));
-                                });
-
-                                composer.Element("member-description", body: () => composer.Text(@event.Description));
-                            });
-                        });
-                    }
                 }
             });
         }
 
-        private void OnMethodHeaderClick(Method method)
+        private void ScrollUp(double amount)
         {
-            if (this.selectedMethod == method)
+            if (this.currentScrollMargin != 0)
             {
-                this.selectedMethod = default;
+                this.currentScrollMargin = Math.Min(0, this.currentScrollMargin + amount);
+                this.StateHasChanged();
             }
-            else
-            {
-                this.selectedMethod = method;
-            }
-
-            this.StateHasChanged();
         }
 
-        private sealed class LibraryMethod : SuperBasicComponent
+        private async Task ScrollDown(double amount)
         {
-            [Parameter]
-            private bool IsSelected { get; set; }
+            double areaHeight = (double)await JSInterop.Layout.GetElementHeight(this.scrollArea).ConfigureAwait(false);
+            double contentsHeight = (double)await JSInterop.Layout.GetElementHeight(this.scrollAreaContents).ConfigureAwait(false);
 
-            [Parameter]
-            private Library Library { get; set; }
-
-            [Parameter]
-            private Method Method { get; set; }
-
-            [Parameter]
-            private Action OnHeaderClick { get; set; }
-
-            internal static void Inject(TreeComposer composer, bool isSelected, Library library, Method method, Action onHeaderClick)
+            double hiddenOffset = Math.Max(0, contentsHeight + this.currentScrollMargin - areaHeight);
+            if (hiddenOffset != 0)
             {
-                composer.Inject<LibraryMethod>(new Dictionary<string, object>
-                {
-                    { nameof(LibraryMethod.IsSelected), isSelected },
-                    { nameof(LibraryMethod.Library), library },
-                    { nameof(LibraryMethod.Method), method },
-                    { nameof(LibraryMethod.OnHeaderClick), onHeaderClick }
-                });
-            }
-
-            protected override void ComposeTree(TreeComposer composer)
-            {
-                composer.Element("member", body: () =>
-                {
-                    composer.Element(
-                        name: this.IsSelected ? "member-header-selected" : "member-header",
-                        events: new TreeComposer.Events
-                        {
-                            OnClick = arg => this.OnHeaderClick()
-                        },
-                        body: () =>
-                        {
-                            composer.Element("member-title", body: () =>
-                            {
-                                composer.Element("caret", body: () =>
-                                {
-                                    Micro.FontAwesome(composer, this.IsSelected ? "caret-down" : "caret-right");
-                                });
-
-                                composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{this.Method.Name}()"));
-                            });
-
-                            composer.Element("member-description", body: () => composer.Text(this.Method.Description));
-                        });
-
-                    if (this.IsSelected)
-                    {
-                        composer.Element("member-body", body: () =>
-                        {
-                            composer.Element("example", body: () =>
-                            {
-                                composer.Text(string.Format(
-                                    CultureInfo.CurrentCulture,
-                                    "{0}{1}.{2}({3})",
-                                    this.Method.ReturnsValue ? "result = " : string.Empty,
-                                    this.Library.Name,
-                                    this.Method.Name,
-                                    this.Method.Parameters.Keys.Join(", ")));
-                            });
-
-                            if (this.Method.Parameters.Any())
-                            {
-                                composer.Element("block", body: () =>
-                                {
-                                    composer.Element("contents", body: () =>
-                                    {
-                                        foreach (var parameter in this.Method.Parameters.Values)
-                                        {
-                                            composer.Element("name", body: () => composer.Text(parameter.Name));
-                                            composer.Element("description", body: () => composer.Text(parameter.Description));
-                                        }
-                                    });
-                                });
-                            }
-
-                            composer.Element("block", body: () =>
-                            {
-                                composer.Element("contents", body: () =>
-                                {
-                                    if (this.Method.ReturnsValue)
-                                    {
-                                        composer.Element("name", body: () => composer.Text("result"));
-                                        composer.Element("description", body: () => composer.Text(this.Method.ReturnValueDescription));
-                                    }
-                                    else
-                                    {
-                                        composer.Element("description", body: () => composer.Text(EditorResources.LibraryExplorer_ReturnsNothing));
-                                    }
-                                });
-                            });
-                        });
-                    }
-                });
+                this.currentScrollMargin = this.currentScrollMargin - Math.Min(hiddenOffset, amount);
+                this.StateHasChanged();
             }
         }
     }

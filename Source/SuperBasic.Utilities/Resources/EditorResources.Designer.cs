@@ -315,9 +315,90 @@ namespace SuperBasic.Utilities.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Libraries.
         /// </summary>
-        public static string SideBar_Libraries {
+        public static string LibraryExplorer_Title {
             get {
-                return ResourceManager.GetString("SideBar_Libraries", resourceCulture);
+                return ResourceManager.GetString("LibraryExplorer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call Stack.
+        /// </summary>
+        public static string MemoryExplorer_CallStack {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_CallStack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string MemoryExplorer_Line {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module.
+        /// </summary>
+        public static string MemoryExplorer_Module {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string MemoryExplorer_Name {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Ended.
+        /// </summary>
+        public static string MemoryExplorer_ProgramEnded {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_ProgramEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Running.
+        /// </summary>
+        public static string MemoryExplorer_ProgramRunning {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_ProgramRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memory.
+        /// </summary>
+        public static string MemoryExplorer_Title {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        public static string MemoryExplorer_Value {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Variables.
+        /// </summary>
+        public static string MemoryExplorer_Variables {
+            get {
+                return ResourceManager.GetString("MemoryExplorer_Variables", resourceCulture);
             }
         }
         
