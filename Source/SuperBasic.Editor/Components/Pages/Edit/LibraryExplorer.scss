@@ -11,7 +11,9 @@ library-explorer {
     align-items: center;
     height: 100%;
     background-color: #656A72;
-    border-right: 1px solid #656A72;
+    border-right: 1px solid #000000;
+    border-top: 1px solid #000000;
+    border-radius: 0px 8px 0px 0px;
     box-sizing: border-box;
 
     navigation-area {
@@ -47,6 +49,9 @@ library-explorer {
             background-color: #0E9DDF;
             width: $navigation-area-width;
             cursor: pointer;
+            border-bottom: 1px solid #000000;
+            border-top: 1px solid #000000;
+            box-sizing: border-box;
 
             scroll-up {
                 @include set-background-image("Caret.svg", 18px, 28px);
@@ -83,6 +88,8 @@ library-explorer {
                     text-align: center;
                     width: $navigation-area-width;
                     cursor: pointer;
+                    border-bottom: 1px solid #656A72;
+                    box-sizing: border-box;
 
                     icon {
                         width: 25px;
@@ -134,7 +141,7 @@ library-explorer {
         justify-content: flex-start;
         width: $content-area-width;
         height: 100%;
-        border-left: 2px solid #656A72;
+        border-bottom: 1px solid #000000;
         box-sizing: border-box;
 
         header {
@@ -172,6 +179,9 @@ library-explorer {
             height: calc(100% - #{$header-area-height});
             color: #232528;
             background-color: #E7E8EA;
+            border-left: 1px solid #000000;
+            border-top: 1px solid #000000;
+            box-sizing: border-box;
         }
     }
 }

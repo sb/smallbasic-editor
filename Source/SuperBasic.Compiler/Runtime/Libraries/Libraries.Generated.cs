@@ -265,6 +265,32 @@ namespace SuperBasic.Compiler.Runtime
                         execute: execute));
                 }
 
+                // Initialization code for method Array.GetValue:
+                {
+                    Task execute(SuperBasicEngine engine)
+                    {
+                        string index = engine.EvaluationStack.Pop().ToString();
+                        string arrayName = engine.EvaluationStack.Pop().ToString();
+                        BaseValue returnValue = engine.Libraries.Array.GetValue(arrayName: arrayName, index: index);
+                        engine.EvaluationStack.Push(returnValue);
+                        return Task.CompletedTask;
+                    }
+
+                    methods.Add("GetValue", new Method(
+                        name: "GetValue",
+                        description: LibrariesResources.Array_GetValue,
+                        returnsValue: true,
+                        returnValueDescription: LibrariesResources.Array_GetValue_ReturnValue,
+                        parameters: new Dictionary<string, Parameter>
+                        {
+                            { "arrayName", new Parameter("arrayName", LibrariesResources.Array_GetValue_arrayName) },
+                            { "index", new Parameter("index", LibrariesResources.Array_GetValue_index) },
+                        },
+                        isDeprecated: false,
+                        needsDesktop: false,
+                        execute: execute));
+                }
+
                 // Initialization code for method Array.IsArray:
                 {
                     Task execute(SuperBasicEngine engine)
@@ -283,6 +309,58 @@ namespace SuperBasic.Compiler.Runtime
                         parameters: new Dictionary<string, Parameter>
                         {
                             { "array", new Parameter("array", LibrariesResources.Array_IsArray_array) },
+                        },
+                        isDeprecated: false,
+                        needsDesktop: false,
+                        execute: execute));
+                }
+
+                // Initialization code for method Array.RemoveValue:
+                {
+                    Task execute(SuperBasicEngine engine)
+                    {
+                        string index = engine.EvaluationStack.Pop().ToString();
+                        string arrayName = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Array.RemoveValue(arrayName: arrayName, index: index);
+                        return Task.CompletedTask;
+                    }
+
+                    methods.Add("RemoveValue", new Method(
+                        name: "RemoveValue",
+                        description: LibrariesResources.Array_RemoveValue,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        parameters: new Dictionary<string, Parameter>
+                        {
+                            { "arrayName", new Parameter("arrayName", LibrariesResources.Array_RemoveValue_arrayName) },
+                            { "index", new Parameter("index", LibrariesResources.Array_RemoveValue_index) },
+                        },
+                        isDeprecated: false,
+                        needsDesktop: false,
+                        execute: execute));
+                }
+
+                // Initialization code for method Array.SetValue:
+                {
+                    Task execute(SuperBasicEngine engine)
+                    {
+                        BaseValue value = engine.EvaluationStack.Pop();
+                        string index = engine.EvaluationStack.Pop().ToString();
+                        string arrayName = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.Array.SetValue(arrayName: arrayName, index: index, value: value);
+                        return Task.CompletedTask;
+                    }
+
+                    methods.Add("SetValue", new Method(
+                        name: "SetValue",
+                        description: LibrariesResources.Array_SetValue,
+                        returnsValue: false,
+                        returnValueDescription: null,
+                        parameters: new Dictionary<string, Parameter>
+                        {
+                            { "arrayName", new Parameter("arrayName", LibrariesResources.Array_SetValue_arrayName) },
+                            { "index", new Parameter("index", LibrariesResources.Array_SetValue_index) },
+                            { "value", new Parameter("value", LibrariesResources.Array_SetValue_value) },
                         },
                         isDeprecated: false,
                         needsDesktop: false,

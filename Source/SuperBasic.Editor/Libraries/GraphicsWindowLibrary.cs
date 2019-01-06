@@ -152,16 +152,16 @@ namespace SuperBasic.Editor.Libraries
         public string GetColorFromRGB(decimal red, decimal green, decimal blue) => string.Format(
             CultureInfo.CurrentCulture,
             "#{0:X2}{1:X2}{2:X2}",
-            Math.Min(byte.MaxValue, Math.Max(byte.MinValue, red)),
-            Math.Min(byte.MaxValue, Math.Max(byte.MinValue, green)),
-            Math.Min(byte.MaxValue, Math.Max(byte.MinValue, blue)));
+            (int)Math.Min(byte.MaxValue, Math.Max(byte.MinValue, red)),
+            (int)Math.Min(byte.MaxValue, Math.Max(byte.MinValue, green)),
+            (int)Math.Min(byte.MaxValue, Math.Max(byte.MinValue, blue)));
 
         public string GetRandomColor() => string.Format(
             CultureInfo.CurrentCulture,
             "#{0:X2}{1:X2}{2:X2}",
-            RandomInstance.Next(byte.MinValue, byte.MaxValue + 1),
-            RandomInstance.Next(byte.MinValue, byte.MaxValue + 1),
-            RandomInstance.Next(byte.MinValue, byte.MaxValue + 1));
+            (int)RandomInstance.Next(byte.MinValue, byte.MaxValue + 1),
+            (int)RandomInstance.Next(byte.MinValue, byte.MaxValue + 1),
+            (int)RandomInstance.Next(byte.MinValue, byte.MaxValue + 1));
 
         public string Get_BackgroundColor() => this.backgroundColor;
 
@@ -200,7 +200,7 @@ namespace SuperBasic.Editor.Libraries
             }
             else if (HexColorRegex.IsMatch(value))
             {
-                this.backgroundColor = hexColor;
+                this.backgroundColor = value;
             }
         }
 
@@ -213,7 +213,7 @@ namespace SuperBasic.Editor.Libraries
             }
             else if (HexColorRegex.IsMatch(value))
             {
-                this.libraries.Styles = this.libraries.Styles.With(brushColor: hexColor);
+                this.libraries.Styles = this.libraries.Styles.With(brushColor: value);
             }
         }
 
@@ -241,7 +241,7 @@ namespace SuperBasic.Editor.Libraries
             }
             else if (HexColorRegex.IsMatch(value))
             {
-                this.libraries.Styles = this.libraries.Styles.With(penColor: hexColor);
+                this.libraries.Styles = this.libraries.Styles.With(penColor: value);
             }
         }
 

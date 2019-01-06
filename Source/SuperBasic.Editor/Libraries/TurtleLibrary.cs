@@ -15,8 +15,8 @@ namespace SuperBasic.Editor.Libraries
     internal sealed class TurtleLibrary : ITurtleLibrary
     {
         private readonly LibrariesCollection libraries;
-        private readonly TurtleShape turtle;
         private readonly List<LineGraphicsObject> lines;
+        private readonly TurtleShape turtle;
 
         private bool isInitialized;
         private bool isPenDown;
@@ -25,8 +25,11 @@ namespace SuperBasic.Editor.Libraries
         public TurtleLibrary(LibrariesCollection libraries)
         {
             this.libraries = libraries;
-            this.turtle = new TurtleShape(libraries.Styles);
             this.lines = new List<LineGraphicsObject>();
+            this.turtle = new TurtleShape(libraries.Styles)
+            {
+                IsVisible = false
+            };
 
             this.isInitialized = false;
             this.isPenDown = false;

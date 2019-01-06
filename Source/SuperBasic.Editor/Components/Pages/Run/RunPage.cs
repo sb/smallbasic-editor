@@ -46,7 +46,7 @@ namespace SuperBasic.Editor.Components.Pages.Run
         {
             composer.Element("run-page", body: () =>
             {
-                EngineDisplay.Inject(composer);
+                EngineDisplay.Inject(composer, this.engine);
             });
         }
 

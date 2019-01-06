@@ -46,10 +46,26 @@ namespace SuperBasic.Tests
             return 0m;
         }
 
+        public BaseValue GetValue(string arrayName, string index)
+        {
+            this.log.AppendLine($"Array.GetValue(arrayName: '{arrayName}', index: '{index}')");
+            return StringValue.Create(string.Empty);
+        }
+
         public bool IsArray(BaseValue array)
         {
             this.log.AppendLine($"Array.IsArray(array: '{array.ToDisplayString()}')");
             return false;
+        }
+
+        public void RemoveValue(string arrayName, string index)
+        {
+            this.log.AppendLine($"Array.RemoveValue(arrayName: '{arrayName}', index: '{index}')");
+        }
+
+        public void SetValue(string arrayName, string index, BaseValue value)
+        {
+            this.log.AppendLine($"Array.SetValue(arrayName: '{arrayName}', index: '{index}', value: '{value.ToDisplayString()}')");
         }
     }
 

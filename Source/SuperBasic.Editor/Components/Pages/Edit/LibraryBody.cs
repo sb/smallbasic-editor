@@ -201,7 +201,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
                             {
                                 composer.Element("block", body: () =>
                                 {
-                                    composer.Element("contents", body: () =>
+                                    composer.Element("arguments-area", body: () =>
                                     {
                                         foreach (var parameter in this.Method.Parameters.Values)
                                         {
@@ -214,7 +214,7 @@ namespace SuperBasic.Editor.Components.Pages.Edit
 
                             composer.Element("block", body: () =>
                             {
-                                composer.Element("contents", body: () =>
+                                composer.Element("result-area", body: () =>
                                 {
                                     if (this.Method.ReturnsValue)
                                     {

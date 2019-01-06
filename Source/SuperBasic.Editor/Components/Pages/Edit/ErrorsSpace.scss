@@ -10,6 +10,10 @@ errors-space {
     align-items: stretch;
     justify-content: flex-start;
     cursor: pointer;
+    border: 1px solid #000000;
+    border-radius: 8px 8px 0px 0px;
+    overflow: hidden;
+    box-sizing: border-box;
 
     title-row {
         flex-shrink: 0;
@@ -30,7 +34,7 @@ errors-space {
         errors-count {
             flex-grow: 1;
             font-size: 20px;
-            font-weight: bold;
+            font-weight: 700;
             color: #E7E8EA;
             margin-left: 15px;
         }
@@ -78,7 +82,7 @@ errors-space {
         height: 32px;
         background-color: #232528;
         color: #E7E8EA;
-        font-weight: normal;
+        font-weight: 400;
     }
 
     errors-list {

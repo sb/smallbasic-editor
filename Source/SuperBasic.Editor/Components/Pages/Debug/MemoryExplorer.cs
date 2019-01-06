@@ -49,8 +49,15 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                     body: () =>
                     {
                         this.ComposeHeader(composer);
-                        this.ComposeVariables(composer);
-                        this.ComposeCallStack(composer);
+
+                        composer.Element("member-area", body: () =>
+                        {
+                            if (this.isExpanded)
+                            {
+                                this.ComposeVariables(composer);
+                                this.ComposeCallStack(composer);
+                            }
+                        });
                     });
             });
         }
@@ -96,64 +103,57 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                 composer.Element("member-title-area", body: () =>
                 {
                     composer.Element("logo-area", body: () => composer.Element("logo"));
-
-                    if (this.isExpanded)
-                    {
-                        composer.Element("title-text", body: () => composer.Text(EditorResources.MemoryExplorer_Variables));
-                    }
+                    composer.Element("title-text", body: () => composer.Text(EditorResources.MemoryExplorer_Variables));
                 });
 
-                if (this.isExpanded)
+                composer.Element("member-table-header", body: () =>
                 {
-                    composer.Element("member-table-header", body: () =>
-                    {
-                        composer.Element("left-text", body: () => composer.Text(EditorResources.MemoryExplorer_Name));
-                        composer.Element("right-text", body: () => composer.Text(EditorResources.MemoryExplorer_Value));
-                    });
+                    composer.Element("left-text", body: () => composer.Text(EditorResources.MemoryExplorer_Name));
+                    composer.Element("right-text", body: () => composer.Text(EditorResources.MemoryExplorer_Value));
+                });
 
-                    this.ComposeOnlyIfNotRunning(composer, showEvenIfTerminated: true, body: () =>
-                    {
-                        var memory = this.Engine.GetSnapshot().Memory;
+                this.ComposeOnlyIfNotRunning(composer, showEvenIfTerminated: true, body: () =>
+                {
+                    var memory = this.Engine.GetSnapshot().Memory;
 
-                        if (memory.Any())
+                    if (memory.Any())
+                    {
+                        composer.Element("variables-block", body: () =>
                         {
-                            composer.Element("variables-block", body: () =>
+                            foreach (var variable in memory)
                             {
-                                foreach (var variable in memory)
+                                composer.Element("variable", body: () =>
                                 {
-                                    composer.Element("variable", body: () =>
+                                    composer.Element("name-cell", body: () =>
                                     {
-                                        composer.Element("name-cell", body: () =>
+                                        composer.Element("icon-container", body: () =>
                                         {
-                                            composer.Element("icon-container", body: () =>
+                                            switch (variable.Value)
                                             {
-                                                switch (variable.Value)
-                                                {
-                                                    case StringValue stringValue:
-                                                    case BooleanValue booleanValue:
-                                                        composer.Element("string-type-icon");
-                                                        break;
-                                                    case NumberValue numberValue:
-                                                        composer.Element("number-type-icon");
-                                                        break;
-                                                    case ArrayValue arrayValue:
-                                                        composer.Element("array-type-icon");
-                                                        break;
-                                                    default:
-                                                        throw ExceptionUtilities.UnexpectedValue(variable.Value);
-                                                }
-                                            });
-
-                                            composer.Element("name-container", body: () => composer.Text(variable.Key));
+                                                case StringValue stringValue:
+                                                case BooleanValue booleanValue:
+                                                    composer.Element("string-type-icon");
+                                                    break;
+                                                case NumberValue numberValue:
+                                                    composer.Element("number-type-icon");
+                                                    break;
+                                                case ArrayValue arrayValue:
+                                                    composer.Element("array-type-icon");
+                                                    break;
+                                                default:
+                                                    throw ExceptionUtilities.UnexpectedValue(variable.Value);
+                                            }
                                         });
 
-                                        composer.Element("value-cell", body: () => composer.Text(variable.Value.ToDisplayString()));
+                                        composer.Element("name-container", body: () => composer.Text(variable.Key));
                                     });
-                                }
-                            });
-                        }
-                    });
-                }
+
+                                    composer.Element("value-cell", body: () => composer.Text(variable.Value.ToDisplayString()));
+                                });
+                            }
+                        });
+                    }
+                });
             });
         }
 
@@ -164,53 +164,46 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                 composer.Element("member-title-area", body: () =>
                 {
                     composer.Element("logo-area", body: () => composer.Element("logo"));
-
-                    if (this.isExpanded)
-                    {
-                        composer.Element("title-text", body: () => composer.Text(EditorResources.MemoryExplorer_CallStack));
-                    }
+                    composer.Element("title-text", body: () => composer.Text(EditorResources.MemoryExplorer_CallStack));
                 });
 
-                if (this.isExpanded)
+                composer.Element("member-table-header", body: () =>
                 {
-                    composer.Element("member-table-header", body: () =>
-                    {
-                        composer.Element("left-text", body: () => composer.Text(EditorResources.MemoryExplorer_Line));
-                        composer.Element("right-text", body: () => composer.Text(EditorResources.MemoryExplorer_Module));
-                    });
+                    composer.Element("left-text", body: () => composer.Text(EditorResources.MemoryExplorer_Line));
+                    composer.Element("right-text", body: () => composer.Text(EditorResources.MemoryExplorer_Module));
+                });
 
-                    this.ComposeOnlyIfNotRunning(composer, showEvenIfTerminated: false, body: () =>
+                this.ComposeOnlyIfNotRunning(composer, showEvenIfTerminated: false, body: () =>
+                {
+                    composer.Element("call-stack", body: () =>
                     {
-                        composer.Element("call-stack", body: () =>
+                        composer.Element("blue-box");
+                        composer.Element("container-box", body: () =>
                         {
-                            composer.Element("blue-box");
-                            composer.Element("container-box", body: () =>
+                            bool firstFrame = true;
+                            foreach (var frame in this.Engine.GetSnapshot().ExecutionStack.Reverse())
                             {
-                                bool firstFrame = true;
-                                foreach (var frame in this.Engine.GetSnapshot().ExecutionStack.Reverse())
+                                string name;
+                                if (firstFrame)
                                 {
-                                    string name;
-                                    if (firstFrame)
-                                    {
-                                        firstFrame = false;
-                                        name = "stack-frame-highlighted";
-                                    }
-                                    else
-                                    {
-                                        name = "stack-frame";
-                                    }
-
-                                    composer.Element(name, body: () =>
-                                    {
-                                        var line = frame.CurrentSourceLine + 1; // Monaco editor is one-based
-                                        composer.Element("line-cell", body: () => composer.Text(line.ToString(CultureInfo.CurrentCulture)));
-                                        composer.Element("module-name-cell", body: () => composer.Text(frame.Module.Name));
-                                    });
+                                    firstFrame = false;
+                                    name = "stack-frame-highlighted";
                                 }
-                            });
+                                else
+                                {
+                                    name = "stack-frame";
+                                }
+
+                                composer.Element(name, body: () =>
+                                {
+                                    var line = frame.CurrentSourceLine + 1; // Monaco editor is one-based
+                                    composer.Element("line-cell", body: () => composer.Text(line.ToString(CultureInfo.CurrentCulture)));
+                                    composer.Element("module-name-cell", body: () => composer.Text(frame.Module.Name));
+                                });
+                            }
                         });
                     });
-                }
+                });
             });
         }
 

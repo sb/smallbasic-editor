@@ -24,9 +24,28 @@
           <Parameter Name="array" Type="ArrayValue" />
         </Parameters>
       </Method>
+      <Method Name="GetValue" ReturnType="BaseValue">
+        <Parameters>
+          <Parameter Name="arrayName" Type="StringValue" />
+          <Parameter Name="index" Type="StringValue" />
+        </Parameters>
+      </Method>
       <Method Name="IsArray" ReturnType="BooleanValue">
         <Parameters>
           <Parameter Name="array" Type="BaseValue" />
+        </Parameters>
+      </Method>
+      <Method Name="RemoveValue">
+        <Parameters>
+          <Parameter Name="arrayName" Type="StringValue" />
+          <Parameter Name="index" Type="StringValue" />
+        </Parameters>
+      </Method>
+      <Method Name="SetValue">
+        <Parameters>
+          <Parameter Name="arrayName" Type="StringValue" />
+          <Parameter Name="index" Type="StringValue" />
+          <Parameter Name="value" Type="BaseValue" />
         </Parameters>
       </Method>
     </Methods>

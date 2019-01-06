@@ -42,8 +42,6 @@ namespace SuperBasic.Editor.Libraries
             this.TextWindow = new TextWindowLibrary();
             this.Timer = new TimerLibrary();
             this.Turtle = new TurtleLibrary(this);
-
-            GraphicsDisplayStore.SetLibraries(this);
         }
 
         IArrayLibrary IEngineLibraries.Array => this.Array;

@@ -13,7 +13,7 @@ namespace SuperBasic.Editor.Libraries.Utilities
     {
         public const string TransparentHexColor = "#00000000";
 
-        private static IReadOnlyDictionary<string, string> colors = new Dictionary<string, string>
+        private static IReadOnlyDictionary<string, string> colors = new Dictionary<string, string>(StringComparer.CurrentCultureIgnoreCase)
         {
             { "AliceBlue", "#F0F8FF" },
             { "AntiqueWhite", "#FAEBD7" },
@@ -158,28 +158,10 @@ namespace SuperBasic.Editor.Libraries.Utilities
             { "YellowGreen", "#9ACD32" },
         };
 
-        public static bool ContainsName(string name)
-            => colors.Keys.Any(color => string.Compare(color, name.Trim(), StringComparison.CurrentCultureIgnoreCase) == 0);
+        public static bool ContainsName(string name) => colors.ContainsKey(name.Trim());
 
-        public static string GetName(string hexColor)
-            => colors.Single(pair => string.Compare(pair.Value, hexColor.Trim(), StringComparison.CurrentCultureIgnoreCase) == 0).Key;
+        public static string GetHexColor(string name) => colors[name.Trim()];
 
-        public static string GetHexColor(string name)
-            => colors.Single(pair => string.Compare(pair.Key, name.Trim(), StringComparison.CurrentCultureIgnoreCase) == 0).Value;
-
-        public static bool TryGetHexColor(string name, out string hexColor)
-        {
-            var result = colors.FirstOrDefault(pair => string.Compare(pair.Key, name.Trim(), StringComparison.CurrentCultureIgnoreCase) == 0);
-            if (result.IsDefault())
-            {
-                hexColor = default;
-                return false;
-            }
-            else
-            {
-                hexColor = result.Value;
-                return true;
-            }
-        }
+        public static bool TryGetHexColor(string name, out string hexColor) => colors.TryGetValue(name.Trim(), out hexColor);
     }
 }

@@ -9,8 +9,11 @@ memory-explorer {
         justify-content: flex-start;
         align-items: center;
         height: 100%;
-        border-right: 1px solid #656A72;
+        border: 1px solid #000000;
+        border-radius: 0px 8px 0px 0px;
         box-sizing: border-box;
+        overflow: hidden;
+        background-color: #656A72;
     }
 
     $width-contracted: 75px;
@@ -19,13 +22,11 @@ memory-explorer {
     content-area-contracted {
         @extend content-area-base;
         width: $width-contracted;
-        background-color: #BABEC4;
     }
 
     content-area-expanded {
         @extend content-area-base;
         width: $width-expanded;
-        background-color: #E7E8EA;
     }
 
     header-area {
@@ -37,9 +38,10 @@ memory-explorer {
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        background-color: #656A72;
         font-size: 32px;
         color: #E7E8EA;
+        border-bottom: 1px solid #000000;
+        box-sizing: border-box;
 
         logo-area {
             height: 75px;
@@ -50,7 +52,7 @@ memory-explorer {
 
             logo {
                 margin: 12.5px;
-                @include set-background-image("Actions/Debug.svg", 50px, 50px);
+                @include set-background-image("MemoryExplorer/MemoryExplorer.svg", 50px, 50px);
             }
         }
 
@@ -75,286 +77,304 @@ memory-explorer {
         }
     }
 
-    base-member {
-        flex-grow: 1;
+    member-area {
+        background-color: #E7E8EA;
         width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        overflow-y: auto;
-        overflow-x: hidden;
 
-        member-title-area {
-            height: 60px;
+        base-member {
+            flex-grow: 1;
             width: 100%;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
+            overflow-y: auto;
+            overflow-x: hidden;
 
-            logo-area {
-                width: 75px;
+            member-title-area {
+                height: 60px;
+                width: 100%;
                 display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
                 flex-shrink: 0;
 
-                logo {
-                    margin-left: 22.5px;
-                    margin-right: 22.5px;
-                    margin-top: 15px;
-                    margin-bottom: 15px;
+                logo-area {
+                    width: 75px;
+                    display: flex;
+                    flex-shrink: 0;
+
+                    logo {
+                        margin-left: 22.5px;
+                        margin-right: 22.5px;
+                        margin-top: 15px;
+                        margin-bottom: 15px;
+                    }
+                }
+
+                title-text {
+                    flex-grow: 1;
+                    color: #232528;
+                    font-size: 24px;
+                    font-weight: 500;
                 }
             }
 
-            title-text {
-                flex-grow: 1;
-                color: #232528;
-                font-size: 24px;
-                font-weight: 500;
-            }
-        }
-
-        member-table-header {
-            height: 32px;
-            width: calc(#{$width-expanded} - 40px);
-            box-sizing: border-box;
-            background-color: #656A72;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-
-            base-text {
-                padding-top: 8px;
-                padding-bottom: 8px;
-                padding-right: 15px;
-                padding-left: 15px;
-                color: #E7E8EA;
-                font-size: 14px;
-            }
-
-            left-text {
-                @extend base-text;
-                border-right: 1px solid #E7E8EA;
+            member-table-header {
+                height: 32px;
+                width: calc(#{$width-expanded} - 40px);
+                flex-shrink: 0;
                 box-sizing: border-box;
-            }
+                background-color: #656A72;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                border-radius: 5px 5px 0px 0px;
 
-            right-text {
-                @extend base-text;
-                flex-grow: 1;
-            }
-        }
-    }
+                base-text {
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    color: #E7E8EA;
+                    font-size: 14px;
+                }
 
-    variables-member {
-        @extend base-member;
-        flex-grow: 1;
+                left-text {
+                    @extend base-text;
+                    border-right: 1px solid #E7E8EA;
+                    box-sizing: border-box;
+                }
 
-        member-title-area {
-            logo-area {
-                logo {
-                    @include set-background-image("MemoryExplorer/Memory.svg", 30px, 30px);
+                right-text {
+                    @extend base-text;
+                    flex-grow: 1;
                 }
             }
         }
 
-        member-table-header {
-            left-text {
-                width: 122px;
+        variables-member {
+            @extend base-member;
+            flex-grow: 1;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #000000;
+            box-sizing: border-box;
+
+            member-title-area {
+                logo-area {
+                    logo {
+                        @include set-background-image("MemoryExplorer/Variables.svg", 30px, 30px);
+                    }
+                }
+            }
+
+            member-table-header {
+                left-text {
+                    width: 122px;
+                }
+            }
+
+            variables-block {
+                width: calc(#{$width-expanded} - 40px);
+                border: 1px solid #656A72;
+                box-sizing: border-box;
+                background-color: #FFFFFF;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                flex-shrink: 0;
+
+                variable {
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+                    width: calc(#{$width-expanded} - 40px);
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    color: #232528;
+
+                    name-cell {
+                        width: 122px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+
+                        icon-container {
+                            padding-left: 10px;
+                            padding-right: 10px;
+                            height: 20px;
+                            width: 20px;
+                            display: flex;
+
+                            string-type-icon {
+                                @include set-background-image("MemoryExplorer/StringType.svg", 20px, 20px);
+                            }
+
+                            array-type-icon {
+                                @include set-background-image("MemoryExplorer/ArrayType.svg", 20px, 20px);
+                            }
+
+                            number-type-icon {
+                                @include set-background-image("MemoryExplorer/NumberType.svg", 20px, 20px);
+                            }
+                        }
+
+                        name-container {
+                            font-size: 14px;
+                            font-weight: 500;
+                        }
+                    }
+
+                    value-cell {
+                        flex-grow: 1;
+                        font-size: 12px;
+                        padding-left: 10px;
+                        padding-right: 10px;
+                    }
+                }
             }
         }
 
-        variables-block {
+        call-stack-member {
+            @extend base-member;
+            flex-shrink: 0;
+            flex-grow: 0;
+            padding-bottom: 15px;
+
+            member-title-area {
+                logo-area {
+                    logo {
+                        @include set-background-image("MemoryExplorer/CallStack.svg", 30px, 30px);
+                    }
+                }
+            }
+
+            member-table-header {
+                left-text {
+                    width: 72px;
+                }
+            }
+
+            call-stack {
+                $stack-height: 160px;
+                $stack-width: calc(#{$width-expanded} - 40px);
+                width: $stack-width;
+                height: $stack-height;
+                padding-top: 15px;
+                padding-bottom: 15px;
+
+                blue-box {
+                    position: absolute;
+                    width: $stack-width;
+                    height: $stack-height;
+                    background-color: #0AADF9;
+                    border: 1px solid #232528;
+                    box-sizing: border-box;
+                }
+
+                container-box {
+                    position: absolute;
+                    height: calc(#{$stack-height} - 7px);
+                    width: calc(#{$stack-width} - 14px);
+                    transform: translateX(7px);
+                    background-color: #E7E8EA;
+                    border-bottom: 1px solid #232528;
+                    border-right: 1px solid #232528;
+                    border-left: 1px solid #232528;
+                    box-sizing: border-box;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    stack-frame {
+                        height: 35px;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding-top: 10px;
+
+                        base-cell {
+                            color: #232528;
+                            font-size: 14px;
+                            font-weight: 500;
+                            box-shadow: 0 1px 2px 0 rgba(35, 37, 40, 0.6);
+                            border-radius: 3px;
+                            box-sizing: border-box;
+                            background-color: #FFFFFF;
+                            padding: 9px;
+                        }
+
+                        line-cell {
+                            @extend base-cell;
+                            width: 45px;
+                            text-align: center;
+                        }
+
+                        module-name-cell {
+                            @extend base-cell;
+                            width: 205px;
+                        }
+                    }
+
+                    stack-frame-highlighted {
+                        @extend stack-frame;
+
+                        base-cell {
+                            background: #FEF849;
+                        }
+                    }
+                }
+            }
+        }
+
+        running-block {
+            height: 100%;
             width: calc(#{$width-expanded} - 40px);
             border: 1px solid #656A72;
             box-sizing: border-box;
             background-color: #FFFFFF;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
 
-            variable {
-                padding-top: 6px;
-                padding-bottom: 6px;
-                width: calc(#{$width-expanded} - 40px);
+            icon-container {
+                padding-top: 40px;
+                height: 50px;
+                width: 50px;
                 display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
+                flex-shrink: 0;
+
+                program-running-icon {
+                    @include set-background-image("MemoryExplorer/ProgramRunning.svg", 50px, 50px);
+                }
+
+                program-ended-icon {
+                    @include set-background-image("MemoryExplorer/ProgramEnded.svg", 50px, 50px);
+                }
+            }
+
+            text-container {
+                padding-top: 10px;
+                padding-bottom: 40px;
                 color: #232528;
-
-                name-cell {
-                    width: 122px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: flex-start;
-                    align-items: flex-start;
-
-                    icon-container {
-                        padding-left: 16px;
-                        padding-right: 10px;
-                        height: 16px;
-                        width: 16px;
-                        display: flex;
-
-                        string-type-icon {
-                            @include set-background-image("MemoryExplorer/StringType.svg", 16px, 16px);
-                        }
-
-                        array-type-icon {
-                            @include set-background-image("MemoryExplorer/ArrayType.svg", 16px, 16px);
-                        }
-
-                        number-type-icon {
-                            @include set-background-image("MemoryExplorer/NumberType.svg", 16px, 16px);
-                        }
-                    }
-
-                    name-container {
-                        font-size: 14px;
-                        font-weight: 500;
-                    }
-                }
-
-                value-cell {
-                    flex-grow: 1;
-                    font-size: 12px;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                }
+                font-size: 18px;
+                flex-shrink: 0;
             }
-        }
-    }
-
-    call-stack-member {
-        @extend base-member;
-        flex-shrink: 0;
-        flex-grow: 0;
-
-        member-title-area {
-            logo-area {
-                logo {
-                    @include set-background-image("MemoryExplorer/CallStack.svg", 30px, 30px);
-                }
-            }
-        }
-
-        member-table-header {
-            left-text {
-                width: 72px;
-            }
-        }
-
-        call-stack {
-            $stack-height: 160px;
-            $stack-width: calc(#{$width-expanded} - 40px);
-            width: $stack-width;
-            height: $stack-height;
-            padding-top: 15px;
-            padding-bottom: 15px;
-
-            blue-box {
-                position: absolute;
-                width: $stack-width;
-                height: $stack-height;
-                background-color: #0AADF9;
-                border: 1px solid #232528;
-                box-sizing: border-box;
-            }
-
-            container-box {
-                position: absolute;
-                height: calc(#{$stack-height} - 7px);
-                width: calc(#{$stack-width} - 14px);
-                transform: translateX(7px);
-                background-color: #E7E8EA;
-                border-bottom: 1px solid #232528;
-                border-right: 1px solid #232528;
-                border-left: 1px solid #232528;
-                box-sizing: border-box;
-                padding: 10px;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                align-items: center;
-
-                stack-frame {
-                    height: 35px;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding-top: 10px;
-
-                    base-cell {
-                        color: #232528;
-                        font-size: 14px;
-                        font-weight: 500;
-                        box-shadow: 0 1px 2px 0 rgba(35, 37, 40, 0.6);
-                        border-radius: 3px;
-                        box-sizing: border-box;
-                        background-color: #FFFFFF;
-                        padding: 9px;
-                    }
-
-                    line-cell {
-                        @extend base-cell;
-                        width: 45px;
-                        text-align: center;
-                    }
-
-                    module-name-cell {
-                        @extend base-cell;
-                        width: 205px;
-                    }
-                }
-
-                stack-frame-highlighted {
-                    @extend stack-frame;
-
-                    base-cell {
-                        background: #FEF849;
-                    }
-                }
-            }
-        }
-    }
-
-    running-block {
-        height: 100%;
-        width: calc(#{$width-expanded} - 40px);
-        border: 1px solid #656A72;
-        box-sizing: border-box;
-        background-color: #FFFFFF;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        icon-container {
-            padding-top: 40px;
-            height: 50px;
-            width: 50px;
-            display: flex;
-            flex-shrink: 0;
-
-            program-running-icon {
-                @include set-background-image("MemoryExplorer/ProgramRunning.svg", 50px, 50px);
-            }
-
-            program-ended-icon {
-                @include set-background-image("MemoryExplorer/ProgramEnded.svg", 50px, 50px);
-            }
-        }
-
-        text-container {
-            padding-top: 10px;
-            padding-bottom: 40px;
-            color: #232528;
-            font-size: 18px;
-            flex-shrink: 0;
         }
     }
 }

@@ -16,13 +16,12 @@ namespace SuperBasic.Editor.Libraries.Utilities
 
     public sealed class AsyncEngine : IDisposable
     {
-        private readonly LibrariesCollection libraries;
         private readonly SuperBasicEngine engine;
 
         public AsyncEngine(bool isDebugging)
         {
-            this.libraries = new LibrariesCollection();
-            this.engine = new SuperBasicEngine(CompilationStore.Compilation, this.libraries);
+            this.Libraries = new LibrariesCollection();
+            this.engine = new SuperBasicEngine(CompilationStore.Compilation, this.Libraries);
 
             if (isDebugging)
             {
@@ -36,6 +35,8 @@ namespace SuperBasic.Editor.Libraries.Utilities
         }
 
         public event Action ExecutedStep;
+
+        public LibrariesCollection Libraries { get; private set; }
 
         public ExecutionState State => this.engine.State;
 
@@ -51,7 +52,7 @@ namespace SuperBasic.Editor.Libraries.Utilities
             this.engine.Continue();
         }
 
-        public void Dispose() => this.libraries.Dispose();
+        public void Dispose() => this.Libraries.Dispose();
 
         public async Task StartLoop()
         {
@@ -82,7 +83,11 @@ namespace SuperBasic.Editor.Libraries.Utilities
                         break;
                     case ExecutionState.Terminated:
                         TextDisplayStore.SetInputMode(AcceptedInputMode.None);
-                        await this.libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage).ConfigureAwait(false);
+                        if (CompilationStore.Compilation.Analysis.UsesTextWindow)
+                        {
+                            await this.Libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage).ConfigureAwait(false);
+                        }
+
                         this.ExecutedStep?.Invoke();
                         TextDisplayStore.TextInput -= onTextInput;
                         return;

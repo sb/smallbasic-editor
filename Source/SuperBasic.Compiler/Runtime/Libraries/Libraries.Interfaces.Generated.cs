@@ -20,7 +20,13 @@ namespace SuperBasic.Compiler.Runtime
 
         decimal GetItemCount(ArrayValue array);
 
+        BaseValue GetValue(string arrayName, string index);
+
         bool IsArray(BaseValue array);
+
+        void RemoveValue(string arrayName, string index);
+
+        void SetValue(string arrayName, string index, BaseValue value);
     }
 
     public interface IClockLibrary

@@ -63,7 +63,7 @@ namespace SuperBasic.Editor.Components.Pages.Debug
                         MonacoEditor.Inject(composer, isReadOnly: true);
                     });
 
-                    EngineDisplay.Inject(composer);
+                    EngineDisplay.Inject(composer, this.engine);
                 });
             });
         }

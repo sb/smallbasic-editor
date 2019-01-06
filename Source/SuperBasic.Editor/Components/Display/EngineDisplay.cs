@@ -5,14 +5,22 @@
 namespace SuperBasic.Editor.Components.Display
 {
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Editor.Components.Layout;
+    using SuperBasic.Editor.Libraries.Utilities;
     using SuperBasic.Editor.Store;
 
     public sealed class EngineDisplay : SuperBasicComponent
     {
-        internal static void Inject(TreeComposer composer)
+        [Parameter]
+        private AsyncEngine Engine { get; set; }
+
+        internal static void Inject(TreeComposer composer, AsyncEngine engine)
         {
-            composer.Inject<EngineDisplay>();
+            composer.Inject<EngineDisplay>(new Dictionary<string, object>
+            {
+                { nameof(EngineDisplay.Engine), engine }
+            });
         }
 
         protected override void ComposeTree(TreeComposer composer)
@@ -33,7 +41,7 @@ namespace SuperBasic.Editor.Components.Display
 
                     if (CompilationStore.Compilation.Analysis.UsesGraphicsWindow)
                     {
-                        GraphicsDisplay.Inject(composer);
+                        GraphicsDisplay.Inject(composer, this.Engine.Libraries);
                     }
                 });
         }

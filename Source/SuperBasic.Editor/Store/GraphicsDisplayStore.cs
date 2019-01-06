@@ -69,14 +69,6 @@ namespace SuperBasic.Editor.Store
             display = instance;
         }
 
-        public static void SetLibraries(LibrariesCollection libraries)
-        {
-            if (!display.IsDefault())
-            {
-                display.Libraries = libraries;
-            }
-        }
-
         public static void UpdateDisplay()
         {
             if (!display.IsDefault())

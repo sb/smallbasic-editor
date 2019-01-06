@@ -7,6 +7,7 @@ namespace SuperBasic.Editor.Components.Display
     using System;
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Blazor;
+    using Microsoft.AspNetCore.Blazor.Components;
     using SuperBasic.Editor.Components.Layout;
     using SuperBasic.Editor.Libraries;
     using SuperBasic.Editor.Store;
@@ -27,17 +28,21 @@ namespace SuperBasic.Editor.Components.Display
 
         public ElementRef RenderArea { get; private set; }
 
-        public LibrariesCollection Libraries { get; set; }
-
         public bool IsVisible { get; set; }
 
         public bool IsMouseVisible { get; set; }
 
+        [Parameter]
+        private LibrariesCollection Libraries { get; set; }
+
         public void Update() => this.StateHasChanged();
 
-        internal static void Inject(TreeComposer composer)
+        internal static void Inject(TreeComposer composer, LibrariesCollection libraries)
         {
-            composer.Inject<GraphicsDisplay>();
+            composer.Inject<GraphicsDisplay>(new Dictionary<string, object>
+            {
+                { nameof(GraphicsDisplay.Libraries), libraries }
+            });
         }
 
         protected override void ComposeTree(TreeComposer composer)

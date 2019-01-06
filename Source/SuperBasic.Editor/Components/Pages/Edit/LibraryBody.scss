@@ -34,7 +34,7 @@ library-body {
 
         name {
             margin-left: 15px;
-            font-weight: normal;
+            font-weight: 500;
         }
     }
 
@@ -67,7 +67,7 @@ library-body {
 
         name {
             margin-left: 10px;
-            font-weight: normal;
+            font-weight: 500;
         }
     }
 
@@ -100,7 +100,7 @@ library-body {
                 flex-shrink: 0;
                 width: 100%;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 700;
                 margin-top: 15px;
                 margin-bottom: 10px;
 
@@ -151,21 +151,23 @@ library-body {
             example {
                 flex-shrink: 0;
                 background-color: #E7E8EA;
-                box-shadow: 0px 1px 2px rgba(35, 37, 40, 0.6);
                 font-size: 12px;
                 padding: 7px;
                 width: calc(100% - 14px);
                 margin-bottom: 16px;
                 background-color: #FFFFFF;
+                border-radius: 4px;
+                box-shadow: inset 0 1px 2px 0 rgba(35, 37, 40, 0.6);
             }
 
             block {
                 width: 100%;
                 flex-shrink: 0;
-                padding-bottom: 8px;
                 box-sizing: border-box;
+                border-left: 5px solid #E7E8EA;
+                border-right: 25px solid #E7E8EA;
 
-                contents {
+                result-area {
                     width: 100%;
                     flex-shrink: 0;
                     display: flex;
@@ -173,15 +175,13 @@ library-body {
                     align-items: flex-start;
                     justify-content: center;
                     box-sizing: border-box;
-                    padding-left: 5px;
-                    border-left: 3px solid #0E9DDF;
                     margin-bottom: 10px;
 
                     name {
                         width: 100%;
                         flex-shrink: 0;
                         font-size: 14px;
-                        font-weight: normal;
+                        font-weight: 500;
                         margin-bottom: 3px;
                     }
 
@@ -191,6 +191,12 @@ library-body {
                         font-size: 12px;
                         margin-bottom: 4px;
                     }
+                }
+
+                arguments-area {
+                    @extend result-area;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid #BABEC4;
                 }
             }
         }

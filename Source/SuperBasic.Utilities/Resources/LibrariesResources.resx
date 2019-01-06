@@ -1854,4 +1854,37 @@
   <data name="Program_Pause" xml:space="preserve">
     <value>Pauses the program when debugging to inspect variables.</value>
   </data>
+  <data name="Array_GetValue" xml:space="preserve">
+    <value>Gets a value for a given array and index.</value>
+  </data>
+  <data name="Array_GetValue_arrayName" xml:space="preserve">
+    <value>The name of the array.</value>
+  </data>
+  <data name="Array_GetValue_index" xml:space="preserve">
+    <value>The name of the index.</value>
+  </data>
+  <data name="Array_GetValue_ReturnValue" xml:space="preserve">
+    <value>The value at the specified index of the specified array.</value>
+  </data>
+  <data name="Array_RemoveValue" xml:space="preserve">
+    <value>Removes the array item at the specified index.</value>
+  </data>
+  <data name="Array_RemoveValue_arrayName" xml:space="preserve">
+    <value>The name of the array.</value>
+  </data>
+  <data name="Array_RemoveValue_index" xml:space="preserve">
+    <value>The index of the item to remove.</value>
+  </data>
+  <data name="Array_SetValue" xml:space="preserve">
+    <value>Sets a value for a given array and index.</value>
+  </data>
+  <data name="Array_SetValue_arrayName" xml:space="preserve">
+    <value>The name of the array.</value>
+  </data>
+  <data name="Array_SetValue_index" xml:space="preserve">
+    <value>Name of the index.</value>
+  </data>
+  <data name="Array_SetValue_value" xml:space="preserve">
+    <value>The value to set.</value>
+  </data>
 </root>

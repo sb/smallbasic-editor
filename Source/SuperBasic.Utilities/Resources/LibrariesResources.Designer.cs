@@ -196,6 +196,42 @@ namespace SuperBasic.Utilities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gets a value for a given array and index..
+        /// </summary>
+        public static string Array_GetValue {
+            get {
+                return ResourceManager.GetString("Array_GetValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the array..
+        /// </summary>
+        public static string Array_GetValue_arrayName {
+            get {
+                return ResourceManager.GetString("Array_GetValue_arrayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the index..
+        /// </summary>
+        public static string Array_GetValue_index {
+            get {
+                return ResourceManager.GetString("Array_GetValue_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value at the specified index of the specified array..
+        /// </summary>
+        public static string Array_GetValue_ReturnValue {
+            get {
+                return ResourceManager.GetString("Array_GetValue_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gets whether or not a given variable is an array..
         /// </summary>
         public static string Array_IsArray {
@@ -219,6 +255,69 @@ namespace SuperBasic.Utilities.Resources {
         public static string Array_IsArray_ReturnValue {
             get {
                 return ResourceManager.GetString("Array_IsArray_ReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removes the array item at the specified index..
+        /// </summary>
+        public static string Array_RemoveValue {
+            get {
+                return ResourceManager.GetString("Array_RemoveValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the array..
+        /// </summary>
+        public static string Array_RemoveValue_arrayName {
+            get {
+                return ResourceManager.GetString("Array_RemoveValue_arrayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The index of the item to remove..
+        /// </summary>
+        public static string Array_RemoveValue_index {
+            get {
+                return ResourceManager.GetString("Array_RemoveValue_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets a value for a given array and index..
+        /// </summary>
+        public static string Array_SetValue {
+            get {
+                return ResourceManager.GetString("Array_SetValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the array..
+        /// </summary>
+        public static string Array_SetValue_arrayName {
+            get {
+                return ResourceManager.GetString("Array_SetValue_arrayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of the index..
+        /// </summary>
+        public static string Array_SetValue_index {
+            get {
+                return ResourceManager.GetString("Array_SetValue_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value to set..
+        /// </summary>
+        public static string Array_SetValue_value {
+            get {
+                return ResourceManager.GetString("Array_SetValue_value", resourceCulture);
             }
         }
         
