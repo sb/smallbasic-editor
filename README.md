@@ -1,5 +1,7 @@
 # SmallBasic
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7x0t69w4x581s654?svg=true)](https://ci.appveyor.com/project/otawfik-ms/smallbasic-editor)
+
 This is home to the new SmallBasic editor. It has the following projects:
 * **SmallBasic.Analyzers**: a set of C# analyzers to help maintain the quality of the codebase.
 * **SmallBasic.Client**: a webpack project to bundle client typescript, sass, and image resources.
