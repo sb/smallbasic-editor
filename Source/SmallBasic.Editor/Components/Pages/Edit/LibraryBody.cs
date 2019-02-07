@@ -16,8 +16,6 @@ namespace SmallBasic.Editor.Components.Pages.Edit
     using SmallBasic.Utilities;
     using SmallBasic.Utilities.Resources;
 
-    // TODO-later: show warning on deprecated types or members.
-    // TODO-later: show when member/library is desktop only.
     public sealed class LibraryBody : SmallBasicComponent
     {
         private Method selectedMethod = default;

@@ -2,6 +2,7 @@
   "private": true,
   "main": "SmallBasic.Electron.js",
   "devDependencies": {
+    "@dotnet/jsinterop": "0.1.1",
     "@fortawesome/fontawesome-free": "5.5.0",
     "@timkendrick/monaco-editor": "0.0.9",
     "@types/copy-webpack-plugin": "4.4.2",

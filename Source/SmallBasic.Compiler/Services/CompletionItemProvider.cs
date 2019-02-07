@@ -13,7 +13,6 @@ namespace SmallBasic.Compiler.Services
     using SmallBasic.Compiler.Scanning;
     using SmallBasic.Utilities;
 
-    // TODO-now: return defined submodules as well
     internal static class CompletionItemProvider
     {
         public static MonacoCompletionItem[] Provide(Parser parser, Binder binder, TextPosition position)

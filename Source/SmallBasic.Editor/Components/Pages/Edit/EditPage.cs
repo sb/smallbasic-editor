@@ -47,7 +47,6 @@ namespace SmallBasic.Editor.Components.Pages.Edit
             Actions.Separator(composer);
             Actions.Action(composer, "save", EditorResources.Actions_Save, onClick: JSInterop.Monaco.SaveToFile);
             Actions.Action(composer, "open", EditorResources.Actions_Open, onClick: () => JSInterop.Monaco.OpenFile(EditorResources.Actions_ClearEverythingConfirmation));
-            // TODO-later: implement import/publish when service is available
             Actions.DisabledAction(composer, "import", EditorResources.Actions_Import, message: EditorResources.Actions_DisabledMessage_ComingSoon);
             Actions.DisabledAction(composer, "publish", EditorResources.Actions_Publish, message: EditorResources.Actions_DisabledMessage_ComingSoon);
             Actions.Separator(composer);

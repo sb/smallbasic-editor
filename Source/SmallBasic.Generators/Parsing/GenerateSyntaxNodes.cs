@@ -9,7 +9,6 @@ namespace SmallBasic.Generators.Parsing
     using System.Linq;
     using SmallBasic.Utilities;
 
-    // TODO-later: range shound be cached or pre-calculated (perf)
     public sealed class GenerateSyntaxNodes : BaseConverterTask<SyntaxNodeCollection>
     {
         protected override void Generate(SyntaxNodeCollection model)

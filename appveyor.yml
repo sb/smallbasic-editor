@@ -5,13 +5,13 @@ branches:
   only:
   - master
 
-init:
-  - cmd: git config --global core.autocrlf true
-
 environment:
   matrix:
     - configuration: Debug
     - configuration: Release
+
+init:
+  - cmd: git config --global core.autocrlf true
 
 build_script:
   - cmd: dotnet build /p:Configuration=%configuration% /p:TreatWarningsAsErrors=True

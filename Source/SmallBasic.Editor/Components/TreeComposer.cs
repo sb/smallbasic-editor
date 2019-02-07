@@ -14,7 +14,6 @@ namespace SmallBasic.Editor.Components
     using Microsoft.AspNetCore.Blazor.RenderTree;
     using SmallBasic.Utilities;
 
-    // TODO-later: is blazor mature yet to delete this?
     public sealed class TreeComposer
     {
         private readonly RenderTreeBuilder builder;

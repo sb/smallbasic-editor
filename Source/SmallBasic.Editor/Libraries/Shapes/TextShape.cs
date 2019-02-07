@@ -7,7 +7,6 @@ namespace SmallBasic.Editor.Libraries.Shapes
     using SmallBasic.Editor.Libraries.Graphics;
     using SmallBasic.Editor.Libraries.Utilities;
 
-    // TODO-later: now to calculate height and width from pen size?
     internal sealed class TextShape : BaseShape<TextGraphicsObject>
     {
         public TextShape(string text, GraphicsWindowStyles styles)

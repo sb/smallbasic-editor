@@ -6,7 +6,6 @@ namespace SmallBasic.Bridge
 {
     public static class Program
     {
-        // TODO-later: exception messages (for example, file bridge) should be localized)
         public static void Main(string[] args)
         {
             BridgeExecution.Run(args);

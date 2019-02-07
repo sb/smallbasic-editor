@@ -37,7 +37,9 @@
       <ClientWebPackArgs Include="display-error-details" />
     </ItemGroup>
 
-    <Exec Command="node $(MSBuildProjectDirectory)\node_modules\webpack\bin\webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec
+      Command="node --max-old-space-size=4000 $(MSBuildProjectDirectory)\node_modules\webpack\bin\webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')"
+      WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
 </Project>

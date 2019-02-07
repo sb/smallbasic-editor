@@ -10,7 +10,6 @@ namespace SmallBasic.Tests.Compiler
     using SmallBasic.Compiler.Diagnostics;
     using Xunit;
 
-    // TODO-later: how to set timeout for all tests globally? they currently run indefinetely.
     public sealed class BindingTests
     {
         [Fact]
