@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Utilities\SmallBasic.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Command line parser -->
+    <PackageReference Include="CommandLineParser" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ConvertCommands Include="generate-token-kinds">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Scanning\TokenKinds.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Scanning\TokenKind.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-diagnostic-code">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Diagnostics\Diagnostics.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Diagnostics\DiagnosticCode.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-diagnostic-bag">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Diagnostics\Diagnostics.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Diagnostics\DiagnosticBag.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-syntax-nodes">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Parsing\SyntaxNodes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Parsing\SyntaxNodes.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-bound-nodes">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Binding\BoundNodes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Binding\BoundNodes.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-libraries">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Runtime\Libraries\Libraries.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-library-interfaces">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-library-interfaces">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Compiler\Runtime\Libraries\Libraries.Interfaces.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-logging-test-libraries">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Libraries\Libraries.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Tests\LoggingTestLibraries.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-editor-bridge">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Editor\Bridge\Bridge.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-client-bridge">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Client\Bridge\Bridge.Generated.ts</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-bridge-execution">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Bridge\BridgeTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Bridge\Bridge.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-js-editor-interop">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Interop\JSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Editor\Interop\JSInterop.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-js-client-interop">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Interop\JSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Client\Interop\JSInterop.Generated.ts</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-cs-editor-interop">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Interop\CSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Editor\Interop\CSInterop.Generated.cs</OutputFile>
+    </_ConvertCommands>
+    <_ConvertCommands Include="generate-cs-client-interop">
+      <InputFile>$(RootDirectory)\Source\SmallBasic.Generators\Interop\CSInteropTypes.xml</InputFile>
+      <OutputFile>$(RootDirectory)\Source\SmallBasic.Client\Interop\CSInterop.Generated.ts</OutputFile>
+    </_ConvertCommands>
+  </ItemGroup>
+
+  <Target Name="RunConvertCommands" AfterTargets="Build" Outputs="%(_ConvertCommands.Identity)">
+    <Exec ConsoleToMsBuild="true" Command="dotnet $(OutputPath)$(ProjectName).dll convert --task %(_ConvertCommands.Identity) --input %(_ConvertCommands.InputFile) --output %(_ConvertCommands.OutputFile)" />
+  </Target>
+
+</Project>

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="Build">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <WebPackOutputPath>$(RootDirectory)\Source\SmallBasic.Editor\wwwroot</WebPackOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="**\*.*" />
+    <None Remove="node_modules\**\*.*" />
+    <WebpackInput Include="**\*.*" />
+    <WebpackInput Remove="node_modules\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="WebPackRestore" Inputs="package.json" Outputs="obj\package.json">
+    <Message Importance="high" Text="Restoring npm packages for project $(MSBuildProjectName)" />
+    <Exec Command="npm update --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Copy SourceFiles="package.json" DestinationFiles="obj\package.json" />
+  </Target>
+
+  <Target Name="WebPackClientSide" AfterTargets="Build" DependsOnTargets="WebPackRestore" Inputs="@(WebpackInput)" Outputs="$(WebPackOutputPath)\**\*.*">
+    <Message Importance="high" Text="Running webpack for project $(MSBuildProjectName)" />
+
+    <ItemGroup>
+      <ClientWebPackArgs Include="config" Value="webpack.config.ts" />
+      <ClientWebPackArgs Include="env.watch" Value="$(Watch)" />
+      <ClientWebPackArgs Include="env.configuration" Value="$(Configuration)" />
+      <ClientWebPackArgs Include="env.outputPath" Value="$(WebPackOutputPath)" />
+      <ClientWebPackArgs Include="env.isBuildingForDesktop" Value="$(IsBuildingForDesktop)" />
+      <ClientWebPackArgs Include="info-verbosity" Condition="'$(Watch)' == 'True'" Value="verbose" />
+      <ClientWebPackArgs Include="w" Condition="'$(Watch)' == 'True'" />
+      <ClientWebPackArgs Include="display-error-details" />
+    </ItemGroup>
+
+    <Exec Command="node $(MSBuildProjectDirectory)\node_modules\webpack\bin\webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+</Project>

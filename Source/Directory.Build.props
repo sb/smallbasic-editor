@@ -67,10 +67,10 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(ProjectName)' != 'SuperBasic.Analyzers'">
+  <ItemGroup Condition="'$(ProjectName)' != 'SmallBasic.Analyzers'">
     <!-- Custom Analyzers -->
-    <ProjectReference Include="$(RootDirectory)\Source\SuperBasic.Analyzers\SuperBasic.Analyzers.csproj" />
-    <Analyzer Include="$(RootDirectory)\Source\SuperBasic.Analyzers\bin\$(Configuration)\netstandard2.0\SuperBasic.Analyzers.dll" />
+    <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Analyzers\SmallBasic.Analyzers.csproj" />
+    <Analyzer Include="$(RootDirectory)\Source\SmallBasic.Analyzers\bin\$(Configuration)\netstandard2.0\SmallBasic.Analyzers.dll" />
   </ItemGroup>
 
 </Project>

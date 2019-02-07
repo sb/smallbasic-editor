@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RunCommand>dotnet</RunCommand>
+    <RunArguments>blazor serve</RunArguments>
+    <!-- Disable for now, we get linking errors: https://github.com/aspnet/Blazor/issues/356 -->
+    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Utilities\SmallBasic.Utilities.csproj" />
+    <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Compiler\SmallBasic.Compiler.csproj" />
+    <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Client\SmallBasic.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
+    <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.7.0" />
+  </ItemGroup>
+
+  <Target Name="CopyElectronFiles" AfterTargets="Build" Condition="'$(IsBuildingForDesktop)' == 'True'">
+    <MSBuild Projects="$(RootDirectory)\Source\SmallBasic.Bridge\SmallBasic.Bridge.csproj" />  
+
+    <PropertyGroup>
+      <DistFolder>$([System.IO.Path]::GetFullPath($(OutputPath)\dist))</DistFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <BridgeFiles Include="$(RootDirectory)\Source\SmallBasic.Bridge\bin\$(Configuration)\netcoreapp2.0\**\*.*" />
+      <ElectronDependencies Include="wwwroot\**\*.*" />
+      <ElectronDependencies Include="$(RootDirectory)\Source\SmallBasic.Client\package.json" />
+      <ElectronDependencies Include="$(RootDirectory)\Source\SmallBasic.Client\node_modules*\**\*.*" />
+      <ElectronDependencies Remove="$(RootDirectory)\Source\SmallBasic.Client\node_modules*\.cache\**\*.*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(BridgeFiles)" DestinationFiles="@(BridgeFiles->'$(DistFolder)\_bridge\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ElectronDependencies)" DestinationFiles="@(ElectronDependencies->'$(DistFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <WriteLinesToFile File="$(DistFolder)\run-electron.cmd" Lines="$(DistFolder)\node_modules\electron\dist\electron.exe $(DistFolder)" Overwrite="true" />
+
+    <Message Importance="high" Text="Copying electron build to $(DistFolder)\run-electron.cmd" />
+  </Target>
+
+</Project>
