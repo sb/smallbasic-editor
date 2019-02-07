@@ -6,12 +6,16 @@ branches:
   - master
 
 environment:
+  nodejs_version: "11.9.0"
   matrix:
     - configuration: Debug
     - configuration: Release
 
 init:
   - cmd: git config --global core.autocrlf true
+
+install:
+  - ps: Install-Product node $env:nodejs_version
 
 build_script:
   - cmd: dotnet build /p:Configuration=%configuration% /p:TreatWarningsAsErrors=True
