@@ -111,6 +111,20 @@ tex$
                 "TextWindow");
         }
 
+        [Fact]
+        public void CompletesSubModulesNames()
+        {
+            string code = @"
+Sub FireEvent
+EndSub
+Fi$
+";
+
+            TestForCompletionItems(code,
+                "FireEvent",
+                "File");
+        }
+
         private static void TestForCompletionItems(string text, params string[] expectedItems)
         {
             var actualItems = GetItems(text);

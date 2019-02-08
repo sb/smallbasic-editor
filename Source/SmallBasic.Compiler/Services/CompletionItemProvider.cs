@@ -83,9 +83,9 @@ namespace SmallBasic.Compiler.Services
         {
             var items = new List<MonacoCompletionItem>();
 
-            foreach (var variable in new VariableNamesCollector(binder).Names.Where(name => name.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)))
+            foreach (var name in new VariablesAndSubModulesCollector(binder).Names.Where(name => name.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)))
             {
-                items.Add(new MonacoCompletionItem(MonacoCompletionItemKind.Variable, variable, variable));
+                items.Add(new MonacoCompletionItem(MonacoCompletionItemKind.Variable, name, name));
             }
 
             foreach (var library in Libraries.Types.Values.Where(library => library.Name.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)))
