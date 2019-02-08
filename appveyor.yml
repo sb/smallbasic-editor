@@ -9,7 +9,6 @@ environment:
   nodejs_version: "11.9.0"
   matrix:
     - configuration: Debug
-    - configuration: Release
 
 init:
   - cmd: git config --global core.autocrlf true
