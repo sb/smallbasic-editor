@@ -115,7 +115,7 @@ export class MonacoInterop implements IMonacoInterop {
                     this.activeEditor!.getModel().setValue(reader.result as string);
                 };
 
-                reader.readAsBinaryString(file);
+                reader.readAsText(file);
             }
 
             filePicker.remove();
