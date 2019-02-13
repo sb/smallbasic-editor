@@ -7,6 +7,18 @@ jobs:
     steps:
       - checkout
       - restore_cache:
+          name: Restore Nuget Package Cache
+          keys:
+            - v1-nuget-packages
+      - run:
+          name: Install Nuget Packages
+          command: dotnet restore
+      - save_cache:
+          name: Save Nuget Package Cache
+          key: v1-nuget-packages
+          paths:
+            - ~/.nuget/packages
+      - restore_cache:
           name: Restore NPM Package Cache
           keys:
             - v1-npm-packages-{{ checksum "./Source/SmallBasic.Client/package-lock.json" }}
