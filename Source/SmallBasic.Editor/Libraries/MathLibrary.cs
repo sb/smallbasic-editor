@@ -31,7 +31,7 @@ namespace SmallBasic.Editor.Libraries
 
         public decimal GetRadians(decimal angle) => (angle % 360) * (decimal)Math.PI / 180;
 
-        public decimal GetRandomNumber(decimal maxNumber) => Random.Next((int)Math.Max(1, maxNumber) + 1);
+        public decimal GetRandomNumber(decimal maxNumber) => Random.Next((int)Math.Max(1, maxNumber)) + 1;
 
         public decimal Log(decimal number) => (decimal)Math.Log10((double)number);
 
