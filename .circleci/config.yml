@@ -1,0 +1,33 @@
+version: 2
+
+jobs:
+  build_and_test:
+    docker:
+      - image: microsoft/dotnet:2.2-sdk
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore NPM Package Cache
+          keys:
+            - v1-npm-packages-{{ checksum "./Source/SmallBasic.Client/package-lock.json" }}
+      - run:
+          name: Install NPM Packages
+          command: npm install
+          working_directory: ./Source/SmallBasic.Client
+      - save_cache:
+          name: Save NPM Package Cache
+          key: v1-npm-packages-{{ checksum "./Source/SmallBasic.Client/package-lock.json" }}
+          paths:
+            - ./Source/SmallBasic.Client/node_modules
+      - run:
+          name: Build Projects (Debug)
+          command: dotnet build ./SmallBasic.sln /p:TreatWarningsAsErrors=True /p:Configuration=Debug
+      - run:
+          name: Run Tests (Debug)
+          command: dotnet test ./Source/SmallBasic.Tests /p:Configuration=Debug
+      - run:
+          name: Build Projects (Release)
+          command: dotnet build ./SmallBasic.sln /p:TreatWarningsAsErrors=True /p:Configuration=Release
+      - run:
+          name: Run Tests (Release)
+          command: dotnet test ./Source/SmallBasic.Tests /p:Configuration=Release
