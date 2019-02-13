@@ -1,9 +1,9 @@
 version: 2
 
 jobs:
-  build_and_test:
+  build:
     docker:
-      - image: microsoft/dotnet:2.2-sdk
+      - image: emeraldsquad/dotnet-nodejs
     steps:
       - checkout
       - restore_cache:
