@@ -8,10 +8,17 @@ namespace SmallBasic.Editor.Libraries
     using System.Threading;
     using System.Threading.Tasks;
     using SmallBasic.Compiler.Runtime;
+    using SmallBasic.Editor.Store;
 
     internal sealed class ProgramLibrary : IProgramLibrary
     {
-        public Task Delay(decimal milliSeconds) => Task.Delay((int)milliSeconds);
+        public Task Delay(decimal milliSeconds)
+        {
+            // Update display if needed
+            GraphicsDisplayStore.UpdateDisplay();
+
+            return Task.Delay((int)milliSeconds);
+        }
 
         public void End() => throw new InvalidOperationException("This should have been removed in binding.");
 
