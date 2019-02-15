@@ -1,6 +1,6 @@
 # SmallBasic
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7x0t69w4x581s654?svg=true)](https://ci.appveyor.com/project/otawfik-ms/smallbasic-editor)
+[![Build Status](https://circleci.com/gh/sb/smallbasic-editor.svg?style=svg)](https://circleci.com/gh/sb/smallbasic-editor)
 
 This is home to the new SmallBasic editor. It has the following projects:
 * **SmallBasic.Analyzers**: a set of C# analyzers to help maintain the quality of the codebase.
