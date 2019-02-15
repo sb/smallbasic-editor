@@ -40,7 +40,7 @@ namespace SmallBasic.Editor.Libraries.Graphics
                 },
                 attributes: new Dictionary<string, string>
                 {
-                    { "w", this.X.ToString(CultureInfo.CurrentCulture) },
+                    { "x", this.X.ToString(CultureInfo.CurrentCulture) },
                     { "y", this.Y.ToString(CultureInfo.CurrentCulture) },
                     { "width", this.Width.ToString(CultureInfo.CurrentCulture) },
                     { "height", this.Height.ToString(CultureInfo.CurrentCulture) },
