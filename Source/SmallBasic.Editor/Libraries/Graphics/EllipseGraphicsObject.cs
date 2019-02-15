@@ -42,8 +42,8 @@ namespace SmallBasic.Editor.Libraries.Graphics
                 {
                     { "cx", this.X.ToString(CultureInfo.CurrentCulture) },
                     { "cy", this.Y.ToString(CultureInfo.CurrentCulture) },
-                    { "rx", this.Width.ToString(CultureInfo.CurrentCulture) },
-                    { "ry", this.Height.ToString(CultureInfo.CurrentCulture) },
+                    { "rx", (this.Width / 2).ToString(CultureInfo.CurrentCulture) },
+                    { "ry", (this.Height / 2).ToString(CultureInfo.CurrentCulture) },
                 });
         }
     }
