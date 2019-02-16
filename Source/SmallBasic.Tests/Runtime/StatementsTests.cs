@@ -16,7 +16,7 @@ namespace SmallBasic.Tests.Runtime
             return new SmallBasicCompilation(@"
 If ""True"" Then
     TextWindow.WriteLine(""first"")
-EndIf").VerifyRuntime(expectedLog: @"
+EndIf").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'first')
 ");
         }
@@ -27,7 +27,7 @@ TextWindow.WriteLine(data: 'first')
             return new SmallBasicCompilation(@"
 If ""False"" Then
     TextWindow.WriteLine(""first"")
-EndIf").VerifyRuntime(expectedLog: @"
+EndIf").VerifyLoggingRuntime(expectedLog: @"
 ");
         }
 
@@ -39,7 +39,7 @@ If ""True"" Then
     TextWindow.WriteLine(""first"")
 Else
     TextWindow.WriteLine(""second"")
-EndIf").VerifyRuntime(expectedLog: @"
+EndIf").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'first')
 ");
         }
@@ -52,7 +52,7 @@ If ""False"" Then
     TextWindow.WriteLine(""first"")
 Else
     TextWindow.WriteLine(""second"")
-EndIf").VerifyRuntime(expectedLog: @"
+EndIf").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'second')
 ");
         }
@@ -71,7 +71,7 @@ For x = 1 To 4
     Else
         TextWindow.WriteLine(""fourth"")
     EndIf
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: 'first')
 TextWindow.WriteLine(data: 'second')
 TextWindow.WriteLine(data: 'third')
@@ -85,7 +85,7 @@ TextWindow.WriteLine(data: 'fourth')
             return new SmallBasicCompilation(@"
 For x = 1 To 4
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '3')
@@ -99,7 +99,7 @@ TextWindow.WriteLine(data: '4')
             return new SmallBasicCompilation(@"
 For x = 1 To 4 Step 1
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '3')
@@ -113,7 +113,7 @@ TextWindow.WriteLine(data: '4')
             return new SmallBasicCompilation(@"
 For x = 1 To 8 Step 2
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '5')
@@ -127,7 +127,7 @@ TextWindow.WriteLine(data: '7')
             return new SmallBasicCompilation(@"
 For x = 4 To 1 Step -1
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '4')
 TextWindow.WriteLine(data: '3')
 TextWindow.WriteLine(data: '2')
@@ -141,7 +141,7 @@ TextWindow.WriteLine(data: '1')
             return new SmallBasicCompilation(@"
 For x = 8 To 1 Step -2
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '8')
 TextWindow.WriteLine(data: '6')
 TextWindow.WriteLine(data: '4')
@@ -155,7 +155,7 @@ TextWindow.WriteLine(data: '2')
             return new SmallBasicCompilation(@"
 For x = 1 To 1
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 ");
         }
@@ -166,7 +166,7 @@ TextWindow.WriteLine(data: '1')
             return new SmallBasicCompilation(@"
 For x = 1 To 1 Step 1
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 ");
         }
@@ -177,7 +177,7 @@ TextWindow.WriteLine(data: '1')
             return new SmallBasicCompilation(@"
 For x = 1 To 1 Step -1
     TextWindow.WriteLine(x)
-EndFor").VerifyRuntime(expectedLog: @"
+EndFor").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 ");
         }
@@ -194,7 +194,7 @@ two:
 TextWindow.WriteLine(2)
 GoTo one
 three:
-TextWindow.WriteLine(3)").VerifyRuntime(expectedLog: @"
+TextWindow.WriteLine(3)").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '3')
@@ -212,7 +212,7 @@ While x > 0
     x = x - 1
 EndWhile
 TextWindow.WriteLine(result)
-").VerifyRuntime(expectedLog: @"
+").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '32')
 ");
         }
@@ -226,7 +226,7 @@ While ""False""
     result = 2
 EndWhile
 TextWindow.WriteLine(result)
-").VerifyRuntime(expectedLog: @"
+").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 ");
         }
@@ -243,7 +243,7 @@ While ""True""
         Program.End()
     EndIf
 EndWhile
-").VerifyRuntime(expectedLog: @"
+").VerifyLoggingRuntime(expectedLog: @"
 TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 TextWindow.WriteLine(data: '3')

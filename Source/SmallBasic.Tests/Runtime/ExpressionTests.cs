@@ -15,7 +15,7 @@ namespace SmallBasic.Tests.Runtime
         {
             return new SmallBasicCompilation(@"
 x = ""1"" + 1
-y = 4 + ""-1""").VerifyRuntime(memoryContents: @"
+y = 4 + ""-1""").VerifyLoggingRuntime(memoryContents: @"
 x = 2
 y = 3");
         }
@@ -34,7 +34,7 @@ found_second = ar[1][2]
 not_found_ar = none[0]
 not_found_first = ar[4]
 not_found_second = ar[1][6]
-").VerifyRuntime(memoryContents: @"
+").VerifyLoggingRuntime(memoryContents: @"
 ar = 0=first;1=0\=second\;2\=third\;;
 found_first = first
 found_second = third

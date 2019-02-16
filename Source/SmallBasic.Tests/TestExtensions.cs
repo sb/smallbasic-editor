@@ -15,6 +15,7 @@ namespace SmallBasic.Tests
     using SmallBasic.Compiler.Binding;
     using SmallBasic.Compiler.Diagnostics;
     using SmallBasic.Compiler.Runtime;
+    using SmallBasic.Editor.Libraries;
     using SmallBasic.Utilities;
 
     internal static class TestExtensions
@@ -29,12 +30,29 @@ namespace SmallBasic.Tests
             return compilation;
         }
 
-        public static async Task<SmallBasicEngine> VerifyRuntime(this SmallBasicCompilation compilation, string expectedLog = default, string memoryContents = default)
+        public static Task<SmallBasicEngine> VerifyRealRuntime(this SmallBasicCompilation compilation, string memoryContents = default)
+        {
+            return VerifyRuntimeAux(compilation, new LibrariesCollection(), memoryContents);
+        }
+
+        public static async Task<SmallBasicEngine> VerifyLoggingRuntime(this SmallBasicCompilation compilation, string expectedLog = default, string memoryContents = default)
+        {
+            StringBuilder log = new StringBuilder();
+            var engine = await VerifyRuntimeAux(compilation, new LoggingEngineLibraries(log), memoryContents).ConfigureAwait(false);
+
+            if (!expectedLog.IsDefault())
+            {
+                (Environment.NewLine + log.ToString()).Should().Be(expectedLog);
+            }
+
+            return engine;
+        }
+
+        private static async Task<SmallBasicEngine> VerifyRuntimeAux(this SmallBasicCompilation compilation, IEngineLibraries libraries, string memoryContents)
         {
             compilation.VerifyDiagnostics();
 
-            StringBuilder log = new StringBuilder();
-            SmallBasicEngine engine = new SmallBasicEngine(compilation, new LoggingEngineLibraries(log));
+            SmallBasicEngine engine = new SmallBasicEngine(compilation, libraries);
 
             while (engine.State != ExecutionState.Terminated)
             {
@@ -44,11 +62,6 @@ namespace SmallBasic.Tests
 
             DebuggerSnapshot snapshot = engine.GetSnapshot();
             snapshot.ExecutionStack.Should().BeEmpty();
-
-            if (!expectedLog.IsDefault())
-            {
-                (Environment.NewLine + log.ToString()).Should().Be(expectedLog);
-            }
 
             if (!memoryContents.IsDefault())
             {

@@ -583,7 +583,7 @@ namespace SmallBasic.Tests.Runtime
         {
             return new SmallBasicCompilation($@"
 ar[1] = 2
-x = {expression}").VerifyRuntime(memoryContents: $@"
+x = {expression}").VerifyLoggingRuntime(memoryContents: $@"
 ar = 1=2;
 x = {result}");
         }

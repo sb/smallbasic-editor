@@ -27,9 +27,29 @@ namespace SmallBasic.Editor.Libraries
 
         public decimal GetLength(string text) => text.Length;
 
-        public string GetSubText(string text, decimal start, decimal length) => text.Substring((int)Math.Max(start - 1, 0), (int)Math.Min(length - start - 1, text.Length));
+        public string GetSubText(string text, decimal start, decimal length)
+        {
+            start--;
 
-        public string GetSubTextToEnd(string text, decimal start) => text.Substring((int)Math.Max(start - 1, 0));
+            if (start < 0 || start >= text.Length || length < 1)
+            {
+                return string.Empty;
+            }
+
+            length = Math.Min(length, text.Length - start);
+            return text.Substring((int)start, (int)length);
+        }
+
+        public string GetSubTextToEnd(string text, decimal start)
+        {
+            start--;
+            if (start < 0 || start >= text.Length)
+            {
+                return string.Empty;
+            }
+
+            return text.Substring((int)start);
+        }
 
         public bool IsSubText(string text, string subText) => text.Contains(subText);
 
