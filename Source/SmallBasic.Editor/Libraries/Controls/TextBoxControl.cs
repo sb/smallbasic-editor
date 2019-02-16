@@ -32,7 +32,8 @@ namespace SmallBasic.Editor.Libraries.Controls
                 },
                 attributes: new Dictionary<string, string>()
                 {
-                        { "type", "text" },
+                    { "type", "text" },
+                    { "value", this.Text },
                 });
         }
     }

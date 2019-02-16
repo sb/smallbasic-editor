@@ -4,6 +4,7 @@
 
 namespace SmallBasic.Editor.Libraries.Controls
 {
+    using System.Collections.Generic;
     using SmallBasic.Editor.Components;
 
     internal sealed class MultilineTextBoxControl : BaseControl
@@ -28,6 +29,10 @@ namespace SmallBasic.Editor.Libraries.Controls
                         this.Text = args.Value.ToString();
                         library.NotifyTextTyped(this.Name);
                     }
+                },
+                attributes: new Dictionary<string, string>()
+                {
+                    { "value", this.Text },
                 });
         }
     }
