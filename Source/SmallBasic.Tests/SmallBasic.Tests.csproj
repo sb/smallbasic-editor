@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Compiler\SmallBasic.Compiler.csproj" />
+    <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Editor\SmallBasic.Editor.csproj" />
     <ProjectReference Include="$(RootDirectory)\Source\SmallBasic.Utilities\SmallBasic.Utilities.csproj" />
   </ItemGroup>
 
