@@ -68,21 +68,21 @@ namespace SmallBasic.Editor.Libraries.Utilities
                 switch (this.engine.State)
                 {
                     case ExecutionState.Running:
-                        TextDisplayStore.SetInputMode(AcceptedInputMode.None);
+                        await TextDisplayStore.SetInputMode(AcceptedInputMode.None).ConfigureAwait(false);
                         await this.engine.Execute().ConfigureAwait(false);
                         this.ExecutedStep?.Invoke();
                         break;
                     case ExecutionState.BlockedOnNumberInput:
-                        TextDisplayStore.SetInputMode(AcceptedInputMode.Numbers);
+                        await TextDisplayStore.SetInputMode(AcceptedInputMode.Numbers).ConfigureAwait(false);
                         break;
                     case ExecutionState.BlockedOnStringInput:
-                        TextDisplayStore.SetInputMode(AcceptedInputMode.Strings);
+                        await TextDisplayStore.SetInputMode(AcceptedInputMode.Strings).ConfigureAwait(false);
                         break;
                     case ExecutionState.Paused:
-                        TextDisplayStore.SetInputMode(AcceptedInputMode.None);
+                        await TextDisplayStore.SetInputMode(AcceptedInputMode.None).ConfigureAwait(false);
                         break;
                     case ExecutionState.Terminated:
-                        TextDisplayStore.SetInputMode(AcceptedInputMode.None);
+                        await TextDisplayStore.SetInputMode(AcceptedInputMode.None).ConfigureAwait(false);
                         if (CompilationStore.Compilation.Analysis.UsesTextWindow)
                         {
                             await this.Libraries.TextWindow.WriteLine(EditorResources.TextDisplay_TerminateMessage).ConfigureAwait(false);
