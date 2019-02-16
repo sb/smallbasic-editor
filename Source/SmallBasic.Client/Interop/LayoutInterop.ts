@@ -8,15 +8,6 @@ export class LayoutInterop implements ILayoutInterop {
     public async initializeWebView(locale: string, title: string): Promise<void> {
         document.documentElement.setAttribute("lang", locale);
         document.title = title;
-
-        document.onkeydown = () => {
-            // Focus on the text display if it exists
-            const displays = document.getElementsByTagName("text-display");
-            if (displays.length === 1) {
-                const display = displays.item(0) as HTMLElement;
-                display.focus();
-            }
-        };
     }
 
     public async openExternalLink(url: string): Promise<void> {
