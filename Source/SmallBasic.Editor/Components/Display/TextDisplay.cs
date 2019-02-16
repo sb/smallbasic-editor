@@ -4,13 +4,10 @@
 
 namespace SmallBasic.Editor.Components.Display
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Blazor;
-    using Microsoft.AspNetCore.Blazor.Components;
     using SmallBasic.Editor.Components.Layout;
     using SmallBasic.Editor.Interop;
     using SmallBasic.Editor.Store;
@@ -28,6 +25,7 @@ namespace SmallBasic.Editor.Components.Display
         private readonly List<OutputChunk> outputChunks = new List<OutputChunk>();
 
         private ElementRef inputFieldRef;
+        private ElementRef textDisplayRef;
         private string inputBuffer = string.Empty;
         private string backgroundColor = "black";
         private AcceptedInputMode mode = AcceptedInputMode.None;
@@ -51,9 +49,15 @@ namespace SmallBasic.Editor.Components.Display
             this.StateHasChanged();
         }
 
-        internal void SetInputMode(AcceptedInputMode mode)
+        internal async Task SetInputMode(AcceptedInputMode mode)
         {
             this.mode = mode;
+
+            if (this.mode != AcceptedInputMode.None)
+            {
+                await JSInterop.Layout.Focus(this.textDisplayRef).ConfigureAwait(false);
+            }
+
             this.StateHasChanged();
         }
 
@@ -72,6 +76,7 @@ namespace SmallBasic.Editor.Components.Display
         {
             composer.Element(
                 name: "text-display",
+                capture: element => this.textDisplayRef = element,
                 styles: new Dictionary<string, string>
                 {
                     { "background-color", this.backgroundColor }

@@ -45,6 +45,11 @@ namespace SmallBasic.Editor.Interop
             {
                 await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Layout.scrollIntoView", element).ConfigureAwait(false);
             }
+
+            public static async Task Focus(ElementRef element)
+            {
+                await JSRuntime.Current.InvokeAsync<bool>("JSInterop.Layout.focus", element).ConfigureAwait(false);
+            }
         }
 
         public static class Monaco

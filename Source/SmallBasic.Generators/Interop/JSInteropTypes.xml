@@ -34,6 +34,11 @@
           <Parameter Name="element" Type="HTMLElement" />
         </Parameters>
       </Method>
+      <Method Name="Focus">
+        <Parameters>
+          <Parameter Name="element" Type="HTMLElement" />
+        </Parameters>
+      </Method>
     </Methods>
   </InteropType>
   <InteropType Name="Monaco">

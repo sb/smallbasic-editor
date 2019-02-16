@@ -26,6 +26,10 @@ export class LayoutInterop implements ILayoutInterop {
         element.scrollIntoView();
     }
 
+    public async focus(element: HTMLElement): Promise<void> {
+        element.focus();
+    }
+
     public async showMessage(text: string, title: string): Promise<void> {
         // second parameter will do nothing in web, but will display the title in electron
         (<any>alert)(text, title);

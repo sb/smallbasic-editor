@@ -15,6 +15,7 @@ export interface ILayoutInterop {
     getElementHeight(element: HTMLElement): Promise<number>;
     getElementWidth(element: HTMLElement): Promise<number>;
     scrollIntoView(element: HTMLElement): Promise<void>;
+    focus(element: HTMLElement): Promise<void>;
 }
 
 export interface IMonacoInterop {
@@ -65,6 +66,10 @@ const monaco: IMonacoInterop = new MonacoInterop();
         },
         scrollIntoView: async (element: HTMLElement) : Promise<boolean> => {
             await layout.scrollIntoView(element);
+            return true;
+        },
+        focus: async (element: HTMLElement) : Promise<boolean> => {
+            await layout.focus(element);
             return true;
         }
     },

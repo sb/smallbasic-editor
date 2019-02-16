@@ -40,12 +40,14 @@ namespace SmallBasic.Editor.Store
             return Task.CompletedTask;
         }
 
-        public static void SetInputMode(AcceptedInputMode mode)
+        public static Task SetInputMode(AcceptedInputMode mode)
         {
             if (!display.IsDefault())
             {
-                display.SetInputMode(mode);
+                return display.SetInputMode(mode);
             }
+
+            return Task.CompletedTask;
         }
 
         public static void Clear()
