@@ -10,7 +10,7 @@ namespace SmallBasic.Tests.Compiler
     using SmallBasic.Compiler.Diagnostics;
     using Xunit;
 
-    public sealed class BindingTests
+    public sealed class BindingTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public void ItReportsInForLoopFromExpression()

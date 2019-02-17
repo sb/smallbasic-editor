@@ -10,7 +10,7 @@ namespace SmallBasic.Tests.Runtime
     using SmallBasic.Compiler.Diagnostics;
     using Xunit;
 
-    public sealed class OperatorTests
+    public sealed class OperatorTests : IClassFixture<CultureFixture>
     {
         [Theory]
         // Adding numbers:

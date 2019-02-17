@@ -8,7 +8,7 @@ namespace SmallBasic.Tests.Runtime
     using SmallBasic.Compiler;
     using Xunit;
 
-    public sealed class LibrariesTests
+    public sealed class LibrariesTests : IClassFixture<CultureFixture>
     {
         [Theory]
         [InlineData(0, 0, "")]

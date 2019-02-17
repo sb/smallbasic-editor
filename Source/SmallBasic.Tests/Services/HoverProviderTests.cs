@@ -13,7 +13,7 @@ namespace SmallBasic.Tests.Services
     using SmallBasic.Utilities.Resources;
     using Xunit;
 
-    public sealed class HoverProviderTests
+    public sealed class HoverProviderTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public void NoHoverOnEmptyString()

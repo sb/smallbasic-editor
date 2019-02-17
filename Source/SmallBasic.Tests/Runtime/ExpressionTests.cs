@@ -8,7 +8,7 @@ namespace SmallBasic.Tests.Runtime
     using SmallBasic.Compiler;
     using Xunit;
 
-    public sealed class ExpressionTests
+    public sealed class ExpressionTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public Task NumericStringsAreTreatedAsNumbers()

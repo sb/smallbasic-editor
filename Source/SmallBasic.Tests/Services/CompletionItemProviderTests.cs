@@ -13,7 +13,7 @@ namespace SmallBasic.Tests.Services
     using SmallBasic.Utilities;
     using Xunit;
 
-    public sealed class CompletionItemProviderTests
+    public sealed class CompletionItemProviderTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public void CompletesLibrariesStartingWithT()
