@@ -8,7 +8,7 @@ namespace SmallBasic.Tests.Compiler
     using SmallBasic.Compiler.Diagnostics;
     using Xunit;
 
-    public sealed class ScanningTests
+    public sealed class ScanningTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public void ItReportsUnterminatedStringLiterals()

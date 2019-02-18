@@ -9,7 +9,7 @@ namespace SmallBasic.Tests.Runtime
     using SmallBasic.Compiler.Binding;
     using Xunit;
 
-    public sealed class RuntimeAnalysisTests
+    public sealed class RuntimeAnalysisTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public void ItDoesNotUseGraphicsWindowWhenNotNeeded()

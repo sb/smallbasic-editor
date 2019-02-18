@@ -8,7 +8,7 @@ namespace SmallBasic.Tests.Compiler
     using SmallBasic.Compiler.Diagnostics;
     using Xunit;
 
-    public sealed class ParsingTests
+    public sealed class ParsingTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public void ItReportsUnterminatedSubModules()

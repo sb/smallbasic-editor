@@ -8,7 +8,7 @@ namespace SmallBasic.Tests.Runtime
     using SmallBasic.Compiler;
     using Xunit;
 
-    public sealed class StatementsTests
+    public sealed class StatementsTests : IClassFixture<CultureFixture>
     {
         [Fact]
         public Task ItEvaluatesSingleIfTrueExpression()
