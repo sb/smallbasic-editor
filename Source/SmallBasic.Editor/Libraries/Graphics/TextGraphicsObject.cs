@@ -34,6 +34,7 @@ namespace SmallBasic.Editor.Libraries.Graphics
             {
                 { "x", this.X.ToString(CultureInfo.CurrentCulture) },
                 { "y", this.Y.ToString(CultureInfo.CurrentCulture) },
+                { "dy", this.Styles.FontSize.ToString(CultureInfo.CurrentCulture) }
             };
 
             if (this.Width.HasValue)
