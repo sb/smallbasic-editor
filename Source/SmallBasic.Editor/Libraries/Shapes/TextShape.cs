@@ -14,8 +14,8 @@ namespace SmallBasic.Editor.Libraries.Shapes
         {
         }
 
-        public override decimal Height => 20;
+        public override decimal Height => this.Graphics.Styles.FontSize;
 
-        public override decimal Width => this.Graphics.Width ?? 200;
+        public override decimal Width => this.Graphics.Width ?? 0;
     }
 }
