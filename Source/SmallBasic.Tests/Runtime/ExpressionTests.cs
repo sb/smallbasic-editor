@@ -52,5 +52,24 @@ TextWindow.WriteLine(""こんにちは!"")
 TextWindow.WriteLine(data: 'こんにちは!')
 ");
         }
+
+        [Fact]
+        public Task ItSupportsDBCSInIdentifiers()
+        {
+            return new SmallBasicCompilation(@"
+サブ()
+TextWindow.WriteLine(変数)
+Goto ラベル
+
+Sub サブ
+  変数 = 5
+EndSub
+
+TextWindow.WriteLine(""should be skipped"")
+ラベル:
+").VerifyLoggingRuntime(expectedLog: @"
+TextWindow.WriteLine(data: '5')
+");
+        }
     }
 }
