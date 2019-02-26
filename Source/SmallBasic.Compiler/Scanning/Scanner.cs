@@ -140,12 +140,6 @@ namespace SmallBasic.Compiler.Scanning
 
                     default:
                         {
-                            if (!current.IsSupportedCharacter())
-                            {
-                                var column = this.column + lookAhead - this.index;
-                                this.diagnostics.ReportUnrecognizedCharacter(((this.line, column), (this.line, column + 1)), current);
-                            }
-
                             lookAhead++;
                             break;
                         }

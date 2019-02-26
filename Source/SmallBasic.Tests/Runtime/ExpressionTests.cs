@@ -1,4 +1,4 @@
-// <copyright file="ExpressionTests.cs" company="2018 Omar Tawfik">
+﻿// <copyright file="ExpressionTests.cs" company="2018 Omar Tawfik">
 // Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
@@ -41,6 +41,16 @@ found_second = third
 not_found_ar = 
 not_found_first = 
 not_found_second = ");
+        }
+
+        [Fact]
+        public Task ItSupportsDBCSInStrings()
+        {
+            return new SmallBasicCompilation(@"
+TextWindow.WriteLine(""こんにちは!"")
+").VerifyLoggingRuntime(expectedLog: @"
+TextWindow.WriteLine(data: 'こんにちは!')
+");
         }
     }
 }

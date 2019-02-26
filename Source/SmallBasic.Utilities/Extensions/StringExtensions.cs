@@ -12,8 +12,6 @@ namespace SmallBasic.Utilities
     {
         public static string Join(this IEnumerable<string> enumerable, string separator = "") => string.Join(separator, enumerable);
 
-        public static bool IsSupportedCharacter(in this char ch) => ch >= 32 && ch <= 126;
-
         public static string ToLowerFirstChar(this string value) => char.ToLowerInvariant(value[0]) + value.Substring(1);
 
         public static string RemovePrefix(this string value, string prefix)
