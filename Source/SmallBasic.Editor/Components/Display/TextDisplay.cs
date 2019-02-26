@@ -39,6 +39,8 @@ namespace SmallBasic.Editor.Components.Display
         internal async Task AppendOutput(OutputChunk chunk)
         {
             this.outputChunks.Add(chunk);
+            // Important to prevent th UI from freezing
+            await Task.Delay(1).ConfigureAwait(false);
             await JSInterop.Layout.ScrollIntoView(this.inputFieldRef).ConfigureAwait(false);
             this.StateHasChanged();
         }
