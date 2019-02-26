@@ -88,7 +88,7 @@ namespace SmallBasic.Compiler.Scanning
 
                 case char ch when ch >= '0' && ch <= '9': this.ScanNumberToken(); return;
 
-                case char ch when ch == '_' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'): this.ScanWordToken(); return;
+                case char ch when ch == '_' || char.IsLetter(ch): this.ScanWordToken(); return;
 
                 default:
                     {
@@ -177,7 +177,7 @@ namespace SmallBasic.Compiler.Scanning
             while (lookAhead < this.text.Length)
             {
                 char current = this.text[lookAhead];
-                if (current == '_' || (current >= 'a' && current <= 'z') || (current >= 'A' && current <= 'Z') || (current >= '0' && current <= '9'))
+                if (current == '_' || char.IsLetterOrDigit(current))
                 {
                     lookAhead++;
                 }
