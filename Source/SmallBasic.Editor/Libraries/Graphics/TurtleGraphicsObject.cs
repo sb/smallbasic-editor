@@ -14,13 +14,11 @@ namespace SmallBasic.Editor.Libraries.Graphics
         public TurtleGraphicsObject(GraphicsWindowStyles styles)
             : base(styles)
         {
-            this.Width = 48;
-            this.Height = 61;
         }
 
-        public decimal Width { get; set; }
+        public static decimal Width => 48;
 
-        public decimal Height { get; set; }
+        public static decimal Height => 61;
 
         public override void ComposeTree(TreeComposer composer)
         {
@@ -30,8 +28,8 @@ namespace SmallBasic.Editor.Libraries.Graphics
                 {
                     { "href", $"Turtle.svg" },
                     /* width and height attributes required on Firefox */
-                    { "width", this.Width.ToString(CultureInfo.CurrentCulture) },
-                    { "height", this.Height.ToString(CultureInfo.CurrentCulture) }
+                    { "width", Width.ToString(CultureInfo.CurrentCulture) },
+                    { "height", Height.ToString(CultureInfo.CurrentCulture) }
                 });
         }
     }
