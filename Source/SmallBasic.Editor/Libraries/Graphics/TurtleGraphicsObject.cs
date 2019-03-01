@@ -5,6 +5,7 @@
 namespace SmallBasic.Editor.Libraries.Graphics
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using SmallBasic.Editor.Components;
     using SmallBasic.Editor.Libraries.Utilities;
 
@@ -15,6 +16,10 @@ namespace SmallBasic.Editor.Libraries.Graphics
         {
         }
 
+        public static decimal Width => 48;
+
+        public static decimal Height => 61;
+
         public override void ComposeTree(TreeComposer composer)
         {
             composer.Element(
@@ -22,6 +27,9 @@ namespace SmallBasic.Editor.Libraries.Graphics
                 attributes: new Dictionary<string, string>
                 {
                     { "href", $"Turtle.svg" },
+                    /* width and height attributes required on Firefox */
+                    { "width", Width.ToString(CultureInfo.CurrentCulture) },
+                    { "height", Height.ToString(CultureInfo.CurrentCulture) }
                 });
         }
     }
