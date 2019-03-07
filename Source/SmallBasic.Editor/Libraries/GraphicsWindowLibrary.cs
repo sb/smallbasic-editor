@@ -89,7 +89,7 @@ namespace SmallBasic.Editor.Libraries
             => this.graphics.Add(new TextGraphicsObject(x, y, text, width, this.libraries.Styles));
 
         public void DrawEllipse(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.Transparent)));
 
         public void DrawImage(string imageName, decimal x, decimal y)
             => this.graphics.Add(new ImageGraphicsObject(x, y, scaleX: 1, scaleY: 1, imageName, this.libraries.Styles));
@@ -98,7 +98,7 @@ namespace SmallBasic.Editor.Libraries
             => this.graphics.Add(new LineGraphicsObject(x1, y1, x2, y2, this.libraries.Styles));
 
         public void DrawRectangle(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.libraries.Styles.With(brushColor: PredefinedColors.Transparent)));
 
         public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height)
         {
@@ -116,16 +116,16 @@ namespace SmallBasic.Editor.Libraries
             => this.graphics.Add(new TextGraphicsObject(x, y, text, width: default, this.libraries.Styles));
 
         public void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
-            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.libraries.Styles.With(brushColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.libraries.Styles.With(brushColor: PredefinedColors.Transparent)));
 
         public void FillEllipse(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(penColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new EllipseGraphicsObject(x, y, width, height, this.libraries.Styles.With(penColor: PredefinedColors.Transparent)));
 
         public void FillRectangle(decimal x, decimal y, decimal width, decimal height)
-            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.libraries.Styles.With(penColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new RectangleGraphicsObject(x, y, width, height, this.libraries.Styles.With(penColor: PredefinedColors.Transparent)));
 
         public void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
-            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.libraries.Styles.With(penColor: PredefinedColors.TransparentHexColor)));
+            => this.graphics.Add(new TriangleGraphicsObject(x1, y1, x2, y2, x3, y3, this.libraries.Styles.With(penColor: PredefinedColors.Transparent)));
 
         public void SetPixel(decimal x, decimal y, string color)
         {
@@ -142,7 +142,7 @@ namespace SmallBasic.Editor.Libraries
             this.graphics.Add(new LineGraphicsObject(x, y, x + 1, y, new GraphicsWindowStyles(
                 penWidth: 1,
                 penColor: color,
-                brushColor: PredefinedColors.TransparentHexColor,
+                brushColor: PredefinedColors.Transparent,
                 fontBold: false,
                 fontItalic: false,
                 fontName: string.Empty,

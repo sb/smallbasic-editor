@@ -11,7 +11,7 @@ namespace SmallBasic.Editor.Libraries.Utilities
 
     public static class PredefinedColors
     {
-        public const string TransparentHexColor = "#00000000";
+        public const string Transparent = "transparent";
 
         private static IReadOnlyDictionary<string, string> colors = new Dictionary<string, string>(StringComparer.CurrentCultureIgnoreCase)
         {
