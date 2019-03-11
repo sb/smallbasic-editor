@@ -64,27 +64,27 @@ namespace SmallBasic.Compiler.Runtime
         protected override void Execute(SmallBasicEngine engine)
         {
             BaseValue value = engine.EvaluationStack.Pop();
-            executeAux(engine.Memory, this.array, this.indicesCount);
+            executeAux(new ArrayValue(engine.Memory), this.array, this.indicesCount);
 
-            BaseValue executeAux(Dictionary<string, BaseValue> memory, string index, int remainingIndices)
+            BaseValue executeAux(ArrayValue memory, string index, int remainingIndices)
             {
                 if (remainingIndices == 0)
                 {
-                    memory[index] = value;
+                    memory.SetIndex(index, value);
                 }
                 else
                 {
-                    Dictionary<string, BaseValue> nextMemory =
+                    ArrayValue nextMemory =
                         memory.TryGetValue(index, out BaseValue elementValue) && elementValue is ArrayValue elementArrayValue
-                        ? elementArrayValue.ToDictionary()
-                        : new Dictionary<string, BaseValue>();
+                        ? elementArrayValue
+                        : new ArrayValue();
 
                     string nextIndex = engine.EvaluationStack.Pop().ToString();
 
-                    memory[index] = executeAux(nextMemory, nextIndex, remainingIndices - 1);
+                    memory.SetIndex(index, executeAux(nextMemory, nextIndex, remainingIndices - 1));
                 }
 
-                return new ArrayValue(memory);
+                return memory;
             }
         }
     }
