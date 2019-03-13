@@ -9,6 +9,11 @@
     position: absolute;
 
     editor {
+        
+        .monaco-editor-hover .monaco-tokenized-source {
+            word-break: normal;
+        }
+        
         .wavy-line {
             display: inline-block;
             position: relative;
