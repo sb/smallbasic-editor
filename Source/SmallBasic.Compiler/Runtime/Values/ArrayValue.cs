@@ -19,9 +19,9 @@ namespace SmallBasic.Compiler.Runtime
             this.contents = new Dictionary<string, BaseValue>();
         }
 
-        public ArrayValue(IReadOnlyDictionary<string, BaseValue> contents)
+        public ArrayValue(Dictionary<string, BaseValue> contents)
         {
-            this.contents = contents.ToDictionary(p => p.Key, p => p.Value);
+            this.contents = contents;
         }
 
         public IEnumerable<string> Keys => this.contents.Keys;
@@ -32,7 +32,18 @@ namespace SmallBasic.Compiler.Runtime
 
         public BaseValue this[string key] => this.contents[key];
 
-        public Dictionary<string, BaseValue> ToDictionary() => new Dictionary<string, BaseValue>(this.contents);
+        public void SetIndex(string key, BaseValue value)
+        {
+            this.contents[key] = value;
+        }
+
+        public void RemoveIndex(string key)
+        {
+            if (this.contents.ContainsKey(key))
+            {
+                this.contents.Remove(key);
+            }
+        }
 
         public bool ContainsKey(string key) => this.contents.ContainsKey(key);
 

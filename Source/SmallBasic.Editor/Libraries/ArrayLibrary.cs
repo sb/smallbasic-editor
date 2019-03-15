@@ -43,9 +43,8 @@ namespace SmallBasic.Editor.Libraries
         {
             if (this.arrays.TryGetValue(arrayName, out ArrayValue array) && array.ContainsKey(index))
             {
-                var contents = array.ToDictionary();
-                contents.Remove(index);
-                this.arrays[arrayName] = new ArrayValue(contents);
+                array.RemoveIndex(index);
+                this.arrays[arrayName] = array;
             }
         }
 
@@ -53,9 +52,8 @@ namespace SmallBasic.Editor.Libraries
         {
             if (this.arrays.TryGetValue(arrayName, out ArrayValue array))
             {
-                var contents = array.ToDictionary();
-                contents[index] = value;
-                this.arrays[arrayName] = new ArrayValue(contents);
+                array.SetIndex(index, value);
+                this.arrays[arrayName] = array;
             }
         }
     }
