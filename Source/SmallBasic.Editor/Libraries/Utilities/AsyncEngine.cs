@@ -18,6 +18,8 @@ namespace SmallBasic.Editor.Libraries.Utilities
     {
         private readonly SmallBasicEngine engine;
 
+        private bool keepRunning = true;
+
         public AsyncEngine(bool isDebugging)
         {
             this.Libraries = new LibrariesCollection();
@@ -52,7 +54,11 @@ namespace SmallBasic.Editor.Libraries.Utilities
             this.engine.Continue();
         }
 
-        public void Dispose() => this.Libraries.Dispose();
+        public void Dispose()
+        {
+            this.keepRunning = false;
+            this.Libraries.Dispose();
+        }
 
         public async Task StartLoop()
         {
@@ -63,7 +69,14 @@ namespace SmallBasic.Editor.Libraries.Utilities
 
             TextDisplayStore.TextInput += onTextInput;
 
-            while (true)
+            await this.StartLookAux().ConfigureAwait(false);
+
+            TextDisplayStore.TextInput -= onTextInput;
+        }
+
+        private async Task StartLookAux()
+        {
+            while (this.keepRunning)
             {
                 switch (this.engine.State)
                 {
@@ -89,7 +102,6 @@ namespace SmallBasic.Editor.Libraries.Utilities
                         }
 
                         this.ExecutedStep?.Invoke();
-                        TextDisplayStore.TextInput -= onTextInput;
                         return;
                     default:
                         throw ExceptionUtilities.UnexpectedValue(this.engine.State);

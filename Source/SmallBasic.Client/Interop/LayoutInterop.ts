@@ -14,20 +14,30 @@ export class LayoutInterop implements ILayoutInterop {
         window.open(url, "_blank");
     }
 
-    public async getElementHeight(element: HTMLElement): Promise<number> {
-        return element.getBoundingClientRect().height;
+    public async getElementHeight(element: HTMLElement | null): Promise<number> {
+        if (element) {
+            return element.getBoundingClientRect().height;
+        }
+        return 0;
     }
 
-    public async getElementWidth(element: HTMLElement): Promise<number> {
-        return element.getBoundingClientRect().width;
+    public async getElementWidth(element: HTMLElement | null): Promise<number> {
+        if (element) {
+            return element.getBoundingClientRect().width;
+        }
+        return 0;
     }
 
-    public async scrollIntoView(element: HTMLElement): Promise<void> {
-        element.scrollIntoView();
+    public async scrollIntoView(element: HTMLElement | null): Promise<void> {
+        if (element) {
+            element.scrollIntoView();
+        }
     }
 
-    public async focus(element: HTMLElement): Promise<void> {
-        element.focus();
+    public async focus(element: HTMLElement | null): Promise<void> {
+        if (element) {
+            element.focus();
+        }
     }
 
     public async showMessage(text: string, title: string): Promise<void> {
