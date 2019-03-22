@@ -181,9 +181,9 @@ namespace SmallBasic.Editor.Libraries
 
         public string Get_LastText() => this.lastText;
 
-        public decimal Get_MouseX() => this.mouseX;
+        public decimal Get_MouseX() => this.mouseX - GraphicsDisplayStore.LocationX;
 
-        public decimal Get_MouseY() => this.mouseY;
+        public decimal Get_MouseY() => this.mouseY - GraphicsDisplayStore.LocationY;
 
         public string Get_PenColor() => this.libraries.Styles.PenColor;
 

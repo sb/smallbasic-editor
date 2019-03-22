@@ -22,4 +22,12 @@ export module CSIntrop {
             return DotNet.invokeMethodAsync<string[]>("SmallBasic.Editor", "CSIntrop.Monaco.ProvideHover", code, position);
         }
     }
+
+    export module GraphicsDisplay {
+        export function updateDisplayLocation(x: number, y: number): Promise<void> {
+            return DotNet.invokeMethodAsync<boolean>("SmallBasic.Editor", "CSIntrop.GraphicsDisplay.UpdateDisplayLocation", x, y).then(() => {
+                Promise.resolve();
+            });
+        }
+    }
 }

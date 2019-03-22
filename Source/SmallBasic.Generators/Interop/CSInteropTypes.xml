@@ -21,4 +21,14 @@
       </Method>
     </Methods>
   </InteropType>
+  <InteropType Name="GraphicsDisplay">
+    <Methods>
+      <Method Name="UpdateDisplayLocation">
+        <Parameters>
+          <Parameter Name="x" Type="number" />
+          <Parameter Name="y" Type="number" />
+        </Parameters>
+      </Method>
+    </Methods>
+  </InteropType>
 </root>
