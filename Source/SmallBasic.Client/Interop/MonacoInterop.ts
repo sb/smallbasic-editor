@@ -12,6 +12,7 @@ export class MonacoInterop implements IMonacoInterop {
     private decorations: string[] = [];
     private outerContainer: HTMLElement | null = null;
     private activeEditor: monaco.editor.IStandaloneCodeEditor | null = null;
+    private fileName: string = "Program.txt";
 
     public async initialize(editorElement: HTMLElement, initialValue: string, isReadOnly: boolean): Promise<void> {
         this.outerContainer = editorElement.parentElement && editorElement.parentElement.parentElement;
@@ -87,7 +88,7 @@ export class MonacoInterop implements IMonacoInterop {
     public async saveToFile(): Promise<void> {
         const code = this.activeEditor!.getModel().getValue();
         const blob = new Blob([code]);
-        FileSaver.saveAs(blob, "Program.txt");
+        FileSaver.saveAs(blob, this.fileName);
     }
 
     public async openFile(confirmationMessage: string): Promise<void> {
@@ -110,6 +111,7 @@ export class MonacoInterop implements IMonacoInterop {
                     continue;
                 }
 
+                this.fileName = file.name;
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     this.activeEditor!.getModel().setValue(reader.result as string);
