@@ -15,6 +15,9 @@ namespace SmallBasic.Editor.Libraries
         private bool isLeftButtonDown;
         private bool isRightButtonDown;
 
+        private decimal mouseX = 0;
+        private decimal mouseY = 0;
+
         public MouseLibrary(LibrariesCollection libraries)
         {
             this.libraries = libraries;
@@ -22,21 +25,23 @@ namespace SmallBasic.Editor.Libraries
             this.isRightButtonDown = false;
             GraphicsDisplayStore.MouseUp += this.MouseUpCallback;
             GraphicsDisplayStore.MouseDown += this.MouseDownCallback;
+            GraphicsDisplayStore.MouseMove += this.MouseMoveCallback;
         }
 
         public void Dispose()
         {
             GraphicsDisplayStore.MouseUp -= this.MouseUpCallback;
             GraphicsDisplayStore.MouseDown -= this.MouseDownCallback;
+            GraphicsDisplayStore.MouseMove -= this.MouseMoveCallback;
         }
 
         public bool Get_IsLeftButtonDown() => this.isLeftButtonDown;
 
         public bool Get_IsRightButtonDown() => this.isRightButtonDown;
 
-        public decimal Get_MouseX() => this.libraries.GraphicsWindow.Get_MouseX();
+        public decimal Get_MouseX() => this.mouseX;
 
-        public decimal Get_MouseY() => this.libraries.GraphicsWindow.Get_MouseY();
+        public decimal Get_MouseY() => this.mouseY;
 
         public void HideCursor() => GraphicsDisplayStore.SetMouseVisibility(false);
 
@@ -44,6 +49,9 @@ namespace SmallBasic.Editor.Libraries
 
         private void MouseDownCallback(decimal x, decimal y, MouseButton button)
         {
+            this.mouseX = x;
+            this.mouseY = y;
+
             switch (button)
             {
                 case MouseButton.Left:
@@ -57,6 +65,9 @@ namespace SmallBasic.Editor.Libraries
 
         private void MouseUpCallback(decimal x, decimal y, MouseButton button)
         {
+            this.mouseX = x;
+            this.mouseY = y;
+
             switch (button)
             {
                 case MouseButton.Left:
@@ -66,6 +77,12 @@ namespace SmallBasic.Editor.Libraries
                     this.isRightButtonDown = false;
                     break;
             }
+        }
+
+        private void MouseMoveCallback(decimal x, decimal y)
+        {
+            this.mouseX = x;
+            this.mouseY = y;
         }
     }
 }

@@ -38,6 +38,10 @@ namespace SmallBasic.Editor.Store
 
         public static event MouseButtonEventSignature MouseUp;
 
+        public static decimal LocationX { get; private set; }
+
+        public static decimal LocationY { get; private set; }
+
         public static ElementRef RenderArea
         {
             get
@@ -75,6 +79,12 @@ namespace SmallBasic.Editor.Store
             {
                 display.Update();
             }
+        }
+
+        public static void UpdateDisplayLocation(decimal x, decimal y)
+        {
+            LocationX = x;
+            LocationY = y;
         }
 
         public static void SetVisibility(bool value)

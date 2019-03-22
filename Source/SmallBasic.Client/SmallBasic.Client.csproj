@@ -19,7 +19,7 @@
 
   <Target Name="WebPackRestore" Inputs="package.json" Outputs="obj\package.json">
     <Message Importance="high" Text="Restoring npm packages for project $(MSBuildProjectName)" />
-    <Exec Command="npm update --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="npm ci --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <Copy SourceFiles="package.json" DestinationFiles="obj\package.json" />
   </Target>
 

@@ -20,9 +20,16 @@ namespace SmallBasic.Editor.Interop
         Task<string[]> ProvideHover(string code, MonacoPosition position);
     }
 
+    internal interface IGraphicsDisplayInterop
+    {
+        Task UpdateDisplayLocation(decimal x, decimal y);
+    }
+
     public static class CSInterop
     {
         private static readonly IMonacoInterop Monaco = new MonacoInterop();
+
+        private static readonly IGraphicsDisplayInterop GraphicsDisplay = new GraphicsDisplayInterop();
 
         [JSInvokable("CSIntrop.Monaco.UpdateDiagnostics")]
         public static Task<MonacoRange[]> Monaco_UpdateDiagnostics(string code)
@@ -40,6 +47,13 @@ namespace SmallBasic.Editor.Interop
         public static Task<string[]> Monaco_ProvideHover(string code, MonacoPosition position)
         {
             return Monaco.ProvideHover(code, position);
+        }
+
+        [JSInvokable("CSIntrop.GraphicsDisplay.UpdateDisplayLocation")]
+        public static async Task<bool> GraphicsDisplay_UpdateDisplayLocation(decimal x, decimal y)
+        {
+            await GraphicsDisplay.UpdateDisplayLocation(x, y).ConfigureAwait(false);
+            return true;
         }
     }
 }
