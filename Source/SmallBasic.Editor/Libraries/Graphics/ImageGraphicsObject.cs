@@ -4,6 +4,7 @@
 
 namespace SmallBasic.Editor.Libraries.Graphics
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using SmallBasic.Editor.Components;
@@ -18,7 +19,16 @@ namespace SmallBasic.Editor.Libraries.Graphics
             this.Y = y;
             this.ScaleX = scaleX;
             this.ScaleY = scaleY;
-            this.Name = name;
+            this.Name = string.Empty;
+
+            Uri uriResult;
+            bool result = Uri.TryCreate(name, UriKind.Absolute, out uriResult)
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+            if (result)
+            {
+                this.Name = name;
+            }
         }
 
         public decimal X { get; set; }
@@ -34,10 +44,10 @@ namespace SmallBasic.Editor.Libraries.Graphics
         public override void ComposeTree(TreeComposer composer)
         {
             composer.Element(
-                name: "use",
+                name: "image",
                 attributes: new Dictionary<string, string>
                 {
-                    { "href", $"#{this.Name}" },
+                    { "href", $"{this.Name}" },
                     { "x", this.X.ToString(CultureInfo.CurrentCulture) },
                     { "y", this.Y.ToString(CultureInfo.CurrentCulture) },
                     { "transform", $"scale({this.ScaleX}, {this.ScaleY})" }
