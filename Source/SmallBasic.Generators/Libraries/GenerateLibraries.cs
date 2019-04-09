@@ -56,16 +56,16 @@ namespace SmallBasic.Generators.Scanning
                 ("public", "bool", "ReturnsValue"),
                 ("public", "string", "ReturnValueDescription"),
                 ("public", "IReadOnlyDictionary<string, Parameter>", "Parameters"),
-                ("internal", "bool", "IsDeprecated"),
-                ("internal", "bool", "NeedsDesktop"),
+                ("public", "bool", "IsDeprecated"),
+                ("public", "bool", "NeedsDesktop"),
                 ("internal", "DExecuteLibraryMember", "Execute"));
 
             generateType(
                 "Property",
                 ("public", "string", "Name"),
                 ("public", "string", "Description"),
-                ("internal", "bool", "IsDeprecated"),
-                ("internal", "bool", "NeedsDesktop"),
+                ("public", "bool", "IsDeprecated"),
+                ("public", "bool", "NeedsDesktop"),
                 ("internal", "DExecuteLibraryMember", "Getter"),
                 ("internal", "DExecuteLibraryMember", "Setter"));
 
