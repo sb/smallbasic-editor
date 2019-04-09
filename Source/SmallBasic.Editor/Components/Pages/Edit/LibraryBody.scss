@@ -112,6 +112,11 @@ library-body {
                 name {
                     margin-left: 10px;
                 }
+
+                error-icon-red {
+                    margin-left: 30px;
+                    @include set-background-image("EditPage/Error.svg", 15px, 15px);
+                }
             }
 
             member-description {

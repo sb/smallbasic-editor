@@ -107,8 +107,44 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                                             composer.Element(
                                                 name: library.Name.Length > 10 ? "long-name" : "short-name",
                                                 body: () => composer.Text(library.Name));
+
+                                            bool hasFunctioningParts = false;
+                                            bool hasNonFunctioningParts = false;
+
+                                            foreach (var property in library.Properties)
+                                            {
+                                                if (property.Value.IsDeprecated || property.Value.NeedsDesktop)
+                                                {
+                                                    hasNonFunctioningParts |= true;
+                                                }
+                                                else
+                                                {
+                                                    hasFunctioningParts |= true;
+                                                }
+                                            }
+
+                                            foreach (var method in library.Methods)
+                                            {
+                                                if (method.Value.IsDeprecated || method.Value.NeedsDesktop)
+                                                {
+                                                    hasNonFunctioningParts |= true;
+                                                }
+                                                else
+                                                {
+                                                    hasFunctioningParts |= true;
+                                                }
+                                            }
+
+                                            if (hasFunctioningParts && hasNonFunctioningParts)
+                                            {
+                                                composer.Element("error-icon-gray", body: () => Micro.FontAwesome(composer, "exclamation-circle"));
+                                            }
+                                            else if (hasNonFunctioningParts)
+                                            {
+                                                composer.Element("error-icon-red");
+                                            }
                                         });
-                                }
+                                  }
                             });
                     });
 

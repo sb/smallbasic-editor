@@ -100,9 +100,9 @@ namespace SmallBasic.Compiler.Runtime
 
         public IReadOnlyDictionary<string, Parameter> Parameters { get; private set; }
 
-        internal bool IsDeprecated { get; private set; }
+        public bool IsDeprecated { get; private set; }
 
-        internal bool NeedsDesktop { get; private set; }
+        public bool NeedsDesktop { get; private set; }
 
         internal DExecuteLibraryMember Execute { get; private set; }
     }
@@ -129,9 +129,9 @@ namespace SmallBasic.Compiler.Runtime
 
         public string Description { get; private set; }
 
-        internal bool IsDeprecated { get; private set; }
+        public bool IsDeprecated { get; private set; }
 
-        internal bool NeedsDesktop { get; private set; }
+        public bool NeedsDesktop { get; private set; }
 
         internal DExecuteLibraryMember Getter { get; private set; }
 

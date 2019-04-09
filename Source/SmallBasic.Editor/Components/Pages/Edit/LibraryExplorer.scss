@@ -71,6 +71,7 @@ library-explorer {
             align-items: center;
             height: 100%;
             background-color: #BABEC4;
+            position: relative;
             overflow: hidden;
             width: $navigation-area-width;
 
@@ -95,6 +96,19 @@ library-explorer {
                         width: 25px;
                         height: 25px;
                         margin-top: 19px;
+                    }
+
+                    error-icon-red {
+                        position: absolute;
+                        margin-left: 10px;
+                        margin-top: 10px;
+                        @include set-background-image("EditPage/Error.svg", 18px, 18px);
+                    }
+
+                    error-icon-gray {
+                        position: absolute;
+                        margin-left: 10px;
+                        margin-top: 10px;
                     }
 
                     base-name {

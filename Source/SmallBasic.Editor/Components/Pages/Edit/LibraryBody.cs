@@ -80,6 +80,10 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                                 {
                                     composer.Element("caret");
                                     composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{property.Name}"));
+                                    if (property.IsDeprecated || property.NeedsDesktop)
+                                    {
+                                        composer.Element("error-icon-red");
+                                    }
                                 });
 
                                 composer.Element("member-description", body: () => composer.Text(property.Description));
@@ -175,6 +179,11 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                                 });
 
                                 composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{this.Method.Name}()"));
+
+                                if (this.Method.IsDeprecated || this.Method.NeedsDesktop)
+                                {
+                                    composer.Element("error-icon-red");
+                                }
                             });
 
                             composer.Element("member-description", body: () => composer.Text(this.Method.Description));
