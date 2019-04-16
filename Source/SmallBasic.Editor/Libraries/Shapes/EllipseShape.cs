@@ -17,5 +17,7 @@ namespace SmallBasic.Editor.Libraries.Shapes
         public override decimal Height => this.Graphics.Height;
 
         public override decimal Width => this.Graphics.Width;
+
+        public double Area => AreaCalculator.AreaEllipse(this.Graphics.Height, this.Graphics.Width);
     }
 }

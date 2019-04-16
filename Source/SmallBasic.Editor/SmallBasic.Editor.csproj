@@ -39,8 +39,8 @@
       <ElectronDependencies Remove="$(RootDirectory)\Source\SmallBasic.Client\node_modules*\.cache\**\*.*" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(BridgeFiles)" DestinationFiles="@(BridgeFiles->'$(DistFolder)\_bridge\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(ElectronDependencies)" DestinationFiles="@(ElectronDependencies->'$(DistFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(BridgeFiles)" DestinationFiles="@(BridgeFiles-&gt;'$(DistFolder)\_bridge\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ElectronDependencies)" DestinationFiles="@(ElectronDependencies-&gt;'$(DistFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
     <WriteLinesToFile File="$(DistFolder)\run-electron.cmd" Lines="$(DistFolder)\node_modules\electron\dist\electron.exe $(DistFolder)" Overwrite="true" />
 
     <Message Importance="high" Text="Copying electron build to $(DistFolder)\run-electron.cmd" />
