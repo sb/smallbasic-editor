@@ -168,6 +168,12 @@ namespace SmallBasic.Compiler
         {
             if (this.eventCallbacks.TryGetValue($"{library}.${eventName}", out string subModule))
             {
+                var existing = this.ExecutionStack.Take(this.ExecutionStack.Count - 1).FirstOrDefault(frame => frame.Module.Name == subModule);
+                if (!existing.IsDefault())
+                {
+                    this.ExecutionStack.Remove(existing);
+                }
+
                 this.ExecutionStack.AddFirst(new Frame(this.Modules[subModule]));
             }
         }
