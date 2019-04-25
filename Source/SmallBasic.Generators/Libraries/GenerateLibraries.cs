@@ -120,7 +120,7 @@ namespace SmallBasic.Generators.Scanning
             this.Line("static Libraries()");
             this.Brace();
 
-            this.Line("var types = new Dictionary<string, Library>();");
+            this.Line("var types = new Dictionary<string, Library>(StringComparer.CurrentCultureIgnoreCase);");
             this.Blank();
 
             foreach (var library in model)
@@ -166,7 +166,7 @@ namespace SmallBasic.Generators.Scanning
 
         private void GenerateMethodsInitialization(Library library)
         {
-            this.Line("var methods = new Dictionary<string, Method>();");
+            this.Line("var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);");
 
             foreach (var method in library.Methods)
             {
@@ -240,7 +240,7 @@ namespace SmallBasic.Generators.Scanning
 
                 if (method.Parameters.Any())
                 {
-                    this.Line("parameters: new Dictionary<string, Parameter>");
+                    this.Line("parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)");
                     this.Line("{");
                     this.Indent();
 
@@ -254,7 +254,7 @@ namespace SmallBasic.Generators.Scanning
                 }
                 else
                 {
-                    this.Line("parameters: new Dictionary<string, Parameter>(),");
+                    this.Line("parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),");
                 }
 
                 this.Line($"isDeprecated: {(method.IsDeprecated ? "true" : "false")},");
@@ -268,7 +268,7 @@ namespace SmallBasic.Generators.Scanning
 
         private void GeneratePropertiesInitialization(Library library)
         {
-            this.Line("var properties = new Dictionary<string, Property>();");
+            this.Line("var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);");
 
             foreach (var property in library.Properties)
             {
@@ -350,7 +350,7 @@ namespace SmallBasic.Generators.Scanning
         {
             if (library.Events.Any())
             {
-                this.Line("var events = new Dictionary<string, Event>");
+                this.Line("var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase)");
                 this.Line("{");
                 this.Indent();
 
@@ -364,7 +364,7 @@ namespace SmallBasic.Generators.Scanning
             }
             else
             {
-                this.Line("var events = new Dictionary<string, Event>();");
+                this.Line("var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);");
             }
         }
     }

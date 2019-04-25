@@ -159,11 +159,11 @@ namespace SmallBasic.Compiler.Runtime
 
         static Libraries()
         {
-            var types = new Dictionary<string, Library>();
+            var types = new Dictionary<string, Library>(StringComparer.CurrentCultureIgnoreCase);
 
             // Initialization code for library 'Array'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Array.ContainsIndex:
                 {
@@ -181,7 +181,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_ContainsIndex,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Array_ContainsIndex_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "array", new Parameter("array", LibrariesResources.Array_ContainsIndex_array) },
                             { "index", new Parameter("index", LibrariesResources.Array_ContainsIndex_index) },
@@ -207,7 +207,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_ContainsValue,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Array_ContainsValue_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "array", new Parameter("array", LibrariesResources.Array_ContainsValue_array) },
                             { "value", new Parameter("value", LibrariesResources.Array_ContainsValue_value) },
@@ -232,7 +232,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_GetAllIndices,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Array_GetAllIndices_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "array", new Parameter("array", LibrariesResources.Array_GetAllIndices_array) },
                         },
@@ -256,7 +256,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_GetItemCount,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Array_GetItemCount_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "array", new Parameter("array", LibrariesResources.Array_GetItemCount_array) },
                         },
@@ -281,7 +281,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_GetValue,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Array_GetValue_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "arrayName", new Parameter("arrayName", LibrariesResources.Array_GetValue_arrayName) },
                             { "index", new Parameter("index", LibrariesResources.Array_GetValue_index) },
@@ -306,7 +306,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_IsArray,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Array_IsArray_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "array", new Parameter("array", LibrariesResources.Array_IsArray_array) },
                         },
@@ -330,7 +330,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_RemoveValue,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "arrayName", new Parameter("arrayName", LibrariesResources.Array_RemoveValue_arrayName) },
                             { "index", new Parameter("index", LibrariesResources.Array_RemoveValue_index) },
@@ -356,7 +356,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Array_SetValue,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "arrayName", new Parameter("arrayName", LibrariesResources.Array_SetValue_arrayName) },
                             { "index", new Parameter("index", LibrariesResources.Array_SetValue_index) },
@@ -367,18 +367,18 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Array", new Library("Array", LibrariesResources.Array, "th-list", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Clock'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Clock.Date:
                 {
@@ -512,14 +512,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Year", new Property("Year", LibrariesResources.Clock_Year, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Clock", new Library("Clock", LibrariesResources.Clock, "clock", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Controls'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Controls.AddButton:
                 {
@@ -538,7 +538,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_AddButton,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Controls_AddButton_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "caption", new Parameter("caption", LibrariesResources.Controls_AddButton_caption) },
                             { "left", new Parameter("left", LibrariesResources.Controls_AddButton_left) },
@@ -565,7 +565,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_AddMultiLineTextBox,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Controls_AddMultiLineTextBox_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "left", new Parameter("left", LibrariesResources.Controls_AddMultiLineTextBox_left) },
                             { "top", new Parameter("top", LibrariesResources.Controls_AddMultiLineTextBox_top) },
@@ -591,7 +591,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_AddTextBox,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Controls_AddTextBox_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "left", new Parameter("left", LibrariesResources.Controls_AddTextBox_left) },
                             { "top", new Parameter("top", LibrariesResources.Controls_AddTextBox_top) },
@@ -616,7 +616,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_GetButtonCaption,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Controls_GetButtonCaption_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_GetButtonCaption_buttonName) },
                         },
@@ -640,7 +640,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_GetTextBoxText,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Controls_GetTextBoxText_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_GetTextBoxText_textBoxName) },
                         },
@@ -663,7 +663,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_HideControl,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "controlName", new Parameter("controlName", LibrariesResources.Controls_HideControl_controlName) },
                         },
@@ -688,7 +688,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_Move,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "control", new Parameter("control", LibrariesResources.Controls_Move_control) },
                             { "x", new Parameter("x", LibrariesResources.Controls_Move_x) },
@@ -713,7 +713,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_Remove,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "controlName", new Parameter("controlName", LibrariesResources.Controls_Remove_controlName) },
                         },
@@ -737,7 +737,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_SetButtonCaption,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "buttonName", new Parameter("buttonName", LibrariesResources.Controls_SetButtonCaption_buttonName) },
                             { "caption", new Parameter("caption", LibrariesResources.Controls_SetButtonCaption_caption) },
@@ -763,7 +763,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_SetSize,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "control", new Parameter("control", LibrariesResources.Controls_SetSize_control) },
                             { "width", new Parameter("width", LibrariesResources.Controls_SetSize_width) },
@@ -789,7 +789,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_SetTextBoxText,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "textBoxName", new Parameter("textBoxName", LibrariesResources.Controls_SetTextBoxText_textBoxName) },
                             { "text", new Parameter("text", LibrariesResources.Controls_SetTextBoxText_text) },
@@ -813,7 +813,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Controls_ShowControl,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "controlName", new Parameter("controlName", LibrariesResources.Controls_ShowControl_controlName) },
                         },
@@ -822,7 +822,7 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Controls.LastClickedButton:
                 {
@@ -848,7 +848,7 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("LastTypedTextBox", new Property("LastTypedTextBox", LibrariesResources.Controls_LastTypedTextBox, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase)
                 {
                     { "ButtonClicked", new Event("ButtonClicked", LibrariesResources.Controls_ButtonClicked) },
                     { "TextTyped", new Event("TextTyped", LibrariesResources.Controls_TextTyped) },
@@ -859,7 +859,7 @@ namespace SmallBasic.Compiler.Runtime
 
             // Initialization code for library 'Desktop'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Desktop.SetWallPaper:
                 {
@@ -873,7 +873,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Desktop_SetWallPaper,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "fileOrUrl", new Parameter("fileOrUrl", LibrariesResources.Desktop_SetWallPaper_fileOrUrl) },
                         },
@@ -882,7 +882,7 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Desktop.Height:
                 {
@@ -904,14 +904,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Width", new Property("Width", LibrariesResources.Desktop_Width, isDeprecated: true, needsDesktop: true, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Desktop", new Library("Desktop", LibrariesResources.Desktop, "desktop", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Dictionary'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Dictionary.GetDefinition:
                 {
@@ -925,7 +925,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinition,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinition_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinition_word) },
                         },
@@ -946,7 +946,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToEnglish_word) },
                         },
@@ -967,7 +967,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToFrench,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToFrench_word) },
                         },
@@ -988,7 +988,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToGerman,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToGerman_word) },
                         },
@@ -1009,7 +1009,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToItalian,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToItalian_word) },
                         },
@@ -1030,7 +1030,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToJapanese_word) },
                         },
@@ -1051,7 +1051,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToKorean,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToKorean_word) },
                         },
@@ -1072,7 +1072,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSimplifiedChinese_word) },
                         },
@@ -1093,7 +1093,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToSpanish_word) },
                         },
@@ -1114,7 +1114,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionEnglishToTraditionalChinese_word) },
                         },
@@ -1135,7 +1135,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionFrenchToEnglish_word) },
                         },
@@ -1156,7 +1156,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionGermanToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionGermanToEnglish_word) },
                         },
@@ -1177,7 +1177,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionItalianToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionItalianToEnglish_word) },
                         },
@@ -1198,7 +1198,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionJapaneseToEnglish_word) },
                         },
@@ -1219,7 +1219,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionKoreanToEnglish_word) },
                         },
@@ -1240,7 +1240,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSimplifiedChineseToEnglish_word) },
                         },
@@ -1261,7 +1261,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionSpanishToEnglish_word) },
                         },
@@ -1282,7 +1282,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "word", new Parameter("word", LibrariesResources.Dictionary_GetDefinitionTraditionalChineseToEnglish_word) },
                         },
@@ -1291,16 +1291,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Dictionary", new Library("Dictionary", LibrariesResources.Dictionary, "font", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'File'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method File.AppendContents:
                 {
@@ -1317,7 +1317,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_AppendContents,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_AppendContents_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_AppendContents_filePath) },
                             { "contents", new Parameter("contents", LibrariesResources.File_AppendContents_contents) },
@@ -1342,7 +1342,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_CopyFile,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_CopyFile_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "sourceFilePath", new Parameter("sourceFilePath", LibrariesResources.File_CopyFile_sourceFilePath) },
                             { "destinationFilePath", new Parameter("destinationFilePath", LibrariesResources.File_CopyFile_destinationFilePath) },
@@ -1366,7 +1366,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_CreateDirectory,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_CreateDirectory_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_CreateDirectory_directoryPath) },
                         },
@@ -1389,7 +1389,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_DeleteDirectory,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_DeleteDirectory_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_DeleteDirectory_directoryPath) },
                         },
@@ -1412,7 +1412,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_DeleteFile,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_DeleteFile_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_DeleteFile_filePath) },
                         },
@@ -1435,7 +1435,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_GetDirectories,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_GetDirectories_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetDirectories_directoryPath) },
                         },
@@ -1458,7 +1458,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_GetFiles,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_GetFiles_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "directoryPath", new Parameter("directoryPath", LibrariesResources.File_GetFiles_directoryPath) },
                         },
@@ -1479,7 +1479,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_GetSettingsFilePath,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_GetSettingsFilePath_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: true,
                         execute: execute));
@@ -1498,7 +1498,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_GetTemporaryFilePath,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_GetTemporaryFilePath_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: true,
                         execute: execute));
@@ -1520,7 +1520,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_InsertLine,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_InsertLine_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_InsertLine_filePath) },
                             { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_InsertLine_lineNumber) },
@@ -1545,7 +1545,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_ReadContents,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_ReadContents_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_ReadContents_filePath) },
                         },
@@ -1569,7 +1569,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_ReadLine,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_ReadLine_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_ReadLine_filePath) },
                             { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_ReadLine_lineNumber) },
@@ -1594,7 +1594,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_WriteContents,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_WriteContents_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_WriteContents_filePath) },
                             { "contents", new Parameter("contents", LibrariesResources.File_WriteContents_contents) },
@@ -1620,7 +1620,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.File_WriteLine,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.File_WriteLine_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.File_WriteLine_filePath) },
                             { "lineNumber", new Parameter("lineNumber", LibrariesResources.File_WriteLine_lineNumber) },
@@ -1631,7 +1631,7 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property File.LastError:
                 {
@@ -1652,14 +1652,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("LastError", new Property("LastError", LibrariesResources.File_LastError, isDeprecated: false, needsDesktop: true, getter: getter, setter: setter));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("File", new Library("File", LibrariesResources.File, "file", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Flickr'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Flickr.GetPictureOfMoment:
                 {
@@ -1673,7 +1673,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Flickr_GetPictureOfMoment,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Flickr_GetPictureOfMoment_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -1691,7 +1691,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Flickr_GetRandomPicture,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Flickr_GetRandomPicture_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "tag", new Parameter("tag", LibrariesResources.Flickr_GetRandomPicture_tag) },
                         },
@@ -1700,16 +1700,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Flickr", new Library("Flickr", LibrariesResources.Flickr, "camera", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'GraphicsWindow'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method GraphicsWindow.Clear:
                 {
@@ -1724,7 +1724,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_Clear,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -1747,7 +1747,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawBoundText,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawBoundText_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawBoundText_y) },
@@ -1776,7 +1776,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawEllipse,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawEllipse_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawEllipse_y) },
@@ -1804,7 +1804,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawImage,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawImage_imageName) },
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawImage_x) },
@@ -1832,7 +1832,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawLine,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawLine_x1) },
                             { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawLine_y1) },
@@ -1861,7 +1861,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawRectangle,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawRectangle_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawRectangle_y) },
@@ -1891,7 +1891,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawResizedImage,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "imageName", new Parameter("imageName", LibrariesResources.GraphicsWindow_DrawResizedImage_imageName) },
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawResizedImage_x) },
@@ -1920,7 +1920,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawText,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_DrawText_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_DrawText_y) },
@@ -1950,7 +1950,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_DrawTriangle,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_DrawTriangle_x1) },
                             { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_DrawTriangle_y1) },
@@ -1981,7 +1981,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_FillEllipse,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillEllipse_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillEllipse_y) },
@@ -2010,7 +2010,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_FillRectangle,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_FillRectangle_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_FillRectangle_y) },
@@ -2041,7 +2041,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_FillTriangle,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x1", new Parameter("x1", LibrariesResources.GraphicsWindow_FillTriangle_x1) },
                             { "y1", new Parameter("y1", LibrariesResources.GraphicsWindow_FillTriangle_y1) },
@@ -2072,7 +2072,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_GetColorFromRGB,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.GraphicsWindow_GetColorFromRGB_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "red", new Parameter("red", LibrariesResources.GraphicsWindow_GetColorFromRGB_red) },
                             { "green", new Parameter("green", LibrariesResources.GraphicsWindow_GetColorFromRGB_green) },
@@ -2095,7 +2095,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_GetPixel,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.GraphicsWindow_GetPixel_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_GetPixel_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_GetPixel_y) },
@@ -2119,7 +2119,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_GetRandomColor,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.GraphicsWindow_GetRandomColor_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -2138,7 +2138,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_Hide,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -2160,7 +2160,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_SetPixel,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.GraphicsWindow_SetPixel_x) },
                             { "y", new Parameter("y", LibrariesResources.GraphicsWindow_SetPixel_y) },
@@ -2184,7 +2184,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_Show,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -2204,7 +2204,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.GraphicsWindow_ShowMessage,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.GraphicsWindow_ShowMessage_text) },
                             { "title", new Parameter("title", LibrariesResources.GraphicsWindow_ShowMessage_title) },
@@ -2214,7 +2214,7 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property GraphicsWindow.BackgroundColor:
                 {
@@ -2498,7 +2498,7 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase)
                 {
                     { "KeyDown", new Event("KeyDown", LibrariesResources.GraphicsWindow_KeyDown) },
                     { "KeyUp", new Event("KeyUp", LibrariesResources.GraphicsWindow_KeyUp) },
@@ -2513,7 +2513,7 @@ namespace SmallBasic.Compiler.Runtime
 
             // Initialization code for library 'ImageList'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method ImageList.GetHeightOfImage:
                 {
@@ -2530,7 +2530,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.ImageList_GetHeightOfImage,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.ImageList_GetHeightOfImage_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetHeightOfImage_imageName) },
                         },
@@ -2554,7 +2554,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.ImageList_GetWidthOfImage,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.ImageList_GetWidthOfImage_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "imageName", new Parameter("imageName", LibrariesResources.ImageList_GetWidthOfImage_imageName) },
                         },
@@ -2577,7 +2577,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.ImageList_LoadImage,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.ImageList_LoadImage_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "fileNameOrUrl", new Parameter("fileNameOrUrl", LibrariesResources.ImageList_LoadImage_fileNameOrUrl) },
                         },
@@ -2586,16 +2586,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("ImageList", new Library("ImageList", LibrariesResources.ImageList, "images", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Math'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Math.Abs:
                 {
@@ -2612,7 +2612,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Abs,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Abs_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_Abs_number) },
                         },
@@ -2636,7 +2636,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_ArcCos,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_ArcCos_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "cosValue", new Parameter("cosValue", LibrariesResources.Math_ArcCos_cosValue) },
                         },
@@ -2660,7 +2660,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_ArcSin,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_ArcSin_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "sinValue", new Parameter("sinValue", LibrariesResources.Math_ArcSin_sinValue) },
                         },
@@ -2684,7 +2684,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_ArcTan,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_ArcTan_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "tanValue", new Parameter("tanValue", LibrariesResources.Math_ArcTan_tanValue) },
                         },
@@ -2708,7 +2708,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Ceiling,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Ceiling_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_Ceiling_number) },
                         },
@@ -2732,7 +2732,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Cos,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Cos_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "angle", new Parameter("angle", LibrariesResources.Math_Cos_angle) },
                         },
@@ -2756,7 +2756,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Floor,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Floor_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_Floor_number) },
                         },
@@ -2780,7 +2780,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_GetDegrees,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_GetDegrees_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "angle", new Parameter("angle", LibrariesResources.Math_GetDegrees_angle) },
                         },
@@ -2804,7 +2804,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_GetRadians,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_GetRadians_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "angle", new Parameter("angle", LibrariesResources.Math_GetRadians_angle) },
                         },
@@ -2828,7 +2828,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_GetRandomNumber,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_GetRandomNumber_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "maxNumber", new Parameter("maxNumber", LibrariesResources.Math_GetRandomNumber_maxNumber) },
                         },
@@ -2852,7 +2852,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Log,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Log_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_Log_number) },
                         },
@@ -2877,7 +2877,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Max,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Max_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number1", new Parameter("number1", LibrariesResources.Math_Max_number1) },
                             { "number2", new Parameter("number2", LibrariesResources.Math_Max_number2) },
@@ -2903,7 +2903,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Min,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Min_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number1", new Parameter("number1", LibrariesResources.Math_Min_number1) },
                             { "number2", new Parameter("number2", LibrariesResources.Math_Min_number2) },
@@ -2928,7 +2928,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_NaturalLog,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_NaturalLog_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_NaturalLog_number) },
                         },
@@ -2953,7 +2953,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Power,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Power_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "baseNumber", new Parameter("baseNumber", LibrariesResources.Math_Power_baseNumber) },
                             { "exponent", new Parameter("exponent", LibrariesResources.Math_Power_exponent) },
@@ -2979,7 +2979,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Remainder,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Remainder_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "dividend", new Parameter("dividend", LibrariesResources.Math_Remainder_dividend) },
                             { "divisor", new Parameter("divisor", LibrariesResources.Math_Remainder_divisor) },
@@ -3004,7 +3004,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Round,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Round_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_Round_number) },
                         },
@@ -3028,7 +3028,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Sin,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Sin_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "angle", new Parameter("angle", LibrariesResources.Math_Sin_angle) },
                         },
@@ -3052,7 +3052,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_SquareRoot,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_SquareRoot_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "number", new Parameter("number", LibrariesResources.Math_SquareRoot_number) },
                         },
@@ -3076,7 +3076,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Math_Tan,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Math_Tan_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "angle", new Parameter("angle", LibrariesResources.Math_Tan_angle) },
                         },
@@ -3085,7 +3085,7 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Math.Pi:
                 {
@@ -3099,14 +3099,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Pi", new Property("Pi", LibrariesResources.Math_Pi, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Math", new Library("Math", LibrariesResources.Math, "calculator", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Mouse'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Mouse.HideCursor:
                 {
@@ -3121,7 +3121,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Mouse_HideCursor,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -3140,13 +3140,13 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Mouse_ShowCursor,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Mouse.IsLeftButtonDown:
                 {
@@ -3196,14 +3196,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("MouseY", new Property("MouseY", LibrariesResources.Mouse_MouseY, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Mouse", new Library("Mouse", LibrariesResources.Mouse, "mouse-pointer", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Network'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Network.DownloadFile:
                 {
@@ -3219,7 +3219,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Network_DownloadFile,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Network_DownloadFile_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "url", new Parameter("url", LibrariesResources.Network_DownloadFile_url) },
                         },
@@ -3242,7 +3242,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Network_GetWebPageContents,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Network_GetWebPageContents_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "url", new Parameter("url", LibrariesResources.Network_GetWebPageContents_url) },
                         },
@@ -3251,16 +3251,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Network", new Library("Network", LibrariesResources.Network, "network-wired", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Program'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Program.Delay:
                 {
@@ -3275,7 +3275,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Program_Delay,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "milliSeconds", new Parameter("milliSeconds", LibrariesResources.Program_Delay_milliSeconds) },
                         },
@@ -3297,7 +3297,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Program_End,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -3315,7 +3315,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Program_GetArgument,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Program_GetArgument_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "index", new Parameter("index", LibrariesResources.Program_GetArgument_index) },
                         },
@@ -3337,13 +3337,13 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Program_Pause,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Program.ArgumentCount:
                 {
@@ -3365,14 +3365,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Directory", new Property("Directory", LibrariesResources.Program_Directory, isDeprecated: true, needsDesktop: false, getter: getter, setter: null));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Program", new Library("Program", LibrariesResources.Program, "laptop-code", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Shapes'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Shapes.AddEllipse:
                 {
@@ -3390,7 +3390,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_AddEllipse,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_AddEllipse_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "width", new Parameter("width", LibrariesResources.Shapes_AddEllipse_width) },
                             { "height", new Parameter("height", LibrariesResources.Shapes_AddEllipse_height) },
@@ -3415,7 +3415,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_AddImage,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_AddImage_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "imageName", new Parameter("imageName", LibrariesResources.Shapes_AddImage_imageName) },
                         },
@@ -3442,7 +3442,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_AddLine,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_AddLine_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x1", new Parameter("x1", LibrariesResources.Shapes_AddLine_x1) },
                             { "y1", new Parameter("y1", LibrariesResources.Shapes_AddLine_y1) },
@@ -3470,7 +3470,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_AddRectangle,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_AddRectangle_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "width", new Parameter("width", LibrariesResources.Shapes_AddRectangle_width) },
                             { "height", new Parameter("height", LibrariesResources.Shapes_AddRectangle_height) },
@@ -3495,7 +3495,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_AddText,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_AddText_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Shapes_AddText_text) },
                         },
@@ -3524,7 +3524,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_AddTriangle,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_AddTriangle_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x1", new Parameter("x1", LibrariesResources.Shapes_AddTriangle_x1) },
                             { "y1", new Parameter("y1", LibrariesResources.Shapes_AddTriangle_y1) },
@@ -3554,7 +3554,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_Animate,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Animate_shapeName) },
                             { "x", new Parameter("x", LibrariesResources.Shapes_Animate_x) },
@@ -3581,7 +3581,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_GetLeft,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_GetLeft_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetLeft_shapeName) },
                         },
@@ -3605,7 +3605,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_GetOpacity,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_GetOpacity_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetOpacity_shapeName) },
                         },
@@ -3629,7 +3629,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_GetTop,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Shapes_GetTop_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_GetTop_shapeName) },
                         },
@@ -3652,7 +3652,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_HideShape,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_HideShape_shapeName) },
                         },
@@ -3677,7 +3677,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_Move,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Move_shapeName) },
                             { "x", new Parameter("x", LibrariesResources.Shapes_Move_x) },
@@ -3702,7 +3702,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_Remove,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Remove_shapeName) },
                         },
@@ -3726,7 +3726,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_Rotate,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Rotate_shapeName) },
                             { "angle", new Parameter("angle", LibrariesResources.Shapes_Rotate_angle) },
@@ -3751,7 +3751,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_SetOpacity,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetOpacity_shapeName) },
                             { "level", new Parameter("level", LibrariesResources.Shapes_SetOpacity_level) },
@@ -3776,7 +3776,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_SetText,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_SetText_shapeName) },
                             { "text", new Parameter("text", LibrariesResources.Shapes_SetText_text) },
@@ -3800,7 +3800,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_ShowShape,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_ShowShape_shapeName) },
                         },
@@ -3825,7 +3825,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Shapes_Zoom,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "shapeName", new Parameter("shapeName", LibrariesResources.Shapes_Zoom_shapeName) },
                             { "scaleX", new Parameter("scaleX", LibrariesResources.Shapes_Zoom_scaleX) },
@@ -3836,16 +3836,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Shapes", new Library("Shapes", LibrariesResources.Shapes, "shapes", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Sound'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Sound.Pause:
                 {
@@ -3859,7 +3859,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_Pause,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.Sound_Pause_filePath) },
                         },
@@ -3880,7 +3880,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_Play,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.Sound_Play_filePath) },
                         },
@@ -3901,7 +3901,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayAndWait,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.Sound_PlayAndWait_filePath) },
                         },
@@ -3922,7 +3922,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayBellRing,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -3940,7 +3940,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayBellRingAndWait,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -3958,7 +3958,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayChime,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -3976,7 +3976,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayChimeAndWait,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -3994,7 +3994,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayChimes,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4012,7 +4012,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayChimesAndWait,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4030,7 +4030,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayClick,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4048,7 +4048,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayClickAndWait,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4066,7 +4066,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_PlayMusic,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "notes", new Parameter("notes", LibrariesResources.Sound_PlayMusic_notes) },
                         },
@@ -4087,7 +4087,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Sound_Stop,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "filePath", new Parameter("filePath", LibrariesResources.Sound_Stop_filePath) },
                         },
@@ -4096,16 +4096,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Sound", new Library("Sound", LibrariesResources.Sound, "volume-up", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Stack'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Stack.GetCount:
                 {
@@ -4122,7 +4122,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Stack_GetCount,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Stack_GetCount_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "stackName", new Parameter("stackName", LibrariesResources.Stack_GetCount_stackName) },
                         },
@@ -4146,7 +4146,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Stack_PopValue,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Stack_PopValue_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "stackName", new Parameter("stackName", LibrariesResources.Stack_PopValue_stackName) },
                         },
@@ -4170,7 +4170,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Stack_PushValue,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "stackName", new Parameter("stackName", LibrariesResources.Stack_PushValue_stackName) },
                             { "value", new Parameter("value", LibrariesResources.Stack_PushValue_value) },
@@ -4180,16 +4180,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Stack", new Library("Stack", LibrariesResources.Stack, "ellipsis-v", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'Text'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Text.Append:
                 {
@@ -4207,7 +4207,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_Append,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_Append_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text1", new Parameter("text1", LibrariesResources.Text_Append_text1) },
                             { "text2", new Parameter("text2", LibrariesResources.Text_Append_text2) },
@@ -4232,7 +4232,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_ConvertToLowerCase,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_ConvertToLowerCase_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_ConvertToLowerCase_text) },
                         },
@@ -4256,7 +4256,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_ConvertToUpperCase,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_ConvertToUpperCase_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_ConvertToUpperCase_text) },
                         },
@@ -4281,7 +4281,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_EndsWith,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_EndsWith_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_EndsWith_text) },
                             { "subText", new Parameter("subText", LibrariesResources.Text_EndsWith_subText) },
@@ -4306,7 +4306,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_GetCharacter,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_GetCharacter_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "characterCode", new Parameter("characterCode", LibrariesResources.Text_GetCharacter_characterCode) },
                         },
@@ -4330,7 +4330,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_GetCharacterCode,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_GetCharacterCode_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "character", new Parameter("character", LibrariesResources.Text_GetCharacterCode_character) },
                         },
@@ -4355,7 +4355,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_GetIndexOf,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_GetIndexOf_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_GetIndexOf_text) },
                             { "subText", new Parameter("subText", LibrariesResources.Text_GetIndexOf_subText) },
@@ -4380,7 +4380,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_GetLength,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_GetLength_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_GetLength_text) },
                         },
@@ -4406,7 +4406,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_GetSubText,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_GetSubText_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_GetSubText_text) },
                             { "start", new Parameter("start", LibrariesResources.Text_GetSubText_start) },
@@ -4433,7 +4433,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_GetSubTextToEnd,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_GetSubTextToEnd_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_GetSubTextToEnd_text) },
                             { "start", new Parameter("start", LibrariesResources.Text_GetSubTextToEnd_start) },
@@ -4459,7 +4459,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_IsSubText,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_IsSubText_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_IsSubText_text) },
                             { "subText", new Parameter("subText", LibrariesResources.Text_IsSubText_subText) },
@@ -4485,7 +4485,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Text_StartsWith,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.Text_StartsWith_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "text", new Parameter("text", LibrariesResources.Text_StartsWith_text) },
                             { "subText", new Parameter("subText", LibrariesResources.Text_StartsWith_subText) },
@@ -4495,16 +4495,16 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Text", new Library("Text", LibrariesResources.Text, "text-height", usesGraphicsWindow: false, usesTextWindow: false, methods, properties, events));
             }
 
             // Initialization code for library 'TextWindow'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method TextWindow.Clear:
                 {
@@ -4519,7 +4519,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_Clear,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -4537,7 +4537,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_Hide,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4555,7 +4555,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_Pause,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4573,7 +4573,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_PauseIfVisible,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4591,7 +4591,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_PauseWithoutMessage,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4611,7 +4611,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_Read,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.TextWindow_Read_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -4631,7 +4631,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_ReadNumber,
                         returnsValue: true,
                         returnValueDescription: LibrariesResources.TextWindow_ReadNumber_ReturnValue,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -4649,7 +4649,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_Show,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: true,
                         needsDesktop: false,
                         execute: execute));
@@ -4668,7 +4668,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_Write,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "data", new Parameter("data", LibrariesResources.TextWindow_Write_data) },
                         },
@@ -4690,7 +4690,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.TextWindow_WriteLine,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "data", new Parameter("data", LibrariesResources.TextWindow_WriteLine_data) },
                         },
@@ -4699,7 +4699,7 @@ namespace SmallBasic.Compiler.Runtime
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property TextWindow.BackgroundColor:
                 {
@@ -4814,14 +4814,14 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Top", new Property("Top", LibrariesResources.TextWindow_Top, isDeprecated: true, needsDesktop: false, getter: getter, setter: setter));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("TextWindow", new Library("TextWindow", LibrariesResources.TextWindow, "terminal", usesGraphicsWindow: false, usesTextWindow: true, methods, properties, events));
             }
 
             // Initialization code for library 'Timer'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Timer.Pause:
                 {
@@ -4836,7 +4836,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Timer_Pause,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -4855,13 +4855,13 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Timer_Resume,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Timer.Interval:
                 {
@@ -4882,7 +4882,7 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Interval", new Property("Interval", LibrariesResources.Timer_Interval, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
-                var events = new Dictionary<string, Event>
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase)
                 {
                     { "Tick", new Event("Tick", LibrariesResources.Timer_Tick) },
                 };
@@ -4892,7 +4892,7 @@ namespace SmallBasic.Compiler.Runtime
 
             // Initialization code for library 'Turtle'
             {
-                var methods = new Dictionary<string, Method>();
+                var methods = new Dictionary<string, Method>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for method Turtle.Hide:
                 {
@@ -4907,7 +4907,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_Hide,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -4926,7 +4926,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_Move,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "distance", new Parameter("distance", LibrariesResources.Turtle_Move_distance) },
                         },
@@ -4949,7 +4949,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_MoveTo,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "x", new Parameter("x", LibrariesResources.Turtle_MoveTo_x) },
                             { "y", new Parameter("y", LibrariesResources.Turtle_MoveTo_y) },
@@ -4972,7 +4972,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_PenDown,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -4991,7 +4991,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_PenUp,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -5010,7 +5010,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_Show,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -5029,7 +5029,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_Turn,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase)
                         {
                             { "angle", new Parameter("angle", LibrariesResources.Turtle_Turn_angle) },
                         },
@@ -5050,7 +5050,7 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_TurnLeft,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
@@ -5068,13 +5068,13 @@ namespace SmallBasic.Compiler.Runtime
                         description: LibrariesResources.Turtle_TurnRight,
                         returnsValue: false,
                         returnValueDescription: null,
-                        parameters: new Dictionary<string, Parameter>(),
+                        parameters: new Dictionary<string, Parameter>(StringComparer.CurrentCultureIgnoreCase),
                         isDeprecated: false,
                         needsDesktop: false,
                         execute: execute));
                 }
 
-                var properties = new Dictionary<string, Property>();
+                var properties = new Dictionary<string, Property>(StringComparer.CurrentCultureIgnoreCase);
 
                 // Initialization code for property Turtle.Angle:
                 {
@@ -5152,7 +5152,7 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("Y", new Property("Y", LibrariesResources.Turtle_Y, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
-                var events = new Dictionary<string, Event>();
+                var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase);
 
                 types.Add("Turtle", new Library("Turtle", LibrariesResources.Turtle, "pen-alt", usesGraphicsWindow: true, usesTextWindow: false, methods, properties, events));
             }
