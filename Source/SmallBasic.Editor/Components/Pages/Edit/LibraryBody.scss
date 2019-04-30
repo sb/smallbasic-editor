@@ -112,11 +112,6 @@ library-body {
                 name {
                     margin-left: 10px;
                 }
-
-                error-icon-red {
-                    margin-left: 30px;
-                    @include set-background-image("EditPage/Error.svg", 15px, 15px);
-                }
             }
 
             member-description {
@@ -125,6 +120,22 @@ library-body {
                 padding-left: 20px;
                 padding-bottom: 16px;
                 box-sizing: border-box;
+            }
+
+            error-corner-ribbon {
+                width: 200px;
+                background: #e43;
+                margin-top: 25px;
+                margin-right: -50px;
+                margin-left: auto;
+                transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                text-align: center;
+                line-height: 50px;
+                letter-spacing: 1px;
+                color: #f0f0f0;
+                transform: rotate(-45deg);
+                -webkit-transform: rotate(-45deg);
             }
         }
 

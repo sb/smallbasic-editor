@@ -98,19 +98,6 @@ library-explorer {
                         margin-top: 19px;
                     }
 
-                    error-icon-red {
-                        position: absolute;
-                        margin-left: 10px;
-                        margin-top: 10px;
-                        @include set-background-image("EditPage/Error.svg", 18px, 18px);
-                    }
-
-                    error-icon-gray {
-                        position: absolute;
-                        margin-left: 10px;
-                        margin-top: 10px;
-                    }
-
                     base-name {
                         margin-bottom: 11px;
                     }
