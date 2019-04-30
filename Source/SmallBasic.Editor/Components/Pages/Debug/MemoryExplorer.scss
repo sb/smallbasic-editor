@@ -249,7 +249,7 @@ memory-explorer {
             @extend base-member;
             flex-shrink: 0;
             flex-grow: 0;
-            padding-bottom: 15px;
+            margin-bottom: 50px;
 
             member-title-area {
                 logo-area {
@@ -270,8 +270,7 @@ memory-explorer {
                 $stack-width: calc(#{$width-expanded} - 40px);
                 width: $stack-width;
                 height: $stack-height;
-                padding-top: 15px;
-                padding-bottom: 15px;
+                padding-bottom: 40px;
 
                 blue-box {
                     position: absolute;
@@ -295,8 +294,9 @@ memory-explorer {
                     padding: 10px;
                     display: flex;
                     flex-direction: column;
-                    justify-content: flex-end;
+                    justify-content: flex-start;
                     align-items: center;
+                    overflow: auto;
 
                     stack-frame {
                         height: 35px;
