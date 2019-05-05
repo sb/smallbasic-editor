@@ -135,7 +135,7 @@ namespace SmallBasic.Editor.Libraries.Shapes
                     name: "g",
                     attributes: new Dictionary<string, string>
                     {
-                    { "transform", this.AngleAnimation.HasValue ? string.Empty : $"rotate({this.Angle}, {this.Width / 2}, {this.Height / 2})" },
+                    { "transform", this.AngleAnimation.HasValue ? string.Empty : $"rotate({this.Angle})" },
                     },
                     styles: new Dictionary<string, string>
                     {
@@ -182,6 +182,11 @@ namespace SmallBasic.Editor.Libraries.Shapes
                     attributes: new Dictionary<string, string>
                     {
                     { "transform", $"scale({this.ScaleX}, {this.ScaleY})" },
+                    },
+                    styles: new Dictionary<string, string>
+                    {
+                        { "transform-origin", "center center" },
+                        { "transform-box", "fill-box" }
                     },
                     body: body);
             };
