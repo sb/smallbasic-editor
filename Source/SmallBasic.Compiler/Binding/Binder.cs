@@ -546,8 +546,7 @@ namespace SmallBasic.Compiler.Binding
             {
                 if (expectsValue)
                 {
-                    hasErrors = true;
-                    this.diagnostics.ReportExpectedExpressionWithAValue(syntax.Range);
+                    return new BoundVariableExpression(syntax, hasValue: true, hasErrors, name);
                 }
 
                 return new BoundSubModuleExpression(syntax, hasValue: false, hasErrors, name);

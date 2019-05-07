@@ -10,6 +10,68 @@ namespace SmallBasic.Tests.Runtime
 
     public sealed class StatementsTests : IClassFixture<CultureFixture>
     {
+        // https://github.com/sb/smallbasic-editor/issues/71
+        [Fact]
+        public Task ItReportsAssigningToSubmodule()
+        {
+            return new SmallBasicCompilation(
+            @"
+Sub x
+EndSub
+x = 5
+TextWindow.WriteLine(x)").VerifyLoggingRuntime(@"
+TextWindow.WriteLine(data: '5')
+");
+        }
+
+        // https://github.com/sb/smallbasic-editor/issues/71
+        [Fact]
+        public Task SubroutineAndLabelSameName()
+        {
+            return new SmallBasicCompilation(
+            @"for i = 1 to 5
+If (i > 4) Then
+GoTo test
+EndIf       
+test()
+EndFor
+
+test:
+
+Sub test
+TextWindow.WriteLine(""Hello World!"")
+EndSub").VerifyLoggingRuntime(@"
+TextWindow.WriteLine(data: 'Hello World!')
+TextWindow.WriteLine(data: 'Hello World!')
+TextWindow.WriteLine(data: 'Hello World!')
+TextWindow.WriteLine(data: 'Hello World!')
+");
+        }
+
+        [Fact]
+        public Task SubroutineAndForLoopVariableSameName()
+        {
+            return new SmallBasicCompilation(
+            @"test()
+for test = 1 to 3
+TextWindow.WriteLine(test)
+EndFor
+
+test()
+Sub test
+TextWindow.WriteLine(""Hello World!"")
+EndSub
+test()
+ ").VerifyLoggingRuntime(expectedLog: @"
+TextWindow.WriteLine(data: 'Hello World!')
+TextWindow.WriteLine(data: '1')
+TextWindow.WriteLine(data: '2')
+TextWindow.WriteLine(data: '3')
+TextWindow.WriteLine(data: 'Hello World!')
+TextWindow.WriteLine(data: 'Hello World!')
+");
+        }
+
         [Fact]
         public Task ItEvaluatesSingleIfTrueExpression()
         {

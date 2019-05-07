@@ -13,6 +13,18 @@ namespace SmallBasic.Tests.Compiler
     public sealed class BindingTests : IClassFixture<CultureFixture>
     {
         [Fact]
+        public void CallingNonexistentSubroutine()
+        {
+            new SmallBasicCompilation(
+                @"test()"
+            ).VerifyDiagnostics(
+            // test()
+            // ^^^^^^
+            // This expression is not a valid submodule or method to be called.
+            new Diagnostic(DiagnosticCode.UnsupportedInvocationBaseExpression, ((0, 0), (0, 5))));
+        }
+
+        [Fact]
         public void ItReportsInForLoopFromExpression()
         {
             new SmallBasicCompilation(@"
@@ -439,19 +451,6 @@ TextWindow.WriteLine = 5").VerifyDiagnostics(
                 // ^^^^^^^^^^^^^^^^^^^^
                 // This expression must have a value to be used here.
                 new Diagnostic(DiagnosticCode.ExpectedExpressionWithAValue, ((1, 0), (1, 19))));
-        }
-
-        [Fact]
-        public void ItReportsAssigningToSubModule()
-        {
-            new SmallBasicCompilation(@"
-Sub x
-EndSub
-x = 5").VerifyDiagnostics(
-                // x = 5
-                // ^
-                // This expression must have a value to be used here.
-                new Diagnostic(DiagnosticCode.ExpectedExpressionWithAValue, ((3, 0), (3, 0))));
         }
 
         [Fact]
