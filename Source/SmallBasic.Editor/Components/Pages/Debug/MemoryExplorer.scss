@@ -295,8 +295,8 @@ memory-explorer {
                     padding: 10px;
                     display: flex;
                     flex-direction: column;
-                    justify-content: flex-end;
                     align-items: center;
+                    overflow-y: auto;
 
                     stack-frame {
                         height: 35px;
@@ -332,6 +332,10 @@ memory-explorer {
 
                     stack-frame-highlighted {
                         @extend stack-frame;
+                        
+                        // to align the stack to the bottom
+                        // https://bit.ly/30fLPv4
+                        margin-top: auto;
 
                         base-cell {
                             background: #FEF849;
