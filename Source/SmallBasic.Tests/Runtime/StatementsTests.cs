@@ -29,7 +29,8 @@ TextWindow.WriteLine(data: '5')
         public Task SubroutineAndLabelSameName()
         {
             return new SmallBasicCompilation(
-            @"for i = 1 to 5
+            @"
+for i = 1 to 5
 If (i > 4) Then
 GoTo test
 EndIf       
