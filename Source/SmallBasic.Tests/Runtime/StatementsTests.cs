@@ -28,19 +28,18 @@ TextWindow.WriteLine(data: '5')
         [Fact]
         public Task SubroutineAndLabelSameName()
         {
-            return new SmallBasicCompilation(
-            @"
+            return new SmallBasicCompilation(@"
 for i = 1 to 5
-If (i > 4) Then
-GoTo test
-EndIf       
-test()
+    If (i > 4) Then
+        GoTo test
+    EndIf       
+    test()
 EndFor
 
 test:
 
 Sub test
-TextWindow.WriteLine(""Hello World!"")
+    TextWindow.WriteLine(""Hello World!"")
 EndSub").VerifyLoggingRuntime(@"
 TextWindow.WriteLine(data: 'Hello World!')
 TextWindow.WriteLine(data: 'Hello World!')
@@ -52,15 +51,15 @@ TextWindow.WriteLine(data: 'Hello World!')
         [Fact]
         public Task SubroutineAndForLoopVariableSameName()
         {
-            return new SmallBasicCompilation(
-            @"test()
+            return new SmallBasicCompilation(@"
+test()
 for test = 1 to 3
-TextWindow.WriteLine(test)
+    TextWindow.WriteLine(test)
 EndFor
 
 test()
 Sub test
-TextWindow.WriteLine(""Hello World!"")
+    TextWindow.WriteLine(""Hello World!"")
 EndSub
 test()
  ").VerifyLoggingRuntime(expectedLog: @"
