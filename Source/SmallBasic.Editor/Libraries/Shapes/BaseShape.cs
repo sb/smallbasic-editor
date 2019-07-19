@@ -170,11 +170,6 @@ namespace SmallBasic.Editor.Libraries.Shapes
 
         private Action AttachScale(Action body, TreeComposer composer)
         {
-            if (this.ScaleX == 1 && this.ScaleY == 1)
-            {
-                return body;
-            }
-
             return () =>
             {
                 composer.Element(
