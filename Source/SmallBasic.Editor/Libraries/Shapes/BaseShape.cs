@@ -124,11 +124,6 @@ namespace SmallBasic.Editor.Libraries.Shapes
 
         private Action AttachRotation(Action body, TreeComposer composer)
         {
-            if (this.Angle == 0 && !this.AngleAnimation.HasValue)
-            {
-                return body;
-            }
-
             return () =>
             {
                 composer.Element(
