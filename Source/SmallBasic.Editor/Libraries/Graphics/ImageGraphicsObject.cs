@@ -34,10 +34,10 @@ namespace SmallBasic.Editor.Libraries.Graphics
         public override void ComposeTree(TreeComposer composer)
         {
             composer.Element(
-                name: "use",
+                name: "image",
                 attributes: new Dictionary<string, string>
                 {
-                    { "href", $"#{this.Name}" },
+                    { "href", this.Name },
                     { "x", this.X.ToString(CultureInfo.CurrentCulture) },
                     { "y", this.Y.ToString(CultureInfo.CurrentCulture) },
                     { "transform", $"scale({this.ScaleX}, {this.ScaleY})" }
