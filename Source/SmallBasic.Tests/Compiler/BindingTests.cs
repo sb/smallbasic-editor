@@ -15,8 +15,7 @@ namespace SmallBasic.Tests.Compiler
         [Fact]
         public void CallingNonexistentSubroutine()
         {
-            new SmallBasicCompilation(@"
-            test()").VerifyDiagnostics(
+            new SmallBasicCompilation("test()").VerifyDiagnostics(
             // test()
             // ^^^^^^
             // This expression is not a valid submodule or method to be called.
