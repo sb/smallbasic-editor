@@ -7,6 +7,7 @@ namespace SmallBasic.Compiler.Runtime
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using SmallBasic.Compiler.Binding;
     using SmallBasic.Compiler.Scanning;
@@ -372,12 +373,12 @@ namespace SmallBasic.Compiler.Runtime
             {
                 case "TextWindow":
                     {
-                        switch (expression.Method.Name)
+                        switch (expression.Method.Name.ToLower(CultureInfo.CurrentCulture))
                         {
-                            case "Read":
+                            case "read":
                                 this.instructions.Add(new BlockOnStringInputInstruction(expression.Syntax.Range));
                                 break;
-                            case "ReadNumber":
+                            case "readnumber":
                                 this.instructions.Add(new BlockOnNumberInputInstruction(expression.Syntax.Range));
                                 break;
                         }
