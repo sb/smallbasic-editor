@@ -2,8 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "documentationRules": {
-      "companyName": "2018 Omar Tawfik",
-      "copyrightText": "Copyright (c) {companyName}. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information."
+      "companyName": "MIT License",
+      "copyrightText": "Licensed under the MIT License. See LICENSE file in the project root for license information."
     }
   }
 }
