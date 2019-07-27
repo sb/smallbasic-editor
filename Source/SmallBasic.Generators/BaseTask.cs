@@ -1,5 +1,5 @@
-﻿// <copyright file="BaseTask.cs" company="2018 Omar Tawfik">
-// Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.
+﻿// <copyright file="BaseTask.cs" company="MIT License">
+// Licensed under the MIT License. See LICENSE file in the project root for license information.
 // </copyright>
 
 namespace SmallBasic.Generators
@@ -79,8 +79,8 @@ namespace SmallBasic.Generators
             {
                 case ".cs":
                     {
-                        this.Line($@"// <copyright file=""{Path.GetFileName(outputFile)}"" company=""2018 Omar Tawfik"">");
-                        this.Line("// Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.");
+                        this.Line($@"// <copyright file=""{Path.GetFileName(outputFile)}"" company=""MIT License"">");
+                        this.Line("// Licensed under the MIT License. See LICENSE file in the project root for license information.");
                         this.Line("// </copyright>");
                         break;
                     }
@@ -88,7 +88,7 @@ namespace SmallBasic.Generators
                 case ".ts":
                     {
                         this.Line("/*!");
-                        this.Line(" * Copyright (c) 2018 Omar Tawfik. All rights reserved. Licensed under the MIT License. See LICENSE file in the project root for license information.");
+                        this.Line(" * Licensed under the MIT License. See LICENSE file in the project root for license information.");
                         this.Line(" */");
                         break;
                     }
