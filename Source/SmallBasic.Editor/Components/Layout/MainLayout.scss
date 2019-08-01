@@ -26,7 +26,7 @@ main-layout {
             align-items: center;
 
             logo {
-                @include set-background-image("Logo.png", 224px, 80px);
+                @include set-background-image("logo.svg", 224px, 80px);
                 margin-left: 40px;
             }
         }
