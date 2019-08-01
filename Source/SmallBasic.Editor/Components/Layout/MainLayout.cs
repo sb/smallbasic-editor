@@ -16,8 +16,8 @@ namespace SmallBasic.Editor.Components.Layout
     {
         private static readonly IReadOnlyDictionary<string, string> HeaderLinks = new Dictionary<string, string>
         {
-            { EditorResources.Header_TutorialsLink, "https://smallbasic-publicwebsite.azurewebsites.net/Pages/Tutorials/Tutorials.aspx" },
-            { EditorResources.Header_DocumentationLink, "https://smallbasic-publicwebsite.azurewebsites.net/Pages/DocumentReference.aspx" }
+            { EditorResources.Header_TutorialsLink, "https://smallbasic-publicwebsite.azurewebsites.net/tutorials" },
+            { EditorResources.Header_DocumentationLink, "https://smallbasic-publicwebsite.azurewebsites.net/docs" }
         };
 
         protected override Task OnInitAsync()
