@@ -33,7 +33,12 @@ namespace SmallBasic.Editor.Components.Layout
                 {
                     composer.Element("logo-area", body: () =>
                     {
-                        composer.Element("logo");
+                        composer.Element(
+                            name: "logo",
+                            events: new TreeComposer.Events
+                            {
+                                OnClickAsync = args => OpenExtrernalLink("http://www.smallbasic.com")
+                            });
                     });
 
                     composer.Element("header-links", body: () =>
