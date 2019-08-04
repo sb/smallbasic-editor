@@ -96,5 +96,23 @@ GraphicsWindow.keyup = foo
 GraphicsWindow.mouseMOVE = foo
 ").VerifyDiagnostics();
         }
+
+        [Theory]
+        [InlineData("x = TextWindow.Read()")]
+        [InlineData("y = Textwindow.read()")]
+        public Task ItBlocksOnStringInput(string statement)
+        {
+            return new SmallBasicCompilation(statement)
+                .VerifyExecutionState(ExecutionState.BlockedOnStringInput);
+        }
+
+        [Theory]
+        [InlineData("a = TextWindow.ReadNumber()")]
+        [InlineData("b = textwindow.READNUMBER()")]
+        public Task ItBlocksOnNumberInput(string statement)
+        {
+            return new SmallBasicCompilation(statement)
+                .VerifyExecutionState(ExecutionState.BlockedOnNumberInput);
+        }
     }
 }

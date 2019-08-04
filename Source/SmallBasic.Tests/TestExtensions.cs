@@ -30,6 +30,17 @@ namespace SmallBasic.Tests
             return compilation;
         }
 
+        public static async Task<SmallBasicEngine> VerifyExecutionState(this SmallBasicCompilation compilation, ExecutionState executionState)
+        {
+            compilation.VerifyDiagnostics();
+
+            SmallBasicEngine engine = new SmallBasicEngine(compilation, new LibrariesCollection());
+            await engine.Execute().ConfigureAwait(false);
+            engine.State.Should().Be(executionState);
+
+            return engine;
+        }
+
         public static Task<SmallBasicEngine> VerifyRealRuntime(this SmallBasicCompilation compilation, string memoryContents = default)
         {
             return VerifyRuntimeAux(compilation, new LibrariesCollection(), memoryContents);

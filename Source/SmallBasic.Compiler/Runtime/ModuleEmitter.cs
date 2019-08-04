@@ -7,7 +7,6 @@ namespace SmallBasic.Compiler.Runtime
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Globalization;
     using System.Linq;
     using SmallBasic.Compiler.Binding;
     using SmallBasic.Compiler.Scanning;
@@ -369,16 +368,16 @@ namespace SmallBasic.Compiler.Runtime
 
         private void EmitLibraryMethodInvocationExpression(BoundLibraryMethodInvocationExpression expression)
         {
-            switch (expression.Method.Library.Name)
+            switch (expression.Method.Library.Name.ToUpperInvariant())
             {
-                case "TextWindow":
+                case "TEXTWINDOW":
                     {
-                        switch (expression.Method.Name.ToLower(CultureInfo.CurrentCulture))
+                        switch (expression.Method.Name.ToUpperInvariant())
                         {
-                            case "read":
+                            case "READ":
                                 this.instructions.Add(new BlockOnStringInputInstruction(expression.Syntax.Range));
                                 break;
-                            case "readnumber":
+                            case "READNUMBER":
                                 this.instructions.Add(new BlockOnNumberInputInstruction(expression.Syntax.Range));
                                 break;
                         }
