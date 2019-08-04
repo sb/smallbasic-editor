@@ -178,18 +178,18 @@ namespace SmallBasic.Compiler.Runtime
 
         private void EmitLibraryMethodInvocationStatement(BoundLibraryMethodInvocationStatement statement)
         {
-            switch (statement.Expression.Method.Library.Name)
+            switch (statement.Expression.Method.Library.Name.ToUpperInvariant())
             {
-                case "Program":
+                case "PROGRAM":
                     {
-                        switch (statement.Expression.Method.Name)
+                        switch (statement.Expression.Method.Name.ToUpperInvariant())
                         {
-                            case "Pause":
+                            case "PAUSE":
                                 Debug.Assert(statement.Expression.Arguments.Count == 0, "This statement should have no arguments.");
                                 this.instructions.Add(new PauseInstruction(statement.Syntax.Range));
                                 return;
 
-                            case "End":
+                            case "END":
                                 Debug.Assert(statement.Expression.Arguments.Count == 0, "This statement should have no arguments.");
                                 this.instructions.Add(new TerminateInstruction(statement.Syntax.Range));
                                 return;
