@@ -30,11 +30,12 @@ namespace SmallBasic.Tests
             return compilation;
         }
 
-        public static async Task<SmallBasicEngine> VerifyExecutionState(this SmallBasicCompilation compilation, ExecutionState executionState)
+        public static async Task<SmallBasicEngine> VerifyExecutionState(this SmallBasicCompilation compilation, ExecutionState executionState, ExecutionMode mode = ExecutionMode.RunToEnd)
         {
             compilation.VerifyDiagnostics();
 
             SmallBasicEngine engine = new SmallBasicEngine(compilation, new LibrariesCollection());
+            engine.Mode = mode;
             await engine.Execute().ConfigureAwait(false);
             engine.State.Should().Be(executionState);
 

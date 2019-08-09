@@ -114,5 +114,29 @@ GraphicsWindow.mouseMOVE = foo
             return new SmallBasicCompilation(statement)
                 .VerifyExecutionState(ExecutionState.BlockedOnNumberInput);
         }
+
+        [Theory]
+        [InlineData("Program.Pause()")]
+        [InlineData("program.pause()")]
+        public Task ItPauses(string statement)
+        {
+            return new SmallBasicCompilation(statement)
+                .VerifyExecutionState(ExecutionState.Paused, mode: ExecutionMode.Debug);
+        }
+
+        [Fact]
+        public Task ItTerminatesOnProgramEnd()
+        {
+            return new SmallBasicCompilation(@"
+For x = 1 To 5
+   TextWindow.WriteLine(x)
+   If x = 2 Then
+      Program.end()
+   EndIf
+EndFor").VerifyLoggingRuntime(expectedLog: @"
+TextWindow.WriteLine(data: '1')
+TextWindow.WriteLine(data: '2')
+");
+        }
     }
 }
