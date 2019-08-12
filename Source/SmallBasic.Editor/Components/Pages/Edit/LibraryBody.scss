@@ -91,6 +91,7 @@ library-body {
             padding-right: 10px;
             box-sizing: border-box;
             cursor: pointer;
+            overflow: hidden;
 
             member-title {
                 display: flex;
@@ -112,30 +113,34 @@ library-body {
                 name {
                     margin-left: 10px;
                 }
+
+                error-corner-ribbon {
+                    position: relative;
+                    display: block;
+                    flex-shrink: 0;
+                    width: 120px;
+                    background: #3b3b3b;
+                    margin-top: 5px;
+                    margin-right: -35px;
+                    margin-left: auto;
+                    transform: rotate(45deg);
+                    -webkit-transform: rotate(45deg);
+                    text-align: center;
+                    font-size: 12px;
+                    font-weight: 300;
+                    letter-spacing: 1px;
+                    color: #f0f0f0;
+                    z-index: 2147483647; // topmost possible z-index value
+                }
             }
 
             member-description {
+                position: relative;
                 flex-shrink: 0;
                 font-size: 12px;
                 padding-left: 20px;
                 padding-bottom: 16px;
                 box-sizing: border-box;
-            }
-
-            error-corner-ribbon {
-                width: 200px;
-                background: #e43;
-                margin-top: 25px;
-                margin-right: -50px;
-                margin-left: auto;
-                transform: rotate(45deg);
-                -webkit-transform: rotate(45deg);
-                text-align: center;
-                line-height: 50px;
-                letter-spacing: 1px;
-                color: #f0f0f0;
-                transform: rotate(-45deg);
-                -webkit-transform: rotate(-45deg);
             }
         }
 

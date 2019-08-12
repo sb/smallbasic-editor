@@ -83,7 +83,7 @@ namespace SmallBasic.Editor.Components.Pages.Edit
 
                                     if (property.IsDeprecated || property.NeedsDesktop)
                                     {
-                                        composer.Element("corner-ribbon");
+                                        composer.Element("error-corner-ribbon", body: () => composer.Text("Deprecated"));
                                     }
                                 });
 
@@ -180,14 +180,14 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                                 });
 
                                 composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{this.Method.Name}()"));
+
+                                if (this.Method.IsDeprecated || this.Method.NeedsDesktop)
+                                {
+                                    composer.Element("error-corner-ribbon", body: () => composer.Text("Deprecated"));
+                                }
                             });
 
                             composer.Element("member-description", body: () => composer.Text(this.Method.Description));
-
-                            if (this.Method.IsDeprecated || this.Method.NeedsDesktop)
-                            {
-                                composer.Element("error-corner-ribbon", body: () => composer.Text("Depricated Member"));
-                            }
                         });
 
                     if (this.IsSelected)
