@@ -81,9 +81,13 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                                     composer.Element("caret");
                                     composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{property.Name}"));
 
-                                    if (property.IsDeprecated || property.NeedsDesktop)
+                                    if (property.IsDeprecated)
                                     {
                                         composer.Element("error-corner-ribbon", body: () => composer.Text("Deprecated"));
+                                    }
+                                    else if (property.NeedsDesktop)
+                                    {
+                                        composer.Element("error-corner-ribbon-blue", body: () => composer.Text("Desktop Only"));
                                     }
                                 });
 
@@ -181,9 +185,13 @@ namespace SmallBasic.Editor.Components.Pages.Edit
 
                                 composer.Element("name", body: () => composer.Text($"{this.Library.Name}.{this.Method.Name}()"));
 
-                                if (this.Method.IsDeprecated || this.Method.NeedsDesktop)
+                                if (this.Method.IsDeprecated)
                                 {
                                     composer.Element("error-corner-ribbon", body: () => composer.Text("Deprecated"));
+                                }
+                                else if (this.Method.NeedsDesktop)
+                                {
+                                    composer.Element("error-corner-ribbon-blue", body: () => composer.Text("Desktop Only"));
                                 }
                             });
 
