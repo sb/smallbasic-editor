@@ -24,7 +24,7 @@ namespace SmallBasic.Editor.Libraries
         private readonly List<BaseGraphicsObject> graphics = new List<BaseGraphicsObject>();
 
         private static readonly Random RandomInstance = new Random((int)DateTime.Now.Ticks);
-        private static readonly Regex HexColorRegex = new Regex("^#[0-9A-Fa-f]{6}$");
+        private static readonly Regex HexColorRegex = new Regex("^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$");
         private static readonly IReadOnlyList<string> PredefinedFonts = new List<string>
         {
             "Roboto",
