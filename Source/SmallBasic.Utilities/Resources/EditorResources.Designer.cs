@@ -410,5 +410,14 @@ namespace SmallBasic.Utilities.Resources {
                 return ResourceManager.GetString("TextDisplay_TerminateMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Warnings.
+        /// </summary>
+        public static string Warnings_Count {
+            get {
+                return ResourceManager.GetString("Warnings_Count", resourceCulture);
+            }
+        }
     }
 }

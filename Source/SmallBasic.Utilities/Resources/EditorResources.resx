@@ -177,6 +177,9 @@
   <data name="Errors_Count" xml:space="preserve">
     <value>{0} Errors</value>
   </data>
+  <data name="Warnings_Count" xml:space="preserve">
+    <value>{0} Warnings</value>
+  </data>
   <data name="Errors_Description" xml:space="preserve">
     <value>Description</value>
   </data>

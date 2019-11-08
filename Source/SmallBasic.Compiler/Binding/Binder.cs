@@ -412,7 +412,6 @@ namespace SmallBasic.Compiler.Binding
                         }
                         else if (property.IsDeprecated)
                         {
-                            hasErrors = true;
                             this.diagnostics.ReportLibraryMemberDeprecatedFromOlderVersion(syntax.Range, library.Name, property.Name);
                         }
                         else if (property.NeedsDesktop && !this.isRunningOnDesktop)
@@ -436,7 +435,6 @@ namespace SmallBasic.Compiler.Binding
                         }
                         else if (method.IsDeprecated)
                         {
-                            hasErrors = true;
                             this.diagnostics.ReportLibraryMemberDeprecatedFromOlderVersion(syntax.Range, library.Name, method.Name);
                         }
                         else if (method.NeedsDesktop && !this.isRunningOnDesktop)

@@ -41,7 +41,7 @@ namespace SmallBasic.Editor.Components.Pages.Debug
 
         protected override void OnInit()
         {
-            if (CompilationStore.Compilation.Diagnostics.Any())
+            if (CompilationStore.Compilation.Diagnostics.Any(error => error.IsFatal()))
             {
                 NavigationStore.NagivateTo(NavigationStore.PageId.Edit);
                 return;

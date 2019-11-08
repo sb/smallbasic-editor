@@ -25,14 +25,20 @@ errors-space {
         align-items: center;
         justify-content: flex-start;
 
-        icon {
+        error-icon, warning-icon {
             flex-shrink: 0;
-            @include set-background-image("EditPage/Error.svg", 32px, 32px);
             margin-left: 40px;
         }
 
+        error-icon {
+            @include set-background-image("EditPage/Error.svg", 32px, 32px);
+        }
+
+        warning-icon {
+            @include set-background-image("EditPage/Warning.svg", 32px, 32px);
+        }
+
         errors-count {
-            flex-grow: 1;
             font-size: 20px;
             font-weight: 700;
             color: #E7E8EA;
@@ -42,6 +48,7 @@ errors-space {
         caret {
             flex-shrink: 0;
             margin-right: 40px;
+            margin-left: auto;
             @include set-background-image("Caret.svg", 18px, 28px);
         }
 
@@ -69,6 +76,7 @@ errors-space {
     line-number {
         flex-shrink: 0;
         width: 72px;
+        margin-left: 20px;
         text-align: right;
     }
 
@@ -95,6 +103,14 @@ errors-space {
         justify-content: flex-start;
         overflow-y: auto;
         background-color: #E7E8EA;
+
+        error-icon {
+            @include set-background-image("EditPage/Error.svg", 20px, 20px);
+        }
+
+        warning-icon {
+            @include set-background-image("EditPage/Warning.svg", 20px, 20px);
+        }
 
         error-line {
             @extend data-line;

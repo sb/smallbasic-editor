@@ -28,5 +28,7 @@ namespace SmallBasic.Compiler.Diagnostics
         public IReadOnlyList<string> Args => this.args;
 
         public string ToDisplayString() => string.Format(CultureInfo.CurrentCulture, this.Code.ToDisplayString(), this.args);
+
+        public bool IsFatal() => this.Code != DiagnosticCode.LibraryMemberDeprecatedFromOlderVersion;
     }
 }

@@ -49,12 +49,27 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                     },
                     body: () =>
                     {
-                        composer.Element("icon");
-
-                        composer.Element("errors-count", body: () =>
+                        int errorCount = CompilationStore.Compilation.Diagnostics.Where(error => error.IsFatal()).Count();
+                        if (errorCount > 0)
                         {
-                            composer.Text(string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count, CompilationStore.Compilation.Diagnostics.Count));
-                        });
+                            composer.Element("error-icon");
+
+                            composer.Element("errors-count", body: () =>
+                            {
+                                composer.Text(string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count, errorCount));
+                            });
+                        }
+
+                        int warningCount = CompilationStore.Compilation.Diagnostics.Where(error => !error.IsFatal()).Count();
+                        if (warningCount > 0)
+                        {
+                            composer.Element("warning-icon");
+
+                            composer.Element("errors-count", body: () =>
+                            {
+                                composer.Text(string.Format(CultureInfo.CurrentCulture, EditorResources.Warnings_Count, warningCount));
+                            });
+                        }
 
                         composer.Element(this.areErrorsExpanded ? "caret-opened" : "caret-closed");
                     });
@@ -72,7 +87,7 @@ namespace SmallBasic.Editor.Components.Pages.Edit
 
                 composer.Element("errors-list", body: () =>
                 {
-                    foreach (var error in CompilationStore.Compilation.Diagnostics.OrderBy(d => d.Range.Start.Line))
+                    foreach (var error in CompilationStore.Compilation.Diagnostics.Where(error => error.IsFatal()).OrderBy(d => d.Range.Start.Line))
                     {
                         var range = error.Range.ToMonacoRange();
 
@@ -84,6 +99,25 @@ namespace SmallBasic.Editor.Components.Pages.Edit
                             },
                             body: () =>
                             {
+                                composer.Element("error-icon");
+                                composer.Element("line-number", body: () => composer.Text(range.startLineNumber.ToString(CultureInfo.CurrentCulture)));
+                                composer.Element("description", body: () => composer.Text(error.ToDisplayString()));
+                            });
+                    }
+
+                    foreach (var error in CompilationStore.Compilation.Diagnostics.Where(error => !error.IsFatal()).OrderBy(d => d.Range.Start.Line))
+                    {
+                        var range = error.Range.ToMonacoRange();
+
+                        composer.Element(
+                            name: "error-line",
+                            events: new TreeComposer.Events
+                            {
+                                OnClickAsync = args => JSInterop.Monaco.SelectRange(range)
+                            },
+                            body: () =>
+                            {
+                                composer.Element("warning-icon");
                                 composer.Element("line-number", body: () => composer.Text(range.startLineNumber.ToString(CultureInfo.CurrentCulture)));
                                 composer.Element("description", body: () => composer.Text(error.ToDisplayString()));
                             });

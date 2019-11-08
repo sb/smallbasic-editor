@@ -12,7 +12,7 @@ namespace SmallBasic.Compiler.Binding
     {
         internal RuntimeAnalysis(SmallBasicCompilation compilation)
         {
-            Debug.Assert(!compilation.Diagnostics.Any(), "Cannot analyze a compilation with errors.");
+            Debug.Assert(!compilation.Diagnostics.Any(error => error.IsFatal()), "Cannot analyze a compilation with errors.");
             this.Compilation = compilation;
 
             this.Visit(this.Compilation.MainModule);

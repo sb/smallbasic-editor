@@ -36,7 +36,7 @@ namespace SmallBasic.Compiler
 
         public SmallBasicEngine(SmallBasicCompilation compilation, IEngineLibraries libraries)
         {
-            Debug.Assert(!compilation.Diagnostics.Any(), "Cannot execute a compilation with errors.");
+            Debug.Assert(!compilation.Diagnostics.Any(error => error.IsFatal()), "Cannot execute a compilation with errors.");
 
             this.compilation = compilation;
             this.eventCallbacks = new Dictionary<string, string>(StringComparer.CurrentCultureIgnoreCase);

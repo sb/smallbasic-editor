@@ -83,9 +83,10 @@ namespace SmallBasic.Editor.Components.Pages.Edit
 
         protected override void ComposeTree(TreeComposer composer)
         {
-            if (CompilationStore.Compilation.Diagnostics.Any())
+            if (CompilationStore.Compilation.Diagnostics.Any(error => error.IsFatal()))
             {
-                string message = string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count, CompilationStore.Compilation.Diagnostics.Count);
+                string message = string.Format(CultureInfo.CurrentCulture, EditorResources.Errors_Count,
+                    CompilationStore.Compilation.Diagnostics.Where(error => error.IsFatal()).Count());
                 Actions.DisabledAction(composer, "debug", EditorResources.Actions_Debug, message: message);
                 Actions.DisabledAction(composer, "run", EditorResources.Actions_Run, message: message);
             }

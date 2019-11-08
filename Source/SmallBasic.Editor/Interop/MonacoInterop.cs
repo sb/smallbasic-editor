@@ -15,7 +15,7 @@ namespace SmallBasic.Editor.Interop
         public Task<MonacoRange[]> UpdateDiagnostics(string code)
         {
             CompilationStore.NotifyCodeChanged(code);
-            return Task.FromResult(CompilationStore.Compilation.Diagnostics.Select(d => d.Range.ToMonacoRange()).ToArray());
+            return Task.FromResult(CompilationStore.Compilation.Diagnostics.Where(error => error.IsFatal()).Select(d => d.Range.ToMonacoRange()).ToArray());
         }
 
         public Task<MonacoCompletionItem[]> ProvideCompletionItems(string code, MonacoPosition position)
