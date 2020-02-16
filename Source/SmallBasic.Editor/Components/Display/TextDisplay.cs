@@ -164,11 +164,15 @@ namespace SmallBasic.Editor.Components.Display
                         if (key.Length == 1)
                         {
                             char ch = key[0];
-
                             switch (this.mode)
                             {
                                 case AcceptedInputMode.Numbers:
-                                    if (!char.IsDigit(ch) || !decimal.TryParse(this.inputBuffer + key, out _))
+                                    bool validNumber = char.IsDigit(ch)
+                                        // first char can be '-' for negative numbers
+                                        || (ch == '-' && this.inputBuffer.Length < 1)
+                                        // decimal numbers can contain one '.'
+                                        || (ch == '.' && !this.inputBuffer.Contains('.'));
+                                    if (!validNumber)
                                     {
                                         return;
                                     }
