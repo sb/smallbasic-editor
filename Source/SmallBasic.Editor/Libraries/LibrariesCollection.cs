@@ -17,7 +17,7 @@ namespace SmallBasic.Editor.Libraries
                 penWidth: 2,
                 penColor: PredefinedColors.GetHexColor("Black"),
                 brushColor: PredefinedColors.GetHexColor("SlateBlue"),
-                fontBold: false,
+                fontBold: true,
                 fontItalic: false,
                 fontName: "Roboto",
                 fontSize: 12);
