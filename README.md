@@ -18,6 +18,11 @@ This is home to the new SmallBasic editor. It has the following projects:
 2. Choose **SmallBasic.Editor** and press F5 to run in the browser. This will also listen to C# changes and recompile when needed.
 3. If you're editing **SmallBasic.Client** typescript files, you have to recompile that project, or run `dotnet build Source/SmallBasic.Client /p:Watch=True` from a command line to also listen/recompile these changes.
 4. If changing any auto-generated files, rebuild **SmallBasic.Generators** to regenerate the files.
+ 
+#### Windows Setup
+
+1. Install [Python 2.x](https://www.python.org/downloads/)
+2. Only have Python 2.x in your **Path** System variables
 
 NOTE: [this issue](https://github.com/sb/smallbasic-editor/issues/2) is currently tracking improving this workflow.
 
