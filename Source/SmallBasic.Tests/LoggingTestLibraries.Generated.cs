@@ -458,12 +458,6 @@ namespace SmallBasic.Tests
             return Task.FromResult(0m);
         }
 
-        public string Get_LastKey()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_LastKey()");
-            return string.Empty;
-        }
-
         public void Set_Width(decimal value)
         {
             this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
@@ -472,6 +466,12 @@ namespace SmallBasic.Tests
         public void Set_Height(decimal value)
         {
             this.log.AppendLine($"GraphicsWindow.Set_Height('{value}')");
+        }
+
+        public string Get_LastKey()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_LastKey()");
+            return string.Empty;
         }
 
         public string Get_LastText()
