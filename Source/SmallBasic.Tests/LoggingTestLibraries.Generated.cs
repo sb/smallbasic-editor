@@ -464,12 +464,12 @@ namespace SmallBasic.Tests
             return string.Empty;
         }
 
-        public void Set_Width()
+        public void Set_Width(decimal value)
         {
             this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
         }
 
-        public void Set_Height()
+        public void Set_Height(decimal value)
         {
             this.log.AppendLine($"GraphicsWindow.Set_Height('{value}')");
         }
