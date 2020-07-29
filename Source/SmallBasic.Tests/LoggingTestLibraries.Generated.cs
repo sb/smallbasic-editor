@@ -458,14 +458,14 @@ namespace SmallBasic.Tests
             return Task.FromResult(0m);
         }
 
-        public void Set_Width(decimal value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
-        }
-
         public void Set_Height(decimal value)
         {
             this.log.AppendLine($"GraphicsWindow.Set_Height('{value}')");
+        }
+
+        public void Set_Width(decimal value)
+        {
+            this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
         }
 
         public string Get_LastKey()
