@@ -77,8 +77,6 @@ namespace SmallBasic.Editor.Components.Display
                             OnMouseDown = args => GraphicsDisplayStore.NotifyMouseDown(args.ClientX, args.ClientY, GetMouseButton(args.Button)),
                             OnMouseUp = args => GraphicsDisplayStore.NotifyMouseUp(args.ClientX, args.ClientY, GetMouseButton(args.Button)),
                             OnMouseMove = args => GraphicsDisplayStore.NotifyMouseMove(args.ClientX, args.ClientY),
-                            OnKeyDown = args => GraphicsDisplayStore.NotifyKeyDown(args.Key),
-                            OnKeyUp = args => GraphicsDisplayStore.NotifyKeyUp(args.Key),
                         },
                         body: () =>
                         {

@@ -29,5 +29,17 @@ export module CSIntrop {
                 Promise.resolve();
             });
         }
+
+        export function onKeyUp(key: string): Promise<void> {
+            return DotNet.invokeMethodAsync<boolean>("SmallBasic.Editor", "CSIntrop.GraphicsDisplay.OnKeyUp", key).then(() => {
+                Promise.resolve();
+            });
+        }
+
+        export function onKeyDown(key: string): Promise<void> {
+            return DotNet.invokeMethodAsync<boolean>("SmallBasic.Editor", "CSIntrop.GraphicsDisplay.OnKeyDown", key).then(() => {
+                Promise.resolve();
+            });
+        }
     }
 }

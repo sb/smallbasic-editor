@@ -14,5 +14,17 @@ namespace SmallBasic.Editor.Interop
             GraphicsDisplayStore.UpdateDisplayLocation(x, y);
             return Task.CompletedTask;
         }
+
+        public Task OnKeyUp(string key)
+        {
+            GraphicsDisplayStore.NotifyKeyUp(key);
+            return Task.CompletedTask;
+        }
+
+        public Task OnKeyDown(string key)
+        {
+            GraphicsDisplayStore.NotifyKeyDown(key);
+            return Task.CompletedTask;
+        }
     }
 }

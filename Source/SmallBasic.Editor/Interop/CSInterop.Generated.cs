@@ -23,6 +23,10 @@ namespace SmallBasic.Editor.Interop
     internal interface IGraphicsDisplayInterop
     {
         Task UpdateDisplayLocation(decimal x, decimal y);
+
+        Task OnKeyUp(string key);
+
+        Task OnKeyDown(string key);
     }
 
     public static class CSInterop
@@ -53,6 +57,20 @@ namespace SmallBasic.Editor.Interop
         public static async Task<bool> GraphicsDisplay_UpdateDisplayLocation(decimal x, decimal y)
         {
             await GraphicsDisplay.UpdateDisplayLocation(x, y).ConfigureAwait(false);
+            return true;
+        }
+
+        [JSInvokable("CSIntrop.GraphicsDisplay.OnKeyUp")]
+        public static async Task<bool> GraphicsDisplay_OnKeyUp(string key)
+        {
+            await GraphicsDisplay.OnKeyUp(key).ConfigureAwait(false);
+            return true;
+        }
+
+        [JSInvokable("CSIntrop.GraphicsDisplay.OnKeyDown")]
+        public static async Task<bool> GraphicsDisplay_OnKeyDown(string key)
+        {
+            await GraphicsDisplay.OnKeyDown(key).ConfigureAwait(false);
             return true;
         }
     }

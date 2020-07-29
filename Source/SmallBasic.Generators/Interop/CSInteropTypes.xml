@@ -29,6 +29,16 @@
           <Parameter Name="y" Type="number" />
         </Parameters>
       </Method>
+      <Method Name="OnKeyUp">
+        <Parameters>
+          <Parameter Name="key" Type="string" />
+        </Parameters>
+      </Method>
+      <Method Name="OnKeyDown">
+        <Parameters>
+          <Parameter Name="key" Type="string" />
+        </Parameters>
+      </Method>
     </Methods>
   </InteropType>
 </root>
