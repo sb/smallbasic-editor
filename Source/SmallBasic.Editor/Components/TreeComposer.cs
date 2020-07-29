@@ -104,11 +104,7 @@ namespace SmallBasic.Editor.Components
 
             public Func<UIWheelEventArgs, Task> OnMouseWheelAsync { get; set; }
 
-            public Action<UIKeyboardEventArgs> OnKeyDown { get; set; }
-
             public Func<UIKeyboardEventArgs, Task> OnKeyDownAsync { get; set; }
-
-            public Action<UIKeyboardEventArgs> OnKeyUp { get; set; }
 
             public Action<UIMouseEventArgs> OnMouseDown { get; set; }
 
@@ -140,21 +136,9 @@ namespace SmallBasic.Editor.Components
                     composer.builder.AddAttribute(composer.sequence++, "onmousewheel", BindMethods.GetEventHandlerValue(this.OnMouseWheelAsync));
                 }
 
-                if (!this.OnKeyDown.IsDefault())
-                {
-                    Debug.Assert(this.OnKeyDownAsync.IsDefault(), "Cannot set both sync and async versions of this event");
-                    composer.builder.AddAttribute(composer.sequence++, "onkeydown", BindMethods.GetEventHandlerValue(this.OnKeyDown));
-                }
-
                 if (!this.OnKeyDownAsync.IsDefault())
                 {
-                    Debug.Assert(this.OnKeyDown.IsDefault(), "Cannot set both sync and async versions of this event");
                     composer.builder.AddAttribute(composer.sequence++, "onkeydown", BindMethods.GetEventHandlerValue(this.OnKeyDownAsync));
-                }
-
-                if (!this.OnKeyUp.IsDefault())
-                {
-                    composer.builder.AddAttribute(composer.sequence++, "onkeyup", BindMethods.GetEventHandlerValue(this.OnKeyUp));
                 }
 
                 if (!this.OnMouseDown.IsDefault())
