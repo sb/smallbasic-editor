@@ -45,6 +45,12 @@ namespace SmallBasic.Editor.Libraries
         private decimal mouseX = 0;
         private decimal mouseY = 0;
 
+        private string width = "100%";
+        private string height = "100%";
+
+        private decimal widthPix = 0;
+        private decimal heightPix = 0;
+
         public GraphicsWindowLibrary(LibrariesCollection libraries)
         {
             this.libraries = libraries;
@@ -175,8 +181,6 @@ namespace SmallBasic.Editor.Libraries
 
         public decimal Get_FontSize() => this.libraries.Styles.FontSize;
 
-        public Task<decimal> Get_Height() => JSInterop.Layout.GetElementHeight(GraphicsDisplayStore.RenderArea);
-
         public string Get_LastKey() => this.lastKey;
 
         public string Get_LastText() => this.lastText;
@@ -189,7 +193,43 @@ namespace SmallBasic.Editor.Libraries
 
         public decimal Get_PenWidth() => this.libraries.Styles.PenWidth;
 
-        public Task<decimal> Get_Width() => JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
+        public Task<decimal> Get_Width()
+        {
+            if (this.widthPix == 0)
+            {
+                return JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
+            }
+            else
+            {
+                Task<decimal> wrapper = new Task<decimal>(() => this.widthPix);
+                return wrapper;
+            }
+        }
+
+        public Task<decimal> Get_Height()
+        {
+            if (this.heightPix == 0)
+            {
+                return JSInterop.Layout.GetElementHeight(GraphicsDisplayStore.RenderArea);
+            }
+            else
+            {
+                Task<decimal> wrapper = new Task<decimal>(() => this.heightPix);
+                return wrapper;
+            }
+        }
+
+        public void Set_Width(decimal value)
+        {
+            this.widthPix = value;
+            this.width = value.ToString(CultureInfo.InvariantCulture.NumberFormat) + "px";
+        }
+
+        public void Set_Height(decimal value)
+        {
+            this.heightPix = value;
+            this.height = value.ToString(CultureInfo.InvariantCulture.NumberFormat) + "px";
+        }
 
         public void Set_BackgroundColor(string value)
         {
@@ -257,8 +297,8 @@ namespace SmallBasic.Editor.Libraries
         {
             composer.Element(name: "rect", attributes: new Dictionary<string, string>
             {
-                { "width", "100%" },
-                { "height", "100%" },
+                { "width", this.width },
+                { "height", this.height },
                 { "fill", this.backgroundColor }
             });
 

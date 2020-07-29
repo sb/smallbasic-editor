@@ -2345,15 +2345,40 @@ namespace SmallBasic.Compiler.Runtime
                     properties.Add("FontSize", new Property("FontSize", LibrariesResources.GraphicsWindow_FontSize, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
-                // Initialization code for property GraphicsWindow.Height:
+                //Initialization code for setter GraphicsWindow.Height:
                 {
+                    Task setter(SmallBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.GraphicsWindow.Set_Height(value);
+                        return Task.CompletedTask;
+                    }
+
                     async Task getter(SmallBasicEngine engine)
                     {
-                        decimal value = await engine.Libraries.GraphicsWindow.Get_Height().ConfigureAwait(false);
+                        decimal value = await engine.Libraries.GraphicsWindow.Get_Height();
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
-                    properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
+                    properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
+                }
+
+                //Initialization code for setter GraphicsWindow.Width:
+                {
+                    Task setter(SmallBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        engine.Libraries.GraphicsWindow.Set_Width(value);
+                        return Task.CompletedTask;
+                    }
+
+                    async Task getter(SmallBasicEngine engine)
+                    {
+                        decimal value = await engine.Libraries.GraphicsWindow.Get_Width();
+                        engine.EvaluationStack.Push(new NumberValue(value));
+                    }
+
+                   properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property GraphicsWindow.LastKey:
@@ -2485,17 +2510,6 @@ namespace SmallBasic.Compiler.Runtime
                     }
 
                     properties.Add("Top", new Property("Top", LibrariesResources.GraphicsWindow_Top, isDeprecated: true, needsDesktop: false, getter: getter, setter: setter));
-                }
-
-                // Initialization code for property GraphicsWindow.Width:
-                {
-                    async Task getter(SmallBasicEngine engine)
-                    {
-                        decimal value = await engine.Libraries.GraphicsWindow.Get_Width().ConfigureAwait(false);
-                        engine.EvaluationStack.Push(new NumberValue(value));
-                    }
-
-                    properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
                 }
 
                 var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase)
