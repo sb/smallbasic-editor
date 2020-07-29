@@ -193,19 +193,6 @@ namespace SmallBasic.Editor.Libraries
 
         public decimal Get_PenWidth() => this.libraries.Styles.PenWidth;
 
-        public Task<decimal> Get_Width()
-        {
-            if (this.widthPix == 0)
-            {
-                return JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
-            }
-            else
-            {
-                Task<decimal> wrapper = new Task<decimal>(() => this.widthPix);
-                return wrapper;
-            }
-        }
-
         public Task<decimal> Get_Height()
         {
             if (this.heightPix == 0)
@@ -215,6 +202,19 @@ namespace SmallBasic.Editor.Libraries
             else
             {
                 Task<decimal> wrapper = new Task<decimal>(() => this.heightPix);
+                return wrapper;
+            }
+        }
+
+        public Task<decimal> Get_Width()
+        {
+            if (this.widthPix == 0)
+            {
+                return JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
+            }
+            else
+            {
+                Task<decimal> wrapper = new Task<decimal>(() => this.widthPix);
                 return wrapper;
             }
         }
