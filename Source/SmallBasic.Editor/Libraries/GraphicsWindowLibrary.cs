@@ -206,19 +206,6 @@ namespace SmallBasic.Editor.Libraries
             }
         }
 
-        public Task<decimal> Get_Width()
-        {
-            if (this.widthPix == 0)
-            {
-                return JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
-            }
-            else
-            {
-                Task<decimal> wrapper = new Task<decimal>(() => this.widthPix);
-                return wrapper;
-            }
-        }
-
         public void Set_Width(decimal value)
         {
             this.widthPix = value;
@@ -286,6 +273,19 @@ namespace SmallBasic.Editor.Libraries
         }
 
         public void Set_PenWidth(decimal value) => this.libraries.Styles = this.libraries.Styles.With(penWidth: value);
+
+        public Task<decimal> Get_Width()
+        {
+            if (this.widthPix == 0)
+            {
+                return JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
+            }
+            else
+            {
+                Task<decimal> wrapper = new Task<decimal>(() => this.widthPix);
+                return wrapper;
+            }
+        }
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 

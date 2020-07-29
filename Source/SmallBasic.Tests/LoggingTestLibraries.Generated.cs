@@ -386,11 +386,11 @@ namespace SmallBasic.Tests
 
         public event Action TextInput;
 
-        public string Get_BackgroundColor()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_BackgroundColor()");
-            return string.Empty;
-        }
+        //public string Get_BackgroundColor()
+        //{
+        //    this.log.AppendLine($"GraphicsWindow.Get_BackgroundColor()");
+        //    return string.Empty;
+        //}
 
         public void Set_BackgroundColor(string value)
         {
