@@ -464,6 +464,16 @@ namespace SmallBasic.Tests
             return string.Empty;
         }
 
+        public void Set_Width()
+        {
+            this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
+        }
+
+        public void Set_Height()
+        {
+            this.log.AppendLine($"GraphicsWindow.Set_Height('{value}')");
+        }
+
         public string Get_LastText()
         {
             this.log.AppendLine($"GraphicsWindow.Get_LastText()");
