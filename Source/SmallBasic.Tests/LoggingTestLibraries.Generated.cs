@@ -365,254 +365,254 @@ namespace SmallBasic.Tests
         }
     }
 
-    internal sealed class LoggingGraphicsWindowLibrary : IGraphicsWindowLibrary
-    {
-        private readonly StringBuilder log;
+    //internal sealed class LoggingGraphicsWindowLibrary : IGraphicsWindowLibrary
+    //{
+    //    private readonly StringBuilder log;
 
-        public LoggingGraphicsWindowLibrary(StringBuilder log)
-        {
-            this.log = log;
-        }
+    //    public LoggingGraphicsWindowLibrary(StringBuilder log)
+    //    {
+    //        this.log = log;
+    //    }
 
-        public event Action KeyDown;
+    //    public event Action KeyDown;
 
-        public event Action KeyUp;
+    //    public event Action KeyUp;
 
-        public event Action MouseDown;
+    //    public event Action MouseDown;
 
-        public event Action MouseMove;
+    //    public event Action MouseMove;
 
-        public event Action MouseUp;
+    //    public event Action MouseUp;
 
-        public event Action TextInput;
+    //    public event Action TextInput;
 
-        public string Get_BackgroundColor()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_BackgroundColor()");
-            return string.Empty;
-        }
+    //    public string Get_BackgroundColor()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_BackgroundColor()");
+    //        return string.Empty;
+    //    }
 
-        public void Set_BackgroundColor(string value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_BackgroundColor('{value}')");
-        }
+    //    public void Set_BackgroundColor(string value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_BackgroundColor('{value}')");
+    //    }
 
-        public string Get_BrushColor()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_BrushColor()");
-            return string.Empty;
-        }
+    //    public string Get_BrushColor()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_BrushColor()");
+    //        return string.Empty;
+    //    }
 
-        public void Set_BrushColor(string value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_BrushColor('{value}')");
-        }
+    //    public void Set_BrushColor(string value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_BrushColor('{value}')");
+    //    }
 
-        public bool Get_FontBold()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_FontBold()");
-            return false;
-        }
+    //    public bool Get_FontBold()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_FontBold()");
+    //        return false;
+    //    }
 
-        public void Set_FontBold(bool value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_FontBold('{value}')");
-        }
+    //    public void Set_FontBold(bool value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_FontBold('{value}')");
+    //    }
 
-        public bool Get_FontItalic()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_FontItalic()");
-            return false;
-        }
+    //    public bool Get_FontItalic()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_FontItalic()");
+    //        return false;
+    //    }
 
-        public void Set_FontItalic(bool value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_FontItalic('{value}')");
-        }
+    //    public void Set_FontItalic(bool value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_FontItalic('{value}')");
+    //    }
 
-        public string Get_FontName()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_FontName()");
-            return string.Empty;
-        }
+    //    public string Get_FontName()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_FontName()");
+    //        return string.Empty;
+    //    }
 
-        public void Set_FontName(string value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_FontName('{value}')");
-        }
+    //    public void Set_FontName(string value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_FontName('{value}')");
+    //    }
 
-        public decimal Get_FontSize()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_FontSize()");
-            return 0m;
-        }
+    //    public decimal Get_FontSize()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_FontSize()");
+    //        return 0m;
+    //    }
 
-        public void Set_FontSize(decimal value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_FontSize('{value}')");
-        }
+    //    public void Set_FontSize(decimal value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_FontSize('{value}')");
+    //    }
 
-        public Task<decimal> Get_Height()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_Height()");
-            return Task.FromResult(0m);
-        }
+    //    public Task<decimal> Get_Height()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_Height()");
+    //        return Task.FromResult(0m);
+    //    }
 
-        public void Set_Height(decimal value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_Height('{value}')");
-        }
+    //    public void Set_Height(decimal value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_Height('{value}')");
+    //    }
 
-        public void Set_Width(decimal value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
-        }
+    //    public void Set_Width(decimal value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_Width('{value}')");
+    //    }
 
-        public string Get_LastKey()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_LastKey()");
-            return string.Empty;
-        }
+    //    public string Get_LastKey()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_LastKey()");
+    //        return string.Empty;
+    //    }
 
-        public string Get_LastText()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_LastText()");
-            return string.Empty;
-        }
+    //    public string Get_LastText()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_LastText()");
+    //        return string.Empty;
+    //    }
 
-        public decimal Get_MouseX()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_MouseX()");
-            return 0m;
-        }
+    //    public decimal Get_MouseX()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_MouseX()");
+    //        return 0m;
+    //    }
 
-        public decimal Get_MouseY()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_MouseY()");
-            return 0m;
-        }
+    //    public decimal Get_MouseY()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_MouseY()");
+    //        return 0m;
+    //    }
 
-        public string Get_PenColor()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_PenColor()");
-            return string.Empty;
-        }
+    //    public string Get_PenColor()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_PenColor()");
+    //        return string.Empty;
+    //    }
 
-        public void Set_PenColor(string value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_PenColor('{value}')");
-        }
+    //    public void Set_PenColor(string value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_PenColor('{value}')");
+    //    }
 
-        public decimal Get_PenWidth()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_PenWidth()");
-            return 0m;
-        }
+    //    public decimal Get_PenWidth()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_PenWidth()");
+    //        return 0m;
+    //    }
 
-        public void Set_PenWidth(decimal value)
-        {
-            this.log.AppendLine($"GraphicsWindow.Set_PenWidth('{value}')");
-        }
+    //    public void Set_PenWidth(decimal value)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Set_PenWidth('{value}')");
+    //    }
 
-        public Task<decimal> Get_Width()
-        {
-            this.log.AppendLine($"GraphicsWindow.Get_Width()");
-            return Task.FromResult(0m);
-        }
+    //    public Task<decimal> Get_Width()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Get_Width()");
+    //        return Task.FromResult(0m);
+    //    }
 
-        public void Clear()
-        {
-            this.log.AppendLine($"GraphicsWindow.Clear()");
-        }
+    //    public void Clear()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Clear()");
+    //    }
 
-        public void DrawBoundText(decimal x, decimal y, decimal width, string text)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawBoundText(x: '{x}', y: '{y}', width: '{width}', text: '{text}')");
-        }
+    //    public void DrawBoundText(decimal x, decimal y, decimal width, string text)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawBoundText(x: '{x}', y: '{y}', width: '{width}', text: '{text}')");
+    //    }
 
-        public void DrawEllipse(decimal x, decimal y, decimal width, decimal height)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawEllipse(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
-        }
+    //    public void DrawEllipse(decimal x, decimal y, decimal width, decimal height)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawEllipse(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
+    //    }
 
-        public void DrawImage(string imageName, decimal x, decimal y)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawImage(imageName: '{imageName}', x: '{x}', y: '{y}')");
-        }
+    //    public void DrawImage(string imageName, decimal x, decimal y)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawImage(imageName: '{imageName}', x: '{x}', y: '{y}')");
+    //    }
 
-        public void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawLine(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}')");
-        }
+    //    public void DrawLine(decimal x1, decimal y1, decimal x2, decimal y2)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawLine(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}')");
+    //    }
 
-        public void DrawRectangle(decimal x, decimal y, decimal width, decimal height)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawRectangle(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
-        }
+    //    public void DrawRectangle(decimal x, decimal y, decimal width, decimal height)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawRectangle(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
+    //    }
 
-        public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawResizedImage(imageName: '{imageName}', x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
-        }
+    //    public void DrawResizedImage(string imageName, decimal x, decimal y, decimal width, decimal height)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawResizedImage(imageName: '{imageName}', x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
+    //    }
 
-        public void DrawText(decimal x, decimal y, string text)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawText(x: '{x}', y: '{y}', text: '{text}')");
-        }
+    //    public void DrawText(decimal x, decimal y, string text)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawText(x: '{x}', y: '{y}', text: '{text}')");
+    //    }
 
-        public void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
-        {
-            this.log.AppendLine($"GraphicsWindow.DrawTriangle(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}', x3: '{x3}', y3: '{y3}')");
-        }
+    //    public void DrawTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.DrawTriangle(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}', x3: '{x3}', y3: '{y3}')");
+    //    }
 
-        public void FillEllipse(decimal x, decimal y, decimal width, decimal height)
-        {
-            this.log.AppendLine($"GraphicsWindow.FillEllipse(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
-        }
+    //    public void FillEllipse(decimal x, decimal y, decimal width, decimal height)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.FillEllipse(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
+    //    }
 
-        public void FillRectangle(decimal x, decimal y, decimal width, decimal height)
-        {
-            this.log.AppendLine($"GraphicsWindow.FillRectangle(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
-        }
+    //    public void FillRectangle(decimal x, decimal y, decimal width, decimal height)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.FillRectangle(x: '{x}', y: '{y}', width: '{width}', height: '{height}')");
+    //    }
 
-        public void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
-        {
-            this.log.AppendLine($"GraphicsWindow.FillTriangle(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}', x3: '{x3}', y3: '{y3}')");
-        }
+    //    public void FillTriangle(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.FillTriangle(x1: '{x1}', y1: '{y1}', x2: '{x2}', y2: '{y2}', x3: '{x3}', y3: '{y3}')");
+    //    }
 
-        public string GetColorFromRGB(decimal red, decimal green, decimal blue)
-        {
-            this.log.AppendLine($"GraphicsWindow.GetColorFromRGB(red: '{red}', green: '{green}', blue: '{blue}')");
-            return string.Empty;
-        }
+    //    public string GetColorFromRGB(decimal red, decimal green, decimal blue)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.GetColorFromRGB(red: '{red}', green: '{green}', blue: '{blue}')");
+    //        return string.Empty;
+    //    }
 
-        public string GetRandomColor()
-        {
-            this.log.AppendLine($"GraphicsWindow.GetRandomColor()");
-            return string.Empty;
-        }
+    //    public string GetRandomColor()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.GetRandomColor()");
+    //        return string.Empty;
+    //    }
 
-        public void Hide()
-        {
-            this.log.AppendLine($"GraphicsWindow.Hide()");
-        }
+    //    public void Hide()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Hide()");
+    //    }
 
-        public void SetPixel(decimal x, decimal y, string color)
-        {
-            this.log.AppendLine($"GraphicsWindow.SetPixel(x: '{x}', y: '{y}', color: '{color}')");
-        }
+    //    public void SetPixel(decimal x, decimal y, string color)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.SetPixel(x: '{x}', y: '{y}', color: '{color}')");
+    //    }
 
-        public void Show()
-        {
-            this.log.AppendLine($"GraphicsWindow.Show()");
-        }
+    //    public void Show()
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.Show()");
+    //    }
 
-        public Task ShowMessage(string text, string title)
-        {
-            this.log.AppendLine($"GraphicsWindow.ShowMessage(text: '{text}', title: '{title}')");
-            return Task.CompletedTask;
-        }
-    }
+    //    public Task ShowMessage(string text, string title)
+    //    {
+    //        this.log.AppendLine($"GraphicsWindow.ShowMessage(text: '{text}', title: '{title}')");
+    //        return Task.CompletedTask;
+    //    }
+    //}
 
     internal sealed class LoggingImageListLibrary : IImageListLibrary
     {
