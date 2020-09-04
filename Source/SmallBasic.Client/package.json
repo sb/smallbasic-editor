@@ -27,7 +27,7 @@
     "jquery": "3.5.0",
     "mini-css-extract-plugin": "0.4.4",
     "monaco-editor": "0.10.1",
-    "node-sass": "4.10.0",
+    "node-sass": "4.13.1",
     "popper.js": "1.14.4",
     "postcss-loader": "3.0.0",
     "precss": "3.1.2",
