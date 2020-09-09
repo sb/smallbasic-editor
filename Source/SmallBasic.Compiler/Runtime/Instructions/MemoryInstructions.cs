@@ -70,7 +70,14 @@ namespace SmallBasic.Compiler.Runtime
             {
                 if (remainingIndices == 0)
                 {
-                    memory.SetIndex(index, value);
+                    if (string.IsNullOrEmpty(value.ToString()))
+                    {
+                        memory.RemoveIndex(index);
+                    }
+                    else
+                    {
+                        memory.SetIndex(index, value);
+                    }
                 }
                 else
                 {
