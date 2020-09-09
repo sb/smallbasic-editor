@@ -20,7 +20,7 @@ namespace SmallBasic.Editor.Libraries
         public ArrayValue GetAllIndices(ArrayValue array)
         {
             int i = 1;
-            return new ArrayValue(array.Values.ToDictionary(value => (i++).ToString(CultureInfo.CurrentCulture)));
+            return new ArrayValue(array.Keys.Select(k => StringValue.Create(k)).ToDictionary(value => (i++).ToString(CultureInfo.CurrentCulture)));
         }
 
         public decimal GetItemCount(ArrayValue array) => array.Count;
