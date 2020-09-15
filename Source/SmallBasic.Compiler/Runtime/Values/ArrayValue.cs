@@ -4,6 +4,7 @@
 
 namespace SmallBasic.Compiler.Runtime
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,7 +17,7 @@ namespace SmallBasic.Compiler.Runtime
 
         public ArrayValue()
         {
-            this.contents = new Dictionary<string, BaseValue>();
+            this.contents = new Dictionary<string, BaseValue>(StringComparer.OrdinalIgnoreCase);
         }
 
         public ArrayValue(Dictionary<string, BaseValue> contents)
