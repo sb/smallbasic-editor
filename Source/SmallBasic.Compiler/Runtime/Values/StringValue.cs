@@ -10,6 +10,12 @@ namespace SmallBasic.Compiler.Runtime
 
     public sealed class StringValue : BaseValue
     {
+        /*
+         * Note: We use a a number style slightly different from the default 'NumberStyles.Number'
+         * because for parity with SBD, we don't allow thousands separators.
+         */
+        private const NumberStyles NumberStyle = NumberStyles.Integer | NumberStyles.AllowTrailingSign | NumberStyles.AllowDecimalPoint;
+
         private StringValue(string value)
         {
             Debug.Assert(!value.IsDefault(), "Value should never be null.");
@@ -28,7 +34,7 @@ namespace SmallBasic.Compiler.Runtime
                     return new BooleanValue(true);
                 case "false":
                     return new BooleanValue(false);
-                case string other when decimal.TryParse(other, out decimal decimalResult):
+                case string other when decimal.TryParse(other, NumberStyle, NumberFormatInfo.CurrentInfo, out decimal decimalResult):
                     return new NumberValue(decimalResult);
                 default:
                     return new StringValue(value);
