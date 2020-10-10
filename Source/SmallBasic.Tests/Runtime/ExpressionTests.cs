@@ -21,6 +21,16 @@ y = 3");
         }
 
         [Fact]
+        public Task NumbersAreConcatenatedWithStrings()
+        {
+            return new SmallBasicCompilation(@"
+x = 200 + "","" + 100
+y = 300 + "", "" + 100").VerifyLoggingRuntime(memoryContents: @"
+x = 200,100
+y = 300, 100");
+        }
+
+        [Fact]
         public Task ItEvaluatesArrayAccess()
         {
             return new SmallBasicCompilation(@"
