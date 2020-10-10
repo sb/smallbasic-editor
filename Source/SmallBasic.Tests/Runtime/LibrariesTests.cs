@@ -138,5 +138,17 @@ TextWindow.WriteLine(data: '1')
 TextWindow.WriteLine(data: '2')
 ");
         }
+
+        [Fact]
+        public Task ItReturnsArrayIndices()
+        {
+            return new SmallBasicCompilation(@"
+arr[""x""] = 42
+arr[""y""] = 123
+index = Array.GetAllIndices(arr)
+").VerifyRealRuntime(@"
+arr = x=42;y=123;
+index = 1=x;2=y;");
+        }
     }
 }
