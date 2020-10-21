@@ -14,6 +14,16 @@ text-display {
     border: 1px solid #656A72;
     white-space: pre;
 
+    title {
+        display: block;
+        margin: -5px -5px 5px -5px;
+        padding: 4px 8px;
+        background: #F3F3F3;
+        border-bottom: 1px solid #656A72;
+        font-family: Roboto, sans-serif;
+        font-size: 16px;
+    }
+
     input-field {
         color: gray;
         display: inline;

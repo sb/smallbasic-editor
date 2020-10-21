@@ -36,6 +36,8 @@ namespace SmallBasic.Editor.Components.Display
             TextDisplayStore.SetDisplay(this);
         }
 
+        public string Title { get; set; }
+
         internal async Task AppendOutput(OutputChunk chunk)
         {
             this.outputChunks.Add(chunk);
@@ -93,6 +95,12 @@ namespace SmallBasic.Editor.Components.Display
                 },
                 body: () =>
                 {
+                    if (!string.IsNullOrEmpty(this.Title))
+                    {
+                        composer.Element(
+                            name: "title",
+                            body: () => composer.Text(this.Title));
+                    }
                     foreach (var chunk in this.outputChunks)
                     {
                         composer.Element(

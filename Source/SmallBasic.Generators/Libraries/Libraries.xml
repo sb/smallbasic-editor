@@ -481,7 +481,7 @@
       <Property Name="MouseY" HasGetter="true" HasSetter="false" Type="NumberValue" />
       <Property Name="PenColor" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="PenWidth" HasGetter="true" HasSetter="true" Type="NumberValue" />
-      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" IsDeprecated="true" />
+      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
       <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" IsAsync="true" />
     </Properties>
@@ -940,7 +940,7 @@
       <Property Name="CursorTop" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
       <Property Name="ForegroundColor" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
-      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" IsDeprecated="true" />
+      <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
     </Properties>
   </Library>

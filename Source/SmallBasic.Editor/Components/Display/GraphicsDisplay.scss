@@ -11,6 +11,15 @@ graphics-display {
     // Required to have "absolute" positioned children
     position: relative;
 
+    title {
+        display: block;
+        padding: 4px 8px;
+        background: #F3F3F3;
+        border-bottom: 1px solid #656A72;
+        font-family: Roboto, sans-serif;
+        font-size: 16px;
+    }
+
     svg {
         // Needs to have a "relative" parent
         position: absolute;

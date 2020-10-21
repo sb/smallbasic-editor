@@ -68,6 +68,27 @@ namespace SmallBasic.Editor.Store
             }
         }
 
+        public static string Title
+        {
+            get
+            {
+                if (display.IsDefault())
+                {
+                    return string.Empty;
+                }
+
+                return display.Title;
+            }
+
+            set
+            {
+                if (!display.IsDefault())
+                {
+                    display.Title = value;
+                }
+            }
+        }
+
         public static void SetDisplay(GraphicsDisplay instance)
         {
             display = instance;

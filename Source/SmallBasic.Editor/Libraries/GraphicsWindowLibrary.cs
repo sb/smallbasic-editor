@@ -191,6 +191,8 @@ namespace SmallBasic.Editor.Libraries
 
         public Task<decimal> Get_Width() => JSInterop.Layout.GetElementWidth(GraphicsDisplayStore.RenderArea);
 
+        public string Get_Title() => GraphicsDisplayStore.Title;
+
         public void Set_BackgroundColor(string value)
         {
             value = value.Trim();
@@ -246,6 +248,8 @@ namespace SmallBasic.Editor.Libraries
         }
 
         public void Set_PenWidth(decimal value) => this.libraries.Styles = this.libraries.Styles.With(penWidth: value);
+
+        public void Set_Title(string value) => GraphicsDisplayStore.Title = value;
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 

@@ -2461,15 +2461,19 @@ namespace SmallBasic.Compiler.Runtime
                 {
                     Task getter(SmallBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'GraphicsWindow.Title' is deprecated.");
+                        string value = engine.Libraries.GraphicsWindow.Get_Title();
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                        return Task.CompletedTask;
                     }
 
                     Task setter(SmallBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'GraphicsWindow.Title' is deprecated.");
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.GraphicsWindow.Set_Title(value);
+                        return Task.CompletedTask;
                     }
 
-                    properties.Add("Title", new Property("Title", LibrariesResources.GraphicsWindow_Title, isDeprecated: true, needsDesktop: false, getter: getter, setter: setter));
+                    properties.Add("Title", new Property("Title", LibrariesResources.GraphicsWindow_Title, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property GraphicsWindow.Top:
@@ -4788,15 +4792,19 @@ namespace SmallBasic.Compiler.Runtime
                 {
                     Task getter(SmallBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Title' is deprecated.");
+                        string value = engine.Libraries.TextWindow.Get_Title();
+                        engine.EvaluationStack.Push(StringValue.Create(value));
+                        return Task.CompletedTask;
                     }
 
                     Task setter(SmallBasicEngine engine)
                     {
-                        throw new InvalidOperationException("Library property 'TextWindow.Title' is deprecated.");
+                        string value = engine.EvaluationStack.Pop().ToString();
+                        engine.Libraries.TextWindow.Set_Title(value);
+                        return Task.CompletedTask;
                     }
 
-                    properties.Add("Title", new Property("Title", LibrariesResources.TextWindow_Title, isDeprecated: true, needsDesktop: false, getter: getter, setter: setter));
+                    properties.Add("Title", new Property("Title", LibrariesResources.TextWindow_Title, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property TextWindow.Top:
