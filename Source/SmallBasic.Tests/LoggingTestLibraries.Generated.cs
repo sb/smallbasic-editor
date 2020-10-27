@@ -504,6 +504,17 @@ namespace SmallBasic.Tests
             this.log.AppendLine($"GraphicsWindow.Set_PenWidth('{value}')");
         }
 
+        public string Get_Title()
+        {
+            this.log.AppendLine($"GraphicsWindow.Get_Title()");
+            return string.Empty;
+        }
+
+        public void Set_Title(string value)
+        {
+            this.log.AppendLine($"GraphicsWindow.Set_Title('{value}')");
+        }
+
         public Task<decimal> Get_Width()
         {
             this.log.AppendLine($"GraphicsWindow.Get_Width()");
@@ -1118,6 +1129,17 @@ namespace SmallBasic.Tests
         public void Set_ForegroundColor(string value)
         {
             this.log.AppendLine($"TextWindow.Set_ForegroundColor('{value}')");
+        }
+
+        public string Get_Title()
+        {
+            this.log.AppendLine($"TextWindow.Get_Title()");
+            return string.Empty;
+        }
+
+        public void Set_Title(string value)
+        {
+            this.log.AppendLine($"TextWindow.Set_Title('{value}')");
         }
 
         public void Clear()

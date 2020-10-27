@@ -190,6 +190,10 @@ namespace SmallBasic.Compiler.Runtime
 
         void Set_PenWidth(decimal value);
 
+        string Get_Title();
+
+        void Set_Title(string value);
+
         Task<decimal> Get_Width();
 
         void Clear();
@@ -402,6 +406,10 @@ namespace SmallBasic.Compiler.Runtime
         string Get_ForegroundColor();
 
         void Set_ForegroundColor(string value);
+
+        string Get_Title();
+
+        void Set_Title(string value);
 
         void Clear();
 

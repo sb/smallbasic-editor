@@ -32,6 +32,8 @@ namespace SmallBasic.Editor.Components.Display
 
         public bool IsMouseVisible { get; set; }
 
+        public string Title { get; set; }
+
         [Parameter]
         private LibrariesCollection Libraries { get; set; }
 
@@ -64,6 +66,12 @@ namespace SmallBasic.Editor.Components.Display
                 },
                 body: () =>
                 {
+                    if (!string.IsNullOrEmpty(this.Title))
+                    {
+                        composer.Element(
+                            name: "title",
+                            body: () => composer.Text(this.Title));
+                    }
                     composer.Element(
                         name: "svg",
                         capture: element => this.RenderArea = element,

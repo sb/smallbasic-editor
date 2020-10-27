@@ -17,6 +17,27 @@ namespace SmallBasic.Editor.Store
 
         public static event TextInputEventSignature TextInput;
 
+        public static string Title
+        {
+            get
+            {
+                if (display.IsDefault())
+                {
+                    return string.Empty;
+                }
+
+                return display.Title;
+            }
+
+            set
+            {
+                if (!display.IsDefault())
+                {
+                    display.Title = value;
+                }
+            }
+        }
+
         public static void SetDisplay(TextDisplay instance)
         {
             display = instance;

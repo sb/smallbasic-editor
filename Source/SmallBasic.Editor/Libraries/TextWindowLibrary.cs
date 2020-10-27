@@ -34,6 +34,8 @@ namespace SmallBasic.Editor.Libraries
 
         public string Get_ForegroundColor() => this.foregroundColorName;
 
+        public string Get_Title() => TextDisplayStore.Title;
+
         public string Read() => this.inputBuffer;
 
         public decimal ReadNumber() => decimal.Parse(this.inputBuffer, CultureInfo.CurrentCulture);
@@ -63,6 +65,8 @@ namespace SmallBasic.Editor.Libraries
                 this.foregroundColorName = value;
             }
         }
+
+        public void Set_Title(string value) => TextDisplayStore.Title = value;
 
         public Task Write(string data)
         {
