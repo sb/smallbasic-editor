@@ -234,6 +234,8 @@ namespace SmallBasic.Editor.Libraries
 
         public void Set_FontSize(decimal value) => this.libraries.Styles = this.libraries.Styles.With(fontSize: value);
 
+        public Task Set_Height(decimal value) => JSInterop.Layout.ShowMessage("Setting GraphicsWindow.Height is not supported in this version of SmallBasic", "");
+
         public void Set_PenColor(string value)
         {
             value = value.Trim();
@@ -250,6 +252,8 @@ namespace SmallBasic.Editor.Libraries
         public void Set_PenWidth(decimal value) => this.libraries.Styles = this.libraries.Styles.With(penWidth: value);
 
         public void Set_Title(string value) => GraphicsDisplayStore.Title = value;
+
+        public Task Set_Width(decimal value) => JSInterop.Layout.ShowMessage("Setting GraphicsWindow.Width is not supported in this version of SmallBasic", "");
 
         public Task ShowMessage(string text, string title) => JSInterop.Layout.ShowMessage(text, title);
 
