@@ -473,7 +473,7 @@
       <Property Name="FontItalic" HasGetter="true" HasSetter="true" Type="BooleanValue" />
       <Property Name="FontName" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="FontSize" HasGetter="true" HasSetter="true" Type="NumberValue" />
-      <Property Name="Height" HasGetter="true" HasSetter="false" Type="NumberValue" IsAsync="true" />
+      <Property Name="Height" HasGetter="true" HasSetter="true" Type="NumberValue" IsAsync="true" />
       <Property Name="LastKey" HasGetter="true" HasSetter="false" Type="StringValue" />
       <Property Name="LastText" HasGetter="true" HasSetter="false" Type="StringValue" />
       <Property Name="Left" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
@@ -483,7 +483,7 @@
       <Property Name="PenWidth" HasGetter="true" HasSetter="true" Type="NumberValue" />
       <Property Name="Title" HasGetter="true" HasSetter="true" Type="StringValue" />
       <Property Name="Top" HasGetter="true" HasSetter="true" Type="NumberValue" IsDeprecated="true" />
-      <Property Name="Width" HasGetter="true" HasSetter="false" Type="NumberValue" IsAsync="true" />
+      <Property Name="Width" HasGetter="true" HasSetter="true" Type="NumberValue" IsAsync="true" />
     </Properties>
     <Events>
       <Event Name="KeyDown" />

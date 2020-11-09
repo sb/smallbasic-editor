@@ -174,6 +174,8 @@ namespace SmallBasic.Compiler.Runtime
 
         Task<decimal> Get_Height();
 
+        Task Set_Height(decimal value);
+
         string Get_LastKey();
 
         string Get_LastText();
@@ -195,6 +197,8 @@ namespace SmallBasic.Compiler.Runtime
         void Set_Title(string value);
 
         Task<decimal> Get_Width();
+
+        Task Set_Width(decimal value);
 
         void Clear();
 

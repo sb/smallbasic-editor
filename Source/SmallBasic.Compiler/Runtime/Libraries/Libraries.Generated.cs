@@ -2353,7 +2353,13 @@ namespace SmallBasic.Compiler.Runtime
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
-                    properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
+                    Task setter(SmallBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        return engine.Libraries.GraphicsWindow.Set_Height(value);
+                    }
+
+                    properties.Add("Height", new Property("Height", LibrariesResources.GraphicsWindow_Height, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
                 // Initialization code for property GraphicsWindow.LastKey:
@@ -2499,7 +2505,13 @@ namespace SmallBasic.Compiler.Runtime
                         engine.EvaluationStack.Push(new NumberValue(value));
                     }
 
-                    properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, needsDesktop: false, getter: getter, setter: null));
+                    Task setter(SmallBasicEngine engine)
+                    {
+                        decimal value = engine.EvaluationStack.Pop().ToNumber();
+                        return engine.Libraries.GraphicsWindow.Set_Width(value);
+                    }
+
+                    properties.Add("Width", new Property("Width", LibrariesResources.GraphicsWindow_Width, isDeprecated: false, needsDesktop: false, getter: getter, setter: setter));
                 }
 
                 var events = new Dictionary<string, Event>(StringComparer.CurrentCultureIgnoreCase)
