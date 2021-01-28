@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "dotnet-2.0.0": "1.4.4",
-    "electron": "7.2.4"
+    "electron": "9.4.0"
   }
 }
