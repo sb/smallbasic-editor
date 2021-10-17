@@ -19,7 +19,7 @@
 
   <Target Name="WebPackRestore" Inputs="package.json" Outputs="obj\package.json">
     <Message Importance="high" Text="Restoring npm packages for project $(MSBuildProjectName)" />
-    <Exec Command="npm ci --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="yarn --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <Copy SourceFiles="package.json" DestinationFiles="obj\package.json" />
   </Target>
 
@@ -37,9 +37,7 @@
       <ClientWebPackArgs Include="display-error-details" />
     </ItemGroup>
 
-    <Exec
-      Command="node --max-old-space-size=7168 $(MSBuildProjectDirectory)/node_modules/webpack/bin/webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')"
-      WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="node --max-old-space-size=7168 $(MSBuildProjectDirectory)/node_modules/webpack/bin/webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
 </Project>

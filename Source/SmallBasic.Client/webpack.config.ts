@@ -20,7 +20,7 @@ function createCommonConfig(params: {
     env: IEnvArguments,
     entry: webpack.Entry,
     target: "web" | "electron-main" | "electron-renderer",
-    plugins?: webpack.Plugin[]
+    plugins?: webpack.WebpackPluginInstance[]
 }): webpack.Configuration {
     return {
         entry: params.entry,
