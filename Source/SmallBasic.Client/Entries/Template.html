@@ -10,6 +10,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <%= htmlWebpackPlugin.tags.headTags %>
+
     <style type="text/css">
         /*
             For index.html
@@ -157,19 +159,7 @@
         </div>
     </app>
 
-    <%
-    Object.keys(htmlWebpackPlugin.files.chunks).forEach(chunkId => {
-    var chunk = htmlWebpackPlugin.files.chunks[chunkId];
-    %>
-    <script src="<%=chunk.entry%>?hash=<%=chunk.hash%>"></script>
-    <%
-    chunk.css.forEach(css => {
-    %>
-    <link rel="stylesheet" href="<%=css%>?hash=<%=chunk.hash%>">
-    <%
-    });
-    });
-    %>
+    <%= htmlWebpackPlugin.tags.bodyTags %>
 
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
