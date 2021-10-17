@@ -1,6 +1,6 @@
 # SmallBasic
 
-[![Build Status](https://circleci.com/gh/sb/smallbasic-editor.svg?style=svg)](https://circleci.com/gh/sb/smallbasic-editor)
+[![](https://github.com/sb/smallbasic-editor/actions/workflows/ci.yaml/badge.svg)](https://github.com/sb/smallbasic-editor/actions/workflows/ci.yaml)
 
 This is home to the new SmallBasic editor. It has the following projects:
 * **SmallBasic.Analyzers**: a set of C# analyzers to help maintain the quality of the codebase.
