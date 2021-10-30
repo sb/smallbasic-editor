@@ -19,7 +19,7 @@
 
   <Target Name="WebPackRestore" Inputs="package.json" Outputs="obj\package.json">
     <Message Importance="high" Text="Restoring nodejs packages for project $(MSBuildProjectName)" />
-    <Exec Command="yarn --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="yarn" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <Copy SourceFiles="package.json" DestinationFiles="obj\package.json" />
   </Target>
 
