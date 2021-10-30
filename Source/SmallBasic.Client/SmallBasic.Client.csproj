@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <Target Name="WebPackRestore" Inputs="package.json" Outputs="obj\package.json">
-    <Message Importance="high" Text="Restoring npm packages for project $(MSBuildProjectName)" />
-    <Exec Command="npm ci --silent" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Message Importance="high" Text="Restoring nodejs packages for project $(MSBuildProjectName)" />
+    <Exec Command="yarn" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <Copy SourceFiles="package.json" DestinationFiles="obj\package.json" />
   </Target>
 
@@ -28,18 +28,15 @@
 
     <ItemGroup>
       <ClientWebPackArgs Include="config" Value="webpack.config.ts" />
-      <ClientWebPackArgs Include="env.watch" Value="$(Watch)" />
-      <ClientWebPackArgs Include="env.configuration" Value="$(Configuration)" />
-      <ClientWebPackArgs Include="env.outputPath" Value="$(WebPackOutputPath)" />
-      <ClientWebPackArgs Include="env.isBuildingForDesktop" Value="$(IsBuildingForDesktop)" />
+      <ClientWebPackArgs Include="env" Value="watch=$(Watch)" />
+      <ClientWebPackArgs Include="env" Value="configuration=$(Configuration)" />
+      <ClientWebPackArgs Include="env" Value="outputPath=$(WebPackOutputPath)" />
+      <ClientWebPackArgs Include="env" Value="isBuildingForDesktop=$(IsBuildingForDesktop)" />
       <ClientWebPackArgs Include="info-verbosity" Condition="'$(Watch)' == 'True'" Value="verbose" />
       <ClientWebPackArgs Include="w" Condition="'$(Watch)' == 'True'" />
-      <ClientWebPackArgs Include="display-error-details" />
     </ItemGroup>
 
-    <Exec
-      Command="node --max-old-space-size=7168 $(MSBuildProjectDirectory)/node_modules/webpack/bin/webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')"
-      WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="node --max-old-space-size=7168 $(MSBuildProjectDirectory)/node_modules/webpack/bin/webpack.js @(ClientWebPackArgs->'--%(Identity) %(Value)', ' ')" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
 </Project>

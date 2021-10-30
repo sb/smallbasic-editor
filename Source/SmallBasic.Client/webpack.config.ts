@@ -2,7 +2,6 @@
  * Licensed under the MIT License. See LICENSE file in the project root for license information.
  */
 
-import * as os from "os";
 import * as path from "path";
 import * as webpack from "webpack";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
@@ -20,7 +19,7 @@ function createCommonConfig(params: {
     env: IEnvArguments,
     entry: webpack.Entry,
     target: "web" | "electron-main" | "electron-renderer",
-    plugins?: webpack.Plugin[]
+    plugins?: webpack.WebpackPluginInstance[]
 }): webpack.Configuration {
     return {
         entry: params.entry,
@@ -45,12 +44,7 @@ function createCommonConfig(params: {
                 },
                 {
                     test: /\.ts?$/,
-                    loader: "awesome-typescript-loader",
-                    options: {
-                        silent: true,
-                        useCache: true,
-                        cacheDirectory: path.join(os.tmpdir(), "atloader-cache")
-                    }
+                    loader: "ts-loader",
                 },
                 {
                     test: /\.js?$/,
@@ -86,7 +80,16 @@ function createCommonConfig(params: {
                                 }
                             }
                         },
-                        { loader: "sass-loader" },
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                sassOptions: {
+                                    // Ignore warnings from dependencies, because they pollute our build output
+                                    // Example: https://github.com/FortAwesome/Font-Awesome/pull/17940
+                                    quietDeps: true
+                                }
+                            }
+                        },
                         { loader: "import-glob-loader" }
                     ]
                 }
@@ -126,9 +129,11 @@ export default function (env: IEnvArguments): webpack.Configuration[] {
                     showErrors: true,
                     inject: false
                 }),
-                new CopyWebpackPlugin([
-                    { from: "Images/Turtle.svg" }
-                ])
+                new CopyWebpackPlugin({
+                    patterns: [
+                        { from: "Images/Turtle.svg" },
+                    ],
+                }) 
             ]
         })
     ];
