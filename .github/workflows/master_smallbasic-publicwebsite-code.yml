@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - smallbasic-publicwebsite-code
+name: Build and deploy to Caseysc`s Azure Web App - smallbasic-publicwebsite-code
 
 on:
   push:
@@ -12,9 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        configuration: ["Debug", "Release"]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -26,7 +23,8 @@ jobs:
       - run: yarn --ci
         working-directory: ./Source/SmallBasic.Client
       - run: dotnet restore
-      - run: dotnet build ./SmallBasic.sln /p:TreatWarningsAsErrors=True /p:Configuration=${{matrix.configuration}}
+      - run: dotnet build ./SmallBasic.sln /p:TreatWarningsAsErrors=True /p:Configuration=Release
+      - run: dotnet publish ./Source/SmallBasic.Client/SmallBasic.Client.csproj --no-build /p:TreatWarningsAsErrors=True /p:Configuration=Release
 
   deploy:
     runs-on: windows-latest
