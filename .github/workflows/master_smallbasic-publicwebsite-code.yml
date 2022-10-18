@@ -19,13 +19,17 @@ jobs:
           node-version: 16.11.1
       - uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: 2.1.816
+          dotnet-version: 2.1.816          
       - run: yarn --ci
         working-directory: ./Source/SmallBasic.Client
       - run: dotnet restore
       - run: dotnet build ./SmallBasic.sln /p:TreatWarningsAsErrors=True /p:Configuration=Release
       - run: dotnet publish ./Source/SmallBasic.Client/SmallBasic.Client.csproj --no-build /p:TreatWarningsAsErrors=True /p:Configuration=Release
-
+      - uses: actions/upload-artifact@v3.1.0      
+        with:
+          path: /home/runner/work/smallbasic-editor/smallbasic-editor/Source/SmallBasic.Client/bin/Release/netstandard2.0/publish/
+          if-no-files-found: error
+   
   deploy:
     runs-on: windows-latest
     needs: build
